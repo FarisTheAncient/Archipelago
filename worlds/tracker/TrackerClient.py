@@ -186,7 +186,7 @@ class TrackerGameContext(CommonContext):
 
             if callable(getattr(self.multiworld.worlds[self.player_id],"interpret_slot_data",None)):
                 temp = self.multiworld.worlds[self.player_id].interpret_slot_data(args["slot_data"])
-                if temp is not None:
+                if temp:
                     self.re_gen_passthrough = {self.game : temp}
                     self.run_generator()
 
