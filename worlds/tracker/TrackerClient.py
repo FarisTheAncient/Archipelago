@@ -64,6 +64,7 @@ class TrackerGameContext(CommonContext):
     watcher_task = None
     update_callback: Callable[[list[str]], bool] = None
     region_callback: Callable[[list[str]], bool] = None
+    events_callback: Callable[[list[str]], bool] = None
     gen_error = None
     output_format = "Both"
     hide_excluded = False
@@ -91,6 +92,9 @@ class TrackerGameContext(CommonContext):
 
     def set_region_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
         self.region_callback = func
+
+    def set_events_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
+        self.events_callback = func
 
     def build_gui(self, manager: GameManager):
         from kivy.uix.boxlayout import BoxLayout
@@ -490,6 +494,8 @@ def updateTracker(ctx: TrackerGameContext):
         except:
             ctx.log_to_tab("ERROR: location " + temp_loc.name + " broke something, report this to discord")
             pass
+    events = [location.item.name for location in state.events if location.player == ctx.player_id]
+
     ctx.tracker_page.refresh_from_data()
     ctx.locations_available = locations
     if f"_read_hints_{ctx.team}_{ctx.slot}" in ctx.stored_data:
@@ -498,9 +504,11 @@ def updateTracker(ctx: TrackerGameContext):
         ctx.update_callback(callback_list)
     if ctx.region_callback is not None:
         ctx.region_callback(regions)
+    if ctx.events_callback is not None:
+        ctx.events_callback(events)
     if len(callback_list) == 0:
         ctx.log_to_tab("All " + str(len(ctx.checked_locations)) + " accessible locations have been checked! Congrats!")
-    return (all_items, prog_items, [item.name for item in state.events if item.player == ctx.player_id])
+    return (all_items, prog_items, events)
 
 
 async def game_watcher(ctx: TrackerGameContext) -> None:
