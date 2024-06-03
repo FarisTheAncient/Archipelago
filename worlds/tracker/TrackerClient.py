@@ -54,10 +54,16 @@ class TrackerCommandProcessor(ClientCommandProcessor):
             logger.info(event)
 
     def _cmd_manually_collect(self, item_name: str):
-        """Manually adds an item name to the CollectionState to test """
+        """Manually adds an item name to the CollectionState to test"""
         self.ctx.manual_items.append(item_name)
         updateTracker(self.ctx)
         logger.info("Added {item_name} to manually collect")
+
+    def _cmd_reset_manually_collect(self):
+        """Resets the list of items manually collected by /manually_collect"""
+        self.ctx.manual_items = []
+        updateTracker(self.ctx)
+        logger.info("Reset manually collect")
 
 
 class TrackerGameContext(CommonContext):
