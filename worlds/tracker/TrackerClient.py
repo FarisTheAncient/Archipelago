@@ -18,6 +18,7 @@ from Utils import __version__, output_path
 from worlds import AutoWorld
 from worlds.tracker import TrackerWorld
 from collections import Counter
+from MultiServer import mark_raw
 
 from Generate import main as GMain, mystery_argparse
 
@@ -53,17 +54,18 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         for event in sorted(events):
             logger.info(event)
 
-    def _cmd_manually_collect(self, item_name: str):
+    @mark_raw
+    def _cmd_manually_collect(self, item_name: str = ""):
         """Manually adds an item name to the CollectionState to test"""
         self.ctx.manual_items.append(item_name)
         updateTracker(self.ctx)
-        logger.info("Added {item_name} to manually collect")
+        logger.info(f"Added {item_name} to manually collect.")
 
     def _cmd_reset_manually_collect(self):
         """Resets the list of items manually collected by /manually_collect"""
         self.ctx.manual_items = []
         updateTracker(self.ctx)
-        logger.info("Reset manually collect")
+        logger.info("Reset manually collect.")
 
 
 class TrackerGameContext(CommonContext):
@@ -437,10 +439,10 @@ def updateTracker(ctx: TrackerGameContext):
 
     callback_list = []
 
-    for item_name in [item[0] for item in ctx.items_received] + ctx.manual_items:
+    item_id_to_name = ctx.multiworld.worlds[ctx.player_id].item_id_to_name
+    for item_name in [item_id_to_name[item[0]] for item in ctx.items_received] + ctx.manual_items:
         try:
-            world_item = ctx.multiworld.create_item(ctx.multiworld.worlds[ctx.player_id].item_id_to_name[item_name],
-                                                    ctx.player_id)
+            world_item = ctx.multiworld.create_item(item_name, ctx.player_id)
             state.collect(world_item, True)
             if world_item.classification == ItemClassification.progression or world_item.classification == ItemClassification.progression_skip_balancing:
                 prog_items[world_item.name] += 1
