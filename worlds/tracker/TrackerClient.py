@@ -22,6 +22,9 @@ from MultiServer import mark_raw
 
 from Generate import main as GMain, mystery_argparse
 
+if typing.TYPE_CHECKING:
+    from kvui import GameManager
+
 # webserver imports
 import urllib.parse
 
