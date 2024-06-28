@@ -111,7 +111,7 @@ class TrackerGameContext(CommonContext):
     def set_events_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
         self.events_callback = func
 
-    def build_gui(self, manager: "kvui.GameManager"):
+    def build_gui(self, manager: "GameManager"):
         from kivy.uix.boxlayout import BoxLayout
         from kivy.uix.tabbedpanel import TabbedPanelItem
         from kivy.uix.recycleview import RecycleView
