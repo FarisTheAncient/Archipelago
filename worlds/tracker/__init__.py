@@ -4,7 +4,10 @@ from worlds.LauncherComponents import Component, components, Type, launch_subpro
 
 def launch_client():
     from .TrackerClient import launch as TCMain
-    launch_subprocess(TCMain, name="Universal Tracker client")
+    if not sys.stdout or "--nogui" not in sys.argv:
+        launch_subprocess(TCMain, name="Universal Tracker client")
+    else:
+        TCMain()
 
 class TrackerWorld:
     pass
