@@ -305,6 +305,7 @@ class TrackerGameContext(CommonContext):
         multiworld.set_seed(seed)
         # multiworld.plando_options = args.plando_options
         multiworld.game = args.game.copy()
+        multiworld.player_name = args.name.copy()
         multiworld.set_options(args)
         multiworld.state = CollectionState(multiworld)
 
