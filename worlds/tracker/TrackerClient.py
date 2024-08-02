@@ -489,9 +489,10 @@ def updateTracker(ctx: TrackerGameContext):
             pass
     events = [location.item.name for location in state.events if location.player == ctx.player_id]
 
-    ctx.tracker_page.refresh_from_data()
+    if ctx.tracker_page:
+        ctx.tracker_page.refresh_from_data()
     ctx.locations_available = locations
-    if f"_read_hints_{ctx.team}_{ctx.slot}" in ctx.stored_data:
+    if ctx.ui and f"_read_hints_{ctx.team}_{ctx.slot}" in ctx.stored_data:
         ctx.ui.update_hints()
     if ctx.update_callback is not None:
         ctx.update_callback(callback_list)
