@@ -87,8 +87,14 @@ class TrackerGameContext(CommonContext):
     tracker_failed = False
     re_gen_passthrough = None
 
-    def __init__(self, server_address, password):
-        super().__init__(server_address, password)
+    def __init__(self, server_address, password, no_connection: bool = False):
+        if no_connection:
+            from worlds import network_data_package
+            self.item_names = self.NameLookupDict(self, "item")
+            self.location_names = self.NameLookupDict(self, "location")
+            self.update_data_package(network_data_package)
+        else:
+            super().__init__(server_address, password)
         self.items_handling = ITEMS_HANDLING
         self.locations_checked = []
         self.locations_available = []
