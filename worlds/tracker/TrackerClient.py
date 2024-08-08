@@ -78,9 +78,9 @@ class TrackerGameContext(CommonContext):
     command_processor = TrackerCommandProcessor
     tracker_page = None
     watcher_task = None
-    update_callback: Callable[[list[str]], bool] = None
-    region_callback: Callable[[list[str]], bool] = None
-    events_callback: Callable[[list[str]], bool] = None
+    update_callback: "Callable[[List[str]], bool]" = None
+    region_callback: "Callable[[List[str]], bool]" = None
+    events_callback: "Callable[[List[str]], bool]" = None
     gen_error = None
     output_format = "Both"
     hide_excluded = False
@@ -111,13 +111,13 @@ class TrackerGameContext(CommonContext):
         if self.tracker_page is not None:
             self.tracker_page.addLine(line, sort)
 
-    def set_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
+    def set_callback(self, func: "Optional[Callable[[List[str]], bool]]" = None):
         self.update_callback = func
 
-    def set_region_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
+    def set_region_callback(self, func: "Optional[Callable[[List[str]], bool]]" = None):
         self.region_callback = func
 
-    def set_events_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
+    def set_events_callback(self, func: "Optional[Callable[[List[str]], bool]]" = None):
         self.events_callback = func
 
     def build_gui(self, manager: "GameManager"):
@@ -468,7 +468,7 @@ def updateTracker(ctx: TrackerGameContext):
     regions = []
     locations = []
     for temp_loc in ctx.multiworld.get_reachable_locations(state, ctx.player_id):
-        if temp_loc.address == None or isinstance(temp_loc.address, list):
+        if temp_loc.address == None or isinstance(temp_loc.address, List):
             continue
         elif ctx.hide_excluded and temp_loc.progress_type == LocationProgressType.EXCLUDED:
             continue
