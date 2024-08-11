@@ -427,7 +427,6 @@ class TrackerGameContext(CommonContext):
                 self.ui.tabs.show_map = True
             else:
                 self.tracker_world = None
-
             updateTracker(self)
             self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher")
         elif cmd == 'RoomUpdate':
@@ -512,6 +511,13 @@ class TrackerGameContext(CommonContext):
             logger.error(tb)
 
     def TMain(self, args, seed=None, baked_server_options: Optional[Dict[str, object]] = None):
+        def set_options(self):
+            for player in self.player_ids:
+                world_type = AutoWorld.AutoWorldRegister.world_types[self.game[player]]
+                self.worlds[player] = world_type(self, player)
+                options_dataclass: typing.Type[Options.PerGameCommonOptions] = world_type.options_dataclass
+                self.worlds[player].options = options_dataclass(**{option_key: getattr(args, option_key)[player]
+                                                                   for option_key in options_dataclass.type_hints})
         if not baked_server_options:
             baked_server_options = get_settings().server_options.as_dict()
         assert isinstance(baked_server_options, dict)
@@ -542,7 +548,8 @@ class TrackerGameContext(CommonContext):
         multiworld.sprite = args.sprite.copy()
         multiworld.sprite_pool = args.sprite_pool.copy()
 
-        multiworld.set_options(args)
+        # multiworld.set_options(args)
+        set_options(multiworld)
         multiworld.set_item_links()
         multiworld.state = CollectionState(multiworld)
         logger.info('Archipelago Version %s  -  Seed: %s\n', __version__, multiworld.seed)
