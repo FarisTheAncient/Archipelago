@@ -88,6 +88,8 @@ class TrackerGameContext(CommonContext):
     hide_excluded = False
     tracker_failed = False
     re_gen_passthrough = None
+    cached_multiworlds = []
+    cached_slot_data = []
 
     def __init__(self, server_address, password, no_connection: bool = False):
         if no_connection:
@@ -102,6 +104,7 @@ class TrackerGameContext(CommonContext):
         self.locations_available = []
         self.datapackage = []
         self.multiworld: MultiWorld = None
+        self.launch_multiworld: MultiWorld = None
         self.player_id = None
         self.manual_items = []
 
@@ -254,7 +257,6 @@ class TrackerGameContext(CommonContext):
                     # TODO change this function name to the new API
                     if callable(getattr(connected_cls, "interpret_slot_data", None)):
                         # we skipped their world in launch_gen so gen a single player multi for the slot
-                        # TODO check a cache of game+slotdata before gen
                         temp = connected_cls.interpret_slot_data(args["slot_data"])
                         # temp = self.launch_multiworld.worlds[internal_id].interpret_slot_data(args["slot_data"])
                         self.player_id = 1
@@ -318,13 +320,20 @@ class TrackerGameContext(CommonContext):
 
             g_args, seed = GMain(args)
             if slot_data:
+                if slot_data in self.cached_slot_data:
+                    print("found cached multiworld!")
+                    index = next(i for i, s in enumerate(self.cached_slot_data) if s == slot_data)
+                    self.multiworld = self.cached_multiworlds[index]
+                    return
                 if not self.game:
                     raise "No Game found for slot, this should not happen ever"
                 g_args.multi = 1
                 g_args.game = {1: self.game}
                 g_args.player_ids = {1}
                 self.multiworld = self.TMain(g_args, seed)
-                # TODO do caching here
+                assert len(self.cached_slot_data) == len(self.cached_multiworlds)
+                self.cached_multiworlds.append(self.multiworld)
+                self.cached_slot_data.append(slot_data)
             else:
                 # skip worlds that we know will regen on connect
                 g_args.game = {
