@@ -28,6 +28,9 @@ if typing.TYPE_CHECKING:
 # webserver imports
 import urllib.parse
 
+if not sys.stdout:  # to make sure sm varia's "i'm working" dots don't break UT in frozen
+    sys.stdout = open(os.devnull, 'w')  # from https://stackoverflow.com/a/6735958
+
 logger = logging.getLogger("Client")
 
 DEBUG = False
