@@ -239,8 +239,9 @@ class TrackerGameContext(CommonContext):
                 self.log_to_tab("Internal world was not able to be generated, check your yamls and relaunch", False)
                 return
             self.game = args["slot_info"][str(args["slot"])][1]
-            if self.username in self.launch_multiworld.world_name_lookup:
-                internal_id = self.launch_multiworld.world_name_lookup[self.username]
+            slot_name = self.player_names.get(self.slot, None)
+            if slot_name in self.launch_multiworld.world_name_lookup:
+                internal_id = self.launch_multiworld.world_name_lookup[slot_name]
                 if self.launch_multiworld.worlds[internal_id].game == self.game:
                     self.multiworld = self.launch_multiworld
                     self.player_id = internal_id
