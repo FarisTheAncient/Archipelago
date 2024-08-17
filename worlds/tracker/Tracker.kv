@@ -1,31 +1,3 @@
-<FactionBox>:
-    orientation: 'vertical'
-    padding: [10,5,10,5]
-    size_hint_y: 0.14
-
-<CommanderGroup>:
-    orientation: 'horizontal'
-
-<CommanderButton>:
-    text_size: self.size
-    size_hint: (None, 0.8)
-    width: 100
-    markup: True
-    halign: 'center'
-    valign: 'middle'
-    padding_x: 5
-    outline_width: 1
-    disabled: True
-    on_release: setattr(self, 'state', 'down')
-
-<ItemTracker>:
-    orientation: 'horizontal'
-    padding_y: 5
-
-<ItemLabel>:
-    size_hint_x: None
-    size: self.texture_size
-    pos_hint: {'left': 1}
 <TrackerView>:
     messages: 1000 # amount of messages stored in client logs.
     cols: 1
@@ -41,3 +13,56 @@
         height: self.minimum_height
         orientation: 'vertical'
         spacing: dp(3)
+
+<VisualTracker>:
+    BoxLayout:
+        orientation: "vertical"
+        # DropDown
+        #     id: map_list
+        #     Button:
+        #         text: "First Item"
+        #     Button:
+        #         text: "Second Item"
+        ApAsyncImage:
+            id: tracker_map
+            source: app.source
+        Widget:
+            id: location_canvas
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            size_hint: '0.01dp', '0.02dp'
+            canvas.before:
+                PushMatrix:
+                Rotate:
+                    #make top left 0,0 like poptracker
+                    origin: tracker_map.center
+                    angle: 180
+                    axis: 1, 0, 0
+                Translate:
+                    #scale location_canvas with tracker_map to match resizing
+                    xy: (tracker_map.x + (tracker_map.width - tracker_map.norm_image_size[0])/2, tracker_map.y + (tracker_map.height - tracker_map.norm_image_size[1])/2)
+                Scale:
+                    #scale coords by original size so we can use coords for full image
+                    origin: 0,0
+                    x: tracker_map.norm_image_size[0] / tracker_map.texture_size[0] if tracker_map.texture_size[0] > 0 else 1
+                    y: tracker_map.norm_image_size[1] / tracker_map.texture_size[1] if tracker_map.texture_size[1] > 0 else 1
+            canvas.after:
+                #close transformations in after canvas so all objects get transformed
+                PopMatrix:
+
+
+
+<ApAsyncImage>:
+
+<ApLocation>:
+    size: (app.loc_size, app.loc_size)
+    canvas:
+        Color:
+            rgb: 0,0,0 
+        Rectangle:
+            pos: self.x - app.loc_border-self.width/2, self.y - app.loc_border-self.height/2
+            size: self.width + (app.loc_border * 2), self.height + (app.loc_border * 2)
+        Color:
+            rgb: self.color #set by ApLocation.update_color()
+        Rectangle:
+            pos: self.x-self.width/2, self.y-self.height/2
+            size: self.size
