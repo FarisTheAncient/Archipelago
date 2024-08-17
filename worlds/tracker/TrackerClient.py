@@ -220,7 +220,7 @@ class TrackerGameContext(CommonContext):
             def __init__(self, **kwargs):
                 super().__init__(**kwargs)
                 self.data = []
-                self.data.append({"text": "Tracker BETA v0.1.10 Initializing"})
+                self.data.append({"text": "Tracker v0.1.10 Initializing"})
 
             def resetData(self):
                 self.data.clear()
@@ -415,7 +415,6 @@ class TrackerGameContext(CommonContext):
                         raise "TODO: add error - something went very wrong with interpret_slot_data"
                 else:
                     raise "TODO: add error - something went very wrong with matching world to slot"
-
             else:
                 # TODO consider allowing worlds that self-attest to not need an options file for UT
                 self.log_to_tab("Player's Yaml not in tracker's list", False)
@@ -439,6 +438,7 @@ class TrackerGameContext(CommonContext):
             self.ui.tabs.show_map = False
             self.tracker_world = None
             self.multiworld = None
+
         await super().disconnect(allow_autoreconnect)
 
     def _set_host_settings(self, host):
@@ -790,7 +790,6 @@ def launch():
             args.password = urllib.parse.unquote(url.password)
 
     asyncio.run(main(args))
-
 
 if __name__ == "__main__":
     launch()
