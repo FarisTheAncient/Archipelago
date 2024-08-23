@@ -442,7 +442,7 @@ class TrackerGameContext(CommonContext):
         await super().disconnect(allow_autoreconnect)
 
     def _set_host_settings(self, host):
-        tracker_settings = host['universal_tracker']
+        tracker_settings = host.universal_tracker
         report_type = "Both"
         if tracker_settings['include_location_name']:
             if tracker_settings['include_region_name']:

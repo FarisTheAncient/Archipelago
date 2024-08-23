@@ -2,6 +2,7 @@
 from worlds.LauncherComponents import Component, components, Type, launch_subprocess
 from typing import Dict, Optional, List, Any, Union, ClassVar
 from settings import Group, Bool, LocalFolderPath, _world_settings_name_cache
+from worlds.AutoWorld import World
 
 def launch_client():
     import sys
@@ -31,14 +32,15 @@ class TrackerSettings(Group):
     hide_excluded_locations: Union[HideExcluded, bool] = False
 
 
-class TrackerWorld:
+class TrackerWorld(World):
     settings: ClassVar[TrackerSettings]
     settings_key = "universal_tracker"
-    pass
 
-
-# TODO: use the proper API for registering settings without a World class once it exists,,
-_world_settings_name_cache["universal_tracker"] = f"{TrackerWorld.__module__}.{TrackerWorld.__name__}"
+    # to make auto world register happy so we can register our settings
+    game = "Universal Tracker"
+    hidden = True
+    item_name_to_id = {}
+    location_name_to_id = {}
 
 
 class UTMapTabData:
