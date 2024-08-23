@@ -15,7 +15,7 @@ def launch_client():
 
 class TrackerSettings(Group):
     class TrackerPlayersPath(LocalFolderPath):
-        """Alternative Players folder for UT to use"""
+        """Players folder for UT look for YAMLs"""
 
     class RegionNameBool(Bool):
         """Show Region names in the UT tab"""
