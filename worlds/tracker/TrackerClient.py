@@ -25,6 +25,7 @@ from Generate import main as GMain, mystery_argparse
 
 if typing.TYPE_CHECKING:
     from kvui import GameManager
+    from argparse import Namespace
 
 # webserver imports
 import urllib.parse
