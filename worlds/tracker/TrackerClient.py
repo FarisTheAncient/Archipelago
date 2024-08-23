@@ -465,6 +465,19 @@ class TrackerGameContext(CommonContext):
             'hide_excluded_locations']
 
     def run_generator(self, slot_data: Optional[Dict] = None):
+        def move_slots(args: "Namespace", slot_name: str):
+            """
+            helper function to copy all the proper option values into slot 1,
+            may need to change if/when multiworld.option_name dicts get fully removed
+            """
+            player = {name: i for i, name in args.name.items()}[slot_name]
+            if player == 1:
+                return args
+            for option_name, option_value in args._get_kwargs():
+                if isinstance(option_value, Dict) and player in option_value:
+                    setattr(args, option_name, {1: option_value[player]})
+            return args
+
         try:
             host = get_settings()
             yaml_path, self.output_format, self.hide_excluded = self._set_host_settings(host)
@@ -487,6 +500,10 @@ class TrackerGameContext(CommonContext):
                 g_args.multi = 1
                 g_args.game = {1: self.game}
                 g_args.player_ids = {1}
+
+                # TODO confirm that this will never not be filled
+                g_args = move_slots(g_args, self.player_names.get(self.slot, None))
+
                 self.multiworld = self.TMain(g_args, seed)
                 assert len(self.cached_slot_data) == len(self.cached_multiworlds)
                 self.cached_multiworlds.append(self.multiworld)
