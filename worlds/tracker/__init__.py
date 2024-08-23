@@ -37,9 +37,9 @@ class TrackerWorld:
     pass
 
 
-# TODO: ask if there's an easier way to not register a world but register settings
+# TODO: use the proper API for registering settings without a World class once it exists,,
 _world_settings_name_cache["universal_tracker"] = f"{TrackerWorld.__module__}.{TrackerWorld.__name__}"
-# Settings.universal_tracker = TrackerSettings()
+
 
 class UTMapTabData:
     """The holding class for all the poptracker integration values"""
