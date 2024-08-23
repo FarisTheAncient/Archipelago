@@ -284,6 +284,8 @@ class TrackerGameContext(CommonContext):
                 for line in self.gen_error.split("\n"):
                     self.log_to_tab(line, False)
         except Exception as e:
+            # TODO back compat, fail gracefully if a kivy app doesn't have our properties
+            self.map_page_coords_func = lambda *args: None
             tb = traceback.format_exc()
             print(tb)
         manager.tabs.add_widget(tracker_page)
