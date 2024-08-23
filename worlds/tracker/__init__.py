@@ -1,7 +1,7 @@
 
 from worlds.LauncherComponents import Component, components, Type, launch_subprocess
-from typing import Dict, Optional, List, Any, Union
-
+from typing import Dict, Optional, List, Any, Union, ClassVar
+from settings import Group, Bool, LocalFolderPath, _world_settings_name_cache
 
 def launch_client():
     import sys
@@ -11,8 +11,35 @@ def launch_client():
     else:
         TCMain()
 
+
+class TrackerSettings(Group):
+    class TrackerPlayersPath(LocalFolderPath):
+        """Alternative Players folder for UT to use"""
+
+    class RegionNameBool(Bool):
+        """Show Region names in the UT tab"""
+
+    class LocationNameBool(Bool):
+        """Show Location names in the UT tab"""
+
+    class HideExcluded(Bool):
+        """Have the UT tab ignore excluded locations"""
+
+    player_files_path: TrackerPlayersPath = TrackerPlayersPath("Players")
+    include_region_name: Union[RegionNameBool, bool] = False
+    include_location_name: Union[LocationNameBool, bool] = True
+    hide_excluded_locations: Union[HideExcluded, bool] = False
+
+
 class TrackerWorld:
+    settings: ClassVar[TrackerSettings]
+    settings_key = "universal_tracker"
     pass
+
+
+# TODO: ask if there's an easier way to not register a world but register settings
+_world_settings_name_cache["universal_tracker"] = f"{TrackerWorld.__module__}.{TrackerWorld.__name__}"
+# Settings.universal_tracker = TrackerSettings()
 
 class UTMapTabData:
     """The holding class for all the poptracker integration values"""

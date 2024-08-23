@@ -442,26 +442,16 @@ class TrackerGameContext(CommonContext):
         await super().disconnect(allow_autoreconnect)
 
     def _set_host_settings(self, host):
-        if 'universal_tracker' not in host:
-            host['universal_tracker'] = {}
-        if 'player_files_path' not in host['universal_tracker']:
-            host['universal_tracker']['player_files_path'] = None
-        if 'include_region_name' not in host['universal_tracker']:
-            host['universal_tracker']['include_region_name'] = False
-        if 'include_location_name' not in host['universal_tracker']:
-            host['universal_tracker']['include_location_name'] = True
-        if 'hide_excluded_locations' not in host['universal_tracker']:
-            host['universal_tracker']['hide_excluded_locations'] = False
+        tracker_settings = host['universal_tracker']
         report_type = "Both"
-        if host['universal_tracker']['include_location_name']:
-            if host['universal_tracker']['include_region_name']:
+        if tracker_settings['include_location_name']:
+            if tracker_settings['include_region_name']:
                 report_type = "Both"
             else:
                 report_type = "Location"
         else:
             report_type = "Region"
-        host.save()
-        return host['universal_tracker']['player_files_path'], report_type, host['universal_tracker'][
+        return tracker_settings['player_files_path'], report_type, tracker_settings[
             'hide_excluded_locations']
 
     def run_generator(self, slot_data: Optional[Dict] = None):
