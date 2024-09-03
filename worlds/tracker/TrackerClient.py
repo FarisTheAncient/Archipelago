@@ -420,7 +420,7 @@ class TrackerGameContext(CommonContext):
                     raise "TODO: add error - something went very wrong with matching world to slot"
             else:
                 # TODO consider allowing worlds that self-attest to not need an options file for UT
-                self.log_to_tab("Player's Yaml not in tracker's list", False)
+                self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
                 return
 
             if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
