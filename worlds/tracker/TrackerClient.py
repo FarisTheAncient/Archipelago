@@ -7,7 +7,7 @@ from CommonClient import CommonContext, gui_enabled, get_base_parser, server_loo
 import os
 import time
 import sys
-from typing import Dict, Optional, Union, List
+from typing import Dict, Optional, Union, List, Set, Any
 from BaseClasses import ItemClassification
 
 
@@ -38,10 +38,11 @@ logger = logging.getLogger("Client")
 DEBUG = False
 ITEMS_HANDLING = 0b111
 # REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "needs_regen", False)}  # TODO
-REGEN_WORLDS = set()
+REGEN_WORLDS: Set[str] = set()
 
 
 class TrackerCommandProcessor(ClientCommandProcessor):
+    ctx: "TrackerGameContext"
 
     def _cmd_inventory(self):
         """Print the list of current items in the inventory"""
@@ -93,6 +94,54 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         updateTracker(self.ctx)
         logger.info("Reset manually collect.")
 
+    @mark_raw
+    def _cmd_ignore(self, location_name: str = ""):
+        """Ignore a location so it doesn't appear in the tracker list"""
+        if not self.ctx.game:
+            logger.info("Game not yet loaded")
+            return
+
+        location_name_to_id = AutoWorld.AutoWorldRegister.world_types[self.ctx.game].location_name_to_id
+        if location_name not in location_name_to_id:
+            logger.info(f"Unrecognized location {location_name}")
+            return
+
+        self.ctx.ignored_locations.add(location_name_to_id[location_name])
+        updateTracker(self.ctx)
+        logger.info(f"Added {location_name} to ignore list.")
+
+    @mark_raw
+    def _cmd_unignore(self, location_name: str = ""):
+        """Stop ignoring a location so it appears in the tracker list again"""
+        if not self.ctx.game:
+            logger.info("Game not yet loaded")
+            return
+
+        location_name_to_id = AutoWorld.AutoWorldRegister.world_types[self.ctx.game].location_name_to_id
+        if location_name not in location_name_to_id:
+            logger.info(f"Unrecognized location {location_name}")
+            return
+
+        location = location_name_to_id[location_name]
+        if location not in self.ctx.ignored_locations:
+            logger.info(f"{location_name} is not on ignore list.")
+            return
+
+        self.ctx.ignored_locations.remove(location)
+        updateTracker(self.ctx)
+        logger.info(f"Removed {location_name} from ignore list.")
+
+    def _cmd_list_ignored(self):
+        """List the ignored locations"""
+        if len(self.ctx.ignored_locations) == 0:
+            logger.info("No ignored locations")
+            return
+
+        logger.info("Ignored locations:")
+        location_names = [self.ctx.location_names.lookup_in_game(location) for location in self.ctx.ignored_locations]
+        for location_name in sorted(location_names):
+            logger.info(location_name)
+
 
 class TrackerGameContext(CommonContext):
     game = ""
@@ -101,20 +150,21 @@ class TrackerGameContext(CommonContext):
     command_processor = TrackerCommandProcessor
     tracker_page = None
     map_page = None
-    tracker_world:UTMapTabData = None
-    coord_dict = {}
+    tracker_world: Optional[UTMapTabData] = None
+    coord_dict: Dict[str, List] = {}
     map_page_coords_func = None
     watcher_task = None
-    update_callback: "Callable[[List[str]], bool]" = None
-    region_callback: "Callable[[List[str]], bool]" = None
-    events_callback: "Callable[[List[str]], bool]" = None
+    update_callback: Optional[Callable[[List[str]], bool]] = None
+    region_callback: Optional[Callable[[List[str]], bool]] = None
+    events_callback: Optional[Callable[[List[str]], bool]] = None
     gen_error = None
     output_format = "Both"
     hide_excluded = False
     tracker_failed = False
     re_gen_passthrough = None
-    cached_multiworlds = []
-    cached_slot_data = []
+    cached_multiworlds: List[MultiWorld] = []
+    cached_slot_data: List[Dict[str, Any]] = []
+    ignored_locations: Set[int]
 
     def __init__(self, server_address, password, no_connection: bool = False):
         if no_connection:
@@ -132,6 +182,7 @@ class TrackerGameContext(CommonContext):
         self.launch_multiworld: MultiWorld = None
         self.player_id = None
         self.manual_items = []
+        self.ignored_locations = set()
 
     def load_pack(self):
         PACK_NAME = self.multiworld.worlds[self.player_id].__class__.__module__
@@ -178,10 +229,10 @@ class TrackerGameContext(CommonContext):
             elif "children" in temp_loc:
                 temp_locs.extend(temp_loc["children"])
         self.coords = {
-            (map_loc["x"], map_loc["y"]) : 
+            (map_loc["x"], map_loc["y"]) :
                 [ section["name"] for section in location["sections"] if "name" in section and section["name"] in location_name_to_id and location_name_to_id[section["name"]] in self.server_locations ]
-            for location in map_locs 
-            for map_loc in location["map_locations"] 
+            for location in map_locs
+            for map_loc in location["map_locations"]
             if map_loc["map"] == m["name"] and any("name" in section and section["name"] in location_name_to_id and location_name_to_id[section["name"]] in self.server_locations for section in location["sections"])
         }
         self.coord_dict = self.map_page_coords_func(self.coords)
@@ -344,7 +395,7 @@ class TrackerGameContext(CommonContext):
             from kvui import ImageLoader #one of these needs to be loaded
         except ImportError:
             from .TrackerKivy import ImageLoader #use local until ap#3629 gets merged/released
-        
+
 
         class TrackerManager(GameManager):
             source = StringProperty("")
@@ -646,7 +697,7 @@ class TrackerGameContext(CommonContext):
         else:
             multiworld.worlds[1].options.non_local_items.value = set()
             multiworld.worlds[1].options.local_items.value = set()
-        
+
         AutoWorld.call_all(multiworld, "generate_basic")
 
         return multiworld
@@ -696,6 +747,8 @@ def updateTracker(ctx: TrackerGameContext):
             continue
         elif ctx.hide_excluded and temp_loc.progress_type == LocationProgressType.EXCLUDED:
             continue
+        elif temp_loc.address in ctx.ignored_locations:
+            continue
         try:
             if (temp_loc.address in ctx.missing_locations):
                 # logger.info("YES rechable (" + temp_loc.name + ")")
@@ -730,6 +783,8 @@ def updateTracker(ctx: TrackerGameContext):
         ctx.region_callback(regions)
     if ctx.events_callback is not None:
         ctx.events_callback(events)
+    if len(ctx.ignored_locations) > 0:
+        ctx.log_to_tab(f"{len(ctx.ignored_locations)} ignored locations")
     if len(callback_list) == 0:
         ctx.log_to_tab("All " + str(len(ctx.checked_locations)) + " accessible locations have been checked! Congrats!")
     if ctx.tracker_world is not None and ctx.ui is not None:
@@ -739,7 +794,7 @@ def updateTracker(ctx: TrackerGameContext):
             loc_name = location_id_to_name[location]
             relevent_coords = ctx.coord_dict[loc_name]
             status = "out_of_logic"
-            if location in ctx.checked_locations:
+            if location in ctx.checked_locations or location in ctx.ignored_locations:
                 status = "completed"
             elif location in ctx.locations_available:
                 status = "in_logic"
