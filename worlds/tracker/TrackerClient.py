@@ -136,11 +136,20 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         if len(self.ctx.ignored_locations) == 0:
             logger.info("No ignored locations")
             return
+        if not self.ctx.game:
+            logger.info("Game not yet loaded")
+            return
 
         logger.info("Ignored locations:")
         location_names = [self.ctx.location_names.lookup_in_game(location) for location in self.ctx.ignored_locations]
         for location_name in sorted(location_names):
             logger.info(location_name)
+
+    def _cmd_reset_ignored(self):
+        """Reset the list of ignored locations"""
+        self.ctx.ignored_locations.clear()
+        updateTracker(self.ctx)
+        logger.info("Reset ignored locations.")
 
 
 class TrackerGameContext(CommonContext):
