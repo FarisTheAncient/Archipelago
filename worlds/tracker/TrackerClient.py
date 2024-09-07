@@ -501,6 +501,9 @@ class TrackerGameContext(CommonContext):
             self.ui.tabs.show_map = False
             self.tracker_world = None
             self.multiworld = None
+            # TODO: persist these per url+slot(+seed)?
+            self.manual_items.clear()
+            self.ignored_locations.clear()
 
         await super().disconnect(allow_autoreconnect)
 
