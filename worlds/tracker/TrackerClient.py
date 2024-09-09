@@ -667,7 +667,7 @@ def updateTracker(ctx: TrackerGameContext):
         return
 
     state = CollectionState(ctx.multiworld)
-    state.sweep_for_events(
+    state.sweep_for_advancements(
         locations=(location for location in ctx.multiworld.get_locations() if (not location.address)))
     prog_items = Counter()
     all_items = Counter()
@@ -685,7 +685,7 @@ def updateTracker(ctx: TrackerGameContext):
                 all_items[world_item.name] += 1
         except:
             ctx.log_to_tab("Item id " + str(item_name) + " not able to be created", False)
-    state.sweep_for_events(
+    state.sweep_for_advancements(
         locations=(location for location in ctx.multiworld.get_locations() if (not location.address)))
 
     ctx.clear_page()
@@ -717,7 +717,7 @@ def updateTracker(ctx: TrackerGameContext):
         except:
             ctx.log_to_tab("ERROR: location " + temp_loc.name + " broke something, report this to discord")
             pass
-    events = [location.item.name for location in state.events if location.player == ctx.player_id]
+    events = [location.item.name for location in state.advancements if location.player == ctx.player_id]
 
     if ctx.tracker_page:
         ctx.tracker_page.refresh_from_data()
