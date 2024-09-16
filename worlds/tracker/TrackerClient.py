@@ -397,23 +397,19 @@ class TrackerGameContext(CommonContext):
 
         HintLog.refresh_hints = update_available_hints
 
-    def run_gui(self):
-        from kvui import GameManager
+    def make_gui(self):
+        ui = super().make_gui(self)  # before the kivy imports so kvui gets loaded first
         from kivy.properties import StringProperty, NumericProperty, BooleanProperty
         try:
             from kvui import ImageLoader #one of these needs to be loaded
         except ImportError:
             from .TrackerKivy import ImageLoader #use local until ap#3629 gets merged/released
 
-
-        class TrackerManager(GameManager):
+        class TrackerManager(ui):
             source = StringProperty("")
             loc_size = NumericProperty(20)
             loc_border = NumericProperty(5)
             enable_map = BooleanProperty(False)
-            logging_pairs = [
-                ("Client", "Archipelago")
-            ]
             base_title = "Archipelago Tracker Client"
 
             def build(self):
@@ -425,10 +421,8 @@ class TrackerGameContext(CommonContext):
 
                 return container
 
-        self.ui = TrackerManager(self)
         self.load_kv()
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
-        return self
+        return TrackerManager
 
     def load_kv(self):
         from kivy.lang import Builder
@@ -450,7 +444,7 @@ class TrackerGameContext(CommonContext):
                 self.log_to_tab("Internal world was not able to be generated, check your yamls and relaunch", False)
                 return
             self.game = args["slot_info"][str(args["slot"])][1]
-            slot_name = self.player_names.get(self.slot, None)
+            slot_name = args["slot_info"][str(args["slot"])][0]
             if slot_name in self.launch_multiworld.world_name_lookup:
                 internal_id = self.launch_multiworld.world_name_lookup[slot_name]
                 if self.launch_multiworld.worlds[internal_id].game == self.game:
@@ -730,7 +724,7 @@ def updateTracker(ctx: TrackerGameContext):
         return
 
     state = CollectionState(ctx.multiworld)
-    state.sweep_for_events(
+    state.sweep_for_advancements(
         locations=(location for location in ctx.multiworld.get_locations() if (not location.address)))
     prog_items = Counter()
     all_items = Counter()
@@ -748,7 +742,7 @@ def updateTracker(ctx: TrackerGameContext):
                 all_items[world_item.name] += 1
         except:
             ctx.log_to_tab("Item id " + str(item_name) + " not able to be created", False)
-    state.sweep_for_events(
+    state.sweep_for_advancements(
         locations=(location for location in ctx.multiworld.get_locations() if (not location.address)))
 
     ctx.clear_page()
@@ -782,7 +776,7 @@ def updateTracker(ctx: TrackerGameContext):
         except:
             ctx.log_to_tab("ERROR: location " + temp_loc.name + " broke something, report this to discord")
             pass
-    events = [location.item.name for location in state.events if location.player == ctx.player_id]
+    events = [location.item.name for location in state.advancements if location.player == ctx.player_id]
 
     if ctx.tracker_page:
         ctx.tracker_page.refresh_from_data()
