@@ -266,8 +266,7 @@ class TrackerGameContext(CommonContext):
 
     def build_gui(self, manager: "GameManager"):
         from kivy.uix.boxlayout import BoxLayout
-        from kivy.uix.tabbedpanel import TabbedPanelItem
-        from kivy.uix.recycleview import RecycleView
+        from kvui import MDTabsItem, MDTabsItemText, MDRecycleView
         from kivy.uix.widget import Widget
         from kivy.properties import StringProperty, NumericProperty, BooleanProperty
         try:
@@ -278,7 +277,7 @@ class TrackerGameContext(CommonContext):
         class TrackerLayout(BoxLayout):
             pass
 
-        class TrackerView(RecycleView):
+        class TrackerView(MDRecycleView):
             def __init__(self, **kwargs):
                 super().__init__(**kwargs)
                 self.data = []
@@ -329,8 +328,8 @@ class TrackerGameContext(CommonContext):
                         returnDict[location_name].append(temp_loc)
                 return returnDict
 
-        tracker_page = TabbedPanelItem(text="Tracker Page")
-        map_page = TabbedPanelItem(text="Map Page")
+        tracker_page = MDTabsItem(MDTabsItemText(text="Tracker Page"))
+        map_page = MDTabsItem(MDTabsItemText(text="Map Page"))
 
         try:
             tracker = TrackerLayout(orientation="horizontal")
@@ -351,19 +350,25 @@ class TrackerGameContext(CommonContext):
             tb = traceback.format_exc()
             print(tb)
         manager.tabs.add_widget(tracker_page)
-        @staticmethod
-        def set_map_tab(self,value,*args,map_page=map_page):
-            if value:
-                self.add_widget(map_page)
-                self.tab_width = self.tab_width * (len(self.tab_list)-1)/len(self.tab_list)
-                #for some forsaken reason, the tab panel doesn't auto adjust tab width by itself
-                #it is happy to let the header have a scroll bar until the window forces it to resize
-            else:
-                self.remove_widget(map_page)
-                self.tab_width = self.tab_width * (len(self.tab_list)+1)/len(self.tab_list)
+        manager.tabs.carousel.add_widget(tracker_page.content)
+        manager.tabs.add_widget(map_page)
+        manager.tabs.carousel.add_widget(map_page.content)
 
-        manager.tabs.apply_property(show_map=BooleanProperty(False))
-        manager.tabs.fbind("show_map",set_map_tab)
+        # @staticmethod
+        # def set_map_tab(self,value,*args,map_page=map_page):
+        #     if value:
+        #         self.add_widget(map_page)
+        #         self.carousel.add_widget(map_page.content)
+        #         # self.tab_width = self.tab_width * (len(self.tab_list)-1)/len(self.tab_list)
+        #         #for some forsaken reason, the tab panel doesn't auto adjust tab width by itself
+        #         #it is happy to let the header have a scroll bar until the window forces it to resize
+        #     else:
+        #         self.remove_widget(map_page)
+        #         self.carousel.remove_widget(map_page.content)
+        #         # self.tab_width = self.tab_width * (len(self.tab_list)+1)/len(self.tab_list)
+
+        # manager.tabs.apply_property(show_map=BooleanProperty(False))
+        # manager.tabs.fbind("show_map",set_map_tab)
 
         from kvui import HintLog
         # hook hint tab
@@ -415,9 +420,6 @@ class TrackerGameContext(CommonContext):
 
             def build(self):
                 container = super().build()
-                self.tabs.do_default_tab = True
-                self.tabs.current_tab.height = 40
-                self.tabs.tab_height = 40
                 self.ctx.build_gui(self)
 
                 return container
