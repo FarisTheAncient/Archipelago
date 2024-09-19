@@ -351,24 +351,24 @@ class TrackerGameContext(CommonContext):
             print(tb)
         manager.tabs.add_widget(tracker_page)
         manager.tabs.carousel.add_widget(tracker_page.content)
+
+        @staticmethod
+        def set_map_tab(self,value,*args,map_page=map_page):
+            if value:
+                self.add_widget(map_page)
+                self.carousel.add_widget(map_page.content)
+                self._set_slides_attributes()
+                self.on_size(self, self.size)
+            else:
+                self.remove_tab(map_page)
+
+        # hopefully there's a better way in the future but I had to add and then remove the tab so it
+        # wouldn't croak trying to set width with no parent carousel
         manager.tabs.add_widget(map_page)
         manager.tabs.carousel.add_widget(map_page.content)
-
-        # @staticmethod
-        # def set_map_tab(self,value,*args,map_page=map_page):
-        #     if value:
-        #         self.add_widget(map_page)
-        #         self.carousel.add_widget(map_page.content)
-        #         # self.tab_width = self.tab_width * (len(self.tab_list)-1)/len(self.tab_list)
-        #         #for some forsaken reason, the tab panel doesn't auto adjust tab width by itself
-        #         #it is happy to let the header have a scroll bar until the window forces it to resize
-        #     else:
-        #         self.remove_widget(map_page)
-        #         self.carousel.remove_widget(map_page.content)
-        #         # self.tab_width = self.tab_width * (len(self.tab_list)+1)/len(self.tab_list)
-
-        # manager.tabs.apply_property(show_map=BooleanProperty(False))
-        # manager.tabs.fbind("show_map",set_map_tab)
+        manager.tabs.apply_property(show_map=BooleanProperty(True))
+        manager.tabs.fbind("show_map",set_map_tab)
+        manager.tabs.show_map = False
 
         from kvui import HintLog
         # hook hint tab
