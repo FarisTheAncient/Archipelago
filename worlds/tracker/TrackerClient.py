@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import tempfile
 import traceback
 import typing
 from collections.abc import Callable
@@ -474,9 +475,20 @@ class TrackerGameContext(CommonContext):
                 else:
                     raise "TODO: add error - something went very wrong with matching world to slot"
             else:
-                # TODO consider allowing worlds that self-attest to not need an options file for UT
-                self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
-                return
+                if getattr(AutoWorld.AutoWorldRegister.world_types[self.game], "ut_can_gen_without_yaml", False):
+                    with tempfile.TemporaryDirectory() as tempdir:
+                        self.write_empty_yaml(self.game, slot_name, tempdir)
+                        self.run_generator(None, tempdir)
+                        self.player_id = 1
+                        if callable(getattr(self.multiworld.worlds[self.player_id], "interpret_slot_data", None)):
+                            temp = self.multiworld.worlds[self.player_id].interpret_slot_data(args["slot_data"])
+                            if temp:
+                                self.re_gen_passthrough = {self.game: temp}
+
+                        self.run_generator(args["slot_data"], tempdir)
+                else:
+                    self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
+                    return
 
             if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
                 self.tracker_world = UTMapTabData(**self.multiworld.worlds[self.player_id].tracker_world)
@@ -491,6 +503,13 @@ class TrackerGameContext(CommonContext):
             self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher")
         elif cmd == 'RoomUpdate':
             updateTracker(self)
+
+    def write_empty_yaml(self, game, player_name, tempdir):
+        path = os.path.join(tempdir, f'{game}_{player_name}.yaml')
+        with open(path, 'w') as f:
+            f.write('name: ' + player_name + '\n')
+            f.write('game: ' + game + '\n')
+            f.write(game + ': {}\n')
 
     async def disconnect(self, allow_autoreconnect: bool = False):
         if "Tracker" in self.tags:
@@ -519,7 +538,7 @@ class TrackerGameContext(CommonContext):
         return tracker_settings['player_files_path'], report_type, tracker_settings[
             'hide_excluded_locations']
 
-    def run_generator(self, slot_data: Optional[Dict] = None):
+    def run_generator(self, slot_data: Optional[Dict] = None, override_yaml_path: Optional[str] = None):
         def move_slots(args: "Namespace", slot_name: str):
             """
             helper function to copy all the proper option values into slot 1,
@@ -539,7 +558,9 @@ class TrackerGameContext(CommonContext):
             # strip command line args, they won't be useful from the client anyway
             sys.argv = sys.argv[:1]
             args = mystery_argparse()
-            if yaml_path:
+            if override_yaml_path:
+                args.player_files_path = override_yaml_path
+            elif yaml_path:
                 args.player_files_path = yaml_path
             args.skip_output = True
 
