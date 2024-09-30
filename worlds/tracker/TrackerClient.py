@@ -506,8 +506,9 @@ class TrackerGameContext(CommonContext):
 
         await super().disconnect(allow_autoreconnect)
 
-    def _set_host_settings(self, host):
-        tracker_settings = host.universal_tracker
+    def _set_host_settings(self):
+        from . import TrackerWorld
+        tracker_settings = TrackerWorld.settings
         report_type = "Both"
         if tracker_settings['include_location_name']:
             if tracker_settings['include_region_name']:
@@ -534,8 +535,7 @@ class TrackerGameContext(CommonContext):
             return args
 
         try:
-            host = get_settings()
-            yaml_path, self.output_format, self.hide_excluded = self._set_host_settings(host)
+            yaml_path, self.output_format, self.hide_excluded = self._set_host_settings()
             # strip command line args, they won't be useful from the client anyway
             sys.argv = sys.argv[:1]
             args = mystery_argparse()
