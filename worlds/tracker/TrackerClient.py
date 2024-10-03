@@ -472,7 +472,13 @@ class TrackerGameContext(CommonContext):
                     else:
                         raise "TODO: add error - something went very wrong with interpret_slot_data"
                 else:
-                    raise "TODO: add error - something went very wrong with matching world to slot"
+                    world_dict = {name: self.launch_multiworld.worlds[slot].game for name, slot in self.launch_multiworld.world_name_lookup.items()}
+                    tb = f"Tried to match game '{args['slot_info'][str(args['slot'])][1]}'" + \
+                         f" to slot name '{args['slot_info'][str(args['slot'])][0]}'" + \
+                         f" with known slots {world_dict}"
+                    self.gen_error = tb
+                    logger.error(tb)
+                    return
             else:
                 # TODO consider allowing worlds that self-attest to not need an options file for UT
                 self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
