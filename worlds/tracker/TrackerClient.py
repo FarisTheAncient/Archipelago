@@ -167,6 +167,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
                 self.ctx.manual_items = []
         logger.info(counter)
         self.ctx.manual_items = prev_manual_items
+        updateTracker(self.ctx)
 
 
 class TrackerGameContext(CommonContext):
