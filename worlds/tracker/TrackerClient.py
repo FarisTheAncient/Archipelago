@@ -164,7 +164,9 @@ class TrackerCommandProcessor(ClientCommandProcessor):
                 if len(newlocs) != 0:
                     counter[item.name] = len(newlocs)
                 self.ctx.manual_items = prev_manual_items.copy()
-        logger.info(counter)
+        
+        for (item, count) in counter.most_common():
+            logger.info(f"{item} unlocks {count} checks.")
         self.ctx.manual_items = prev_manual_items
         updateTracker(self.ctx)
 
