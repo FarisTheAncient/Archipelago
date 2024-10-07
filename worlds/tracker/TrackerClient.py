@@ -152,17 +152,18 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         logger.info("Reset ignored locations.")
     def _cmd_next_progression(self):
         """Finds all items that will unlock a check immediately when collected, and how many new checks they will unlock."""
-        prev_manual_items = self.ctx.manual_items
+        prev_manual_items = self.ctx.manual_items.copy()
+        updateTracker(self.ctx)
         baseLocs = self.ctx.locations_available
         counter = Counter()
         for item in self.ctx.multiworld.get_items():
-            if item.classification == ItemClassification.progression or item.classification == ItemClassification.progression_skip_balancing:
+            if item.game == self.ctx.game and (item.classification == ItemClassification.progression or item.classification == ItemClassification.progression_skip_balancing):
                 self.ctx.manual_items.append(item.name)
                 updateTracker(self.ctx)
                 newlocs = set(self.ctx.locations_available) - set(baseLocs)
                 if len(newlocs) != 0:
                     counter[item.name] = len(newlocs)
-                self.ctx.manual_items = prev_manual_items
+                self.ctx.manual_items = prev_manual_items.copy()
         logger.info(counter)
         self.ctx.manual_items = prev_manual_items
         updateTracker(self.ctx)
