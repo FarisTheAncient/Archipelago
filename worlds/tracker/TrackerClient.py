@@ -385,7 +385,7 @@ class TrackerGameContext(CommonContext):
                         if hint["entrance"] else "Vanilla"})},
                     "found": {
                         "text": log.parser.handle_node({"type": "color", "color": "green" if hint["found"] else
-                                                        "yellow" if in_logic else "red",
+                                                        "orange" if in_logic else "red",
                                                         "text": "Found" if hint["found"] else "In Logic" if in_logic
                                                         else "Not Found"})},
                 })
