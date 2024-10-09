@@ -163,7 +163,8 @@ class TrackerCommandProcessor(ClientCommandProcessor):
             if newlocs:
                 counter[item] = newlocs
             self.ctx.manual_items.pop()
-        
+        if not counter:
+            logger.info("No item will unlock any checks right now.")
         for (item, count) in counter.most_common():
             logger.info(f"{item} unlocks {count} checks.")
         updateTracker(self.ctx)
