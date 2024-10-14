@@ -73,4 +73,5 @@ class UTMapTabData:
           Right now it should just return 0"""
         return 0
 
-components.append(Component("Universal Tracker", None, func=launch_client, component_type=Type.CLIENT))
+components.append(Component("Universal Tracker", None, func=launch_client, component_type=Type.CLIENT,
+                            description="A Generic tracker that uses your AP install to duplicate generation logic"))
