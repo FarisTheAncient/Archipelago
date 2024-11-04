@@ -64,3 +64,8 @@ print(get_in_logic(ctx, items=[16777224, 16777227, 16777289], locations=[1677736
 
 # [16777370, 16777410]
 ```
+
+
+# Adding In-Logic Callbacks
+
+To be filled out later
