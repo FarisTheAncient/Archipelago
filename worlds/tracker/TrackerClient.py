@@ -372,7 +372,7 @@ class TrackerGameContext(CommonContext):
             data = []
             for hint in hints:
                 in_logic = int(hint["location"]) in self.locations_available \
-                    if int(hint["finding_player"]) == self.player_id else False
+                    if int(hint["finding_player"]) == self.slot else False
                 data.append({
                     "receiving": {
                         "text": log.parser.handle_node({"type": "player_id", "text": hint["receiving_player"]})},
