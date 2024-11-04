@@ -15,7 +15,7 @@ except ModuleNotFoundError:
 if you edit your GameManager at all, just use super().make_gui() to inheret UT's ui if it got loaded
 ```py
 def make_gui(self):
-    ui = super_make_gui()
+    ui = super().make_gui()
     ui.base_title = "Minit CLIENT"
     return ui
 ```
