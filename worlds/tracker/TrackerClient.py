@@ -35,6 +35,7 @@ if not sys.stdout:  # to make sure sm varia's "i'm working" dots don't break UT 
 
 logger = logging.getLogger("Client")
 
+UT_VERSION = "v0.1.12 RC1"
 DEBUG = False
 ITEMS_HANDLING = 0b111
 # REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "needs_regen", False)}  # TODO
@@ -282,7 +283,7 @@ class TrackerGameContext(CommonContext):
             def __init__(self, **kwargs):
                 super().__init__(**kwargs)
                 self.data = []
-                self.data.append({"text": "Tracker v0.1.12 RC1 Initializing"})
+                self.data.append({"text": f"Tracker {UT_VERSION} Initializing for AP version {__version__}"})
 
             def resetData(self):
                 self.data.clear()
@@ -411,7 +412,7 @@ class TrackerGameContext(CommonContext):
             loc_size = NumericProperty(20)
             loc_border = NumericProperty(5)
             enable_map = BooleanProperty(False)
-            base_title = "Archipelago Tracker Client"
+            base_title = f"Tracker {UT_VERSION} for AP version"  # core appends ap version so this works
 
             def build(self):
                 container = super().build()
