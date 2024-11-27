@@ -4,13 +4,13 @@ from typing import Dict, Optional, List, Any, Union, ClassVar
 from settings import Group, Bool, LocalFolderPath, _world_settings_name_cache
 from worlds.AutoWorld import World
 
-def launch_client():
+def launch_client(*args):
     import sys
     from .TrackerClient import launch as TCMain
     if not sys.stdout or "--nogui" not in sys.argv:
-        launch_subprocess(TCMain, name="Universal Tracker client")
+        launch_subprocess(TCMain, name="Universal Tracker client", args=args)
     else:
-        TCMain()
+        TCMain(*args)
 
 
 class TrackerSettings(Group):

@@ -867,11 +867,11 @@ async def main(args):
     await ctx.shutdown()
 
 
-def launch():
+def launch(*args):
     parser = get_base_parser(description="Gameless Archipelago Client, for text interfacing.")
     parser.add_argument('--name', default=None, help="Slot Name to connect as.")
     parser.add_argument("url", nargs="?", help="Archipelago connection url")
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     if args.url:
         url = urllib.parse.urlparse(args.url)
@@ -885,4 +885,4 @@ def launch():
 
 
 if __name__ == "__main__":
-    launch()
+    launch(sys.argv[1:])
