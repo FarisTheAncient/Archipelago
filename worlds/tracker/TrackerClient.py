@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import tempfile
 import traceback
 import typing
 from collections.abc import Callable
@@ -31,10 +32,11 @@ if typing.TYPE_CHECKING:
 import urllib.parse
 
 if not sys.stdout:  # to make sure sm varia's "i'm working" dots don't break UT in frozen
-    sys.stdout = open(os.devnull, 'w')  # from https://stackoverflow.com/a/6735958
+    sys.stdout = open(os.devnull, 'w', encoding="utf-8")  # from https://stackoverflow.com/a/6735958
 
 logger = logging.getLogger("Client")
 
+UT_VERSION = "v0.1.12"
 DEBUG = False
 ITEMS_HANDLING = 0b111
 # REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "needs_regen", False)}  # TODO
@@ -281,7 +283,7 @@ class TrackerGameContext(CommonContext):
             def __init__(self, **kwargs):
                 super().__init__(**kwargs)
                 self.data = []
-                self.data.append({"text": "Tracker v0.1.12 RC1 Initializing"})
+                self.data.append({"text": f"Tracker {UT_VERSION} Initializing for AP version {__version__}"})
 
             def resetData(self):
                 self.data.clear()
@@ -377,7 +379,7 @@ class TrackerGameContext(CommonContext):
             data = []
             for hint in hints:
                 in_logic = int(hint["location"]) in self.locations_available \
-                    if int(hint["finding_player"]) == self.player_id else False
+                    if int(hint["finding_player"]) == self.slot else False
                 data.append({
                     "receiving": {
                         "text": log.parser.handle_node({"type": "player_id", "text": hint["receiving_player"]})},
@@ -390,7 +392,7 @@ class TrackerGameContext(CommonContext):
                         if hint["entrance"] else "Vanilla"})},
                     "found": {
                         "text": log.parser.handle_node({"type": "color", "color": "green" if hint["found"] else
-                                                        "yellow" if in_logic else "red",
+                                                        "orange" if in_logic else "red",
                                                         "text": "Found" if hint["found"] else "In Logic" if in_logic
                                                         else "Not Found"})},
                 })
@@ -416,7 +418,7 @@ class TrackerGameContext(CommonContext):
             loc_size = NumericProperty(20)
             loc_border = NumericProperty(5)
             enable_map = BooleanProperty(False)
-            base_title = "Archipelago Tracker Client"
+            base_title = f"Tracker {UT_VERSION} for AP version"  # core appends ap version so this works
 
             def build(self):
                 container = super().build()
@@ -441,6 +443,19 @@ class TrackerGameContext(CommonContext):
         await self.get_username()
         await self.send_connect()
 
+    def regen_slots(self, world, slot_data, tempdir: Optional[str] = None) -> bool:
+        if callable(getattr(world, "interpret_slot_data", None)):
+            temp = world.interpret_slot_data(slot_data)
+
+            # back compat for worlds that trigger regen with interpret_slot_data, will remove eventually
+            if temp:
+                self.player_id = 1
+                self.re_gen_passthrough = {self.game: temp}
+                self.run_generator(slot_data, tempdir)
+            return True
+        else:
+            return False
+
     def on_package(self, cmd: str, args: dict):
         if cmd == 'Connected':
             if self.launch_multiworld is None:
@@ -453,32 +468,28 @@ class TrackerGameContext(CommonContext):
                 if self.launch_multiworld.worlds[internal_id].game == self.game:
                     self.multiworld = self.launch_multiworld
                     self.player_id = internal_id
-                    if callable(getattr(self.multiworld.worlds[self.player_id], "interpret_slot_data", None)):
-                        temp = self.multiworld.worlds[self.player_id].interpret_slot_data(args["slot_data"])
-
-                        # back compat for worlds that trigger regen with interpret_slot_data, will remove eventually
-                        if temp:
-                            self.player_id = 1
-                            self.re_gen_passthrough = {self.game: temp}
-                            self.run_generator(args["slot_data"])
+                    self.regen_slots(self.multiworld.worlds[self.player_id],args["slot_data"])
                 elif self.launch_multiworld.worlds[internal_id].game == "Archipelago":
                     connected_cls = AutoWorld.AutoWorldRegister.world_types[self.game]
-                    # TODO change this function name to the new API
-                    if callable(getattr(connected_cls, "interpret_slot_data", None)):
-                        # we skipped their world in launch_gen so gen a single player multi for the slot
-                        temp = connected_cls.interpret_slot_data(args["slot_data"])
-                        # temp = self.launch_multiworld.worlds[internal_id].interpret_slot_data(args["slot_data"])
-                        self.player_id = 1
-                        self.re_gen_passthrough = {self.game: temp}
-                        self.run_generator(args["slot_data"])
-                    else:
+                    if not self.regen_slots(connected_cls,args["slot_data"]):
                         raise "TODO: add error - something went very wrong with interpret_slot_data"
                 else:
-                    raise "TODO: add error - something went very wrong with matching world to slot"
+                    world_dict = {name: self.launch_multiworld.worlds[slot].game for name, slot in self.launch_multiworld.world_name_lookup.items()}
+                    tb = f"Tried to match game '{args['slot_info'][str(args['slot'])][1]}'" + \
+                         f" to slot name '{args['slot_info'][str(args['slot'])][0]}'" + \
+                         f" with known slots {world_dict}"
+                    self.gen_error = tb
+                    logger.error(tb)
+                    return
             else:
-                # TODO consider allowing worlds that self-attest to not need an options file for UT
-                self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
-                return
+                if getattr(AutoWorld.AutoWorldRegister.world_types[self.game], "ut_can_gen_without_yaml", False):
+                    with tempfile.TemporaryDirectory() as tempdir:
+                        self.write_empty_yaml(self.game, slot_name, tempdir)
+                        self.run_generator(None, tempdir)
+                        self.regen_slots(self.multiworld.worlds[self.player_id],args["slot_data"],tempdir)
+                else:
+                    self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
+                    return
 
             if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
                 self.tracker_world = UTMapTabData(**self.multiworld.worlds[self.player_id].tracker_world)
@@ -494,11 +505,19 @@ class TrackerGameContext(CommonContext):
         elif cmd == 'RoomUpdate':
             updateTracker(self)
 
+    def write_empty_yaml(self, game, player_name, tempdir):
+        path = os.path.join(tempdir, f'{game}_{player_name}.yaml')
+        with open(path, 'w') as f:
+            f.write('name: ' + player_name + '\n')
+            f.write('game: ' + game + '\n')
+            f.write(game + ': {}\n')
+
     async def disconnect(self, allow_autoreconnect: bool = False):
         if "Tracker" in self.tags:
             self.game = ""
             self.re_gen_passthrough = None
-            self.ui.tabs.show_map = False
+            if self.ui:
+                self.ui.tabs.show_map = False
             self.tracker_world = None
             self.multiworld = None
             # TODO: persist these per url+slot(+seed)?
@@ -508,8 +527,9 @@ class TrackerGameContext(CommonContext):
 
         await super().disconnect(allow_autoreconnect)
 
-    def _set_host_settings(self, host):
-        tracker_settings = host.universal_tracker
+    def _set_host_settings(self):
+        from . import TrackerWorld
+        tracker_settings = TrackerWorld.settings
         report_type = "Both"
         if tracker_settings['include_location_name']:
             if tracker_settings['include_region_name']:
@@ -521,7 +541,7 @@ class TrackerGameContext(CommonContext):
         return tracker_settings['player_files_path'], report_type, tracker_settings[
             'hide_excluded_locations']
 
-    def run_generator(self, slot_data: Optional[Dict] = None):
+    def run_generator(self, slot_data: Optional[Dict] = None, override_yaml_path: Optional[str] = None):
         def move_slots(args: "Namespace", slot_name: str):
             """
             helper function to copy all the proper option values into slot 1,
@@ -536,12 +556,13 @@ class TrackerGameContext(CommonContext):
             return args
 
         try:
-            host = get_settings()
-            yaml_path, self.output_format, self.hide_excluded = self._set_host_settings(host)
+            yaml_path, self.output_format, self.hide_excluded = self._set_host_settings()
             # strip command line args, they won't be useful from the client anyway
             sys.argv = sys.argv[:1]
             args = mystery_argparse()
-            if yaml_path:
+            if override_yaml_path:
+                args.player_files_path = override_yaml_path
+            elif yaml_path:
                 args.player_files_path = yaml_path
             args.skip_output = True
 
@@ -848,11 +869,11 @@ async def main(args):
     await ctx.shutdown()
 
 
-def launch():
+def launch(*args):
     parser = get_base_parser(description="Gameless Archipelago Client, for text interfacing.")
     parser.add_argument('--name', default=None, help="Slot Name to connect as.")
     parser.add_argument("url", nargs="?", help="Archipelago connection url")
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     if args.url:
         url = urllib.parse.urlparse(args.url)
@@ -866,4 +887,4 @@ def launch():
 
 
 if __name__ == "__main__":
-    launch()
+    launch(sys.argv[1:])
