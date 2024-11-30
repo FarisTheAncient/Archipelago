@@ -1,5 +1,5 @@
 
-from worlds.LauncherComponents import Component, components, Type, launch_subprocess
+from worlds.LauncherComponents import Component, components, Type, launch_subprocess, icon_paths
 from typing import Dict, Optional, List, Any, Union, ClassVar
 from settings import Group, Bool, LocalFolderPath, _world_settings_name_cache
 from worlds.AutoWorld import World
@@ -73,4 +73,5 @@ class UTMapTabData:
           Right now it should just return 0"""
         return 0
 
-components.append(Component("Universal Tracker", None, func=launch_client, component_type=Type.CLIENT))
+icon_paths["ut_ico"] = f"ap:{__name__}/icon.png"
+components.append(Component("Universal Tracker", None, func=launch_client, component_type=Type.CLIENT, icon="ut_ico"))
