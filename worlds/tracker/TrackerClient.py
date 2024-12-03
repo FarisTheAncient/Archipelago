@@ -578,7 +578,7 @@ class TrackerGameContext(CommonContext):
                 g_args.player_ids = {1}
 
                 # TODO confirm that this will never not be filled
-                g_args = move_slots(g_args, self.player_names.get(self.slot, None))
+                g_args = move_slots(g_args, self.slot_info[self.slot].name)
 
                 self.multiworld = self.TMain(g_args, seed)
                 assert len(self.cached_slot_data) == len(self.cached_multiworlds)
@@ -885,4 +885,4 @@ def launch(*args):
 
 
 if __name__ == "__main__":
-    launch(sys.argv[1:])
+    launch(*sys.argv[1:])
