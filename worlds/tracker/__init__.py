@@ -1,8 +1,10 @@
 
 from worlds.LauncherComponents import Component, components, Type, launch_subprocess, icon_paths
-from typing import Dict, Optional, List, Any, Union, ClassVar
 from settings import Group, Bool, UserFolderPath, _world_settings_name_cache
+from typing import Dict, Optional, List, Any, Union, ClassVar, NamedTuple
 from worlds.AutoWorld import World
+from BaseClasses import CollectionState
+from collections import Counter
 
 def launch_client(*args):
     import sys
@@ -12,6 +14,11 @@ def launch_client(*args):
     else:
         TCMain(*args)
 
+class CurrentTrackerState(NamedTuple):
+    all_items: Counter
+    prog_items: Counter
+    events: List[str]
+    state: CollectionState
 
 class TrackerSettings(Group):
     class TrackerPlayersPath(UserFolderPath):
