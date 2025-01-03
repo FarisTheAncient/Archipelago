@@ -35,3 +35,8 @@ This is to prevent a game trying to process a different game's `interpret_slot_d
 ![image](https://github.com/FarisTheAncient/Archipelago/assets/162540354/03b22004-8017-457e-be3c-26d20091f678)
 
 
+# Location Alias
+
+UT provides a way for the world to alias a generically named location to give a more useful name on a slot by slot instance
+
+If the world wants to rename their locations, they just need to define a map( `location_id_to_alias: Dict[int, str]` ) from location_id to alias_string on the world, and if a location id is found in the map, the alias name will be appended to the entry in UT

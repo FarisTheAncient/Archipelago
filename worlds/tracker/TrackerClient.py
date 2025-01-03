@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import tempfile
 import traceback
 import typing
 from collections.abc import Callable
@@ -7,8 +8,9 @@ from CommonClient import CommonContext, gui_enabled, get_base_parser, server_loo
 import os
 import time
 import sys
-from typing import Dict, Optional, List
-from BaseClasses import Region, Location, ItemClassification
+from typing import Dict, Optional, Union, List, Set, Any
+from BaseClasses import ItemClassification
+
 
 from BaseClasses import CollectionState, MultiWorld, LocationProgressType
 from worlds.generic.Rules import exclusion_rules, locality_rules
@@ -16,46 +18,70 @@ from Options import StartInventoryPool
 from settings import get_settings
 from Utils import __version__, output_path
 from worlds import AutoWorld
-from worlds.tracker import TrackerWorld
-from collections import Counter
+from worlds.tracker import TrackerWorld, UTMapTabData, CurrentTrackerState
+from collections import Counter,defaultdict
 from MultiServer import mark_raw
 
 from Generate import main as GMain, mystery_argparse
 
 if typing.TYPE_CHECKING:
     from kvui import GameManager
+    from argparse import Namespace
 
 # webserver imports
 import urllib.parse
 
+if not sys.stdout:  # to make sure sm varia's "i'm working" dots don't break UT in frozen
+    sys.stdout = open(os.devnull, 'w', encoding="utf-8")  # from https://stackoverflow.com/a/6735958
+
 logger = logging.getLogger("Client")
 
+UT_VERSION = "v0.1.14"
 DEBUG = False
 ITEMS_HANDLING = 0b111
+# REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "needs_regen", False)}  # TODO
+REGEN_WORLDS: Set[str] = set()
 
 
 class TrackerCommandProcessor(ClientCommandProcessor):
+    ctx: "TrackerGameContext"
 
     def _cmd_inventory(self):
         """Print the list of current items in the inventory"""
         logger.info("Current Inventory:")
-        all_items, prog_items, events = updateTracker(self.ctx)
-        for item, count in sorted(all_items.items()):
+        currentState = updateTracker(self.ctx)
+        for item, count in sorted(currentState.all_items.items()):
             logger.info(str(count) + "x: " + item)
 
     def _cmd_prog_inventory(self):
         """Print the list of current items in the inventory"""
         logger.info("Current Inventory:")
-        all_items, prog_items, events = updateTracker(self.ctx)
-        for item, count in sorted(prog_items.items()):
+        currentState = updateTracker(self.ctx)
+        for item, count in sorted(currentState.prog_items.items()):
             logger.info(str(count) + "x: " + item)
 
     def _cmd_event_inventory(self):
         """Print the list of current items in the inventory"""
         logger.info("Current Inventory:")
-        all_items, prog_items, events = updateTracker(self.ctx)
-        for event in sorted(events):
+        currentState = updateTracker(self.ctx)
+        for event in sorted(currentState.events):
             logger.info(event)
+
+    def _cmd_load_map(self,map_id: str="0"):
+        """Force a poptracker map id to be loaded"""
+        if self.ctx.tracker_world is not None:
+            self.ctx.load_map(map_id)
+            updateTracker(self.ctx)
+        else:
+            logger.info("No world with internal map loaded")
+
+    def _cmd_list_maps(self):
+        """List the available maps to load with /load_map"""
+        if self.ctx.tracker_world is not None:
+            for i,map in enumerate(self.ctx.maps):
+                logger.info("Map["+str(i)+"] = '"+map["name"]+"'")
+        else:
+            logger.info("No world with internal map loaded")
 
     @mark_raw
     def _cmd_manually_collect(self, item_name: str = ""):
@@ -70,6 +96,63 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         updateTracker(self.ctx)
         logger.info("Reset manually collect.")
 
+    @mark_raw
+    def _cmd_ignore(self, location_name: str = ""):
+        """Ignore a location so it doesn't appear in the tracker list"""
+        if not self.ctx.game:
+            logger.info("Game not yet loaded")
+            return
+
+        location_name_to_id = AutoWorld.AutoWorldRegister.world_types[self.ctx.game].location_name_to_id
+        if location_name not in location_name_to_id:
+            logger.info(f"Unrecognized location {location_name}")
+            return
+
+        self.ctx.ignored_locations.add(location_name_to_id[location_name])
+        updateTracker(self.ctx)
+        logger.info(f"Added {location_name} to ignore list.")
+
+    @mark_raw
+    def _cmd_unignore(self, location_name: str = ""):
+        """Stop ignoring a location so it appears in the tracker list again"""
+        if not self.ctx.game:
+            logger.info("Game not yet loaded")
+            return
+
+        location_name_to_id = AutoWorld.AutoWorldRegister.world_types[self.ctx.game].location_name_to_id
+        if location_name not in location_name_to_id:
+            logger.info(f"Unrecognized location {location_name}")
+            return
+
+        location = location_name_to_id[location_name]
+        if location not in self.ctx.ignored_locations:
+            logger.info(f"{location_name} is not on ignore list.")
+            return
+
+        self.ctx.ignored_locations.remove(location)
+        updateTracker(self.ctx)
+        logger.info(f"Removed {location_name} from ignore list.")
+
+    def _cmd_list_ignored(self):
+        """List the ignored locations"""
+        if len(self.ctx.ignored_locations) == 0:
+            logger.info("No ignored locations")
+            return
+        if not self.ctx.game:
+            logger.info("Game not yet loaded")
+            return
+
+        logger.info("Ignored locations:")
+        location_names = [self.ctx.location_names.lookup_in_game(location) for location in self.ctx.ignored_locations]
+        for location_name in sorted(location_names):
+            logger.info(location_name)
+
+    def _cmd_reset_ignored(self):
+        """Reset the list of ignored locations"""
+        self.ctx.ignored_locations.clear()
+        updateTracker(self.ctx)
+        logger.info("Reset ignored locations.")
+
 
 class TrackerGameContext(CommonContext):
     game = ""
@@ -77,25 +160,94 @@ class TrackerGameContext(CommonContext):
     tags = CommonContext.tags | {"Tracker"}
     command_processor = TrackerCommandProcessor
     tracker_page = None
+    map_page = None
+    tracker_world: Optional[UTMapTabData] = None
+    coord_dict: Dict[str, List] = {}
+    map_page_coords_func = None
     watcher_task = None
-    update_callback: Callable[[list[str]], bool] = None
-    region_callback: Callable[[list[str]], bool] = None
-    events_callback: Callable[[list[str]], bool] = None
+    update_callback: Optional[Callable[[List[str]], bool]] = None
+    region_callback: Optional[Callable[[List[str]], bool]] = None
+    events_callback: Optional[Callable[[List[str]], bool]] = None
     gen_error = None
     output_format = "Both"
     hide_excluded = False
     tracker_failed = False
     re_gen_passthrough = None
+    cached_multiworlds: List[MultiWorld] = []
+    cached_slot_data: List[Dict[str, Any]] = []
+    ignored_locations: Set[int]
+    location_alias_map: Dict[int,str] = {}
 
-    def __init__(self, server_address, password):
-        super().__init__(server_address, password)
+    def __init__(self, server_address, password, no_connection: bool = False):
+        if no_connection:
+            from worlds import network_data_package
+            self.item_names = self.NameLookupDict(self, "item")
+            self.location_names = self.NameLookupDict(self, "location")
+            self.update_data_package(network_data_package)
+        else:
+            super().__init__(server_address, password)
         self.items_handling = ITEMS_HANDLING
         self.locations_checked = []
         self.locations_available = []
         self.datapackage = []
         self.multiworld: MultiWorld = None
+        self.launch_multiworld: MultiWorld = None
         self.player_id = None
         self.manual_items = []
+        self.ignored_locations = set()
+
+    def load_pack(self):
+        PACK_NAME = self.multiworld.worlds[self.player_id].__class__.__module__
+        self.maps = []
+        for map_page in self.tracker_world.map_page_maps:
+            self.maps += load_json(PACK_NAME, f"/{self.tracker_world.map_page_folder}/{map_page}")
+        self.locs = []
+        for loc_page in self.tracker_world.map_page_locations:
+            self.locs += load_json(PACK_NAME, f"/{self.tracker_world.map_page_folder}/{loc_page}")
+        self.load_map(None)
+
+
+    def load_map(self,map_id:Union[int, str, None]):
+        """REMEMBER TO RUN UPDATE_TRACKER!"""
+        if not self.ui or self.tracker_world is None:
+            return
+        if map_id is None:
+            map_id = self.tracker_world.map_page_index(self.stored_data)
+        m=None
+        if isinstance(map_id,str) and not map_id.isdecimal():
+            for map in self.maps:
+                if map["name"] == map_id:
+                    m = map
+                    break
+            else:
+                logger.error("Attempted to load a map that doesn't exist")
+                return
+        else:
+            if isinstance(map_id,str):
+                map_id = int(map_id)
+            m = self.maps[map_id]
+        location_name_to_id=AutoWorld.AutoWorldRegister.world_types[self.game].location_name_to_id
+        PACK_NAME = self.multiworld.worlds[self.player_id].__class__.__module__
+        # m = [m for m in self.maps if m["name"] == map_name]
+        self.ui.source = f"ap:{PACK_NAME}/{self.tracker_world.map_page_folder}/{m['img']}"
+        self.ui.loc_size = m["location_size"] if "location_size" in m else 65 #default location size per poptracker/src/core/map.h
+        self.ui.loc_border = m["location_border_thickness"] if "location_border_thickness" in m else 8 #default location size per poptracker/src/core/map.h
+        temp_locs = [location for location in self.locs]
+        map_locs = []
+        while temp_locs:
+            temp_loc = temp_locs.pop()
+            if "map_locations" in temp_loc:
+                map_locs.append(temp_loc)
+            elif "children" in temp_loc:
+                temp_locs.extend(temp_loc["children"])
+        self.coords = {
+            (map_loc["x"], map_loc["y"]) :
+                [ section["name"] for section in location["sections"] if "name" in section and section["name"] in location_name_to_id and location_name_to_id[section["name"]] in self.server_locations ]
+            for location in map_locs
+            for map_loc in location["map_locations"]
+            if map_loc["map"] == m["name"] and any("name" in section and section["name"] in location_name_to_id and location_name_to_id[section["name"]] in self.server_locations for section in location["sections"])
+        }
+        self.coord_dict = self.map_page_coords_func(self.coords)
 
     def clear_page(self):
         if self.tracker_page is not None:
@@ -105,19 +257,25 @@ class TrackerGameContext(CommonContext):
         if self.tracker_page is not None:
             self.tracker_page.addLine(line, sort)
 
-    def set_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
+    def set_callback(self, func: "Optional[Callable[[List[str]], bool]]" = None):
         self.update_callback = func
 
-    def set_region_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
+    def set_region_callback(self, func: "Optional[Callable[[List[str]], bool]]" = None):
         self.region_callback = func
 
-    def set_events_callback(self, func: Optional[Callable[[list[str]], bool]] = None):
+    def set_events_callback(self, func: "Optional[Callable[[List[str]], bool]]" = None):
         self.events_callback = func
 
     def build_gui(self, manager: "GameManager"):
         from kivy.uix.boxlayout import BoxLayout
         from kivy.uix.tabbedpanel import TabbedPanelItem
         from kivy.uix.recycleview import RecycleView
+        from kivy.uix.widget import Widget
+        from kivy.properties import StringProperty, NumericProperty, BooleanProperty
+        try:
+            from kvui import ApAsyncImage #one of these needs to be loaded
+        except ImportError:
+            from .TrackerKivy import ApAsyncImage #use local until ap#3629 gets merged/released
 
         class TrackerLayout(BoxLayout):
             pass
@@ -126,7 +284,7 @@ class TrackerGameContext(CommonContext):
             def __init__(self, **kwargs):
                 super().__init__(**kwargs)
                 self.data = []
-                self.data.append({"text": "Tracker v0.1.9 Initializing"})
+                self.data.append({"text": f"Tracker {UT_VERSION} Initializing for AP version {__version__}"})
 
             def resetData(self):
                 self.data.clear()
@@ -136,7 +294,45 @@ class TrackerGameContext(CommonContext):
                 if sort:
                     self.data.sort(key=lambda e: e["text"])
 
+        class ApLocation(Widget):
+            from kivy.properties import DictProperty,ColorProperty
+            locationDict = DictProperty()
+            color = ColorProperty("#DD00FF")
+            def __init__(self, sections,**kwargs):
+                for location_name in sections:
+                    self.locationDict[location_name]="none"
+                self.bind(locationDict=self.update_color)
+                super().__init__(**kwargs)
+
+            def update_status(self, location, status):
+                if location in self.locationDict:
+                    if self.locationDict[location] != status:
+                        self.locationDict[location] = status
+            @staticmethod
+            def update_color(self,locationDict):
+                if any(status == "in_logic" for status in locationDict.values()) and any(status == "out_of_logic" for status in locationDict.values()):
+                    self.color = "#FF9F20"
+                elif any(status == "in_logic" for status in locationDict.values()):
+                    self.color = "#20FF20"
+                elif any(status == "out_of_logic" for status in locationDict.values()):
+                    self.color = "#CF1010"
+                else:
+                    self.color = "#3F3F3F"
+
+        class VisualTracker(BoxLayout):
+            def load_coords(self,coords):
+                self.ids.location_canvas.clear_widgets()
+                returnDict = defaultdict(list)
+                for coord,sections in coords.items():
+                    #https://discord.com/channels/731205301247803413/1170094879142051912/1272327822630977727
+                    temp_loc = ApLocation(sections,pos=(coord))
+                    self.ids.location_canvas.add_widget(temp_loc)
+                    for location_name in sections:
+                        returnDict[location_name].append(temp_loc)
+                return returnDict
+
         tracker_page = TabbedPanelItem(text="Tracker Page")
+        map_page = TabbedPanelItem(text="Map Page")
 
         try:
             tracker = TrackerLayout(orientation="horizontal")
@@ -144,57 +340,86 @@ class TrackerGameContext(CommonContext):
             tracker.add_widget(tracker_view)
             self.tracker_page = tracker_view
             tracker_page.content = tracker
+            map = VisualTracker()
+            self.map_page_coords_func = map.load_coords
+            self.map_page = map_page
+            map_page.content = map
             if self.gen_error is not None:
                 for line in self.gen_error.split("\n"):
                     self.log_to_tab(line, False)
         except Exception as e:
+            # TODO back compat, fail gracefully if a kivy app doesn't have our properties
+            self.map_page_coords_func = lambda *args: None
             tb = traceback.format_exc()
             print(tb)
         manager.tabs.add_widget(tracker_page)
+        @staticmethod
+        def set_map_tab(self,value,*args,map_page=map_page):
+            if value:
+                self.add_widget(map_page)
+                self.tab_width = self.tab_width * (len(self.tab_list)-1)/len(self.tab_list)
+                #for some forsaken reason, the tab panel doesn't auto adjust tab width by itself
+                #it is happy to let the header have a scroll bar until the window forces it to resize
+            else:
+                self.remove_widget(map_page)
+                self.tab_width = self.tab_width * (len(self.tab_list)+1)/len(self.tab_list)
 
-        from kvui import HintLog
-        # hook hint tab
+        manager.tabs.apply_property(show_map=BooleanProperty(False))
+        manager.tabs.fbind("show_map",set_map_tab)
 
-        def update_available_hints(log: HintLog, hints: typing.Set[typing.Dict[str, typing.Any]]):
-            data = []
-            for hint in hints:
-                in_logic = int(hint["location"]) in self.locations_available \
-                    if int(hint["finding_player"]) == self.player_id else False
-                data.append({
-                    "receiving": {
-                        "text": log.parser.handle_node({"type": "player_id", "text": hint["receiving_player"]})},
-                    "item": {"text": log.parser.handle_node(
-                        {"type": "item_id", "player": hint["receiving_player"],"text": hint["item"], "flags": hint["item_flags"]})},
-                    "finding": {"text": log.parser.handle_node({"type": "player_id", "text": hint["finding_player"]})},
-                    "location": {"text": log.parser.handle_node({"type": "location_id", "player":hint["finding_player"],"text": hint["location"]})},
-                    "entrance": {"text": log.parser.handle_node({"type": "color" if hint["entrance"] else "text",
-                                                                 "color": "blue", "text": hint["entrance"]
-                        if hint["entrance"] else "Vanilla"})},
-                    "found": {
-                        "text": log.parser.handle_node({"type": "color", "color": "green" if hint["found"] else
-                                                        "yellow" if in_logic else "red",
-                                                        "text": "Found" if hint["found"] else "In Logic" if in_logic
-                                                        else "Not Found"})},
-                })
+    def make_gui(self):
+        ui = super().make_gui()  # before the kivy imports so kvui gets loaded first
+        from kvui import HintLog, HintLabel, TooltipLabel
+        from kivy.properties import StringProperty, NumericProperty, BooleanProperty
+        try:
+            from kvui import ImageLoader #one of these needs to be loaded
+        except ImportError:
+            from .TrackerKivy import ImageLoader #use local until ap#3629 gets merged/released
 
-            data.sort(key=log.hint_sorter, reverse=log.reversed)
-            for i in range(0, len(data), 2):
-                data[i]["striped"] = True
-            data.insert(0, log.header)
-            log.data = data
-
-        HintLog.refresh_hints = update_available_hints
-
-    def run_gui(self):
-        from kvui import GameManager
-
-        class TrackerManager(GameManager):
-            logging_pairs = [
-                ("Client", "Archipelago")
-            ]
-            base_title = "Archipelago Tracker Client"
+        class TrackerManager(ui):
+            source = StringProperty("")
+            loc_size = NumericProperty(20)
+            loc_border = NumericProperty(5)
+            enable_map = BooleanProperty(False)
+            base_title = f"Tracker {UT_VERSION} for AP version"  # core appends ap version so this works
 
             def build(self):
+                class TrackerHintLabel(HintLabel):
+                    logic_text = StringProperty("")
+
+                    def __init__(self, *args, **kwargs):
+                        super().__init__(*args, **kwargs)
+                        logic = TooltipLabel(
+                            sort_key="status",  # is lying to computer and player but fixing it will need core changes
+                            text="", halign='center', valign='center', pos_hint={"center_y": 0.5},
+                            )
+                        self.add_widget(logic)
+
+                        def set_text(_, value):
+                            logic.text = value
+                        self.bind(logic_text=set_text)
+
+                    def refresh_view_attrs(self, rv, index, data):
+                        super().refresh_view_attrs(rv, index, data)
+                        if data["status"]["hint"]["receiving_player"] == -1:
+                            self.logic_text = "[u]In Logic[/u]"
+                            return
+                        ctx = ui.get_running_app().ctx
+
+                        loc = data["status"]["hint"]["location"]
+                        from NetUtils import HintStatus
+                        found = data["status"]["hint"]["status"] == HintStatus.HINT_FOUND
+                        in_logic = loc in ctx.locations_available
+                        self.logic_text = rv.parser.handle_node({
+                            "type": "color", "color": "green" if found else
+                            "orange" if in_logic else "red",
+                            "text": "Found" if found else "In Logic" if in_logic
+                            else "Not Found"})
+
+                def kv_post(self, base_widget):
+                    self.viewclass = TrackerHintLabel
+                HintLog.on_kv_post = kv_post
+
                 container = super().build()
                 self.tabs.do_default_tab = True
                 self.tabs.current_tab.height = 40
@@ -203,10 +428,8 @@ class TrackerGameContext(CommonContext):
 
                 return container
 
-        self.ui = TrackerManager(self)
         self.load_kv()
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
-        return self
+        return TrackerManager
 
     def load_kv(self):
         from kivy.lang import Builder
@@ -222,69 +445,158 @@ class TrackerGameContext(CommonContext):
         await self.get_username()
         await self.send_connect()
 
+    def regen_slots(self, world, slot_data, tempdir: Optional[str] = None) -> bool:
+        if callable(getattr(world, "interpret_slot_data", None)):
+            temp = world.interpret_slot_data(slot_data)
+
+            # back compat for worlds that trigger regen with interpret_slot_data, will remove eventually
+            if temp:
+                self.player_id = 1
+                self.re_gen_passthrough = {self.game: temp}
+                self.run_generator(slot_data, tempdir)
+            return True
+        else:
+            return False
+
     def on_package(self, cmd: str, args: dict):
         if cmd == 'Connected':
-            if self.multiworld is None:
+            if self.launch_multiworld is None:
                 self.log_to_tab("Internal world was not able to be generated, check your yamls and relaunch", False)
                 return
-            player_ids = [i for i, n in self.multiworld.player_name.items() if n == self.username]
-            if len(player_ids) < 1:
-                self.log_to_tab("Player's Yaml not in tracker's list", False)
-                return
-            self.player_id = player_ids[0]  # should only really ever be one match
             self.game = args["slot_info"][str(args["slot"])][1]
+            slot_name = args["slot_info"][str(args["slot"])][0]
+            if slot_name in self.launch_multiworld.world_name_lookup:
+                internal_id = self.launch_multiworld.world_name_lookup[slot_name]
+                if self.launch_multiworld.worlds[internal_id].game == self.game:
+                    self.multiworld = self.launch_multiworld
+                    self.player_id = internal_id
+                    self.regen_slots(self.multiworld.worlds[self.player_id],args["slot_data"])
+                elif self.launch_multiworld.worlds[internal_id].game == "Archipelago":
+                    connected_cls = AutoWorld.AutoWorldRegister.world_types[self.game]
+                    if not self.regen_slots(connected_cls,args["slot_data"]):
+                        raise "TODO: add error - something went very wrong with interpret_slot_data"
+                else:
+                    world_dict = {name: self.launch_multiworld.worlds[slot].game for name, slot in self.launch_multiworld.world_name_lookup.items()}
+                    tb = f"Tried to match game '{args['slot_info'][str(args['slot'])][1]}'" + \
+                         f" to slot name '{args['slot_info'][str(args['slot'])][0]}'" + \
+                         f" with known slots {world_dict}"
+                    self.gen_error = tb
+                    logger.error(tb)
+                    return
+            else:
+                if getattr(AutoWorld.AutoWorldRegister.world_types[self.game], "ut_can_gen_without_yaml", False):
+                    with tempfile.TemporaryDirectory() as tempdir:
+                        self.write_empty_yaml(self.game, slot_name, tempdir)
+                        self.run_generator(None, tempdir)
+                        self.regen_slots(self.multiworld.worlds[self.player_id],args["slot_data"],tempdir)
+                else:
+                    self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
+                    return
 
-            if callable(getattr(self.multiworld.worlds[self.player_id], "interpret_slot_data", None)):
-                temp = self.multiworld.worlds[self.player_id].interpret_slot_data(args["slot_data"])
-                if temp:
-                    self.re_gen_passthrough = {self.game: temp}
-                    self.run_generator()
+            if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
+                self.tracker_world = UTMapTabData(**self.multiworld.worlds[self.player_id].tracker_world)
+                self.load_pack()
+                self.ui.tabs.show_map = True
+            else:
+                self.tracker_world = None
 
+            if hasattr(self.multiworld.worlds[self.player_id],"location_id_to_alias"):
+                self.location_alias_map = self.multiworld.worlds[self.player_id].location_id_to_alias
             updateTracker(self)
             self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher")
         elif cmd == 'RoomUpdate':
             updateTracker(self)
 
+    def write_empty_yaml(self, game, player_name, tempdir):
+        path = os.path.join(tempdir, f'{game}_{player_name}.yaml')
+        with open(path, 'w') as f:
+            f.write('name: ' + player_name + '\n')
+            f.write('game: ' + game + '\n')
+            f.write(game + ': {}\n')
+
     async def disconnect(self, allow_autoreconnect: bool = False):
         if "Tracker" in self.tags:
             self.game = ""
             self.re_gen_passthrough = None
+            if self.ui:
+                self.ui.tabs.show_map = False
+            self.tracker_world = None
+            self.multiworld = None
+            # TODO: persist these per url+slot(+seed)?
+            self.manual_items.clear()
+            self.ignored_locations.clear()
+            self.location_alias_map = {}
+
         await super().disconnect(allow_autoreconnect)
 
-    def _set_host_settings(self, host):
-        if 'universal_tracker' not in host:
-            host['universal_tracker'] = {}
-        if 'player_files_path' not in host['universal_tracker']:
-            host['universal_tracker']['player_files_path'] = None
-        if 'include_region_name' not in host['universal_tracker']:
-            host['universal_tracker']['include_region_name'] = False
-        if 'include_location_name' not in host['universal_tracker']:
-            host['universal_tracker']['include_location_name'] = True
-        if 'hide_excluded_locations' not in host['universal_tracker']:
-            host['universal_tracker']['hide_excluded_locations'] = False
+    def _set_host_settings(self):
+        from . import TrackerWorld
+        tracker_settings = TrackerWorld.settings
         report_type = "Both"
-        if host['universal_tracker']['include_location_name']:
-            if host['universal_tracker']['include_region_name']:
+        if tracker_settings['include_location_name']:
+            if tracker_settings['include_region_name']:
                 report_type = "Both"
             else:
                 report_type = "Location"
         else:
             report_type = "Region"
-        host.save()
-        return host['universal_tracker']['player_files_path'], report_type, host['universal_tracker'][
+        return tracker_settings['player_files_path'], report_type, tracker_settings[
             'hide_excluded_locations']
 
-    def run_generator(self):
+    def run_generator(self, slot_data: Optional[Dict] = None, override_yaml_path: Optional[str] = None):
+        def move_slots(args: "Namespace", slot_name: str):
+            """
+            helper function to copy all the proper option values into slot 1,
+            may need to change if/when multiworld.option_name dicts get fully removed
+            """
+            player = {name: i for i, name in args.name.items()}[slot_name]
+            if player == 1:
+                return args
+            for option_name, option_value in args._get_kwargs():
+                if isinstance(option_value, Dict) and player in option_value:
+                    setattr(args, option_name, {1: option_value[player]})
+            return args
+
         try:
-            host = get_settings()
-            yaml_path, self.output_format, self.hide_excluded = self._set_host_settings(host)
+            yaml_path, self.output_format, self.hide_excluded = self._set_host_settings()
             # strip command line args, they won't be useful from the client anyway
             sys.argv = sys.argv[:1]
             args = mystery_argparse()
-            if yaml_path:
+            if override_yaml_path:
+                args.player_files_path = override_yaml_path
+            elif yaml_path:
                 args.player_files_path = yaml_path
             args.skip_output = True
-            self.multiworld = self.TMain(*GMain(args))
+
+            g_args, seed = GMain(args)
+            if slot_data:
+                if slot_data in self.cached_slot_data:
+                    print("found cached multiworld!")
+                    index = next(i for i, s in enumerate(self.cached_slot_data) if s == slot_data)
+                    self.multiworld = self.cached_multiworlds[index]
+                    return
+                if not self.game:
+                    raise "No Game found for slot, this should not happen ever"
+                g_args.multi = 1
+                g_args.game = {1: self.game}
+                g_args.player_ids = {1}
+
+                # TODO confirm that this will never not be filled
+                g_args = move_slots(g_args, self.slot_info[self.slot].name)
+
+                self.multiworld = self.TMain(g_args, seed)
+                assert len(self.cached_slot_data) == len(self.cached_multiworlds)
+                self.cached_multiworlds.append(self.multiworld)
+                self.cached_slot_data.append(slot_data)
+            else:
+                # skip worlds that we know will regen on connect
+                g_args.game = {
+                    slot: game if game not in REGEN_WORLDS else "Archipelago"
+                    for slot, game in g_args.game.items()
+                    }
+                self.launch_multiworld = self.TMain(g_args, seed)
+                self.multiworld = self.launch_multiworld
+
             temp_precollect = {}
             for player_id, items in self.multiworld.precollected_items.items():
                 temp_items = [item for item in items if item.code == None]
@@ -322,7 +634,12 @@ class TrackerGameContext(CommonContext):
         return multiworld
 
 
-def updateTracker(ctx: TrackerGameContext):
+def load_json(pack, path):
+    import pkgutil
+    import json
+    return json.loads(pkgutil.get_data(pack, path).decode('utf-8-sig'))
+
+def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
     if ctx.tracker_failed:
         return #just return and don't bug the player
     if ctx.player_id is None or ctx.multiworld is None:
@@ -332,7 +649,7 @@ def updateTracker(ctx: TrackerGameContext):
         return
 
     state = CollectionState(ctx.multiworld)
-    state.sweep_for_events(
+    state.sweep_for_advancements(
         locations=(location for location in ctx.multiworld.get_locations() if (not location.address)))
     prog_items = Counter()
     all_items = Counter()
@@ -344,22 +661,24 @@ def updateTracker(ctx: TrackerGameContext):
         try:
             world_item = ctx.multiworld.create_item(item_name, ctx.player_id)
             state.collect(world_item, True)
-            if world_item.classification == ItemClassification.progression or world_item.classification == ItemClassification.progression_skip_balancing:
+            if ItemClassification.progression in world_item.classification:
                 prog_items[world_item.name] += 1
             if world_item.code is not None:
                 all_items[world_item.name] += 1
         except:
             ctx.log_to_tab("Item id " + str(item_name) + " not able to be created", False)
-    state.sweep_for_events(
+    state.sweep_for_advancements(
         locations=(location for location in ctx.multiworld.get_locations() if (not location.address)))
 
     ctx.clear_page()
     regions = []
     locations = []
     for temp_loc in ctx.multiworld.get_reachable_locations(state, ctx.player_id):
-        if temp_loc.address == None or isinstance(temp_loc.address, list):
+        if temp_loc.address == None or isinstance(temp_loc.address, List):
             continue
         elif ctx.hide_excluded and temp_loc.progress_type == LocationProgressType.EXCLUDED:
+            continue
+        elif temp_loc.address in ctx.ignored_locations:
             continue
         try:
             if (temp_loc.address in ctx.missing_locations):
@@ -369,10 +688,13 @@ def updateTracker(ctx: TrackerGameContext):
                     region = ""
                 else:
                     region = temp_loc.parent_region.name
+                temp_name = temp_loc.name
+                if temp_loc.address in ctx.location_alias_map:
+                    temp_name += f" ({ctx.location_alias_map[temp_loc.address]})"
                 if ctx.output_format == "Both":
-                    ctx.log_to_tab(region + " | " + temp_loc.name, True)
+                    ctx.log_to_tab(region + " | " + temp_name, True)
                 elif ctx.output_format == "Location":
-                    ctx.log_to_tab(temp_loc.name, True)
+                    ctx.log_to_tab(temp_name, True)
                 if region not in regions:
                     regions.append(region)
                     if ctx.output_format == "Region":
@@ -382,11 +704,12 @@ def updateTracker(ctx: TrackerGameContext):
         except:
             ctx.log_to_tab("ERROR: location " + temp_loc.name + " broke something, report this to discord")
             pass
-    events = [location.item.name for location in state.events if location.player == ctx.player_id]
+    events = [location.item.name for location in state.advancements if location.player == ctx.player_id]
 
-    ctx.tracker_page.refresh_from_data()
+    if ctx.tracker_page:
+        ctx.tracker_page.refresh_from_data()
     ctx.locations_available = locations
-    if f"_read_hints_{ctx.team}_{ctx.slot}" in ctx.stored_data:
+    if ctx.ui and f"_read_hints_{ctx.team}_{ctx.slot}" in ctx.stored_data:
         ctx.ui.update_hints()
     if ctx.update_callback is not None:
         ctx.update_callback(callback_list)
@@ -394,9 +717,25 @@ def updateTracker(ctx: TrackerGameContext):
         ctx.region_callback(regions)
     if ctx.events_callback is not None:
         ctx.events_callback(events)
+    if len(ctx.ignored_locations) > 0:
+        ctx.log_to_tab(f"{len(ctx.ignored_locations)} ignored locations")
     if len(callback_list) == 0:
         ctx.log_to_tab("All " + str(len(ctx.checked_locations)) + " accessible locations have been checked! Congrats!")
-    return (all_items, prog_items, events)
+    if ctx.tracker_world is not None and ctx.ui is not None:
+        #ctx.load_map()
+        location_id_to_name=AutoWorld.AutoWorldRegister.world_types[ctx.game].location_id_to_name
+        for location in ctx.server_locations:
+            loc_name = location_id_to_name[location]
+            relevent_coords = ctx.coord_dict[loc_name]
+            status = "out_of_logic"
+            if location in ctx.checked_locations or location in ctx.ignored_locations:
+                status = "completed"
+            elif location in ctx.locations_available:
+                status = "in_logic"
+            for coord in relevent_coords:
+                coord.update_status(loc_name,status)
+
+    return CurrentTrackerState(all_items, prog_items, events,state)
 
 
 async def game_watcher(ctx: TrackerGameContext) -> None:
@@ -427,11 +766,11 @@ async def main(args):
     await ctx.shutdown()
 
 
-def launch():
+def launch(*args):
     parser = get_base_parser(description="Gameless Archipelago Client, for text interfacing.")
     parser.add_argument('--name', default=None, help="Slot Name to connect as.")
     parser.add_argument("url", nargs="?", help="Archipelago connection url")
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     if args.url:
         url = urllib.parse.urlparse(args.url)
@@ -442,3 +781,7 @@ def launch():
             args.password = urllib.parse.unquote(url.password)
 
     asyncio.run(main(args))
+
+
+if __name__ == "__main__":
+    launch(*sys.argv[1:])
