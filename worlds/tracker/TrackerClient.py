@@ -608,6 +608,8 @@ class TrackerGameContext(CommonContext):
             logger.error(tb)
 
     def TMain(self, args, seed=None):
+        from test.general import gen_steps
+
         multiworld = MultiWorld(args.multi)
 
         multiworld.generation_is_fake = True
@@ -621,15 +623,13 @@ class TrackerGameContext(CommonContext):
         multiworld.set_options(args)
         multiworld.state = CollectionState(multiworld)
 
-        AutoWorld.call_all(multiworld, "generate_early")
-        AutoWorld.call_all(multiworld, "create_regions")
-        AutoWorld.call_all(multiworld, "create_items")
-        AutoWorld.call_all(multiworld, "set_rules")
-
-        for player in multiworld.player_ids:
-            exclusion_rules(multiworld, player, multiworld.worlds[player].options.exclude_locations.value)
-
-        AutoWorld.call_all(multiworld, "generate_basic")
+        for step in gen_steps:
+            AutoWorld.call_all(multiworld, step)
+            if step == "set_rules":
+                for player in multiworld.player_ids:
+                    exclusion_rules(multiworld, player, multiworld.worlds[player].options.exclude_locations.value)
+            if step == "generate_basic":
+                break
 
         return multiworld
 
