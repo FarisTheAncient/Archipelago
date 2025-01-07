@@ -875,6 +875,8 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
                 status = "completed"
             elif location in ctx.locations_available:
                 status = "in_logic"
+            else:
+                status = "out_of_logic"
             for coord in relevent_coords:
                 coord.update_status(loc_name,status)
     if ctx.quit_after_update:
