@@ -395,7 +395,7 @@ class TrackerGameContext(CommonContext):
                     def __init__(self, *args, **kwargs):
                         super().__init__(*args, **kwargs)
                         logic = TooltipLabel(
-                            sort_key="status",  # is lying to computer and player but fixing it will need core changes
+                            sort_key="name",  # is lying to computer and player but fixing it will need core changes
                             text="", halign='center', valign='center', pos_hint={"center_y": 0.5},
                             )
                         self.add_widget(logic)
@@ -406,14 +406,21 @@ class TrackerGameContext(CommonContext):
 
                     def refresh_view_attrs(self, rv, index, data):
                         super().refresh_view_attrs(rv, index, data)
-                        if data["status"]["hint"]["receiving_player"] == -1:
+                        if data["item"]["text"] == rv.header["item"]["text"]:
                             self.logic_text = "[u]In Logic[/u]"
                             return
                         ctx = ui.get_running_app().ctx
+                        if "status" in data:
+                            loc = data["status"]["hint"]["location"]
+                            from NetUtils import HintStatus
+                            found = data["status"]["hint"]["status"] == HintStatus.HINT_FOUND
+                        else:
+                            prefix = len("[color=00FF7F]")
+                            suffix = len("[/color]")
+                            loc_name = data["location"]["text"][prefix:-1*suffix]
+                            loc = AutoWorld.AutoWorldRegister.world_types[ctx.game].location_name_to_id.get(loc_name)
+                            found = "Not Found" not in data["found"]["text"]
 
-                        loc = data["status"]["hint"]["location"]
-                        from NetUtils import HintStatus
-                        found = data["status"]["hint"]["status"] == HintStatus.HINT_FOUND
                         in_logic = loc in ctx.locations_available
                         self.logic_text = rv.parser.handle_node({
                             "type": "color", "color": "green" if found else
