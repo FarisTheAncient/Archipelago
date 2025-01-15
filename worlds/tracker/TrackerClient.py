@@ -3,6 +3,7 @@ import logging
 import tempfile
 import traceback
 import typing
+import inspect
 from collections.abc import Callable
 from CommonClient import CommonContext, gui_enabled, get_base_parser, server_loop, ClientCommandProcessor
 import os
@@ -36,11 +37,11 @@ if not sys.stdout:  # to make sure sm varia's "i'm working" dots don't break UT 
 
 logger = logging.getLogger("Client")
 
-UT_VERSION = "v0.1.14"
+UT_VERSION = "v0.1.15.1"
 DEBUG = False
 ITEMS_HANDLING = 0b111
-# REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "needs_regen", False)}  # TODO
-REGEN_WORLDS: Set[str] = set()
+REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "ut_can_gen_without_yaml", False)}
+UT_MAP_TAB_KEY = "UT_MAP"
 
 
 class TrackerCommandProcessor(ClientCommandProcessor):
@@ -156,7 +157,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
 
 class TrackerGameContext(CommonContext):
     game = ""
-    httpServer_task: typing.Optional["asyncio.Task[None]"] = None
+    quit_after_update = False
     tags = CommonContext.tags | {"Tracker"}
     command_processor = TrackerCommandProcessor
     tracker_page = None
@@ -178,7 +179,7 @@ class TrackerGameContext(CommonContext):
     ignored_locations: Set[int]
     location_alias_map: Dict[int,str] = {}
 
-    def __init__(self, server_address, password, no_connection: bool = False):
+    def __init__(self, server_address, password, no_connection: bool = False,quit_after_update: bool = False):
         if no_connection:
             from worlds import network_data_package
             self.item_names = self.NameLookupDict(self, "item")
@@ -195,6 +196,7 @@ class TrackerGameContext(CommonContext):
         self.player_id = None
         self.manual_items = []
         self.ignored_locations = set()
+        self.quit_after_update = quit_after_update
 
     def load_pack(self):
         PACK_NAME = self.multiworld.worlds[self.player_id].__class__.__module__
@@ -212,7 +214,10 @@ class TrackerGameContext(CommonContext):
         if not self.ui or self.tracker_world is None:
             return
         if map_id is None:
-            map_id = self.tracker_world.map_page_index(self.stored_data)
+            key = str(self.slot)+"_"+str(self.team)+"_"+(self.tracker_world.map_page_setting_key if self.tracker_world.map_page_setting_key else UT_MAP_TAB_KEY)
+            map_id = self.tracker_world.map_page_index(self.stored_data.get(key,""))
+            if map_id < 0 or map_id >= len(self.maps):
+                return #special case, don't load a new map
         m=None
         if isinstance(map_id,str) and not map_id.isdecimal():
             for map in self.maps:
@@ -390,7 +395,7 @@ class TrackerGameContext(CommonContext):
                     def __init__(self, *args, **kwargs):
                         super().__init__(*args, **kwargs)
                         logic = TooltipLabel(
-                            sort_key="status",  # is lying to computer and player but fixing it will need core changes
+                            sort_key="name",  # is lying to computer and player but fixing it will need core changes
                             text="", halign='center', valign='center', pos_hint={"center_y": 0.5},
                             )
                         self.add_widget(logic)
@@ -401,14 +406,21 @@ class TrackerGameContext(CommonContext):
 
                     def refresh_view_attrs(self, rv, index, data):
                         super().refresh_view_attrs(rv, index, data)
-                        if data["status"]["hint"]["receiving_player"] == -1:
+                        if data["item"]["text"] == rv.header["item"]["text"]:
                             self.logic_text = "[u]In Logic[/u]"
                             return
                         ctx = ui.get_running_app().ctx
+                        if "status" in data:
+                            loc = data["status"]["hint"]["location"]
+                            from NetUtils import HintStatus
+                            found = data["status"]["hint"]["status"] == HintStatus.HINT_FOUND
+                        else:
+                            prefix = len("[color=00FF7F]")
+                            suffix = len("[/color]")
+                            loc_name = data["location"]["text"][prefix:-1*suffix]
+                            loc = AutoWorld.AutoWorldRegister.world_types[ctx.game].location_name_to_id.get(loc_name)
+                            found = "Not Found" not in data["found"]["text"]
 
-                        loc = data["status"]["hint"]["location"]
-                        from NetUtils import HintStatus
-                        found = data["status"]["hint"]["status"] == HintStatus.HINT_FOUND
                         in_logic = loc in ctx.locations_available
                         self.logic_text = rv.parser.handle_node({
                             "type": "color", "color": "green" if found else
@@ -459,53 +471,78 @@ class TrackerGameContext(CommonContext):
             return False
 
     def on_package(self, cmd: str, args: dict):
-        if cmd == 'Connected':
-            if self.launch_multiworld is None:
-                self.log_to_tab("Internal world was not able to be generated, check your yamls and relaunch", False)
-                return
-            self.game = args["slot_info"][str(args["slot"])][1]
-            slot_name = args["slot_info"][str(args["slot"])][0]
-            if slot_name in self.launch_multiworld.world_name_lookup:
-                internal_id = self.launch_multiworld.world_name_lookup[slot_name]
-                if self.launch_multiworld.worlds[internal_id].game == self.game:
-                    self.multiworld = self.launch_multiworld
-                    self.player_id = internal_id
-                    self.regen_slots(self.multiworld.worlds[self.player_id],args["slot_data"])
-                elif self.launch_multiworld.worlds[internal_id].game == "Archipelago":
-                    connected_cls = AutoWorld.AutoWorldRegister.world_types[self.game]
-                    if not self.regen_slots(connected_cls,args["slot_data"]):
-                        raise "TODO: add error - something went very wrong with interpret_slot_data"
-                else:
-                    world_dict = {name: self.launch_multiworld.worlds[slot].game for name, slot in self.launch_multiworld.world_name_lookup.items()}
-                    tb = f"Tried to match game '{args['slot_info'][str(args['slot'])][1]}'" + \
-                         f" to slot name '{args['slot_info'][str(args['slot'])][0]}'" + \
-                         f" with known slots {world_dict}"
-                    self.gen_error = tb
-                    logger.error(tb)
+        try:
+            if cmd == 'Connected':
+                if self.launch_multiworld is None:
+                    self.log_to_tab("Internal world was not able to be generated, check your yamls and relaunch", False)
                     return
-            else:
-                if getattr(AutoWorld.AutoWorldRegister.world_types[self.game], "ut_can_gen_without_yaml", False):
-                    with tempfile.TemporaryDirectory() as tempdir:
-                        self.write_empty_yaml(self.game, slot_name, tempdir)
-                        self.run_generator(None, tempdir)
-                        self.regen_slots(self.multiworld.worlds[self.player_id],args["slot_data"],tempdir)
-                else:
-                    self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
+                self.game = args["slot_info"][str(args["slot"])][1]
+                slot_name = args["slot_info"][str(args["slot"])][0]
+                if getattr(AutoWorld.AutoWorldRegister.world_types[self.game],"disable_ut",False):
+                    self.log_to_tab("World Author has requested UT be disabled on this world, please respect their decision")
                     return
+                if slot_name in self.launch_multiworld.world_name_lookup:
+                    internal_id = self.launch_multiworld.world_name_lookup[slot_name]
+                    if self.launch_multiworld.worlds[internal_id].game == self.game:
+                        self.multiworld = self.launch_multiworld
+                        self.player_id = internal_id
+                        self.regen_slots(self.multiworld.worlds[self.player_id],args["slot_data"])
+                    elif self.launch_multiworld.worlds[internal_id].game == "Archipelago":
+                        connected_cls = AutoWorld.AutoWorldRegister.world_types[self.game]
+                        if not self.regen_slots(connected_cls,args["slot_data"]):
+                            raise "TODO: add error - something went very wrong with interpret_slot_data"
+                    else:
+                        world_dict = {name: self.launch_multiworld.worlds[slot].game for name, slot in self.launch_multiworld.world_name_lookup.items()}
+                        tb = f"Tried to match game '{args['slot_info'][str(args['slot'])][1]}'" + \
+                            f" to slot name '{args['slot_info'][str(args['slot'])][0]}'" + \
+                            f" with known slots {world_dict}"
+                        self.gen_error = tb
+                        logger.error(tb)
+                        return
+                else:
+                    if getattr(AutoWorld.AutoWorldRegister.world_types[self.game], "ut_can_gen_without_yaml", False):
+                        with tempfile.TemporaryDirectory() as tempdir:
+                            self.write_empty_yaml(self.game, slot_name, tempdir)
+                            self.player_id = 1
+                            slot_data = args["slot_data"]
+                            world = None
+                            temp_isd = inspect.getattr_static(AutoWorld.AutoWorldRegister.world_types[self.game], "interpret_slot_data", None)
+                            if isinstance(temp_isd,(staticmethod,classmethod)) and callable(temp_isd):
+                                world = AutoWorld.AutoWorldRegister.world_types[self.game]
+                            else:
+                                self.re_gen_passthrough = {self.game: slot_data}
+                                self.run_generator(args["slot_data"],tempdir)
+                                world = self.multiworld.worlds[self.player_id]
+                            self.regen_slots(world,slot_data,tempdir)
+                    else:
+                        self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
+                        return
 
-            if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
-                self.tracker_world = UTMapTabData(**self.multiworld.worlds[self.player_id].tracker_world)
-                self.load_pack()
-                self.ui.tabs.show_map = True
-            else:
-                self.tracker_world = None
+                if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
+                    self.tracker_world = UTMapTabData(**self.multiworld.worlds[self.player_id].tracker_world)
+                    
+                    key = str(self.slot)+"_"+str(self.team)+"_"+(self.tracker_world.map_page_setting_key if self.tracker_world.map_page_setting_key else UT_MAP_TAB_KEY)
+                    self.set_notify(key)
+                    self.load_pack()
+                    self.ui.tabs.show_map = True
+                else:
+                    self.tracker_world = None
 
-            if hasattr(self.multiworld.worlds[self.player_id],"location_id_to_alias"):
-                self.location_alias_map = self.multiworld.worlds[self.player_id].location_id_to_alias
-            updateTracker(self)
-            self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher")
-        elif cmd == 'RoomUpdate':
-            updateTracker(self)
+                if hasattr(self.multiworld.worlds[self.player_id],"location_id_to_alias"):
+                    self.location_alias_map = self.multiworld.worlds[self.player_id].location_id_to_alias
+                updateTracker(self)
+                self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher")
+            elif cmd == 'RoomUpdate':
+                updateTracker(self)
+            elif cmd == 'SetReply':
+                if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
+                    key = str(self.slot)+"_"+str(self.team)+"_"+(self.tracker_world.map_page_setting_key if self.tracker_world.map_page_setting_key else UT_MAP_TAB_KEY)
+                    if "key" in args and args["key"] == key:
+                        self.load_map(None)
+                        updateTracker(self)
+        except Exception as e:
+            e.args= e.args+("This is likely caused by UT being out of date",)
+            raise e
 
     def write_empty_yaml(self, game, player_name, tempdir):
         path = os.path.join(tempdir, f'{game}_{player_name}.yaml')
@@ -568,9 +605,13 @@ class TrackerGameContext(CommonContext):
                 args.player_files_path = yaml_path
             args.skip_output = True
 
+            if self.quit_after_update:
+                from logging import ERROR
+                args.log_level = ERROR
+
             g_args, seed = GMain(args)
-            if slot_data:
-                if slot_data in self.cached_slot_data:
+            if slot_data or override_yaml_path:
+                if slot_data and slot_data in self.cached_slot_data:
                     print("found cached multiworld!")
                     index = next(i for i, s in enumerate(self.cached_slot_data) if s == slot_data)
                     self.multiworld = self.cached_multiworlds[index]
@@ -616,8 +657,7 @@ class TrackerGameContext(CommonContext):
         if self.re_gen_passthrough is not None:
             multiworld.re_gen_passthrough = self.re_gen_passthrough
 
-        multiworld.set_seed(seed)
-        # multiworld.plando_options = args.plando_options
+        multiworld.set_seed(seed, args.race, str(args.outputname) if args.outputname else None)
         multiworld.game = args.game.copy()
         multiworld.player_name = args.name.copy()
         multiworld.set_options(args)
@@ -726,14 +766,19 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
         location_id_to_name=AutoWorld.AutoWorldRegister.world_types[ctx.game].location_id_to_name
         for location in ctx.server_locations:
             loc_name = location_id_to_name[location]
-            relevent_coords = ctx.coord_dict[loc_name]
-            status = "out_of_logic"
+            relevent_coords = ctx.coord_dict.get(loc_name,[])
             if location in ctx.checked_locations or location in ctx.ignored_locations:
                 status = "completed"
             elif location in ctx.locations_available:
                 status = "in_logic"
+            else:
+                status = "out_of_logic"
             for coord in relevent_coords:
                 coord.update_status(loc_name,status)
+    if ctx.quit_after_update:
+        name = ctx.player_names[ctx.slot]
+        logger.error("Game: " + ctx.game + " | Slot Name : " + name+" | In logic locations : " + str(len(locations)))
+        ctx.exit_event.set()
 
     return CurrentTrackerState(all_items, prog_items, events,state)
 
@@ -751,9 +796,8 @@ async def game_watcher(ctx: TrackerGameContext) -> None:
             tb = traceback.format_exc()
             print(tb)
 
-
 async def main(args):
-    ctx = TrackerGameContext(args.connect, args.password)
+    ctx = TrackerGameContext(args.connect, args.password,quit_after_update=args.count)
     ctx.auth = args.name
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
     ctx.run_generator()
@@ -769,6 +813,8 @@ async def main(args):
 def launch(*args):
     parser = get_base_parser(description="Gameless Archipelago Client, for text interfacing.")
     parser.add_argument('--name', default=None, help="Slot Name to connect as.")
+    if sys.stdout:  # If terminal output exists, offer gui-less mode
+        parser.add_argument('--count', default=False, action='store_true', help="just return a count of in logic checks")
     parser.add_argument("url", nargs="?", help="Archipelago connection url")
     args = parser.parse_args(args)
 
@@ -779,6 +825,9 @@ def launch(*args):
             args.name = urllib.parse.unquote(url.username)
         if url.password:
             args.password = urllib.parse.unquote(url.password)
+    if args.count:
+        from logging import ERROR
+        logger.setLevel(ERROR)
 
     asyncio.run(main(args))
 
