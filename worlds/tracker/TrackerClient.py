@@ -172,7 +172,6 @@ class TrackerGameContext(CommonContext):
     gen_error = None
     output_format = "Both"
     hide_excluded = False
-    tracker_failed = False
     re_gen_passthrough = None
     cached_multiworlds: List[MultiWorld] = []
     cached_slot_data: List[Dict[str, Any]] = []
@@ -257,6 +256,10 @@ class TrackerGameContext(CommonContext):
     def clear_page(self):
         if self.tracker_page is not None:
             self.tracker_page.resetData()
+
+    def set_page(self, line: str):
+        if self.tracker_page is not None:
+            self.tracker_page.data = [{"text": line}]
 
     def log_to_tab(self, line: str, sort: bool = False):
         if self.tracker_page is not None:
@@ -565,6 +568,7 @@ class TrackerGameContext(CommonContext):
             self.manual_items.clear()
             self.ignored_locations.clear()
             self.location_alias_map = {}
+            self.set_page("Connect to a slot to start tracking!")
 
         await super().disconnect(allow_autoreconnect)
 
@@ -787,12 +791,9 @@ def load_json(pack, path):
     return json.loads(pkgutil.get_data(pack, path).decode('utf-8-sig'))
 
 def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
-    if ctx.tracker_failed:
-        return #just return and don't bug the player
     if ctx.player_id is None or ctx.multiworld is None:
         logger.error("Player YAML not installed or Generator failed")
-        ctx.log_to_tab("Check Player YAMLs for error", False)
-        ctx.tracker_failed = True
+        ctx.set_page("Check Player YAMLs for error")
         return
 
     state = CollectionState(ctx.multiworld)
