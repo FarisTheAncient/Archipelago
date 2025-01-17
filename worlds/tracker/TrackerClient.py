@@ -641,6 +641,7 @@ class TrackerGameContext(CommonContext):
                     slot: game if game not in REGEN_WORLDS else "Archipelago"
                     for slot, game in g_args.game.items()
                     }
+                # TODO empty out generic options for slots we moved to "Archipelago"
                 self.launch_multiworld = self.TMain(g_args, seed)
                 self.multiworld = self.launch_multiworld
 
