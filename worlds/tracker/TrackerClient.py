@@ -794,7 +794,7 @@ def load_json(pack, path):
 def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
     if ctx.player_id is None or ctx.multiworld is None:
         logger.error("Player YAML not installed or Generator failed")
-        ctx.set_page("Check Player YAMLs for error")
+        ctx.set_page(f"Check Player YAMLs for error; Tracker {UT_VERSION} for AP version {__version__}")
         return
 
     state = CollectionState(ctx.multiworld)
