@@ -656,7 +656,24 @@ class TrackerGameContext(CommonContext):
             logger.error(tb)
 
     def TMain(self, args, seed=None):
-        from test.general import gen_steps
+        try:
+            from test.general import gen_steps
+            # currently test isn't frozen so we don't have access to this for frozen builds
+        except ModuleNotFoundError:
+            from worlds.AutoWorld import World
+            gen_steps = filter(
+                lambda s: hasattr(World, s),
+                # filter out stages that World doesn't define so we can keep this list bleeding edge
+                (
+                    "generate_early",
+                    "create_regions",
+                    "create_items",
+                    "set_rules",
+                    "connect_entrances",
+                    "generate_basic",
+                    "pre_fill",
+                )
+            )
 
         multiworld = MultiWorld(args.multi)
 
