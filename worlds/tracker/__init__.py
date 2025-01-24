@@ -17,7 +17,7 @@ def launch_client(*args):
 
 
 # TODO remove once we can only keep compat with 0.6.0+
-def launch_client(*args):
+def launch_if_needed(*args):
     import sys
     from .TrackerClient import launch as TCMain
     if not sys.stdout or "--nogui" not in sys.argv:
