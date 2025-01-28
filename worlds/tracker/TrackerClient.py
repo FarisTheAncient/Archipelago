@@ -478,19 +478,20 @@ class TrackerGameContext(CommonContext):
             if cmd == 'Connected':
                 self.game = args["slot_info"][str(args["slot"])][1]
                 slot_name = args["slot_info"][str(args["slot"])][0]
-                if getattr(AutoWorld.AutoWorldRegister.world_types[self.game],"disable_ut",False):
+                connected_cls = AutoWorld.AutoWorldRegister.world_types[self.game]
+                if getattr(connected_cls, "disable_ut", False):
                     self.log_to_tab("World Author has requested UT be disabled on this world, please respect their decision")
                     return
                 # first check if we don't need a yaml
-                if getattr(AutoWorld.AutoWorldRegister.world_types[self.game], "ut_can_gen_without_yaml", False):
+                if getattr(connected_cls, "ut_can_gen_without_yaml", False):
                     with tempfile.TemporaryDirectory() as tempdir:
                         self.write_empty_yaml(self.game, slot_name, tempdir)
                         self.player_id = 1
                         slot_data = args["slot_data"]
                         world = None
-                        temp_isd = inspect.getattr_static(AutoWorld.AutoWorldRegister.world_types[self.game], "interpret_slot_data", None)
+                        temp_isd = inspect.getattr_static(connected_cls, "interpret_slot_data", None)
                         if isinstance(temp_isd,(staticmethod,classmethod)) and callable(temp_isd):
-                            world = AutoWorld.AutoWorldRegister.world_types[self.game]
+                            world = connected_cls
                         else:
                             self.re_gen_passthrough = {self.game: slot_data}
                             self.run_generator(args["slot_data"],tempdir)
@@ -508,7 +509,6 @@ class TrackerGameContext(CommonContext):
                             self.player_id = internal_id
                             self.regen_slots(self.multiworld.worlds[self.player_id],args["slot_data"])
                         elif self.launch_multiworld.worlds[internal_id].game == "Archipelago":
-                            connected_cls = AutoWorld.AutoWorldRegister.world_types[self.game]
                             if not self.regen_slots(connected_cls,args["slot_data"]):
                                 raise "TODO: add error - something went very wrong with interpret_slot_data"
                         else:
@@ -523,8 +523,8 @@ class TrackerGameContext(CommonContext):
                         self.log_to_tab(f"Player's Yaml not in tracker's list. Known players: {list(self.launch_multiworld.world_name_lookup.keys())}", False)
                         return
 
-                if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
-                    self.tracker_world = UTMapTabData(**self.multiworld.worlds[self.player_id].tracker_world)
+                if self.ui is not None and hasattr(connected_cls, "tracker_world"):
+                    self.tracker_world = UTMapTabData(**connected_cls.tracker_world)
                     
                     key = str(self.slot)+"_"+str(self.team)+"_"+(self.tracker_world.map_page_setting_key if self.tracker_world.map_page_setting_key else UT_MAP_TAB_KEY)
                     self.set_notify(key)
@@ -533,14 +533,14 @@ class TrackerGameContext(CommonContext):
                 else:
                     self.tracker_world = None
 
-                if hasattr(self.multiworld.worlds[self.player_id],"location_id_to_alias"):
-                    self.location_alias_map = self.multiworld.worlds[self.player_id].location_id_to_alias
+                if hasattr(connected_cls, "location_id_to_alias"):
+                    self.location_alias_map = connected_cls.location_id_to_alias
                 updateTracker(self)
                 self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher")
             elif cmd == 'RoomUpdate':
                 updateTracker(self)
             elif cmd == 'SetReply':
-                if self.ui is not None and getattr(self.multiworld.worlds[self.player_id], "tracker_world", None):
+                if self.ui is not None and hasattr(AutoWorld.AutoWorldRegister.world_types[self.game], "tracker_world"):
                     key = str(self.slot)+"_"+str(self.team)+"_"+(self.tracker_world.map_page_setting_key if self.tracker_world.map_page_setting_key else UT_MAP_TAB_KEY)
                     if "key" in args and args["key"] == key:
                         self.load_map(None)
