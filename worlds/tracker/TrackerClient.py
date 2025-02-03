@@ -398,7 +398,7 @@ class TrackerGameContext(CommonContext):
                     def __init__(self, *args, **kwargs):
                         super().__init__(*args, **kwargs)
                         logic = TooltipLabel(
-                            sort_key="name",  # is lying to computer and player but fixing it will need core changes
+                            sort_key="finding",  # is lying to computer and player but fixing it will need core changes
                             text="", halign='center', valign='center', pos_hint={"center_y": 0.5},
                             )
                         self.add_widget(logic)
