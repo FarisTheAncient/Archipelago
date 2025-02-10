@@ -103,4 +103,5 @@ class UTMapTabData:
 
 
 icon_paths["ut_ico"] = f"ap:{__name__}/icon.png"
-components.append(Component("Universal Tracker", None, func=launch_client, component_type=Type.CLIENT, icon="ut_ico"))
+components.append(Component("Universal Tracker", None, func=launch_client, component_type=Type.CLIENT, icon="ut_ico",
+                            description="A Generic tracker that uses your AP install to duplicate generation logic"))
