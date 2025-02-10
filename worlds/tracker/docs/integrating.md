@@ -65,6 +65,28 @@ print(get_in_logic(ctx, items=[16777224, 16777227, 16777289], locations=[1677736
 # [16777370, 16777410]
 ```
 
+# Adding a map page
+
+Worlds can define a structure with the following fields in order to inform UT that a poptracker pack has been embeded
+
+```py
+    tracker_world = {
+        "map_page_folder" : <Name of the folder that has all of poptracker files in it>
+        "map_page_maps" : <Relative location(s) of the maps.json file(s), may be a list if more then one file exists>
+        "map_page_locations" : <Relative location(s) of the locations.json file(s), may be a list if more then one file exists>
+        "map_page_setting_key" : <optional tag that informs which data storage key will be watched for auto tabbing>
+        "map_page_index" : <optional function with signature Callable[Any,int] that will control the auto tabbing>
+    }
+```
+
+The contents of maps.json and locations.json are the same as poptracker format with the exception that all logic is derived from UT's internal world, and the location names must match exactly with AP location names
+
+# World flags
+
+UT supports a number of world flags that determine how UT will handle the world, the following is the current list
+
+ * `disable_ut` : This causes UT to ignore the world, to be used only if the world is known to have issues when loaded in UT and fixing it would be more trouble then it's worth (Merged game/existing compatent poptracker etc)
+ * `ut_can_gen_without_yaml` : Tells UT that the game will do a full regen
 
 # Adding In-Logic Callbacks
 
