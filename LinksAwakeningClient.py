@@ -235,7 +235,7 @@ class RAGameboy():
 
     def check_command_response(self, command: str, response: bytes):
         if command == "VERSION":
-            ok = re.match("\d+\.\d+\.\d+", response.decode('ascii')) is not None
+            ok = re.match(r"\d+\.\d+\.\d+", response.decode('ascii')) is not None
         else:
             ok = response.startswith(command.encode())
         if not ok:
@@ -476,9 +476,7 @@ class LinksAwakeningContext(CommonContext):
 
     def run_gui(self) -> None:
         import webbrowser
-        import kvui
-        from kvui import Button, GameManager
-        from kivy.uix.image import Image
+        from kvui import GameManager, ImageButton
 
         class LADXManager(GameManager):
             logging_pairs = [
@@ -491,16 +489,10 @@ class LinksAwakeningContext(CommonContext):
                 b = super().build()
 
                 if self.ctx.magpie_enabled:
-                    button = Button(text="", size=(30, 30), size_hint_x=None,
-                                    on_press=lambda _: webbrowser.open('https://magpietracker.us/?enable_autotracker=1'))
-                    image = Image(size=(16, 16), texture=magpie_logo())
-                    button.add_widget(image)
-
-                    def set_center(_, center):
-                        image.center = center
-                    button.bind(center=set_center)
-
+                    button = ImageButton(texture=magpie_logo(), fit_mode="cover", image_size=(32, 32), size_hint_x=None,
+                                on_press=lambda _: webbrowser.open('https://magpietracker.us/?enable_autotracker=1'))
                     self.connect_layout.add_widget(button)
+
                 return b
 
         self.ui = LADXManager(self)
@@ -560,6 +552,10 @@ class LinksAwakeningContext(CommonContext):
 
         while self.client.auth == None:
             await asyncio.sleep(0.1)
+
+            # Just return if we're closing
+            if self.exit_event.is_set():
+                return
         self.auth = self.client.auth
         await self.send_connect()
 
