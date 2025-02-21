@@ -155,7 +155,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         updateTracker(self.ctx)
         baseLocs = len(self.ctx.locations_available)
         counter = Counter()
-        items_to_check = {item.name for item in self.ctx.multiworld.get_items() if item.game == self.ctx.game and ItemClassification.progression in item.classification} 
+        items_to_check = {item.name for item in self.ctx.multiworld.get_items() if item.player == self.ctx.player_id and item.advancement}
         for item in items_to_check:
             self.ctx.manual_items.append(item)
             updateTracker(self.ctx)
@@ -166,7 +166,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         if not counter:
             logger.info("No item will unlock any checks right now.")
         for (item, count) in counter.most_common():
-            logger.info(f"{item} unlocks {count} checks.")
+            logger.info(f"{item} unlocks {count} check{'s' if count > 1 else ''}.")
         updateTracker(self.ctx)
 
 
