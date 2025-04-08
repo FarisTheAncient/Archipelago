@@ -1,37 +1,32 @@
-from kivy.core.image import ImageLoader, ImageLoaderBase, ImageData
-from kivy.uix.image import AsyncImage
-from typing import List, Union
-import pkgutil
-import io
+from kvui import ImageLoaderPkgutil
+from kivy.core.image import ImageData
 
 
-class ImageLoaderPkgutil(ImageLoaderBase):
-    def load(self, filename: str) -> List[ImageData]:
-        # take off the "ap:" prefix
-        module, path = filename[3:].split("/", 1)
-        data = pkgutil.get_data(module, path)
-        print(filename)
-        return self._bytes_to_data(data)
 
-    def _bytes_to_data(self, data: Union[bytes, bytearray]) -> List[ImageData]:
-        loader=next(loader for loader in ImageLoader.loaders if loader.can_load_memory())
-        return loader.load(loader, io.BytesIO(data))
-    
-class ApAsyncImage(AsyncImage):
-    def is_uri(self, filename: str) -> bool:
-        if filename.startswith("ap:"):
-            return True
-        else:
-            return super().is_uri(filename)
+def load(self, filename: str) -> list[ImageData]:
+    import re
+
+    filename = filename[7:]
+    print(filename)
+    parentPath, childPath = filename.split("zip/", 1)
+    childPath = re.sub(r"^\/*","",childPath)
+    import zipfile
+    with zipfile.ZipFile(parentPath+"zip") as parentSource:
+        with parentSource.open(childPath) as childSource:
+            return self._bytes_to_data(childSource.read())
 
 # grab the default loader method so we can override it but use it as a fallback
-_original_image_loader_load = ImageLoader.load
+_original_image_loader_load = ImageLoaderPkgutil.load
 
 
-def load_override(filename: str, default_load=_original_image_loader_load, **kwargs):
-    if filename.startswith("ap:"):
-        return ImageLoaderPkgutil(filename)
+def load_override(self,filename: str, default_load=_original_image_loader_load, **kwargs):
+    if filename.startswith("ap:zip:"):
+        return load(self,filename)
     else:
-        return default_load(filename, **kwargs)
+        return default_load(self, filename, **kwargs)
 
-ImageLoader.load = load_override
+ImageLoaderPkgutil.load = load_override
+
+
+def SomethingNeatJustToMakePythonHappy():
+    pass

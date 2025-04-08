@@ -1003,6 +1003,12 @@ class HintLayout(MDBoxLayout):
         boxlayout.add_widget(AutocompleteHintInput())
         self.add_widget(boxlayout)
 
+    def fix_heights(self):
+        for child in self.children:
+            fix_func = getattr(child, "fix_heights", None)
+            if fix_func:
+                fix_func()
+
         
 status_names: typing.Dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "Found",
@@ -1018,7 +1024,13 @@ status_colors: typing.Dict[HintStatus, str] = {
     HintStatus.HINT_AVOID: "salmon",
     HintStatus.HINT_PRIORITY: "plum",
 }
-
+status_sort_weights: dict[HintStatus, int] = {
+    HintStatus.HINT_FOUND: 0,
+    HintStatus.HINT_UNSPECIFIED: 1,
+    HintStatus.HINT_NO_PRIORITY: 2,
+    HintStatus.HINT_AVOID: 3,
+    HintStatus.HINT_PRIORITY: 4,
+}
 
 class HintLog(MDRecycleView):
     header = {

@@ -1,4 +1,3 @@
-
 from worlds.LauncherComponents import Component, components, Type, launch_subprocess, icon_paths
 from settings import Group, Bool, UserFolderPath, _world_settings_name_cache
 from typing import Dict, Optional, List, Any, Union, ClassVar, NamedTuple, Callable
@@ -81,10 +80,17 @@ class UTMapTabData:
     map_page_index: Callable[[Any], int]
     """Function that gets called to map the data storage string to the map index"""
 
+    external_pack_key: str
+    """Settings key to get the path reference of the poptracker pack on user's filesystem"""
+
+    poptracker_name_mapping: Dict[str,int]
+    """Mapping from [poptracker name : datapackage location id] """
+
     def __init__(
-            self, map_page_folder: str = "", map_page_maps: Union[List[str], str] = "",
+            self, player_id, team_id,map_page_folder: str = "", map_page_maps: Union[List[str], str] = "",
             map_page_locations: Union[List[str], str] = "", map_page_setting_key: str | None = None,
-            map_page_index: Callable[[Any], int] | None = None, **kwargs):
+            map_page_index: Callable[[Any], int] | None = None, external_pack_key: str = "",
+            poptracker_name_mapping: Dict[str,int] | None = None, **kwargs):
         self.map_page_folder = map_page_folder
         if isinstance(map_page_maps, str):
             self.map_page_maps = [map_page_maps]
@@ -95,13 +101,18 @@ class UTMapTabData:
         else:
             self.map_page_locations = map_page_locations
         self.map_page_setting_key = map_page_setting_key
+        if isinstance(self.map_page_setting_key,str):
+            self.map_page_setting_key = self.map_page_setting_key.format(player=player_id,team=team_id)
         if map_page_index and callable(map_page_index):
             self.map_page_index = map_page_index
         else:
             self.map_page_index = lambda _: 0
-        pass
+        if poptracker_name_mapping:
+            self.poptracker_name_mapping = poptracker_name_mapping
+        else:
+            self.poptracker_name_mapping = {}
+        self.external_pack_key = external_pack_key
 
 
 icon_paths["ut_ico"] = f"ap:{__name__}/icon.png"
-components.append(Component("Universal Tracker", None, func=launch_client, component_type=Type.CLIENT, icon="ut_ico",
-                            description="A Generic tracker that uses your AP install to duplicate generation logic"))
+components.append(Component("Universal Tracker", None, func=launch_client, component_type=Type.CLIENT, icon="ut_ico"))
