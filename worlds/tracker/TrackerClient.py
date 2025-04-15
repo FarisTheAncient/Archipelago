@@ -791,7 +791,8 @@ def get_logical_path(ctx: TrackerGameContext, dest_name: str):
         return
 
     state = updateTracker(ctx).state
-    if state.can_reach_location(dest_name, ctx.player_id):
+    location = ctx.multiworld.get_location(dest_name, ctx.player_id)
+    if location.can_reach(state):
 
         # stolen from core
         from BaseClasses import Region
@@ -811,9 +812,8 @@ def get_logical_path(ctx: TrackerGameContext, dest_name: str):
             pathpairs = zip_longest(pathsiter, pathsiter)
             return list(pathpairs)
 
-        location = ctx.multiworld.get_location(dest_name, ctx.player_id)
         paths = get_path(state=state, region=location.parent_region)
-        for v in paths:
+        for k, v in paths:
             if v:
                 logger.info(v)
 
