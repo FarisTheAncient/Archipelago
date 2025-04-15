@@ -4,7 +4,7 @@ import tempfile
 import traceback
 import inspect
 from collections.abc import Callable
-from CommonClient import CommonContext, gui_enabled, get_base_parser, server_loop, ClientCommandProcessor
+from CommonClient import CommonContext, gui_enabled, get_base_parser, server_loop, ClientCommandProcessor, handle_url_arg
 import os
 import time
 import sys
@@ -12,9 +12,7 @@ from typing import Union, Any, TYPE_CHECKING
 
 
 from BaseClasses import CollectionState, MultiWorld, LocationProgressType, ItemClassification
-from worlds.generic.Rules import exclusion_rules, locality_rules
-from Options import StartInventoryPool
-from settings import get_settings
+from worlds.generic.Rules import exclusion_rules
 from Utils import __version__, output_path, open_filename
 from worlds import AutoWorld
 from worlds.tracker import TrackerWorld, UTMapTabData, CurrentTrackerState
@@ -26,9 +24,6 @@ from Generate import main as GMain, mystery_argparse
 if TYPE_CHECKING:
     from kvui import GameManager
     from argparse import Namespace
-
-# webserver imports
-import urllib.parse
 
 if not sys.stdout:  # to make sure sm varia's "i'm working" dots don't break UT in frozen
     sys.stdout = open(os.devnull, 'w', encoding="utf-8")  # from https://stackoverflow.com/a/6735958
@@ -143,9 +138,10 @@ class TrackerCommandProcessor(ClientCommandProcessor):
 
     @mark_raw
     def _cmd_get_logical_path(self, location_name: str = ""):
+        """Finds a logical expected path to a particular location by name"""
         if not self.ctx.game:
             logger.info("Not yet loaded into a game")
-        get_path(self.ctx, location_name)
+        get_logical_path(self.ctx, location_name)
 
 
 def cmd_load_map(self: TrackerCommandProcessor, map_id: str = "0"):
@@ -241,8 +237,7 @@ class TrackerGameContext(CommonContext):
         if not self.ui or self.tracker_world is None:
             return
         if map_id is None:
-            key = self.tracker_world.map_page_setting_key if self.tracker_world.map_page_setting_key \
-                else (str(self.slot)+"_"+str(self.team)+"_"+UT_MAP_TAB_KEY)
+            key = self.tracker_world.map_page_setting_key or f"{self.slot}_{self.team}_{UT_MAP_TAB_KEY}"
             map_id = self.tracker_world.map_page_index(self.stored_data.get(key, ""))
             if not self.auto_tab or map_id < 0 or map_id >= len(self.maps):
                 return  # special case, don't load a new map
@@ -443,10 +438,7 @@ class TrackerGameContext(CommonContext):
         ui = super().make_gui()  # before the kivy imports so kvui gets loaded first
         from kvui import HintLog, HintLabel, TooltipLabel
         from kivy.properties import StringProperty, NumericProperty, BooleanProperty
-        try:
-            from kvui import ImageLoader  # one of these needs to be loaded
-        except ImportError:
-            from .TrackerKivy import ImageLoader  # use local until ap#3629 gets merged/released
+        from kvui import ImageLoader
 
         class TrackerManager(ui):
             source = StringProperty("")
@@ -581,8 +573,8 @@ class TrackerGameContext(CommonContext):
                         else:
                             world_dict = {name: self.launch_multiworld.worlds[slot].game for name, slot in self.launch_multiworld.world_name_lookup.items()}
                             tb = f"Tried to match game '{args['slot_info'][str(args['slot'])][1]}'" + \
-                                f" to slot name '{args['slot_info'][str(args['slot'])][0]}'" + \
-                                f" with known slots {world_dict}"
+                                 f" to slot name '{args['slot_info'][str(args['slot'])][0]}'" + \
+                                 f" with known slots {world_dict}"
                             self.gen_error = tb
                             logger.error(tb)
                             return
@@ -595,7 +587,7 @@ class TrackerGameContext(CommonContext):
                     self.load_pack()
                     if self.tracker_world:  # don't show the map if loading failed
                         self.ui.tabs.show_map = True
-                        key = self.tracker_world.map_page_setting_key if self.tracker_world.map_page_setting_key else (str(self.slot)+"_"+str(self.team)+"_"+UT_MAP_TAB_KEY)
+                        key = self.tracker_world.map_page_setting_key or f"{self.slot}_{self.team}_{UT_MAP_TAB_KEY}"
                         self.set_notify(key)
                 else:
                     self.tracker_world = None
@@ -614,7 +606,7 @@ class TrackerGameContext(CommonContext):
                 updateTracker(self)
             elif cmd == 'SetReply':
                 if self.ui is not None and hasattr(AutoWorld.AutoWorldRegister.world_types[self.game], "tracker_world"):
-                    key = self.tracker_world.map_page_setting_key if self.tracker_world.map_page_setting_key else (str(self.slot)+"_"+str(self.team)+"_"+UT_MAP_TAB_KEY)
+                    key = self.tracker_world.map_page_setting_key or f"{self.slot}_{self.team}_{UT_MAP_TAB_KEY}"
                     if "key" in args and args["key"] == key:
                         self.load_map(None)
                         updateTracker(self)
@@ -788,7 +780,7 @@ def load_json_zip(pack, path):
             return json.loads(childFile.read().decode('utf-8-sig'))
 
 
-def get_path(ctx: TrackerGameContext, dest_name: str):
+def get_logical_path(ctx: TrackerGameContext, dest_name: str):
     if ctx.player_id is None or ctx.multiworld is None:
         logger.error("Player YAML not installed or Generator failed")
         ctx.set_page(f"Check Player YAMLs for error; Tracker {UT_VERSION} for AP version {__version__}")
@@ -798,20 +790,10 @@ def get_path(ctx: TrackerGameContext, dest_name: str):
         logger.error("Location not found")
         return
 
-    state = CollectionState(ctx.multiworld)
-    state.sweep_for_advancements(
-        locations=(location for location in ctx.multiworld.get_locations(ctx.player_id) if (not location.address)))
-
-    item_id_to_name = ctx.multiworld.worlds[ctx.player_id].item_id_to_name
-    for item_name in [item_id_to_name[item[0]] for item in ctx.items_received] + ctx.manual_items:
-        try:
-            world_item = ctx.multiworld.create_item(item_name, ctx.player_id)
-            state.collect(world_item, True)
-        except Exception:
-            ctx.log_to_tab("Item id " + str(item_name) + " not able to be created", False)
-    state.sweep_for_advancements(
-        locations=(location for location in ctx.multiworld.get_locations(ctx.player_id) if (not location.address)))
+    state = updateTracker(ctx).state
     if state.can_reach_location(dest_name, ctx.player_id):
+
+        # stolen from core
         from BaseClasses import Region
         from typing import Tuple, Iterator
         from itertools import zip_longest
@@ -846,8 +828,6 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
         return
 
     state = CollectionState(ctx.multiworld)
-    state.sweep_for_advancements(
-        locations=(location for location in ctx.multiworld.get_locations(ctx.player_id) if (not location.address)))
     prog_items = Counter()
     all_items = Counter()
 
@@ -858,14 +838,14 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
         try:
             world_item = ctx.multiworld.create_item(item_name, ctx.player_id)
             state.collect(world_item, True)
-            if ItemClassification.progression in world_item.classification:
+            if world_item.advancement:
                 prog_items[world_item.name] += 1
             if world_item.code is not None:
                 all_items[world_item.name] += 1
         except Exception:
             ctx.log_to_tab("Item id " + str(item_name) + " not able to be created", False)
     state.sweep_for_advancements(
-        locations=(location for location in ctx.multiworld.get_locations(ctx.player_id) if (not location.address)))
+        locations=[location for location in ctx.multiworld.get_locations(ctx.player_id) if (not location.address)])
 
     ctx.clear_page()
     regions = []
@@ -981,17 +961,8 @@ def launch(*args):
         parser.add_argument('--count', default=False, action='store_true', help="just return a count of in logic checks")
         parser.add_argument('--list', default=False, action='store_true', help="just return a list of in logic checks")
     parser.add_argument("url", nargs="?", help="Archipelago connection url")
-    args = parser.parse_args(args)
+    args = handle_url_arg(parser.parse_args(args))
 
-    if args.url:
-        address = args.url
-        address = f"ws://{address}" if "://" not in address else address.replace("archipelago://", "ws://")
-        url = urllib.parse.urlparse(address)
-        args.connect = url.netloc
-        if url.username:
-            args.name = urllib.parse.unquote(url.username)
-        if url.password:
-            args.password = urllib.parse.unquote(url.password)
     if args.nogui and (args.count or args.list):
         if not args.name or not args.connect:
             logger.error("You need a valid URL when running in CLI mode")
