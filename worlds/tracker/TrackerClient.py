@@ -203,6 +203,14 @@ class TrackerGameContext(CommonContext):
                             if location in self.locations_info and
                             self.locations_info[location].player == self.slot]
 
+    def scout_checked_locations(self):
+        unknown_locations = [location for location in self.checked_locations
+                             if location not in self.locations_info]
+        if unknown_locations:
+            asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts",
+                                                 "locations": unknown_locations,
+                                                 "create_as_hint": 0}]))
+
     def __init__(self, server_address, password, no_connection: bool = False, print_list: bool = False, print_count: bool = False):
         if no_connection:
             from worlds import network_data_package
@@ -646,13 +654,7 @@ class TrackerGameContext(CommonContext):
                         self.command_processor.commands["list_maps"] = cmd_list_maps
 
                 if self.items_handling != ITEMS_HANDLING:
-                    unknown_locations = [location for location in self.checked_locations
-                                         if location not in self.locations_info]
-                    if len(unknown_locations) > 0:
-                        asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts",
-                                                             "locations": unknown_locations,
-                                                             "create_as_hint": 0}]))
-
+                    self.scout_checked_locations()
 
                 if hasattr(connected_cls, "location_id_to_alias"):
                     self.location_alias_map = connected_cls.location_id_to_alias
@@ -663,12 +665,7 @@ class TrackerGameContext(CommonContext):
                 self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher") #This shouldn't be needed, but technically 
             elif cmd == 'RoomUpdate':
                 if self.items_handling != ITEMS_HANDLING:
-                    unknown_locations = [location for location in self.checked_locations
-                                         if location not in self.locations_info]
-                    if len(unknown_locations) > 0:
-                        asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts",
-                                                             "locations": unknown_locations,
-                                                             "create_as_hint": 0}]))
+                    self.scout_checked_locations()
                 updateTracker(self)
             elif cmd == 'SetReply':
                 print(self.stored_data)
