@@ -677,6 +677,7 @@ class TrackerGameContext(CommonContext):
             elif cmd == 'LocationInfo':
                 if self.items_handling != ITEMS_HANDLING:
                     self.update_tracker_items()
+                    updateTracker(self)
         except Exception as e:
             e.args = e.args+("This is likely a UT error, make sure you have the correct tracker.apworld version and no duplicates",
                              "Then try to reproduce with the debug launcher and post in the Discord channel")
