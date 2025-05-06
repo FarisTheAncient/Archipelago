@@ -18,6 +18,7 @@ from worlds import AutoWorld
 from worlds.tracker import TrackerWorld, UTMapTabData, CurrentTrackerState
 from collections import Counter, defaultdict
 from MultiServer import mark_raw
+from NetUtils import NetworkItem
 
 from Generate import main as GMain, mystery_argparse
 
@@ -188,6 +189,20 @@ class TrackerGameContext(CommonContext):
     cached_slot_data: list[dict[str, Any]] = []
     ignored_locations: set[int]
     location_alias_map: dict[int, str] = {}
+    local_items: list[NetworkItem] = []
+
+    @property
+    def tracker_items_received(self):
+        if self.items_handling == ITEMS_HANDLING:
+            return self.items_received
+        else:
+            return self.items_received + self.local_items
+
+    def update_tracker_items(self):
+        print("update_tracker_items")
+        self.local_items = [self.locations_info[location] for location in self.checked_locations
+                            if location in self.locations_info and
+                            self.locations_info[location].player == self.player_id]
 
     def __init__(self, server_address, password, no_connection: bool = False, print_list: bool = False, print_count: bool = False):
         if no_connection:
@@ -631,6 +646,14 @@ class TrackerGameContext(CommonContext):
                     if "list_maps" not in self.command_processor.commands or not self.command_processor.commands["list_maps"]:
                         self.command_processor.commands["list_maps"] = cmd_list_maps
 
+                if self.items_handling != ITEMS_HANDLING:
+                    unknown_locations = [location for location in self.checked_locations
+                                         if location not in self.locations_info]
+                    if len(unknown_locations) > 0:
+                        asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts",
+                                                             "locations": unknown_locations,
+                                                             "create_as_hint": 0}]))
+
 
                 if hasattr(connected_cls, "location_id_to_alias"):
                     self.location_alias_map = connected_cls.location_id_to_alias
@@ -640,6 +663,13 @@ class TrackerGameContext(CommonContext):
                     asyncio.create_task(wait_for_items(self),name="UT Delay function") #if we don't get new items, delay for a bit first
                 self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher") #This shouldn't be needed, but technically 
             elif cmd == 'RoomUpdate':
+                if self.items_handling != ITEMS_HANDLING:
+                    unknown_locations = [location for location in self.checked_locations
+                                         if location not in self.locations_info]
+                    if len(unknown_locations) > 0:
+                        asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts",
+                                                             "locations": unknown_locations,
+                                                             "create_as_hint": 0}]))
                 updateTracker(self)
             elif cmd == 'SetReply':
                 print(self.stored_data)
@@ -648,6 +678,9 @@ class TrackerGameContext(CommonContext):
                     if "key" in args and args["key"] == key:
                         self.load_map(None)
                         updateTracker(self)
+            elif cmd == 'LocationInfo':
+                if self.items_handling != ITEMS_HANDLING:
+                    self.update_tracker_items()
         except Exception as e:
             e.args = e.args+("This is likely a UT error, make sure you have the correct tracker.apworld version and no duplicates",
                              "Then try to reproduce with the debug launcher and post in the Discord channel")
@@ -872,7 +905,7 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
     callback_list = []
 
     item_id_to_name = ctx.multiworld.worlds[ctx.player_id].item_id_to_name
-    for item_name, item_flags in [(item_id_to_name[item.item],item.flags) for item in ctx.items_received] + [(name,ItemClassification.progression) for name in ctx.manual_items]:
+    for item_name, item_flags in [(item_id_to_name[item.item],item.flags) for item in ctx.tracker_items_received] + [(name,ItemClassification.progression) for name in ctx.manual_items]:
         try:
             world_item = ctx.multiworld.create_item(item_name, ctx.player_id)
             world_item.classification = world_item.classification | item_flags
