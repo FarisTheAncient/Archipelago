@@ -709,6 +709,7 @@ class TrackerGameContext(CommonContext):
             self.ignored_locations.clear()
             self.location_alias_map = {}
             self.set_page("Connect to a slot to start tracking!")
+        self.local_items.clear()
 
         await super().disconnect(allow_autoreconnect)
 
