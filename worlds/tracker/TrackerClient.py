@@ -199,7 +199,6 @@ class TrackerGameContext(CommonContext):
             return self.items_received + self.local_items
 
     def update_tracker_items(self):
-        print("update_tracker_items")
         self.local_items = [self.locations_info[location] for location in self.checked_locations
                             if location in self.locations_info and
                             self.locations_info[location].player == self.player_id]
