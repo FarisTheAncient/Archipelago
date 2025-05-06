@@ -201,7 +201,7 @@ class TrackerGameContext(CommonContext):
     def update_tracker_items(self):
         self.local_items = [self.locations_info[location] for location in self.checked_locations
                             if location in self.locations_info and
-                            self.locations_info[location].player == self.player_id]
+                            self.locations_info[location].player == self.slot]
 
     def __init__(self, server_address, password, no_connection: bool = False, print_list: bool = False, print_count: bool = False):
         if no_connection:
