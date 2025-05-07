@@ -193,10 +193,10 @@ class TrackerGameContext(CommonContext):
 
     @property
     def tracker_items_received(self):
-        if self.items_handling == ITEMS_HANDLING:
-            return self.items_received
-        else:
+        if not (self.items_handling & 0b010):
             return self.items_received + self.local_items
+        else:
+            return self.items_received
 
     def update_tracker_items(self):
         self.local_items = [self.locations_info[location] for location in self.checked_locations
@@ -653,7 +653,7 @@ class TrackerGameContext(CommonContext):
                     if "list_maps" not in self.command_processor.commands or not self.command_processor.commands["list_maps"]:
                         self.command_processor.commands["list_maps"] = cmd_list_maps
 
-                if self.items_handling != ITEMS_HANDLING:
+                if not (self.items_handling & 0b010):
                     self.scout_checked_locations()
 
                 if hasattr(connected_cls, "location_id_to_alias"):
@@ -664,7 +664,7 @@ class TrackerGameContext(CommonContext):
                     asyncio.create_task(wait_for_items(self),name="UT Delay function") #if we don't get new items, delay for a bit first
                 self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher") #This shouldn't be needed, but technically 
             elif cmd == 'RoomUpdate':
-                if self.items_handling != ITEMS_HANDLING:
+                if not (self.items_handling & 0b010):
                     self.scout_checked_locations()
                 updateTracker(self)
             elif cmd == 'SetReply':
@@ -675,7 +675,7 @@ class TrackerGameContext(CommonContext):
                         self.load_map(None)
                         updateTracker(self)
             elif cmd == 'LocationInfo':
-                if self.items_handling != ITEMS_HANDLING:
+                if not (self.items_handling & 0b010):
                     self.update_tracker_items()
                     updateTracker(self)
         except Exception as e:
