@@ -12,12 +12,12 @@ By defining a structure with the following fields, the world informs UT that a p
 from typing import ClassVar
 
     tracker_world: ClassVar = {
-        "map_page_folder" : <Name of the folder that has all of poptracker files in it, not used for external poptracker packs>
-        "map_page_maps" : <Relative location(s) of the maps.json file(s), may be a list if more then one file exists>
-        "map_page_locations" : <Relative location(s) of the locations.json file(s), may be a list if more then one file exists>
+        "map_page_folder" : <Name of the folder inside the apworld that has all of the poptracker files in it, used for internal poptracker packs>
+        "external_pack_key" : <optional string that is the name of the setting string that UT reads in order to find the external pop tracker pack, takes priority over internal packs>
+        "map_page_maps" : <Location(s) of the maps.json file(s) relative to the root folder of the pack, may be a list if more then one file exists>
+        "map_page_locations" : <Location(s) of the locations.json file(s) relative to the root folder of the pack, may be a list if more then one file exists>
         "map_page_setting_key" : <optional tag that informs which data storage key will be watched for auto tabbing>
         "map_page_index" : <optional function that will control the auto tabbing>
-        "external_pack_key" : <optional string that is the name of the setting string that UT reads in order to find the external pop tracker pack>
         "poptracker_name_mapping" : <optional Dict that maps the poptracker pack names to the location id as they exist in the datapackage >
         "location_setting_key" : <Data storage key used to determine where to place the location indicator>
         "location_icon_coords" : <optional function used to convert between the map and the value in data storage into coords>
@@ -31,15 +31,56 @@ The setting key values have two special keys that UT will replace with the corre
 
  *Note*: These are not f string values, these are literal string values on the world side
 
+ The contents of maps.json and locations.json are the same as poptracker format with the exception that all logic is derived from UT's internal world, and the location names must match exactly with AP location names. With the obvious exception that access and visability rules are handled by UT and can be safely ommited.
+
+ ## Internal pack defintion
+
+ For internal packs, simply embedding the poptracker pack into the apworld and defining the folder path from the root module inside of `map_page_folder`
+
+ ```
+Game.apworld
+-game
+--tracker
+---maps
+----maps.json
+---locations
+----locations.json
+--__init__.py
+ ```
+ ```py
+    "map_page_folder":"tracker",
+    "map_page_maps":"maps/maps.json",
+    "map_page_locations":"locations/locations.json",
+```
+
+## External pack definition
+
 for `external_pack_key` you can define the setting like this, this should point to a zipped poptracker pack
 ```py
 from settings import FilePath
 class UTPackPath(FilePath):
     #required = False #You can uncomment this to allow users to not have the poptracker map, if the key is "" then the map tab won't be rendered
     pass
+
+...
+    #inside the settings group definition
+    ut_pack_path : Union[UTPackPath, str] = UTPackPath()
+
 ```
 
-The contents of maps.json and locations.json are the same as poptracker format with the exception that all logic is derived from UT's internal world, and the location names must match exactly with AP location names
+```
+Tracker_Pack.zip
+-maps
+--maps.json
+-locations
+--locations.json
+```
+
+```py
+    "external_pack_key": "ut_pack_path",
+    "map_page_maps":"maps/maps.json",
+    "map_page_locations":"locations/locations.json",
+```
 
 ## Implementing Auto tabbing
 
@@ -65,7 +106,7 @@ To support this, UT allows for worlds to create a mapping dict that will be used
 
 ```py
 
-poptracker_data: dict[str,int] = {
+poptracker_name_mapping: dict[str,int] = {
     #These entries are the lowest TWO section names to allow for generic final names identified by the group name
     "Secret Gathering Place/Holy Cross Chest" : 123456,
 }
