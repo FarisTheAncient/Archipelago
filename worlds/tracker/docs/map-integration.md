@@ -2,7 +2,7 @@
 
 This document describes the requirements to add a map tab to UT. UT uses the [Poptracker](https://github.com/black-sliver/PopTracker/tree/master) specificiations for the content of the map tab.
 
-The intent of UT's map tab is to allow world devs to start making a poptracker pack before logic settles into a more stable configuration, however there's enough benifits to UT's integrated tab that it might be worth adding support even if the world already has a dedicated poptracker pack.
+The intent of UT's map tab is to allow world devs to start making a poptracker pack before logic settles into a more stable configuration, however there's enough benefits to UT's integrated tab that it might be worth adding support even if the world already has a dedicated poptracker pack.
 
 ## The Basics of adding a map page
 
@@ -21,7 +21,6 @@ from typing import ClassVar
         "poptracker_name_mapping" : <optional Dict that maps the poptracker pack names to the location id as they exist in the datapackage >
         "location_setting_key" : <Data storage key used to determine where to place the location indicator>
         "location_icon_coords" : <optional function used to convert between the map and the value in data storage into coords>
-
     }
 ```
 
@@ -54,11 +53,11 @@ def map_page_index(data: Any) -> int:
     return 0
 ```
 
-The function has the task to convert the value retrieved from datastorage and convert that into the index in the maps.json that should be loaded, because of the free-form nature of datastorage it is dificult to have a good general example, as the values will be dependent on what the client has access to
+The function has the task to convert the value retrieved from datastorage and convert that into the index in the maps.json that should be loaded. Because of the free-form nature of datastorage it is difficult to have a good general example, as the values will be dependent on what the client has access to.
 
 ## Mapping values from an existing poptracker to AP Location names
 
-UT's poptracker implementation assumes that the lowest level name for the location (called section in poptracker) matches exactly a location name in AP, while for packs being devoloped for UT this isn't a concern, however for packs that already exist this is an assumption that simply cannot be true.
+UT's poptracker implementation assumes that the lowest level name for the location (called section in poptracker) matches exactly a location name in AP. For packs being developed for UT this isn't a concern, however for packs that already exist this is an assumption that simply might not true.
 
 To support this, UT allows for worlds to create a mapping dict that will be used to convert pop section paths to AP Location names
 
