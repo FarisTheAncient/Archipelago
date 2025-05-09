@@ -75,46 +75,6 @@ print(get_in_logic(ctx, items=[16777224, 16777227, 16777289], locations=[1677736
 # [16777370, 16777410]
 ```
 
-## Adding a map page
-
-Worlds can define a structure with the following fields in order to inform UT that a poptracker pack has been embeded
-
-```py
-from typing import ClassVar
-
-    tracker_world: ClassVar = {
-        "map_page_folder" : <Name of the folder that has all of poptracker files in it, not used for external poptracker packs>
-        "map_page_maps" : <Relative location(s) of the maps.json file(s), may be a list if more then one file exists>
-        "map_page_locations" : <Relative location(s) of the locations.json file(s), may be a list if more then one file exists>
-        "map_page_setting_key" : <optional tag that informs which data storage key will be watched for auto tabbing>
-        "map_page_index" : <optional function with signature Callable[Any,int] that will control the auto tabbing>
-        "external_pack_key" : <optional string that is the name of the setting string that UT reads in order to find the external pop tracker pack>
-        "poptracker_name_mapping" : <optional Dict that maps the poptracker pack names to the location id as they exist in the datapackage >
-    }
-```
-
-You can more easily define the setting key with slot and team values by defining a `__init__` function for your World class and including the following
-```py
-        "map_page_setting_key": "{player}_CURRENT_MAP"
-```
-
-This key has two special values that UT will replace with the correct values in run time (because the struct needs to be a static class var)
-
- * `{player}` : replaced with the external player slot number  
- * `{team}` : replaced with the external team number (almost always going to be 1)  
-
- *Note*: These are not f string values, these are literal string values on the world side
-
-for `external_pack_key` you can define the setting like this, this should point to a zipped poptracker pack
-```py
-from settings import FilePath
-class UTPackPath(FilePath):
-    #required = False #You can uncomment this to allow users to not have the poptracker map, if the key is "" then the map tab won't be rendered
-    pass
-```
-
-The contents of maps.json and locations.json are the same as poptracker format with the exception that all logic is derived from UT's internal world, and the location names must match exactly with AP location names
-
 ## World flags
 
 UT supports a number of world flags that determine how UT will handle the world, the following is the current list
