@@ -280,6 +280,7 @@ class TrackerGameContext(CommonContext):
                         self.multiworld.worlds[self.player_id].settings.update({self.tracker_world.external_pack_key: ""}) #failed to find a pack, prompt next launch
                         self.multiworld.worlds[self.player_id].settings._changed = True
                         self.tracker_world = None
+                        return
                 else:
                     self.tracker_world = None
                     return
