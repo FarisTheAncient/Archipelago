@@ -60,14 +60,16 @@ for `external_pack_key` you can define the setting like this, this should point 
 ```py
 from settings import FilePath
 class UTPackPath(FilePath):
-    #required = False #You can uncomment this to allow users to not have the poptracker map, if the key is "" then the map tab won't be rendered
-    pass
+    required = False #You can comment this to force users to have the poptracker map
 
 ...
     #inside the settings group definition
     ut_pack_path : Union[UTPackPath, str] = UTPackPath()
 
 ```
+
+If the key resolves to "" then the user will be prompted to select the pack, if they fail to select one the map tab won't be rendered.
+If the key resolves to None then the user won't be prompted and the map won't be rendered
 
 ```
 Tracker_Pack.zip

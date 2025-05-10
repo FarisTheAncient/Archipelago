@@ -268,13 +268,17 @@ class TrackerGameContext(CommonContext):
                 packRef = self.multiworld.worlds[self.player_id].settings[self.tracker_world.external_pack_key]
                 if packRef == "":
                     packRef = open_filename("Select Poptracker pack", filetypes=[("Poptracker Pack", [".zip"])])
-                if packRef and is_zipfile(packRef):
-                    self.multiworld.worlds[self.player_id].settings.update({self.tracker_world.external_pack_key: packRef})
-                    self.multiworld.worlds[self.player_id].settings._changed = True
-                    for map_page in self.tracker_world.map_page_maps:
-                        self.maps += load_json_zip(packRef, f"{map_page}")
-                    for loc_page in self.tracker_world.map_page_locations:
-                        self.locs += load_json_zip(packRef, f"{loc_page}")
+                if packRef:
+                    if is_zipfile(packRef):
+                        self.multiworld.worlds[self.player_id].settings.update({self.tracker_world.external_pack_key: packRef})
+                        self.multiworld.worlds[self.player_id].settings._changed = True
+                        for map_page in self.tracker_world.map_page_maps:
+                            self.maps += load_json_zip(packRef, f"{map_page}")
+                        for loc_page in self.tracker_world.map_page_locations:
+                            self.locs += load_json_zip(packRef, f"{loc_page}")
+                    else:
+                        self.multiworld.worlds[self.player_id].settings.update({self.tracker_world.external_pack_key: ""}) #failed to find a pack, prompt next launch
+                        self.multiworld.worlds[self.player_id].settings._changed = True
                 else:
                     self.tracker_world = None
                     return
