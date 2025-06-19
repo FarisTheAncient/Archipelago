@@ -416,7 +416,7 @@ class TrackerGameContext(CommonContext):
 
     def build_gui(self, manager: "GameManager"):
         from kivy.uix.boxlayout import BoxLayout
-        from kvui import MDRecycleView, HoverBehavior
+        from kvui import MDRecycleView, HoverBehavior, MDLabel, MDDivider
         from kivymd.uix.tooltip import MDTooltip
         from kivy.uix.widget import Widget
         from kivy.properties import StringProperty, NumericProperty, BooleanProperty
