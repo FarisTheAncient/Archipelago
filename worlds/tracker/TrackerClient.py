@@ -416,7 +416,7 @@ class TrackerGameContext(CommonContext):
 
     def build_gui(self, manager: "GameManager"):
         from kivy.uix.boxlayout import BoxLayout
-        from kvui import MDTabsItem, MDTabsItemText, MDRecycleView, HoverBehavior, MDLabel, MDDivider
+        from kvui import MDRecycleView, HoverBehavior
         from kivymd.uix.tooltip import MDTooltip
         from kivy.uix.widget import Widget
         from kivy.properties import StringProperty, NumericProperty, BooleanProperty
@@ -596,8 +596,6 @@ class TrackerGameContext(CommonContext):
                 self.ids.location_canvas.add_widget(self.location_icon)
                 return returnDict
 
-        tracker_page = MDTabsItem(MDTabsItemText(text="Tracker Page"))
-        map_page = MDTabsItem(MDTabsItemText(text="Map Page"))
 
         try:
             tracker = TrackerLayout(orientation="vertical")
@@ -623,13 +621,11 @@ class TrackerGameContext(CommonContext):
             tracker.add_widget(tracker_view)
 
             self.tracker_page = tracker_view
-            tracker_page.content = tracker
             self.location_icon = ApLocationIcon()
-            map = VisualTracker()
-            map.location_icon = self.location_icon
-            self.map_page_coords_func = map.load_coords
-            self.map_page = map_page
-            map_page.content = map
+
+            map_content = VisualTracker()
+            map_content.location_icon = self.location_icon
+            self.map_page_coords_func = map_content.load_coords
             if self.gen_error is not None:
                 for line in self.gen_error.split("\n"):
                     self.log_to_tab(line, False)
@@ -638,26 +634,25 @@ class TrackerGameContext(CommonContext):
             self.map_page_coords_func = lambda *args: None
             tb = traceback.format_exc()
             print(tb)
-        manager.tabs.add_widget(tracker_page)
-        manager.tabs.carousel.add_widget(tracker_page.content)
+        manager.add_client_tab("Tracker Page", tracker)
 
         @staticmethod
-        def set_map_tab(self, value, *args, map_page=map_page):
+        def set_map_tab(self, value, *args, map_content=map_content, test=[]):
             if value:
-                self.add_widget(map_page)
-                self.carousel.add_widget(map_page.content)
-                self._set_slides_attributes()
-                self.on_size(self, self.size)
+                test.append(self.add_client_tab("Map Page", map_content))
+                # self.add_widget(map_content)
+                # self.carousel.add_widget(map_content)
+                # self._set_slides_attributes()
+                # self.on_size(self, self.size)
             else:
-                self.remove_tab(map_page)
+                if test:
+                    self.remove_client_tab(test.pop())
 
-        # hopefully there's a better way in the future but I had to add and then remove the tab so it
-        # wouldn't croak trying to set width with no parent carousel
-        manager.tabs.add_widget(map_page)
-        manager.tabs.carousel.add_widget(map_page.content)
-        manager.tabs.apply_property(show_map=BooleanProperty(True))
-        manager.tabs.fbind("show_map",set_map_tab)
-        manager.tabs.show_map = False
+
+        manager.apply_property(show_map=BooleanProperty(True))
+        manager.fbind("show_map",set_map_tab)
+        manager.show_map = False
+
 
     def make_gui(self):
         ui = super().make_gui()  # before the kivy imports so kvui gets loaded first
@@ -829,7 +824,7 @@ class TrackerGameContext(CommonContext):
                     self.tracker_world = UTMapTabData(self.slot, self.team, **connected_cls.tracker_world)
                     self.load_pack()
                     if self.tracker_world:  # don't show the map if loading failed
-                        self.ui.tabs.show_map = True
+                        self.ui.show_map = True
                         if self.tracker_world.map_page_index:
                             key = self.tracker_world.map_page_setting_key or f"{self.slot}_{self.team}_{UT_MAP_TAB_KEY}"
                             self.set_notify(key)
@@ -906,7 +901,7 @@ class TrackerGameContext(CommonContext):
             self.game = ""
             self.re_gen_passthrough = None
             if self.ui:
-                self.ui.tabs.show_map = False
+                self.ui.show_map = False
             if self.tracker_world:
                 if "load_map" in self.command_processor.commands:
                     self.command_processor.commands["load_map"] = None
