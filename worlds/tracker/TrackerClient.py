@@ -745,7 +745,7 @@ class TrackerGameContext(CommonContext):
             await super(TrackerGameContext, self).server_auth(password_requested)
 
         await self.get_username()
-        await self.send_connect()
+        await self.send_connect(game="")
 
     def regen_slots(self, world, slot_data, tempdir: str | None = None) -> bool:
         if callable(getattr(world, "interpret_slot_data", None)):
