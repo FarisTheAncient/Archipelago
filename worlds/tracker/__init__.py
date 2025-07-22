@@ -7,6 +7,15 @@ from collections import Counter
 
 
 def launch_client(*args):
+    from Utils import messagebox, version_tuple
+    if version_tuple < (0, 6, 2):
+        from CommonClient import gui_enabled
+        if gui_enabled:
+            messagebox("Failure", "Running incompatible version of AP; either downgrade UT or upgrade AP", True)
+        else:
+            print("Running incompatible version of AP; either downgrade UT or upgrade AP")
+        return
+
     from worlds.LauncherComponents import launch
     from .TrackerClient import launch as TCMain
     launch(TCMain, name="Universal Tracker client", args=args)
