@@ -63,31 +63,32 @@ def get_ut_color(color: str)->str:
 class TrackerCommandProcessor(ClientCommandProcessor):
     ctx: "TrackerGameContext"
 
-    def _cmd_inventory(self):
+    @mark_raw
+    def _cmd_inventory(self, filter_text: str = ""):
         """Print the list of current items in the inventory"""
         logger.info("Current Inventory:")
         currentState = self.ctx.updateTracker()
         for item, count in sorted(currentState.all_items.items()):
-            logger.info(str(count) + "x: " + item)
+            if filter_text in item:
+                logger.info(str(count) + "x: " + item)
 
     @mark_raw
-    def _cmd_item_count(self, item_name: str = ""):
-        """Print how many times an item was received"""
-        logger.info(f"{item_name} was received {self.ctx.updateTracker().all_items[item_name]} times")
-
-    def _cmd_prog_inventory(self):
-        """Print the list of current items in the inventory"""
+    def _cmd_prog_inventory(self, filter_text: str = ""):
+        """Print the list of current progression items in the inventory"""
         logger.info("Current Inventory:")
         currentState = self.ctx.updateTracker()
         for item, count in sorted(currentState.prog_items.items()):
-            logger.info(str(count) + "x: " + item)
+            if filter_text in item:
+                logger.info(str(count) + "x: " + item)
 
-    def _cmd_event_inventory(self):
-        """Print the list of current items in the inventory"""
+    @mark_raw
+    def _cmd_event_inventory(self, filter_text: str = ""):
+        """Print the list of current event items in the inventory"""
         logger.info("Current Inventory:")
         currentState = self.ctx.updateTracker()
         for event in sorted(currentState.events):
-            logger.info(event)
+            if filter_text in event:
+                logger.info(event)
 
     @mark_raw
     def _cmd_manually_collect(self, item_name: str = ""):
