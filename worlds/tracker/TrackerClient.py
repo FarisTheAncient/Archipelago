@@ -42,24 +42,24 @@ def get_ut_color(color: str)->str:
     from kivy.properties import StringProperty
     class UTTextColor(Widget):
         in_logic: ClassVar[str] = StringProperty("")
-        glitched: ClassVar[str] = StringProperty("") 
-        out_of_logic: ClassVar[str] = StringProperty("") 
-        collected: ClassVar[str] = StringProperty("") 
-        in_logic_glitched: ClassVar[str] = StringProperty("") 
-        out_of_logic_glitched: ClassVar[str] = StringProperty("") 
-        mixed_logic: ClassVar[str] = StringProperty("") 
-        collected_light: ClassVar[str] = StringProperty("") 
-        hinted: ClassVar[str] = StringProperty("") 
-        hinted_in_logic: ClassVar[str] = StringProperty("") 
-        hinted_out_of_logic: ClassVar[str] = StringProperty("") 
-        hinted_glitched: ClassVar[str] = StringProperty("") 
+        glitched: ClassVar[str] = StringProperty("")
+        out_of_logic: ClassVar[str] = StringProperty("")
+        collected: ClassVar[str] = StringProperty("")
+        in_logic_glitched: ClassVar[str] = StringProperty("")
+        out_of_logic_glitched: ClassVar[str] = StringProperty("")
+        mixed_logic: ClassVar[str] = StringProperty("")
+        collected_light: ClassVar[str] = StringProperty("")
+        hinted: ClassVar[str] = StringProperty("")
+        hinted_in_logic: ClassVar[str] = StringProperty("")
+        hinted_out_of_logic: ClassVar[str] = StringProperty("")
+        hinted_glitched: ClassVar[str] = StringProperty("")
         excluded: ClassVar[str] = StringProperty("")
-        unconnected: ClassVar[str] = StringProperty("") 
+        unconnected: ClassVar[str] = StringProperty("")
     if not hasattr(get_ut_color,"utTextColor"):
         get_ut_color.utTextColor = UTTextColor()
     return str(getattr(get_ut_color.utTextColor,color,"DD00FF"))
-    
-    
+
+
 class TrackerCommandProcessor(ClientCommandProcessor):
     ctx: "TrackerGameContext"
 
@@ -89,6 +89,15 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         for event in sorted(currentState.events):
             if filter_text in event:
                 logger.info(event)
+
+    @mark_raw
+    def _cmd_event_locations(self, filter_text: str = ""):
+        """Print the list of current event locations in logic"""
+        logger.info("Event locations in logic:")
+        currentState = self.ctx.updateTracker()
+        for event_location in sorted(currentState.event_locations):
+            if filter_text in event_location:
+                logger.info(event_location)
 
     @mark_raw
     def _cmd_manually_collect(self, item_name: str = ""):
@@ -322,7 +331,7 @@ class TrackerGameContext(CommonContext):
             # ctx.load_map()
             for location in self.server_locations:
                 relevent_coords = self.coord_dict.get(location, [])
-                
+
                 if location in self.checked_locations or location in self.tracker_core.ignored_locations:
                     status = "collected"
                 elif location in self.tracker_core.locations_available:
@@ -536,7 +545,7 @@ class TrackerGameContext(CommonContext):
 
         class TrackerTooltip(ToolTip):
             pass
-    
+
         class TrackerView(MDRecycleView):
             def __init__(self, **kwargs):
                 super().__init__(**kwargs)
@@ -566,14 +575,14 @@ class TrackerGameContext(CommonContext):
                 super().__init__(**kwargs)
                 self._tooltip = TrackerTooltip(text="Test")
                 self._tooltip.markup = True
-            
+
             def on_enter(self):
                 self._tooltip.text = self.get_text()
                 self.display_tooltip()
 
             def on_leave(self):
                 self.animation_tooltip_dismiss()
-            
+
             def transform_to_pop_coords(self,x,y):
                 x2 = (x)
                 y2 = (self.tracker_page.height - y)
@@ -584,7 +593,7 @@ class TrackerGameContext(CommonContext):
                 x5 = x4 + self.width/2
                 y5 = y4 + self.width/2
                 return (x5,y5)
-            
+
             def on_mouse_pos(self, window, pos): #this does nothing, but it's kept here to make adding debug prints easier
                 return super().on_mouse_pos(window, pos)
 
@@ -593,7 +602,7 @@ class TrackerGameContext(CommonContext):
                     return self.border_point
                 else:
                     return self.tracker_page.to_window(x,y)
-            
+
             def to_widget(self, x, y):
                 return self.transform_to_pop_coords(*self.tracker_page.to_widget(x,y))
 
@@ -601,7 +610,7 @@ class TrackerGameContext(CommonContext):
                 if location in self.locationDict:
                     if self.locationDict[location] != status:
                         self.locationDict[location] = status
-            
+
             def get_text(self):
                 ctx = manager.get_running_app().ctx
                 location_id_to_name = AutoWorld.AutoWorldRegister.world_types[ctx.game].location_id_to_name
@@ -610,12 +619,12 @@ class TrackerGameContext(CommonContext):
                     color = get_ut_color("collected_light")
                     if status in ["in_logic","out_of_logic","glitched","hinted_in_logic","hinted_out_of_logic","hinted_glitched"]:
                         color = get_ut_color(status)
-                    sReturn.append(f"{location_id_to_name[loc]} : [color={color}]{status}[/color]") 
+                    sReturn.append(f"{location_id_to_name[loc]} : [color={color}]{status}[/color]")
                 return "\n".join(sReturn)
 
             def update_color(self, locationDict):
                 return
-            
+
         class APLocationMixed(ApLocation):
             from kivy.properties import ColorProperty
             color = ColorProperty("#"+get_ut_color("error"))
@@ -917,7 +926,7 @@ class TrackerGameContext(CommonContext):
                     self.updateTracker()
                 else:
                     asyncio.create_task(wait_for_items(self),name="UT Delay function") #if we don't get new items, delay for a bit first
-                self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher") #This shouldn't be needed, but technically 
+                self.watcher_task = asyncio.create_task(game_watcher(self), name="GameWatcher") #This shouldn't be needed, but technically
             elif cmd == 'RoomUpdate':
                 if not (self.items_handling & 0b010):
                     self.scout_checked_locations()
@@ -949,7 +958,7 @@ class TrackerGameContext(CommonContext):
                              "Then try to reproduce with the debug launcher and post in the Discord channel")
             self.disconnected_intentionally = True
             raise e
-        
+
     def update_location_icon_coords(self):
         icon_key = self.tracker_world.location_setting_key
         temp_ret = self.tracker_world.location_icon_coords(self.map_id,self.stored_data.get(icon_key, ""))
@@ -1026,7 +1035,7 @@ def get_logical_path(ctx: TrackerGameContext, dest_name: str):
     current_world = ctx.tracker_core.get_current_world()
     assert current_world
     if dest_name in current_world.location_name_to_id:
-        
+
         dest_id = current_world.location_name_to_id[dest_name]
         if dest_id not in ctx.server_locations:
             logger.error("Location not found")

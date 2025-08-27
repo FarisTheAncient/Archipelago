@@ -27,6 +27,7 @@ class CurrentTrackerState(NamedTuple):
     prog_items: Counter
     glitched_locations: list[str]
     events: list[str]
+    event_locations: list[str]
     in_logic_locations: list[str]
     in_logic_regions: list[str]
     unconnected_entrances: list[Entrance]
@@ -36,7 +37,7 @@ class CurrentTrackerState(NamedTuple):
 
     @staticmethod
     def init_empty_state() -> "CurrentTrackerState":
-        return CurrentTrackerState(Counter(),Counter(),[],[],[],[],[],[],[],None)
+        return CurrentTrackerState(Counter(),Counter(),[],[],[],[],[],[],[],[],None)
 
 class DeferredEntranceMode(Enum):
     forced = "on"
@@ -55,7 +56,7 @@ class TrackerSettings(Group):
 
     class HideExcluded(Bool):
         """Have the UT tab ignore excluded locations"""
-    
+
     class UseSplitMapIcons(Bool):
         """Use split icons rather then mixed for the UT map tab"""
 
