@@ -522,7 +522,7 @@ class TrackerGameContext(CommonContext):
             for loc_page in self.tracker_world.map_page_locations:
                 self.locs += load_json(PACK_NAME, f"/{self.tracker_world.map_page_folder}/{loc_page}")
             for layout_page in self.tracker_world.map_page_layouts:
-                self.layouts += load_json(PACK_NAME, f"/{self.tracker_world.map_page_folder}/{layout_page}")
+                self.layouts.append(load_json(PACK_NAME, f"/{self.tracker_world.map_page_folder}/{layout_page}"))
         self.parse_layouts()
         self.load_map(None)
 
