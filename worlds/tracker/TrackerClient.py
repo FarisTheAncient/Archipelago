@@ -431,8 +431,11 @@ class TrackerGameContext(CommonContext):
         if "type" in node and node["type"] == "map":
             maps = node["maps"]
             if curr_path is not None:
-                for m in maps:
-                    self.map_to_name[m] = curr_path
+                if len(maps) == 1:
+                    self.map_to_name[maps[0]] = curr_path
+                else:
+                    for m in maps:
+                        self.map_to_name[m] = f"{curr_path}/{m}"
         elif "content" in node:
             if isinstance(node["content"], list):
                 for item in node["content"]:
@@ -460,9 +463,26 @@ class TrackerGameContext(CommonContext):
 
         return (name, maps) if name is not None else maps
 
-    def parse_layouts(self):
-        all_layouts = []
+    def parse_map_group_node_names(self, node, curr_path):
+        if isinstance(node, str):
+            self.map_to_name[node] = curr_path
+        else:
+            name = node[0]
+            curr_path = name if curr_path is None else f"{curr_path}/{name}"
+            if isinstance(node[1], list):
+                for x in node[1]:
+                    self.parse_map_group_node_names(x, curr_path)
+            else:
+                self.parse_map_group_node_names(node[1], curr_path)
+
+    def parse_map_groups(self):
         self.map_to_name = {}
+        if self.tracker_world.map_page_groups is not None:
+            self.map_groups = self.tracker_world.map_page_groups
+            for x in self.map_groups:
+                self.parse_map_group_node_names(x, None)
+            return
+        all_layouts = []
         for layout in self.layouts:
             maps = []
             for key, node in layout.items():
@@ -523,7 +543,7 @@ class TrackerGameContext(CommonContext):
                 self.locs += load_json(PACK_NAME, f"/{self.tracker_world.map_page_folder}/{loc_page}")
             for layout_page in self.tracker_world.map_page_layouts:
                 self.layouts.append(load_json(PACK_NAME, f"/{self.tracker_world.map_page_folder}/{layout_page}"))
-        self.parse_layouts()
+        self.parse_map_groups()
         self.load_map(None)
 
     def load_map(self, map_id: Union[int, str, None]):
@@ -1096,11 +1116,18 @@ class TrackerGameContext(CommonContext):
             def create_dropdown_menu_items(self, menu: MDDropdownMenu, groups: list[tuple[str, list]]):
                 menu_items = []
                 for group in groups:
-                    if isinstance(group[1], list) and len(group[1]) == 1 and isinstance(group[1][0], str):
-                       trailing_icon = ""
+                    if isinstance(group, str):
+                        name = group
+                        x = group
+                        trailing_icon = ""
                     else:
-                       trailing_icon = "menu-right"
-                    menu_items.append({"text": group[0], "trailing_icon": trailing_icon, "on_release": lambda menu=menu, x=group[1]: self.map_dropdown_callback(menu, x)})
+                        name = group[0]
+                        x = group[1]
+                        if isinstance(x, list) and len(x) == 1 and isinstance(x[0], str) or isinstance(x, str):
+                           trailing_icon = ""
+                        else:
+                           trailing_icon = "menu-right"
+                    menu_items.append({"text": name, "trailing_icon": trailing_icon, "on_release": lambda menu=menu, x=x: self.map_dropdown_callback(menu, x)})
                 return menu_items
 
             def open_map_dropdown(self, item):

@@ -108,7 +108,10 @@ class UTMapTabData:
     """The relative paths within the map_page_folder of the location.json"""
 
     map_page_layouts: list[str]
-    """The relative paths within the map_page_folder of the layout.json"""
+    """The relative paths within the map_page_folder of the layout.json. Mutually exclusive with map_page_groups"""
+
+    map_page_groups: list[tuple[str, list]]
+    """Map page groups. Mutually exclusive with map_page_layouts"""
 
     map_page_setting_key: str
     """Data storage key used to determine which page should be loaded"""
@@ -134,6 +137,7 @@ class UTMapTabData:
     def __init__(
             self, player_id, team_id, map_page_folder: str = "", map_page_maps: list[str] | str = "",
             map_page_locations: list[str] | str = "", map_page_layouts: list[str] | str | None = None,
+            map_page_groups: list[tuple[str, list]] | None  = None,
             map_page_setting_key: str | None = None, map_page_index: Callable[[Any], int] | None = None,
             external_pack_key: str = "", poptracker_name_mapping: dict[str, int] | None = None,
             location_setting_key: str|None = None,
@@ -154,6 +158,7 @@ class UTMapTabData:
             self.map_page_layouts = map_page_layouts
         else:
             self.map_page_layouts = []
+        self.map_page_groups = map_page_groups
         self.map_page_setting_key = map_page_setting_key
         if isinstance(self.map_page_setting_key, str):
             self.map_page_setting_key = self.map_page_setting_key.format(player=player_id, team=team_id)
