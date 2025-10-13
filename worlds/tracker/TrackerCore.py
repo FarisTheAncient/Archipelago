@@ -378,6 +378,7 @@ class TrackerCore():
                 self.log_to_tab("ERROR: location " + temp_loc.name + " broke something, report this to discord")
                 pass
         events = [location.item.name for location in state.advancements if location.player == self.player_id]
+        event_locations = [location.name for location in state.advancements if location.player == self.player_id]
 
         unconnected_entrances = [entrance for region in state.reachable_regions[self.player_id] for entrance in region.exits if entrance.can_reach(state) and entrance.connected_region is None]
 
@@ -439,7 +440,7 @@ class TrackerCore():
                         pass
         self.glitched_locations = glitches_locations
 
-        return CurrentTrackerState(all_items, prog_items, glitches_locations, events, callback_list, regions, unconnected_entrances, readable_locations, hinted_locations, state)
+        return CurrentTrackerState(all_items, prog_items, glitches_locations, events, event_locations, callback_list, regions, unconnected_entrances, readable_locations, hinted_locations, state)
     
     def write_empty_yaml(self, game, player_name, tempdir):
         import json

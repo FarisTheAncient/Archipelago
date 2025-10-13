@@ -91,6 +91,15 @@ class TrackerCommandProcessor(ClientCommandProcessor):
                 logger.info(event)
 
     @mark_raw
+    def _cmd_event_locations(self, filter_text: str = ""):
+        """Print the list of current event locations in logic"""
+        logger.info("Event locations in logic:")
+        currentState = self.ctx.updateTracker()
+        for event_location in sorted(currentState.event_locations):
+            if filter_text in event_location:
+                logger.info(event_location)
+
+    @mark_raw
     def _cmd_manually_collect(self, item_name: str = ""):
         """Manually adds an item name to the CollectionState to test"""
         self.ctx.tracker_core.manual_items.append(item_name)
