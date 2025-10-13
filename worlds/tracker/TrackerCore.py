@@ -77,7 +77,7 @@ class TrackerCore():
     
     def set_get_ut_color(self,get_ut_color:Optional[Callable[[str],str]]):
         self._get_ut_color = get_ut_color
-    
+
     def get_current_world(self):
         if self.player_id and self.multiworld:
             return self.multiworld.worlds[self.player_id]
@@ -86,7 +86,7 @@ class TrackerCore():
     def set_page(self, line: str):
         if self._set_page:
             self._set_page(line)
-
+    
     def set_missing_locations(self,missing_locations:set[int]):
         self.missing_locations = missing_locations
 
@@ -99,7 +99,7 @@ class TrackerCore():
     def log_to_tab(self,line: str, sort: bool = False):
         if self._log_to_tab:
             self._log_to_tab(line,sort)
-
+    
     def clear_page(self):
         if self._clear_page:
             self._clear_page()
@@ -338,7 +338,7 @@ class TrackerCore():
                 if (temp_loc.address in self.missing_locations):
                     # logger.info("YES rechable (" + temp_loc.name + ")")
                     region = ""
-                    if temp_loc.parent_region is not None: 
+                    if temp_loc.parent_region is not None:
                         region = temp_loc.parent_region.name
                     temp_name = temp_loc.name
                     if temp_loc.address in self.location_alias_map:
@@ -400,7 +400,7 @@ class TrackerCore():
                         if (temp_loc.address in self.missing_locations):
                             glitches_locations.append(temp_loc.name)
                             region = ""
-                            if temp_loc.parent_region is not None:
+                            if temp_loc.parent_region is not None:  
                                 region = temp_loc.parent_region.name
                             temp_name = temp_loc.name
                             if temp_loc.address in self.location_alias_map:

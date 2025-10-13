@@ -56,7 +56,7 @@ class TrackerSettings(Group):
 
     class HideExcluded(Bool):
         """Have the UT tab ignore excluded locations"""
-
+    
     class UseSplitMapIcons(Bool):
         """Use split icons rather then mixed for the UT map tab"""
 
