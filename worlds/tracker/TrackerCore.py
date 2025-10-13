@@ -19,7 +19,7 @@ from typing import Optional,Callable
 from NetUtils import NetworkItem
 
 
-
+    
 REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "ut_can_gen_without_yaml", False)}
 
 class TrackerCore():
@@ -68,21 +68,21 @@ class TrackerCore():
 
     def set_set_page(self,set_page:Optional[Callable[[str],None]]):
         self._set_page = set_page
-
+    
     def set_log_to_tab(self,log_to_tab:Optional[Callable[[str,bool],None]]):
         self._log_to_tab = log_to_tab
-
+    
     def set_clear_page(self, clear_page:Optional[Callable[[],None]]):
         self._clear_page = clear_page
-
+    
     def set_get_ut_color(self,get_ut_color:Optional[Callable[[str],str]]):
         self._get_ut_color = get_ut_color
-
+    
     def get_current_world(self):
         if self.player_id and self.multiworld:
             return self.multiworld.worlds[self.player_id]
         return None
-
+    
     def set_page(self, line: str):
         if self._set_page:
             self._set_page(line)
@@ -92,10 +92,10 @@ class TrackerCore():
 
     def set_items_received(self, items_received:list[NetworkItem]):
         self.tracker_items_received = items_received
-
+    
     def set_hints(self,hints:list[int]):
         self.hints = hints
-
+    
     def log_to_tab(self,line: str, sort: bool = False):
         if self._log_to_tab:
             self._log_to_tab(line,sort)
@@ -115,7 +115,7 @@ class TrackerCore():
         self.slot = slot
         self.slot_name = slot_name
         self.team = team
-
+    
     def set_stored_data(self,stored_data:dict[str, Any]):
         if stored_data:
             self.stored_data = stored_data
@@ -134,7 +134,7 @@ class TrackerCore():
             return True
         else:
             return False
-
+        
     def _set_host_settings(self):
         from . import TrackerWorld
         tracker_settings = TrackerWorld.settings
@@ -148,7 +148,7 @@ class TrackerCore():
             report_type = "Region"
         return tracker_settings['player_files_path'], report_type, tracker_settings[
             'hide_excluded_locations'], tracker_settings["use_split_map_icons"]
-
+    
     def run_generator(self, slot_data: dict | None = None, override_yaml_path: str | None = None, super_override_yaml_path: str|None = None):
         def move_slots(args: "Namespace", slot_name: str):
             """
@@ -282,7 +282,7 @@ class TrackerCore():
                 break
 
         return multiworld
-
+    
     def updateTracker(self) -> CurrentTrackerState:
         if self.player_id is None or self.multiworld is None:
             self.logger.error("Player YAML not installed or Generator failed")
@@ -338,7 +338,7 @@ class TrackerCore():
                 if (temp_loc.address in self.missing_locations):
                     # logger.info("YES rechable (" + temp_loc.name + ")")
                     region = ""
-                    if temp_loc.parent_region is not None:
+                    if temp_loc.parent_region is not None: 
                         region = temp_loc.parent_region.name
                     temp_name = temp_loc.name
                     if temp_loc.address in self.location_alias_map:
@@ -434,7 +434,7 @@ class TrackerCore():
         self.glitched_locations = glitches_locations
 
         return CurrentTrackerState(all_items, prog_items, glitches_locations, events, event_locations, callback_list, regions, unconnected_entrances, readable_locations, hinted_locations, state)
-
+    
     def write_empty_yaml(self, game, player_name, tempdir):
         import json
         import os
