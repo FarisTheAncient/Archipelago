@@ -1,6 +1,6 @@
 # Tracker Prerequisites
 
-1) Have Archipelago installed with the generator enabled
+1) Have Archipelago installed with the generator enabled (minimum Archipelago version 0.6.2)
 2) Have the relevant player .yaml files in the Players folder in the AP install directory
 
 # Install
@@ -37,3 +37,4 @@ in either case, if you ping Faris with the yaml in the Universal Tracker channel
 * `include_location_name` : Chooses if the tracker output will include the location name... this is likely less useful for users, but can be useful for devs trying to debug logic issues, and it will display the regions you can access regardless of location logic
 * `hide_excluded_locations` : Chooses if the tracker output will include excluded locations, usually not an issue but for some games/yaml settings the number of excluded locations can be considerable so this reduces visual clutter
 * `enforce_deferred_entrances` : Determines how worlds should use the deferred entrances feature, valid values are ["on":Force deferred entrances to be used if available, "default":let the world decide if/when to use them, "off":force deferred entrances to not be used]
+
