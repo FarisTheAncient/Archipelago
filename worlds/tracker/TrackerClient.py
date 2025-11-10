@@ -81,13 +81,14 @@ class TrackerCommandProcessor(ClientCommandProcessor):
             if filter_text in item:
                 logger.info(str(count) + "x: " + item)
 
-    @mark_raw
-    def _cmd_locations_in_logic(self, filter_text: str = ""):
-        """Print the list of locations currently accessible in logic"""
-        currentState = self.ctx.updateTracker()
-        for location in sorted(currentState.in_logic_locations):
-            if filter_text in location:
-                logger.info(location)
+    if not gui_enabled:
+        @mark_raw
+        def _cmd_locations_in_logic(self, filter_text: str = ""):
+            """Print the list of locations currently accessible in logic"""
+            currentState = self.ctx.updateTracker()
+            for location in sorted(currentState.in_logic_locations):
+                if filter_text in location:
+                    logger.info(location)
 
     @mark_raw
     def _cmd_event_inventory(self, filter_text: str = ""):
