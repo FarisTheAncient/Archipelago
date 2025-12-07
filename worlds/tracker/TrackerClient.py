@@ -1293,7 +1293,7 @@ class TrackerGameContext(CommonContext):
                     self.scout_checked_locations()
                 self.updateTracker()
             elif cmd == 'SetReply' or cmd == 'Retrieved':
-                if self.ui is not None and hasattr(AutoWorld.AutoWorldRegister.world_types.get(self.game), "tracker_world") and self.tracker_world:
+                if self.ui is not None and self.tracker_world:
                     key = self.tracker_world.map_page_setting_key or f"{self.slot}_{self.team}_{UT_MAP_TAB_KEY}"
                     icon_key = self.tracker_world.location_setting_key
                     if "key" in args:
