@@ -1300,7 +1300,7 @@ class TrackerGameContext(CommonContext):
                         if args["key"] == key:
                             self.load_map(None)
                             self.updateTracker()
-                        elif args["key"] == icon_key:
+                        if args["key"] == icon_key:
                             self.update_location_icon_coords()
                     elif "keys" in args:
                         if icon_key in args["keys"]:
