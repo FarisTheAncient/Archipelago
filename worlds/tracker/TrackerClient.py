@@ -660,6 +660,8 @@ class TrackerGameContext(CommonContext):
         self.ui.loc_border = m["location_border_thickness"] if "location_border_thickness" in m else 8  # default location size per poptracker/src/core/map.h
         temp_locs = [location for location in self.locs]
         map_locs = []
+        hidden_locations = getattr(self.tracker_core.get_current_world(), "ut_map_page_hidden_locations", {})
+        current_hidden_locs = hidden_locations.get(m["name"], [])
         while temp_locs:
             temp_loc = temp_locs.pop()
             if "map_locations" in temp_loc:
@@ -671,30 +673,37 @@ class TrackerGameContext(CommonContext):
         coords = {
             (map_loc["x"], map_loc["y"]):
                 [location_name_to_id[section["name"]] for section in location["sections"]
-                 if "name" in section and section["name"] in location_name_to_id
-                 and location_name_to_id[section["name"]] in self.server_locations]
-
+                 if "name" in section
+                 and section["name"] in location_name_to_id
+                 and location_name_to_id[section["name"]] in self.server_locations
+                 and not location_name_to_id[section["name"]] in current_hidden_locs]
             for location in map_locs
             for map_loc in location["map_locations"]
             if map_loc["map"] == m["name"] and any(
-                "name" in section and section["name"] in location_name_to_id
-                and location_name_to_id[section["name"]] in self.server_locations for section in location["sections"]
-                )
+                "name" in section
+                and section["name"] in location_name_to_id
+                and location_name_to_id[section["name"]] in self.server_locations
+                and not location_name_to_id[section["name"]] in current_hidden_locs
+                for section in location["sections"]
+            )
         }
         poptracker_name_mapping = self.tracker_world.poptracker_name_mapping
         if poptracker_name_mapping:
             tempCoords = {  # compat coords
                 (map_loc["x"], map_loc["y"]):
                     [poptracker_name_mapping[f'{location["name"]}/{section["name"]}']
-                    for section in location["sections"] if "name" in section
-                    and f'{location["name"]}/{section["name"]}' in poptracker_name_mapping
-                    and poptracker_name_mapping[f'{location["name"]}/{section["name"]}'] in self.server_locations]
+                     for section in location["sections"] if "name" in section
+                     and f'{location["name"]}/{section["name"]}' in poptracker_name_mapping
+                     and poptracker_name_mapping[f'{location["name"]}/{section["name"]}'] in self.server_locations
+                     and poptracker_name_mapping[f'{location["name"]}/{section["name"]}'] not in current_hidden_locs]
                 for location in map_locs
                 for map_loc in location["map_locations"]
                 if map_loc["map"] == m["name"]
-                and any("name" in section and f'{location["name"]}/{section["name"]}' in poptracker_name_mapping
-                        and poptracker_name_mapping[f'{location["name"]}/{section["name"]}'] in self.server_locations
-                        for section in location["sections"])
+                   and any("name" in section and f'{location["name"]}/{section["name"]}' in poptracker_name_mapping
+                           and poptracker_name_mapping[f'{location["name"]}/{section["name"]}'] in self.server_locations
+                           and poptracker_name_mapping[
+                               f'{location["name"]}/{section["name"]}'] not in current_hidden_locs
+                           for section in location["sections"])
             }
             for maploc, seclist in tempCoords.items():
                 if maploc in coords:
@@ -702,24 +711,35 @@ class TrackerGameContext(CommonContext):
                 else:
                     coords[maploc] = seclist
         entrance_cache = list(self.tracker_core.multiworld.regions.entrance_cache[self.tracker_core.player_id].keys())
+        hidden_entrances = getattr(self.tracker_core.get_current_world(), "ut_map_page_hidden_entrances", {})
+        current_hidden_entrances = hidden_entrances.get(m["name"], [])
         dcoords = {
-            (map_loc["x"],map_loc["y"]):[section["name"] for section in location["sections"]
-                if "name" in section and section["name"] in entrance_cache ]
+            (map_loc["x"], map_loc["y"]): [section["name"] for section in location["sections"]
+                                           if "name" in section and section["name"] in entrance_cache
+                                           and section["name"] not in current_hidden_entrances]
             for location in map_locs
             for map_loc in location["map_locations"]
             if map_loc["map"] == m["name"] and any(
-                "name" in section and section["name"] in entrance_cache for section in location["sections"]
+                "name" in section and section["name"] in entrance_cache
+                and section["name"] not in current_hidden_entrances for section in location["sections"]
             )
         }
         poptracker_entrance_mapping = self.tracker_world.poptracker_entrance_mapping
         if poptracker_entrance_mapping:
             tempCoords = {
-                (map_loc["x"],map_loc["y"]):[poptracker_entrance_mapping[section["name"]] for section in location["sections"]
-                    if "name" in section and  section["name"] in poptracker_entrance_mapping and poptracker_entrance_mapping[section["name"]] in entrance_cache]
+                (map_loc["x"], map_loc["y"]): [poptracker_entrance_mapping[section["name"]] for section in
+                                               location["sections"]
+                                               if "name" in section and section["name"] in poptracker_entrance_mapping
+                                               and poptracker_entrance_mapping[section["name"]] in entrance_cache
+                                               and poptracker_entrance_mapping[
+                                                   section["name"]] not in current_hidden_entrances]
                 for location in map_locs
                 for map_loc in location["map_locations"]
                 if map_loc["map"] == m["name"] and any(
-                    "name" in section and  section["name"] in poptracker_entrance_mapping and poptracker_entrance_mapping[section["name"]] in entrance_cache for section in location["sections"]
+                    "name" in section and section["name"] in poptracker_entrance_mapping
+                    and poptracker_entrance_mapping[section["name"]] in entrance_cache
+                    and poptracker_entrance_mapping[section["name"]] not in current_hidden_entrances for section in
+                    location["sections"]
                 )
             }
             for maploc, seclist in tempCoords.items():
@@ -727,27 +747,33 @@ class TrackerGameContext(CommonContext):
                     dcoords[maploc] += seclist
                 else:
                     dcoords[maploc] = seclist
-        event_loc_cache = [loc.name for loc in self.tracker_core.get_current_world().get_locations() if loc.address is None and loc.parent_region is not None]
+        event_loc_cache = [loc.name for loc in self.tracker_core.get_current_world().get_locations() if
+                           loc.address is None and loc.parent_region is not None]
+        hidden_events = getattr(self.tracker_core.get_current_world(), "ut_map_page_hidden_events", {})
+        current_hidden_events = hidden_events.get(m["name"], [])
         dlcoords = {
-            (map_loc["x"],map_loc["y"]):[section["name"] for section in location["sections"]
-                if "name" in section and section["name"] in event_loc_cache ]
+            (map_loc["x"], map_loc["y"]): [section["name"] for section in location["sections"]
+                                           if "name" in section and section["name"] in event_loc_cache
+                                           and section["name"] not in current_hidden_events]
             for location in map_locs
             for map_loc in location["map_locations"]
             if map_loc["map"] == m["name"] and any(
-                "name" in section and section["name"] in event_loc_cache for section in location["sections"]
+                "name" in section and section["name"] in event_loc_cache
+                and section["name"] not in current_hidden_events for section in location["sections"]
             )
         }
         both_dcoords = set(entrance_cache).intersection(set(event_loc_cache))
         if both_dcoords:
-            for _,temp_coord in dcoords.items():
+            for _, temp_coord in dcoords.items():
                 if both_dcoords.intersection(set(temp_coord)):
                     logger.error("Mixing of entrance and event names, map will refuse to load")
                     return
-            for _,temp_coord in dlcoords.items():
+            for _, temp_coord in dlcoords.items():
                 if both_dcoords.intersection(set(temp_coord)):
                     logger.error("Mixing of entrance and event names, map will refuse to load")
                     return
-        self.coord_dict,self.deferred_dict,self.ldeferred_dict = self.map_page_coords_func(coords,dcoords,dlcoords,self.use_split)
+        self.coord_dict, self.deferred_dict, self.ldeferred_dict = self.map_page_coords_func(coords, dcoords, dlcoords,
+                                                                                             self.use_split)
         if self.tracker_world.location_setting_key:
             self.update_location_icon_coords()
 
