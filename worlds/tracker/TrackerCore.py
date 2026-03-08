@@ -316,14 +316,14 @@ class TrackerCore():
         for item_name, item_flags, item_loc, item_player in [(item_id_to_name[item.item],item.flags,item.location, item.player) for item in self.tracker_items_received if item.item > 0] + [(name,ItemClassification.progression,-1,-1) for name in self.manual_items]:
             try:
                 world_item = self.multiworld.create_item(item_name, self.player_id)
-                if item_loc>0 and item_player == self.slot and item_loc in location_id_to_name:
-                    world_item.location = self.multiworld.get_location(location_id_to_name[item_loc],self.player_id)
                 world_item.classification = world_item.classification | item_flags
                 state.collect(world_item, True)
                 if world_item.advancement:
                     prog_items[world_item.name] += 1
                 if world_item.code is not None:
                     all_items[world_item.name] += 1
+                if item_loc>0 and item_player == self.slot and item_loc in location_id_to_name:
+                    world_item.location = self.multiworld.get_location(location_id_to_name[item_loc],self.player_id)
             except Exception:
                 self.log_to_tab("Item id " + str(item_name) + " not able to be created", False)
         state.sweep_for_advancements(
