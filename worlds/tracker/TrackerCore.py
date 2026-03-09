@@ -313,6 +313,8 @@ class TrackerCore():
             self.logger.error("The Following items are unknown [" + ",".join(invalid_items)+"]")
             raise Exception("Your datapackage is incorrect, please correct the apworld for "+str(self.game))
 
+        self.clear_page()
+
         for item_name, item_flags, item_loc, item_player in [(item_id_to_name[item.item],item.flags,item.location, item.player) for item in self.tracker_items_received if item.item > 0] + [(name,ItemClassification.progression,-1,-1) for name in self.manual_items]:
             try:
                 world_item = self.multiworld.create_item(item_name, self.player_id)
@@ -325,11 +327,10 @@ class TrackerCore():
                 if world_item.code is not None:
                     all_items[world_item.name] += 1
             except Exception:
-                self.log_to_tab("Item id " + str(item_name) + " not able to be created", False)
+                self.log_to_tab("[color="+self.get_ut_color("error")+"]Item id " + str(item_name) + " not able to be created", False)
         state.sweep_for_advancements(
             locations=[location for location in self.multiworld.get_locations(self.player_id) if (not location.address)])
 
-        self.clear_page()
         regions = []
         locations = []
         readable_locations = []

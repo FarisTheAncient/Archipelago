@@ -55,6 +55,7 @@ def get_ut_color(color: str)->str:
         hinted_glitched: ClassVar[str] = StringProperty("") 
         excluded: ClassVar[str] = StringProperty("")
         unconnected: ClassVar[str] = StringProperty("")
+        error: ClassVar[str] = StringProperty("")
     if not hasattr(get_ut_color,"utTextColor"):
         get_ut_color.utTextColor = UTTextColor()
     return str(getattr(get_ut_color.utTextColor,color,"DD00FF"))
