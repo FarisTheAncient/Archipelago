@@ -327,7 +327,7 @@ class TrackerCore():
                 if world_item.code is not None:
                     all_items[world_item.name] += 1
             except Exception:
-                self.log_to_tab("[color="+self.get_ut_color("error")+"]Item id " + str(item_name) + " not able to be created", False)
+                self.log_to_tab("[color="+self.get_ut_color("error")+"]Item id " + str(item_name) + " not able to be created[/color]", False)
         state.sweep_for_advancements(
             locations=[location for location in self.multiworld.get_locations(self.player_id) if (not location.address)])
 
