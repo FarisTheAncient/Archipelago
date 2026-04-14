@@ -2,7 +2,8 @@
 import logging
 import inspect
 import tempfile
-from typing import Union, Any, TYPE_CHECKING
+from typing import Union, Any, TYPE_CHECKING, NamedTuple
+from enum import StrEnum
 import traceback
 from Options import PerGameCommonOptions
 from BaseClasses import CollectionState, MultiWorld, LocationProgressType, ItemClassification
@@ -21,6 +22,29 @@ from NetUtils import NetworkItem, HintStatus
 
     
 REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "ut_can_gen_without_yaml", False)}
+
+class TrackerLogLineGroup(StrEnum):
+    IN_LOGIC = "in_logic"
+    OUT_OF_LOGIC = "out_of_logic"
+    GLITCHED = "glitched"
+    COLLECTED = "collected"
+    COLLECTED_LIGHT = "collected_light"
+    IN_LOGIC_GLITCHED = "in_logic_glitched"
+    OUT_OF_LOGIC_GLITCHED = "out_of_logic_glitched"
+    MIXED_LOGIC = "mixed_logic"
+    HINTED = "hinted"
+    HINTED_IN_LOGIC = "hinted_in_logic"
+    HINTED_OUT_OF_LOGIC = "hinted_out_of_logic"
+    HINTED_GLITCHED = "hinted_glitched"
+    EXCLUDED = "excluded"
+    UNCONNECTED = "unconnected"
+    UT_ERROR = "error"
+    DEFAULT = "default"
+
+class TrackerLogLine(NamedTuple):
+    location_label: str = ""
+    region_label: str = ""
+    group: TrackerLogLineGroup = TrackerLogLineGroup.IN_LOGIC
 
 class TrackerCore():
     cached_multiworlds: list[MultiWorld] = []
@@ -58,6 +82,7 @@ class TrackerCore():
 
         self.ignored_locations: set[int] = set()
         self.missing_locations: set[int] = set()
+        self.log_lines: list[TrackerLogLine] = []
 
     def disconnect(self):
         self.re_gen_passthrough = None
@@ -85,9 +110,10 @@ class TrackerCore():
             return self.multiworld.worlds[self.player_id]
         return None
     
-    def set_page(self, line: str):
+    def set_page(self, log_line: TrackerLogLine):
+        self.log_lines = [log_line]
         if self._set_page:
-            self._set_page(line)
+            self._set_page(self.log_line_to_ui_string(log_line))
     
     def set_missing_locations(self,missing_locations:set[int]):
         self.missing_locations = missing_locations
@@ -98,11 +124,31 @@ class TrackerCore():
     def set_hints(self,hints:dict[int,int]):
         self.hints = hints
     
-    def log_to_tab(self,line: str, sort: bool = False):
+    def log_to_tab(self,log_line: TrackerLogLine, sort: bool = False):
+        self.log_lines.append(log_line)
         if self._log_to_tab:
+            line: str = self.log_line_to_ui_string(log_line)
             self._log_to_tab(line,sort)
-    
+
+    def log_line_to_ui_string(self, log_line: TrackerLogLine) -> str:
+        color_code: str = self.get_ut_color(log_line.group.value)
+        display_text: str = self.log_line_to_readable_string(log_line)
+        return f"[color={color_code}]{display_text}[/color]"
+
+    def log_line_to_readable_string(self, log_line: TrackerLogLine) -> str:
+        display_text: str
+        if log_line.group == TrackerLogLineGroup.UT_ERROR:
+            display_text = log_line.location_label
+        elif self.output_format == "Both":
+            display_text = f"{log_line.region_label} | {log_line.location_label}"
+        elif self.output_format == "Location":
+            display_text = log_line.location_label
+        elif self.output_format == "Region":
+            display_text = log_line.region_label
+        return display_text
+
     def clear_page(self):
+        self.log_lines = []
         if self._clear_page:
             self._clear_page()
 
@@ -294,7 +340,8 @@ class TrackerCore():
     def updateTracker(self) -> CurrentTrackerState:
         if self.player_id is None or self.multiworld is None:
             self.logger.error("Player YAML not installed or Generator failed")
-            self.set_page(f"Check Player YAMLs for error; Tracker {UT_VERSION} for AP version {__version__}")
+            error_label: str = f"Check Player YAMLs for error; Tracker {UT_VERSION} for AP version {__version__}"
+            self.set_page(TrackerLogLine(error_label, "", TrackerLogLineGroup.UT_ERROR))
             return CurrentTrackerState.init_empty_state()
 
         state = CollectionState(self.multiworld,self.enforce_deferred_connections != DeferredEntranceMode.disabled)
@@ -328,7 +375,8 @@ class TrackerCore():
                 if world_item.code is not None:
                     all_items[world_item.name] += 1
             except Exception:
-                self.log_to_tab("[color="+self.get_ut_color("error")+"]Item name " + str(item_name) + " not able to be created[/color]", False)
+                error_label: str = "Item name " + str(item_name) + " not able to be created"
+                self.log_to_tab(TrackerLogLine(error_label, "", TrackerLogLineGroup.UT_ERROR))
         state.sweep_for_advancements(
             locations=[location for location in self.multiworld.get_locations(self.player_id) if (not location.address)])
 
@@ -353,33 +401,27 @@ class TrackerCore():
                     temp_name = temp_loc.name
                     if temp_loc.address in self.location_alias_map:
                         temp_name += f" ({self.location_alias_map[temp_loc.address]})"
-                    if self.output_format == "Both":
-                        if temp_loc.progress_type == LocationProgressType.EXCLUDED:
-                            self.log_to_tab("[color="+self.get_ut_color("excluded") + "]" +region + " | " + temp_name+"[/color]", True)
-                        elif temp_loc.address in self.hints:
-                            self.log_to_tab("[color="+self.get_ut_color("hinted") + "]" +region + " | " + temp_name+"[/color]", True)
-                            hinted_locations.append(temp_loc)
-                        else:
-                            self.log_to_tab(region + " | " + temp_name, True)
-                        readable_locations.append(region + " | " + temp_name)
-                    elif self.output_format == "Location":
-                        if temp_loc.progress_type == LocationProgressType.EXCLUDED:
-                            self.log_to_tab("[color="+self.get_ut_color("excluded") + "]" +temp_name+"[/color]", True)
-                        elif temp_loc.address in self.hints:
-                            self.log_to_tab("[color="+self.get_ut_color("hinted") + "]" +temp_name+"[/color]", True)
-                            hinted_locations.append(temp_loc)
-                        else:
-                            self.log_to_tab(temp_name, True)
-                        readable_locations.append(temp_name)
+                    group: TrackerLogLineGroup = TrackerLogLineGroup.DEFAULT
+                    if temp_loc.progress_type == LocationProgressType.EXCLUDED:
+                        group = TrackerLogLineGroup.EXCLUDED
+                    elif temp_loc.address in self.hints:
+                        group = TrackerLogLineGroup.HINTED
+                        hinted_locations.append(temp_loc)
+                    log_line: TrackerLogLine = TrackerLogLine(temp_name, region, group)
                     if region not in regions:
                         regions.append(region)
                         if self.output_format == "Region":
-                            self.log_to_tab(region, True)
+                            self.log_to_tab(log_line, True)
                             readable_locations.append(region)
+                    if self.output_format != "Region":
+                        self.log_to_tab(log_line, True)
+                        readable_locations.append(self.log_line_to_readable_string(log_line))
                     callback_list.append(temp_loc.name)
                     locations.append(temp_loc.address)
             except Exception:
-                self.log_to_tab("ERROR: location " + temp_loc.name + " broke something, report this to discord")
+                error_label: str = "ERROR: location " + temp_loc.name + " broke something, report this to discord"
+                log_line: TrackerLogLine = TrackerLogLine(error_label, region, TrackerLogLineGroup.UT_ERROR)
+                self.log_to_tab(log_line)
                 pass
         events = [location.item.name for location in state.advancements if location.player == self.player_id and location.item is not None]
         event_locations = [location.name for location in state.advancements if location.player == self.player_id]
@@ -393,7 +435,9 @@ class TrackerCore():
                 world_item = self.multiworld.create_item(glitches_item_name, self.player_id)
                 glitches_state.collect(world_item, True)
             except Exception:
-                self.log_to_tab("Item name " + str(glitches_item_name) + " not able to be created", False)
+                error_label: str = "Item name " + str(glitches_item_name) + " not able to be created"
+                log_line: TrackerLogLine = TrackerLogLine(error_label, region, TrackerLogLineGroup.UT_ERROR)
+                self.log_to_tab(log_line, False)
             else:
                 glitches_state.sweep_for_advancements(
                     locations=[location for location in self.multiworld.get_locations(self.player_id) if (not location.address)])
@@ -417,31 +461,24 @@ class TrackerCore():
                                 temp_name = temp_loc.name
                                 if temp_loc.address in self.location_alias_map:
                                     temp_name += f" ({self.location_alias_map[temp_loc.address]})"
-                                if self.output_format == "Both":
-                                    if temp_loc.progress_type == LocationProgressType.EXCLUDED:
-                                        self.log_to_tab("[color="+self.get_ut_color("out_of_logic_glitched") + "]" +region + " | " + temp_name+"[/color]", True)
-                                    elif temp_loc.address in self.hints:
-                                        self.log_to_tab("[color="+self.get_ut_color("hinted_glitched") + "]" +region + " | " + temp_name+"[/color]", True)
-                                        hinted_locations.append(temp_loc)
-                                    else:
-                                        self.log_to_tab("[color="+self.get_ut_color("glitched") + "]" +region + " | " + temp_name+"[/color]", True)
-                                    readable_locations.append(region + " | " + temp_name)
-                                elif self.output_format == "Location":
-                                    if temp_loc.progress_type == LocationProgressType.EXCLUDED:
-                                        self.log_to_tab("[color="+self.get_ut_color("out_of_logic_glitched") + "]" +temp_name+"[/color]", True)
-                                    elif temp_loc.address in self.hints:
-                                        self.log_to_tab("[color="+self.get_ut_color("hinted_glitched") + "]" +temp_name+"[/color]", True)
-                                        hinted_locations.append(temp_loc)
-                                    else:
-                                        self.log_to_tab("[color="+self.get_ut_color("glitched") + "]" +temp_name+"[/color]", True)
-                                    readable_locations.append(temp_name)
+                                group: TrackerLogLineGroup = TrackerLogLineGroup.GLITCHED
+                                if temp_loc.progress_type == LocationProgressType.EXCLUDED:
+                                    group = TrackerLogLineGroup.OUT_OF_LOGIC_GLITCHED
+                                elif temp_loc.address in self.hints:
+                                    group = TrackerLogLineGroup.HINTED_GLITCHED
+                                    hinted_locations.append(temp_loc)
+                                log_line: TrackerLogLine = TrackerLogLine(temp_name, region, group)
+                                readable_locations.append(self.log_line_to_readable_string(log_line))
                             if region not in regions:
                                 regions.append(region)
                                 if self.output_format == "Region" and self.enable_glitched_logic:
-                                    self.log_to_tab("[color="+self.get_ut_color("glitched")+"]"+region+"[/color]", True)
+                                    self.log_to_tab(log_line, True)
                                     readable_locations.append(region)
+                            if self.output_format != "Region" and self.enable_glitched_logic:
+                                self.log_to_tab(log_line, True)
                     except Exception:
-                        self.log_to_tab("ERROR: location " + temp_loc.name + " broke something, report this to discord")
+                        error_label: str = "ERROR: location " + temp_loc.name + " broke something, report this to discord"
+                        self.log_to_tab(TrackerLogLine(error_label, "", TrackerLogLineGroup.UT_ERROR))
                         pass
         self.glitched_locations = glitches_locations
 
@@ -457,7 +494,8 @@ class TrackerCore():
 
     def initalize_tracker_core(self,connected_cls:type[AutoWorld.World],raw_slot_data):
         if getattr(connected_cls, "disable_ut", False):
-            self.log_to_tab("World Author has requested UT be disabled on this world, please respect their decision")
+            disabled_label: str = "World Author has requested UT be disabled on this world, please respect their decision"
+            self.log_to_tab(TrackerLogLine(disabled_label, "", TrackerLogLineGroup.IN_LOGIC))
             return
         # first check if we don't need a yaml
         if getattr(connected_cls, "ut_can_gen_without_yaml", False):
@@ -473,20 +511,21 @@ class TrackerCore():
                     self.re_gen_passthrough = {self.game: slot_data}
                     self.run_generator(raw_slot_data, tempdir)
                     if self.multiworld is None:
-                        self.log_to_tab("Internal world was not able to be generated, check your yamls and relaunch", False)
-                        self.log_to_tab("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", False)
+
+                        self.log_to_tab(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_ERROR), False)
+                        self.log_to_tab(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.IN_LOGIC), False)
                         return
                     world = self.get_current_world()
                 self.regen_slots(world, slot_data, tempdir)
                 if self.multiworld is None:
-                    self.log_to_tab("Internal world was not able to be generated, check your yamls and relaunch", False)
-                    self.log_to_tab("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", False)
+                    self.log_to_tab(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_ERROR), False)
+                    self.log_to_tab(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.IN_LOGIC), False)
                     return
 
         else:
             if self.launch_multiworld is None:
-                self.log_to_tab("Internal world was not able to be generated, check your yamls and relaunch", False)
-                self.log_to_tab("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", False)
+                self.log_to_tab(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_ERROR), False)
+                self.log_to_tab(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.IN_LOGIC), False)
                 return
 
             if self.slot_name in self.launch_multiworld.world_name_lookup:
