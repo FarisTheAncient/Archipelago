@@ -61,6 +61,7 @@ def get_ut_color(color: str)->str:
         unconnected: ClassVar[str] = StringProperty("")
         error: ClassVar[str] = StringProperty("")
         default: ClassVar[str] = StringProperty("")
+        ut_status: ClassVar[str] = StringProperty("")
     if not hasattr(get_ut_color,"utTextColor"):
         get_ut_color.utTextColor = UTTextColor()
     return str(getattr(get_ut_color.utTextColor,color,"DD00FF"))
