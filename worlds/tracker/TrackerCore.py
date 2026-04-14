@@ -138,7 +138,7 @@ class TrackerCore():
 
     def log_line_to_readable_string(self, log_line: TrackerLogLine) -> str:
         display_text: str
-        if log_line.group == TrackerLogLineGroup.UT_ERROR:
+        if log_line.group == TrackerLogLineGroup.UT_ERROR or log_line.group == TrackerLogLineGroup.UT_STATUS:
             display_text = log_line.location_label
         elif self.output_format == "Both":
             display_text = f"{log_line.region_label} | {log_line.location_label}"
@@ -496,7 +496,7 @@ class TrackerCore():
     def initalize_tracker_core(self,connected_cls:type[AutoWorld.World],raw_slot_data):
         if getattr(connected_cls, "disable_ut", False):
             disabled_label: str = "World Author has requested UT be disabled on this world, please respect their decision"
-            self.log_to_tab(TrackerLogLine(disabled_label, "", TrackerLogLineGroup.IN_LOGIC))
+            self.log_to_tab(TrackerLogLine(disabled_label, "", TrackerLogLineGroup.UT_STATUS))
             return
         # first check if we don't need a yaml
         if getattr(connected_cls, "ut_can_gen_without_yaml", False):
