@@ -37,6 +37,7 @@ class TrackerLogLineGroup(StrEnum):
     HINTED_OUT_OF_LOGIC = "hinted_out_of_logic"
     HINTED_GLITCHED = "hinted_glitched"
     EXCLUDED = "excluded"
+    EXCLUDED_GLITCHED = "excluded_glitched"
     UNCONNECTED = "unconnected"
     UT_ERROR = "error"
     DEFAULT = "default"
@@ -137,15 +138,15 @@ class TrackerCore():
         return f"[color={color_code}]{display_text}[/color]"
 
     def log_line_to_readable_string(self, log_line: TrackerLogLine) -> str:
-        display_text: str
+        display_text: str = "" # log_line.group.value + ": "
         if log_line.group == TrackerLogLineGroup.UT_ERROR or log_line.group == TrackerLogLineGroup.UT_STATUS:
-            display_text = log_line.location_label
+            display_text += log_line.location_label
         elif self.output_format == "Both":
-            display_text = f"{log_line.region_label} | {log_line.location_label}"
+            display_text += f"{log_line.region_label} | {log_line.location_label}"
         elif self.output_format == "Location":
-            display_text = log_line.location_label
+            display_text += log_line.location_label
         elif self.output_format == "Region":
-            display_text = log_line.region_label
+            display_text += log_line.region_label
         return display_text
 
     def clear_page(self):
@@ -464,7 +465,7 @@ class TrackerCore():
                                     temp_name += f" ({self.location_alias_map[temp_loc.address]})"
                                 group: TrackerLogLineGroup = TrackerLogLineGroup.GLITCHED
                                 if temp_loc.progress_type == LocationProgressType.EXCLUDED:
-                                    group = TrackerLogLineGroup.OUT_OF_LOGIC_GLITCHED
+                                    group = TrackerLogLineGroup.EXCLUDED_GLITCHED
                                 elif temp_loc.address in self.hints:
                                     group = TrackerLogLineGroup.HINTED_GLITCHED
                                     hinted_locations.append(temp_loc)

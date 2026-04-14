@@ -58,6 +58,7 @@ def get_ut_color(color: str)->str:
         hinted_out_of_logic: ClassVar[str] = StringProperty("")
         hinted_glitched: ClassVar[str] = StringProperty("")
         excluded: ClassVar[str] = StringProperty("")
+        excluded_glitched: ClassVar[str] = StringProperty("")
         unconnected: ClassVar[str] = StringProperty("")
         error: ClassVar[str] = StringProperty("")
         default: ClassVar[str] = StringProperty("")
