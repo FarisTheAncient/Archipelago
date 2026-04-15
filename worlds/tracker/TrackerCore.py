@@ -410,14 +410,11 @@ class TrackerCore():
                         group = TrackerLogLineGroup.HINTED
                         hinted_locations.append(temp_loc)
                     log_line: TrackerLogLine = TrackerLogLine(temp_name, region, group)
-                    if region not in regions:
-                        regions.append(region)
-                        if self.output_format == "Region":
-                            self.log_to_tab(log_line, True)
-                            readable_locations.append(region)
-                    if self.output_format != "Region":
+                    if self.output_format != "Region" or region not in regions:
                         self.log_to_tab(log_line, True)
                         readable_locations.append(self.log_line_to_readable_string(log_line))
+                        if region not in regions:
+                            regions.append(region)
                     callback_list.append(temp_loc.name)
                     locations.append(temp_loc.address)
             except Exception:
@@ -428,6 +425,13 @@ class TrackerCore():
         events = [location.item.name for location in state.advancements if location.player == self.player_id and location.item is not None]
         event_locations = [location.name for location in state.advancements if location.player == self.player_id]
         unconnected_entrances = [entrance for region in state.reachable_regions[self.player_id] for entrance in region.exits if entrance.can_reach(state) and entrance.connected_region is None]
+        for entrance in unconnected_entrances:
+            entrance_region = entrance.parent_region.name
+            log_line: TrackerLogLine = TrackerLogLine(entrance.name, entrance_region, TrackerLogLineGroup.UNCONNECTED)
+            if entrance_region not in regions or self.output_format != "Region":
+                self.log_to_tab(log_line)
+                if entrance_region not in regions:
+                    regions.append(entrance_region)
         self.locations_available = locations
         glitches_item_name = getattr(self.multiworld.worlds[self.player_id],"glitches_item_name","")
         glitches_state = None
@@ -471,13 +475,11 @@ class TrackerCore():
                                     hinted_locations.append(temp_loc)
                                 log_line: TrackerLogLine = TrackerLogLine(temp_name, region, group)
                                 readable_locations.append(self.log_line_to_readable_string(log_line))
-                            if region not in regions:
-                                regions.append(region)
-                                if self.output_format == "Region" and self.enable_glitched_logic:
+                                if self.output_format != "Region" or region not in regions:
                                     self.log_to_tab(log_line, True)
-                                    readable_locations.append(region)
-                            if self.output_format != "Region" and self.enable_glitched_logic:
-                                self.log_to_tab(log_line, True)
+                                    readable_locations.append(self.log_line_to_readable_string(log_line))
+                                    if region not in regions:
+                                        regions.append(region)
                     except Exception:
                         error_label: str = "ERROR: location " + temp_loc.name + " broke something, report this to discord"
                         self.log_to_tab(TrackerLogLine(error_label, "", TrackerLogLineGroup.UT_ERROR))

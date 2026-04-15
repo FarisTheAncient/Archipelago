@@ -468,8 +468,6 @@ class TrackerGameContext(CommonContext):
                     status = "impassable"
                 for coord in relevent_coords:
                     coord.update_status(loc.name, status)
-        for entrance in updateTracker_ret.unconnected_entrances:
-            self.log_to_tab("[color="+get_ut_color("unconnected")+"]"+entrance.name+"[/color]",False) #keep these at the bottom
         if self.quit_after_update:
             name = self.player_names[self.slot]
             if self.print_count:
