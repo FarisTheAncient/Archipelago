@@ -15,7 +15,7 @@ from . import TrackerWorld, UTMapTabData, CurrentTrackerState, UT_VERSION
 from .TrackerCore import TrackerCore
 from collections import Counter, defaultdict
 from MultiServer import mark_raw
-from NetUtils import NetworkItem
+from NetUtils import NetworkItem, HintStatus
 
 try:
     from Utils import gui_enabled
@@ -1154,13 +1154,27 @@ class TrackerGameContext(CommonContext):
             base_title = f"Tracker {UT_VERSION} for AP version"  # core appends ap version so this works
 
             def build(self):
+                def check_logic(data) -> tuple[bool, bool]:
+                    ctx = ui.get_running_app().ctx
+                    found = data["status"]["hint"]["status"] == HintStatus.HINT_FOUND
+                    in_logic = data["status"]["hint"]["location"] in ctx.tracker_core.locations_available
+                    return found, in_logic
+
+                def sort_hint_by_logic(data: dict) -> int:
+                    found, in_logic = check_logic(data)
+                    if in_logic:
+                        return 0
+                    if found:
+                        return 2
+                    return 1
+
                 class TrackerHintLabel(HintLabel):
                     logic_text = StringProperty("")
 
                     def __init__(self, *args, **kwargs):
                         super().__init__(*args, **kwargs)
                         logic = TooltipLabel(
-                            sort_key="finding",  # is lying to computer and player but fixing it will need core changes
+                            sort_key="in_logic",
                             text="", halign='center', valign='center', pos_hint={"center_y": 0.5},
                             )
                         self.add_widget(logic)
@@ -1175,18 +1189,8 @@ class TrackerGameContext(CommonContext):
                             self.logic_text = "[u]In Logic[/u]"
                             return
                         ctx = ui.get_running_app().ctx
-                        if "status" in data:
-                            loc = data["status"]["hint"]["location"]
-                            from NetUtils import HintStatus
-                            found = data["status"]["hint"]["status"] == HintStatus.HINT_FOUND
-                        else:
-                            prefix = len("[color=00FF7F]")
-                            suffix = len("[/color]")
-                            loc_name = data["location"]["text"][prefix:-1*suffix]
-                            loc = AutoWorld.AutoWorldRegister.world_types[ctx.game].location_name_to_id.get(loc_name)
-                            found = "Not Found" not in data["found"]["text"]
+                        found, in_logic = check_logic(data)
 
-                        in_logic = loc in ctx.tracker_core.locations_available
                         self.logic_text = rv.parser.handle_node({
                             "type": "color", "color": "green" if found else
                             "orange" if in_logic else "red",
@@ -1199,6 +1203,13 @@ class TrackerGameContext(CommonContext):
 
                 container = super().build()
                 self.ctx.build_gui(self)
+
+                from kvui import ColumnSorter
+                self.hint_log.column_sorters.append(ColumnSorter(
+                    "in_logic",
+                    sort_hint_by_logic,
+                    False
+                ))
 
                 return container
 
