@@ -82,6 +82,13 @@ class TrackerSettings(Group):
         These will be saved per seed and slot.
         """
 
+    class SortingPriorties(Group):
+        """Defines how entries on the tracker tab are grouped and sorted.
+        Categories with the same value will be grouped together. Priority
+        must be a non-negative integer.
+        Valid category names are: default, hinted, excluded, glitched,
+        hinted_glitched, excluded_glitched, and disconnected."""
+
     player_files_path: TrackerPlayersPath = TrackerPlayersPath("Players")
     include_region_name: RegionNameBool | bool = False
     include_location_name: LocationNameBool | bool = True
@@ -90,6 +97,15 @@ class TrackerSettings(Group):
     enforce_deferred_entrances: SettingDeferredEntranceMode | str = "default"
     display_glitched_logic: DisplayGlitchedLogic | bool = True
     save_entered_commands: SaveEnteredCommands | bool = True
+    sorting_priorities: SortingPriorties | dict[str, int] = {
+        "default": 0,
+        "hinted": 1,
+        "excluded": 2,
+        "excluded_glitched": 3,
+        "hinted_glitched": 4,
+        "glitched": 5,
+        "disconnected": 6,
+    }
 
 
 class TrackerWorld(World):
