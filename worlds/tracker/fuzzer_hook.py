@@ -21,6 +21,9 @@ class Hook(BaseHook):
         self.ut_core.run_generator(None,None,args.player_files_path) #initial UT gen
 
     def after_generate(self, mw:MultiWorld, output_path):
+        # Default to OptionError in case generation failed or is invalid, so
+        # that it gets marked as ignored as we're not testing for that
+        self.status = GenOutcome.OptionError
         if mw is None:
             return
         if len(mw.worlds)>1:
