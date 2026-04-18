@@ -328,6 +328,7 @@ class TrackerGameContext(CommonContext):
     use_split = True
     re_gen_passthrough = None
     local_items: list[NetworkItem] = []
+    waiting_on_entrances = False
 
     _auto_tab = True
 
@@ -468,7 +469,7 @@ class TrackerGameContext(CommonContext):
                     status = "impassable"
                 for coord in relevent_coords:
                     coord.update_status(loc.name, status)
-        if self.quit_after_update:
+        if self.quit_after_update and not self.waiting_on_entrances:
             name = self.player_names[self.slot]
             if self.print_count:
                 logger.error(f"Game: {self.game} | Slot Name : {name} | In logic locations : {len(updateTracker_ret.in_logic_locations)}")
@@ -1358,6 +1359,7 @@ class TrackerGameContext(CommonContext):
                         self.defered_entrance_datastorage_keys = []
                     else:
                         self.set_notify(*self.defered_entrance_datastorage_keys)
+                        self.waiting_on_entrances = True
                 else:
                     self.defered_entrance_datastorage_keys = []
 
@@ -1388,11 +1390,11 @@ class TrackerGameContext(CommonContext):
                             self.update_location_icon_coords()
                 if self.defered_entrance_datastorage_keys:
                     if "key" in args and args["key"] in self.defered_entrance_datastorage_keys:
-                            self.update_defered_entrances(args["key"])
+                            self.waiting_on_entrances = False
+                            self.update_defered_entrances([args["key"]])
                     elif "keys" in args:
-                        for key in self.defered_entrance_datastorage_keys:
-                            if key in args["keys"]:
-                                self.update_defered_entrances(key)
+                        self.waiting_on_entrances = False
+                        self.update_defered_entrances([key for key in self.defered_entrance_datastorage_keys if key in args["keys"]])
             elif cmd == 'LocationInfo':
                 if not (self.items_handling & 0b010):
                     self.update_tracker_items()
@@ -1415,9 +1417,10 @@ class TrackerGameContext(CommonContext):
                 self.location_icon.size = (self.ui.loc_icon_size, self.ui.loc_icon_size)
                 self.location_icon.pos = (x,y)
 
-    def update_defered_entrances(self,key):
-        if self.defered_entrance_callback and key:
-            self.defered_entrance_callback(key,self.stored_data.get(key,None))
+    def update_defered_entrances(self, keys: list[str]):
+        if self.defered_entrance_callback and keys:
+            for key in keys:
+                self.defered_entrance_callback(key,self.stored_data.get(key,None))
             self.updateTracker()
 
     async def disconnect(self, allow_autoreconnect: bool = False):
