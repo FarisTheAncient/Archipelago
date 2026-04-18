@@ -856,7 +856,7 @@ class TrackerGameContext(CommonContext):
             def addLine(self, line: str, sort: bool = False):
                 self.data.append({"text": line})
                 if sort:
-                    self.data.sort(key=lambda e: e["text"])
+                    logging.warning("Sorting in TrackerClient is deprecated.")
 
         class ApLocationIcon(ApAsyncImage):
             pass

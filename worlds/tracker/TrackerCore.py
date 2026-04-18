@@ -24,29 +24,20 @@ from NetUtils import NetworkItem, HintStatus
 REGEN_WORLDS = {name for name, world in AutoWorld.AutoWorldRegister.world_types.items() if getattr(world, "ut_can_gen_without_yaml", False)}
 
 class TrackerLogLineGroup(StrEnum):
-    IN_LOGIC = "in_logic"
-    OUT_OF_LOGIC = "out_of_logic"
-    GLITCHED = "glitched"
-    COLLECTED = "collected"
-    COLLECTED_LIGHT = "collected_light"
-    IN_LOGIC_GLITCHED = "in_logic_glitched"
-    OUT_OF_LOGIC_GLITCHED = "out_of_logic_glitched"
-    MIXED_LOGIC = "mixed_logic"
-    HINTED = "hinted"
-    HINTED_IN_LOGIC = "hinted_in_logic"
-    HINTED_OUT_OF_LOGIC = "hinted_out_of_logic"
-    HINTED_GLITCHED = "hinted_glitched"
-    EXCLUDED = "excluded"
-    EXCLUDED_GLITCHED = "excluded_glitched"
-    UNCONNECTED = "unconnected"
     UT_ERROR = "error"
     DEFAULT = "default"
+    HINTED = "hinted"
+    EXCLUDED = "excluded"
+    EXCLUDED_GLITCHED = "excluded_glitched"
+    HINTED_GLITCHED = "hinted_glitched"
+    GLITCHED = "glitched"
+    UNCONNECTED = "unconnected"
     UT_STATUS = "ut_status"
 
 class TrackerLogLine(NamedTuple):
     location_label: str = ""
     region_label: str = ""
-    group: TrackerLogLineGroup = TrackerLogLineGroup.IN_LOGIC
+    group: TrackerLogLineGroup = TrackerLogLineGroup.DEFAULT
 
 class TrackerCore():
     cached_multiworlds: list[MultiWorld] = []
@@ -84,7 +75,10 @@ class TrackerCore():
 
         self.ignored_locations: set[int] = set()
         self.missing_locations: set[int] = set()
-        self.log_lines: list[TrackerLogLine] = []
+        self.log_lines: dict[int, list[TrackerLogLine]] = {}
+        self.sorting_priorities: dict[str, int] = {}
+        self.sorting_method: str = None
+        self._custom_world_sort: Callable[[str, str], str|int] = None
 
     def disconnect(self):
         self.re_gen_passthrough = None
@@ -94,6 +88,8 @@ class TrackerCore():
         self.ignored_locations = set()
         self.player_folder_override = None
         self.location_alias_map = {}
+        self.log_lines = {}
+        self._custom_world_sort = None
 
     def set_set_page(self,set_page:Optional[Callable[[str],None]]):
         self._set_page = set_page
@@ -102,6 +98,7 @@ class TrackerCore():
         self._log_to_tab = log_to_tab
     
     def set_clear_page(self, clear_page:Optional[Callable[[],None]]):
+        self.log_lines = {}
         self._clear_page = clear_page
     
     def set_get_ut_color(self,get_ut_color:Optional[Callable[[str],str]]):
@@ -113,7 +110,8 @@ class TrackerCore():
         return None
     
     def set_page(self, log_line: TrackerLogLine):
-        self.log_lines = [log_line]
+        group_priority: int = self.sorting_priorities[log_line.group.value]
+        self.log_lines = {group_priority: log_line}
         if self._set_page:
             self._set_page(self.log_line_to_ui_string(log_line))
     
@@ -125,12 +123,23 @@ class TrackerCore():
     
     def set_hints(self,hints:dict[int,int]):
         self.hints = hints
-    
-    def log_to_tab(self,log_line: TrackerLogLine, sort: bool = False):
-        self.log_lines.append(log_line)
+
+    def add_log_line(self, log_line:TrackerLogLine):
+        group_priority: int = self.sorting_priorities[log_line.group.value]
+        if group_priority in self.log_lines:
+            self.log_lines[group_priority].append(log_line)
+        else:
+            self.log_lines[group_priority] = [log_line]
+
+    def log_to_tab(self, line: str, sort: bool = False):
         if self._log_to_tab:
-            line: str = self.log_line_to_ui_string(log_line)
             self._log_to_tab(line,sort)
+
+    def log_all_to_tab(self):
+        for group in sorted(self.log_lines.keys()):
+            for log_line in self.log_lines[group]:
+                line: str = self.log_line_to_ui_string(log_line)
+                self.log_to_tab(line)
 
     def log_line_to_ui_string(self, log_line: TrackerLogLine) -> str:
         color_code: str = self.get_ut_color(log_line.group.value)
@@ -149,8 +158,24 @@ class TrackerCore():
             display_text += log_line.region_label
         return display_text
 
+    def sort_log_lines(self):
+        sort_method: Callable[[TrackerLogLine], str] = None
+        if self.sorting_method == "apworld" and self._custom_world_sort is not None:
+            sort_method = lambda log_line: self._custom_world_sort(log_line.region_label, log_line.location_label)
+        elif self.sorting_method == "region":
+            sort_method = lambda log_line: log_line.region_label
+        elif self.sorting_method == "location":
+            sort_method = lambda log_line: log_line.location_label
+        else:
+            sort_method = lambda log_line: self.log_line_to_readable_string(log_line)
+        for group in sorted(self.log_lines.keys()):
+            if group == -1 or group == self.sorting_priorities["ut_status"]:
+                # don't sort error lines or ut_status lines
+                continue
+            self.log_lines[group].sort(key=sort_method)
+
     def clear_page(self):
-        self.log_lines = []
+        self.log_lines = {}
         if self._clear_page:
             self._clear_page()
 
@@ -188,6 +213,7 @@ class TrackerCore():
     def _set_host_settings(self):
         from . import TrackerWorld
         tracker_settings = TrackerWorld.settings
+        sorting_method = tracker_settings["sorting_method"]
         report_type = "Both"
         if tracker_settings['include_location_name']:
             if tracker_settings['include_region_name']:
@@ -196,13 +222,39 @@ class TrackerCore():
                 report_type = "Location"
         else:
             report_type = "Region"
+            sorting_method = "region"
         defered_mode = DeferredEntranceMode.default
         try:
             defered_mode = DeferredEntranceMode(tracker_settings["enforce_deferred_entrances"])
         except:
             tracker_settings["enforce_deferred_entrances"] =  DeferredEntranceMode.default
+        sorting_priorities: dict[str, int] = tracker_settings["sorting_priorities"].copy()
+        if not sorting_priorities:
+            sorting_priorities = {
+                "default": 0,
+                "hinted": 1,
+                "excluded": 2,
+                "excluded_glitched": 3,
+                "hinted_glitched": 4,
+                "glitched": 5,
+                "unconnected": 6,
+            }
+        for group, priority in sorting_priorities.items():
+            if priority < 0:
+                # priorities less than zero are reserved
+                sorting_priorities[group] = 0
+        sorting_priorities["error"] = -1
+        undefined_group: int = 0
+        max_value_in_host: int = max(sorting_priorities.values())
+        if "other" not in sorting_priorities:
+            sorting_priorities["other"] = max_value_in_host + 1
+        sorting_priorities["ut_status"] = max_value_in_host + 2
+        for category in TrackerLogLineGroup:
+            if category.value not in sorting_priorities:
+                sorting_priorities[category.value] = sorting_priorities["other"]
         return tracker_settings['player_files_path'], report_type, tracker_settings['hide_excluded_locations'],\
-            tracker_settings["use_split_map_icons"], defered_mode, tracker_settings['display_glitched_logic']
+            tracker_settings["use_split_map_icons"], defered_mode, tracker_settings['display_glitched_logic'], \
+            sorting_priorities, sorting_method
     
     def run_generator(self, slot_data: dict | None = None, override_yaml_path: str | None = None, super_override_yaml_path: str|None = None):
         def move_slots(args: "Namespace", slot_name: str):
@@ -239,7 +291,7 @@ class TrackerCore():
                 args[option_name].update(player_mapping)
 
         try:
-            yaml_path, self.output_format, self.hide_excluded, self.use_split, enforce_deferred_connections, self.enable_glitched_logic = self._set_host_settings()
+            yaml_path, self.output_format, self.hide_excluded, self.use_split, enforce_deferred_connections, self.enable_glitched_logic, self.sorting_priorities, self.sorting_method = self._set_host_settings()
             if self.enforce_deferred_connections is None: self.enforce_deferred_connections = enforce_deferred_connections
             # strip command line args, they won't be useful from the client anyway
             sys.argv = sys.argv[:1]
@@ -378,7 +430,7 @@ class TrackerCore():
                     all_items[world_item.name] += 1
             except Exception:
                 error_label: str = "Item name " + str(item_name) + " not able to be created"
-                self.log_to_tab(TrackerLogLine(error_label, "", TrackerLogLineGroup.UT_ERROR))
+                self.add_log_line(TrackerLogLine(error_label, "", TrackerLogLineGroup.UT_ERROR))
         state.sweep_for_advancements(
             locations=[location for location in self.multiworld.get_locations(self.player_id) if (not location.address)])
 
@@ -411,7 +463,7 @@ class TrackerCore():
                         hinted_locations.append(temp_loc)
                     log_line: TrackerLogLine = TrackerLogLine(temp_name, region, group)
                     if self.output_format != "Region" or region not in regions:
-                        self.log_to_tab(log_line, True)
+                        self.add_log_line(log_line)
                         readable_locations.append(self.log_line_to_readable_string(log_line))
                         if region not in regions:
                             regions.append(region)
@@ -420,7 +472,7 @@ class TrackerCore():
             except Exception:
                 error_label: str = "ERROR: location " + temp_loc.name + " broke something, report this to discord"
                 log_line: TrackerLogLine = TrackerLogLine(error_label, region, TrackerLogLineGroup.UT_ERROR)
-                self.log_to_tab(log_line)
+                self.add_log_line(log_line)
                 pass
         events = [location.item.name for location in state.advancements if location.player == self.player_id and location.item is not None]
         event_locations = [location.name for location in state.advancements if location.player == self.player_id]
@@ -429,7 +481,7 @@ class TrackerCore():
             entrance_region = entrance.parent_region.name
             log_line: TrackerLogLine = TrackerLogLine(entrance.name, entrance_region, TrackerLogLineGroup.UNCONNECTED)
             if entrance_region not in regions or self.output_format != "Region":
-                self.log_to_tab(log_line)
+                self.add_log_line(log_line)
                 if entrance_region not in regions:
                     regions.append(entrance_region)
         self.locations_available = locations
@@ -443,7 +495,7 @@ class TrackerCore():
             except Exception:
                 error_label: str = "Item name " + str(glitches_item_name) + " not able to be created"
                 log_line: TrackerLogLine = TrackerLogLine(error_label, region, TrackerLogLineGroup.UT_ERROR)
-                self.log_to_tab(log_line, False)
+                self.add_log_line(log_line)
             else:
                 glitches_state.sweep_for_advancements(
                     locations=[location for location in self.multiworld.get_locations(self.player_id) if (not location.address)])
@@ -476,15 +528,18 @@ class TrackerCore():
                                 log_line: TrackerLogLine = TrackerLogLine(temp_name, region, group)
                                 readable_locations.append(self.log_line_to_readable_string(log_line))
                                 if self.output_format != "Region" or region not in regions:
-                                    self.log_to_tab(log_line, True)
+                                    self.add_log_line(log_line)
                                     readable_locations.append(self.log_line_to_readable_string(log_line))
                                     if region not in regions:
                                         regions.append(region)
                     except Exception:
                         error_label: str = "ERROR: location " + temp_loc.name + " broke something, report this to discord"
-                        self.log_to_tab(TrackerLogLine(error_label, "", TrackerLogLineGroup.UT_ERROR))
+                        self.add_log_line(TrackerLogLine(error_label, "", TrackerLogLineGroup.UT_ERROR))
                         pass
         self.glitched_locations = glitches_locations
+
+        self.sort_log_lines()
+        self.log_all_to_tab()
 
         return CurrentTrackerState(all_items, prog_items, glitches_callback_list, events, event_locations, callback_list, regions, unconnected_entrances, readable_locations, hinted_locations, state, glitches_state)
 
@@ -499,7 +554,7 @@ class TrackerCore():
     def initalize_tracker_core(self,connected_cls:type[AutoWorld.World],raw_slot_data):
         if getattr(connected_cls, "disable_ut", False):
             disabled_label: str = "World Author has requested UT be disabled on this world, please respect their decision"
-            self.log_to_tab(TrackerLogLine(disabled_label, "", TrackerLogLineGroup.UT_STATUS))
+            self.add_log_line(TrackerLogLine(disabled_label, "", TrackerLogLineGroup.UT_STATUS))
             return
         # first check if we don't need a yaml
         if getattr(connected_cls, "ut_can_gen_without_yaml", False):
@@ -516,20 +571,20 @@ class TrackerCore():
                     self.run_generator(raw_slot_data, tempdir)
                     if self.multiworld is None:
 
-                        self.log_to_tab(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
-                        self.log_to_tab(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
+                        self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
+                        self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
                         return
                     world = self.get_current_world()
                 self.regen_slots(world, slot_data, tempdir)
                 if self.multiworld is None:
-                    self.log_to_tab(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
-                    self.log_to_tab(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
+                    self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
+                    self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
                     return
 
         else:
             if self.launch_multiworld is None:
-                self.log_to_tab(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
-                self.log_to_tab(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
+                self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
+                self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
                 return
 
             if self.slot_name in self.launch_multiworld.world_name_lookup:
@@ -557,4 +612,6 @@ class TrackerCore():
                     self.logger.error(f"Player's Yaml not in tracker's list. All known players are Yaml-less")
                 return
         if self.multiworld:
-            self.location_alias_map = getattr(self.multiworld.worlds[self.player_id],"location_id_to_alias",{})
+            world = self.get_current_world()
+            self.location_alias_map = getattr(world, "location_id_to_alias", {})
+            self._custom_world_sort = getattr(world, "custom_sort", None)
