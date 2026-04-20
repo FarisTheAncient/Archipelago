@@ -78,7 +78,6 @@ class TrackerCore():
         self.log_lines: dict[int, list[TrackerLogLine]] = {}
         self.sorting_priorities: dict[str, int] = {}
         self.sorting_method: str = None
-        self._custom_world_sort: Callable[[str, str], str|int] = None
 
     def disconnect(self):
         self.re_gen_passthrough = None
@@ -89,7 +88,6 @@ class TrackerCore():
         self.player_folder_override = None
         self.location_alias_map = {}
         self.log_lines = {}
-        self._custom_world_sort = None
 
     def set_set_page(self,set_page:Optional[Callable[[str],None]]):
         self._set_page = set_page
@@ -178,8 +176,9 @@ class TrackerCore():
 
     def sort_log_lines(self):
         sort_method: Callable[[TrackerLogLine], str] = None
-        if self.sorting_method == "apworld" and self._custom_world_sort is not None:
-            sort_method = lambda log_line: self._custom_world_sort(log_line.region_label, log_line.location_label)
+        world = self.get_current_world()
+        if self.sorting_method == "apworld" and hasattr(world,"custom_ut_sort"):
+            sort_method = lambda log_line: world.custom_ut_sort(log_line.region_label, log_line.location_label)
         elif self.sorting_method == "region":
             sort_method = lambda log_line: log_line.region_label
         elif self.sorting_method == "location":
@@ -626,4 +625,3 @@ class TrackerCore():
         if self.multiworld:
             world = self.get_current_world()
             self.location_alias_map = getattr(world, "location_id_to_alias", {})
-            self._custom_world_sort = getattr(world, "custom_sort", None)
