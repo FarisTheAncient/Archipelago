@@ -180,7 +180,7 @@ class TrackerCore():
         if self.sorting_method == "apworld" and hasattr(world,"custom_ut_sort"):
             sort_method = lambda log_line: world.custom_ut_sort(log_line.region_label, log_line.location_label)
         elif self.sorting_method == "region":
-            sort_method = lambda log_line: log_line.region_label
+            sort_method = lambda log_line: log_line.region_label + log_line.location_label
         elif self.sorting_method == "location":
             sort_method = lambda log_line: log_line.location_label
         else:
