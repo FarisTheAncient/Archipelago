@@ -134,3 +134,16 @@ By default UT will provide a function that will use the rule builder api to expl
     def explain_rule(self, target_name: str, state: CollectionState) -> list[JSONMessagePart]:
         return [{"type":"text","text":"You gotta pick it up"}]
 ```
+
+## Custom Sorting
+
+UT allows worlds to define a custom sorting method that can be used in place of UT's default sorting methods when the user sets their `sorting_method` to `apworld` in host.yaml. This is also the default value, so users will get this benefit by default if you implement it. (If you don't, UT will fall back to sorting based on the existing label.) 
+
+To implement a custom sort, you will need to override the `custom_ut_sort` function:
+
+```python
+    def custom_ut_sort(self, region_label: str, location_label: str) -> str | int:
+        sorting_key: str | int = ... #create a key that is used to sort locations instead of the region/location names 
+        return sorting_key
+```
+This function will be used as the sorting key in the call to sort locations on the tracker tab. You may find this useful if there's a meaningful way to sort your locations that isn't alphabetical.
