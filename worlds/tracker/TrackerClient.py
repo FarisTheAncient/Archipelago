@@ -1390,8 +1390,8 @@ class TrackerGameContext(CommonContext):
                             self.update_location_icon_coords()
                 if self.defered_entrance_datastorage_keys:
                     if "key" in args and args["key"] in self.defered_entrance_datastorage_keys:
-                            self.waiting_on_entrances = False
-                            self.update_defered_entrances([args["key"]])
+                        self.waiting_on_entrances = False
+                        self.update_defered_entrances([args["key"]])
                     elif "keys" in args:
                         self.waiting_on_entrances = False
                         self.update_defered_entrances([key for key in self.defered_entrance_datastorage_keys if key in args["keys"]])
