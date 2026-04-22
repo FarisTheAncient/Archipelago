@@ -582,20 +582,20 @@ class TrackerCore():
                     self.run_generator(raw_slot_data, tempdir)
                     if self.multiworld is None:
 
-                        self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
-                        self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
+                        self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS))
+                        self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS))
                         return
                     world = self.get_current_world()
                 self.regen_slots(world, slot_data, tempdir)
                 if self.multiworld is None:
-                    self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
-                    self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
+                    self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS))
+                    self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS))
                     return
 
         else:
             if self.launch_multiworld is None:
-                self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS), False)
-                self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS), False)
+                self.add_log_line(TrackerLogLine("Internal world was not able to be generated, check your yamls and relaunch", "", TrackerLogLineGroup.UT_STATUS))
+                self.add_log_line(TrackerLogLine("If this issue persists, reproduce with the debug launcher and post the error message to the discord channel", "", TrackerLogLineGroup.UT_STATUS))
                 return
 
             if self.slot_name in self.launch_multiworld.world_name_lookup:
