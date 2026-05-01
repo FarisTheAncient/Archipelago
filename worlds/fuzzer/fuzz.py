@@ -520,13 +520,15 @@ def get_random_value(name, option):
     return option.default
 
 
-def call_generate(yaml_path, args, output_path):
+def call_generate(yaml_path, fuzz_args, output_path):
     from settings import get_settings
+    from Generate import mystery_argparse
 
     settings = get_settings()
+    args = mystery_argparse([])
 
-    args = Namespace(
-        **{
+    vars(args).update(
+        {
             "weights_file_path": settings.generator.weights_file_path,
             "sameoptions": False,
             "player_files_path": yaml_path,
@@ -540,7 +542,7 @@ def call_generate(yaml_path, args, output_path):
             "yaml_output": 1,
             "plando": PlandoOptions.items | PlandoOptions.connections | PlandoOptions.texts | PlandoOptions.bosses,
             "skip_prog_balancing": False,
-            "skip_output": args.skip_output,
+            "skip_output": fuzz_args.skip_output,
             "csv_output": False,
             "log_time": False,
             "spoiler_only": False,
