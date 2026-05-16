@@ -612,6 +612,7 @@ def call_generate(yaml_path, args, output_path):
             "csv_output": False,
             "log_time": False,
             "spoiler_only": False,
+            "allow_quantity": False
         }
     )
     for hook in MP_HOOKS:
@@ -755,6 +756,7 @@ FAILURE = 0
 TIMEOUTS = 0
 OPTION_ERRORS = 0
 SUBMITTED = 0
+START = None
 REPORT = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: [])))
 
 
@@ -829,7 +831,8 @@ def print_status():
     print("Timeouts:", TIMEOUTS)
     print("Ignored:", OPTION_ERRORS)
     print()
-    print("Time taken: {:.2f}s".format(time.perf_counter() - START))
+    if START:
+        print("Time taken: {:.2f}s".format(time.perf_counter() - START))
 
 
 def find_hook(hook_path):
@@ -909,10 +912,9 @@ def write_report(report):
         fd.write(json.dumps(computed_report))
 
 
-if __name__ == "__main__":
-    MAIN_HOOKS = []
+MAIN_HOOKS = []
 
-    def main(p, args, tmp):
+def main(p, args, tmp):
         global SUBMITTED
 
         if args.sample_from:
@@ -1100,6 +1102,7 @@ if __name__ == "__main__":
             last_job.ready()
             time.sleep(0.05)
 
+def launch(*args):
     parser = ArgumentParser(prog="apfuzz")
     parser.add_argument("-g", "--game", default=[], action="append",
                         help="Restrict to a given apworld. Can be passed multiple times to fuzz several games together; each generation will include N (see -n) YAMLs for each listed game.")
@@ -1115,19 +1118,20 @@ if __name__ == "__main__":
     parser.add_argument("--hook", action="append", default=[])
     parser.add_argument("--skip-output", default=False, action="store_true")
 
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     # This is just to make sure that the host.yaml file exists by the time we fork
     # so that a first run on a new installation doesn't throw out failures until
     # the host.yaml from the first gen is written
     get_settings()
     crashed = False
+    tmp = None
     try:
         can_fork = hasattr(os, "fork")
         # fork here is way faster because it doesn't have to reload all worlds, but it's only available on some platforms
         # forking for every job also has the advantage of being sure that the process is "clean". Although I don't know if that actually matters
         start_method = "fork" if can_fork else "spawn"
-        multiprocessing.set_start_method(start_method)
+        #multiprocessing.set_start_method(start_method)
         tmp = tempfile.TemporaryDirectory(prefix="apfuzz")
         with Pool(processes=args.jobs, maxtasksperchild=None) as p:
             START = time.perf_counter()
@@ -1141,7 +1145,7 @@ if __name__ == "__main__":
         for hook in MAIN_HOOKS:
             hook.finalize()
 
-        tmp.cleanup()
+        if tmp: tmp.cleanup()
 
         if MANAGER is not None:
             MANAGER._process.kill()
