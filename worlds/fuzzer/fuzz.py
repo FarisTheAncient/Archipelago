@@ -33,7 +33,6 @@ from Options import (
 from BaseClasses import PlandoOptions
 from Utils import __version__ as __ap_version__
 import Utils
-import settings
 
 from Generate import main as GenMain
 try:
@@ -60,7 +59,6 @@ import json
 import functools
 import logging
 import multiprocessing
-import platform
 import random
 import shutil
 import signal
@@ -70,10 +68,10 @@ import time
 import traceback
 import yaml
 
+from . import patched_init_logging
+
 
 OUT_DIR = f"fuzz_output"
-settings.no_gui = True
-settings.skip_autosave = True
 MP_HOOKS = []
 MANAGER = None
 
@@ -86,67 +84,6 @@ ABC_CLASSES = [obj for obj in gc.get_objects() if isinstance(obj, ABCMeta)]
 def clear_abc_caches():
     for cls in ABC_CLASSES:
         cls._abc_caches_clear()
-
-
-# We patch this because AP can't keep its hands to itself and has to start a thread to clean stuff up.
-# We could monkey patch the hell out of it but since it's an inner function, I feel like the complexity
-# of it is unreasonable compared to just reimplement a logger
-# especially since it allows us to not have to cheat user_path
-
-# Taken from https://github.com/ArchipelagoMW/Archipelago/blob/0.5.1.Hotfix1/Utils.py#L488
-# and removed everythinhg that had to do with files, typing and cleanup
-def patched_init_logging(
-        name,
-        loglevel = logging.INFO,
-        write_mode = "w",
-        log_format = "[%(name)s at %(asctime)s]: %(message)s",
-        exception_logger = None,
-        *args,
-        **kwargs
-):
-    loglevel: int = Utils.loglevel_mapping.get(loglevel, loglevel)
-    root_logger = logging.getLogger()
-    for handler in root_logger.handlers[:]:
-        root_logger.removeHandler(handler)
-        handler.close()
-    root_logger.setLevel(loglevel)
-
-    class Filter(logging.Filter):
-        def __init__(self, filter_name, condition) -> None:
-            super().__init__(filter_name)
-            self.condition = condition
-
-        def filter(self, record: logging.LogRecord) -> bool:
-            return self.condition(record)
-
-    stream_handler = logging.StreamHandler(sys.stdout)
-    stream_handler.addFilter(Filter("NoFile", lambda record: not getattr(record, "NoStream", False)))
-    root_logger.addHandler(stream_handler)
-
-    # Relay unhandled exceptions to logger.
-    if not getattr(sys.excepthook, "_wrapped", False):  # skip if already modified
-        orig_hook = sys.excepthook
-
-        def handle_exception(exc_type, exc_value, exc_traceback):
-            if issubclass(exc_type, KeyboardInterrupt):
-                sys.__excepthook__(exc_type, exc_value, exc_traceback)
-                return
-            logging.getLogger(exception_logger).exception("Uncaught exception",
-                                                          exc_info=(exc_type, exc_value, exc_traceback))
-            return orig_hook(exc_type, exc_value, exc_traceback)
-
-        handle_exception._wrapped = True
-
-        sys.excepthook = handle_exception
-
-    logging.info(
-        f"Archipelago ({__ap_version__}) logging initialized"
-        f" on {platform.platform()}"
-        f" running Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
-    )
-
-Utils.init_logging = patched_init_logging
-
 
 class FuzzerException(Exception):
     def __init__(self, desc, out_buf):
@@ -174,11 +111,6 @@ def world_from_apworld_name(apworld_name):
             return name, world
 
     raise Exception(f"Couldn't find loaded world with world: {apworld_name}")
-
-
-# See https://github.com/yaml/pyyaml/issues/103
-yaml.SafeDumper.ignore_aliases = lambda *args: True
-
 
 def _ensure_list(values):
     return values if isinstance(values, list) else [values]
