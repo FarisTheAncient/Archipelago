@@ -776,7 +776,7 @@ def find_hook(hook_path):
     if not isinstance(obj, type):
         raise RuntimeError("the hook argument should refer to a class in a module")
 
-    if issubclass(obj, BaseHook):
+    if not issubclass(obj, BaseHook):
         raise RuntimeError("the hook {} is not a subclass of `fuzz.BaseHook`)".format(hook_path))
 
     return obj()
