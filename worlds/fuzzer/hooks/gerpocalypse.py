@@ -1,4 +1,4 @@
-from fuzz import GenOutcome, BaseHook
+from ..fuzz import GenOutcome, BaseHook
 from worlds import AutoWorldRegister, WorldSource
 from Utils import __version__ as ap_version
 import worlds

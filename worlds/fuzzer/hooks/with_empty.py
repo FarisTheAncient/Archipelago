@@ -1,4 +1,4 @@
-from fuzz import BaseHook
+from ..fuzz import BaseHook
 from worlds import AutoWorldRegister, WorldSource
 import worlds
 import os

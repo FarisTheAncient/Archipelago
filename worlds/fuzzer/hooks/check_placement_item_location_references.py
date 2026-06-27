@@ -10,7 +10,7 @@ from typing import Any
 from worlds import AutoWorld
 from BaseClasses import MultiWorld
 
-from fuzz import BaseHook, GenOutcome
+from ..fuzz import BaseHook, GenOutcome
 
 
 class HookTestFailure(Exception):

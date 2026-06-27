@@ -1,5 +1,5 @@
 from BaseClasses import MultiWorld
-from fuzz import BaseHook, GenOutcome
+from ..fuzz import BaseHook, GenOutcome
 
 
 class MissingIndirectConditionError(Exception):

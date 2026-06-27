@@ -1,4 +1,4 @@
-from fuzz import BaseHook, GenOutcome
+from ..fuzz import BaseHook, GenOutcome
 
 
 class ItemLocationMismatchError(Exception):

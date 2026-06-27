@@ -1,4 +1,4 @@
-from fuzz import GenOutcome, BaseHook
+from ..fuzz import GenOutcome, BaseHook
 
 class FuzzException(Exception):
     pass

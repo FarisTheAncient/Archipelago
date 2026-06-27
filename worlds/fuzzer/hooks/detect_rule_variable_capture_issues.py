@@ -33,7 +33,7 @@ from BaseClasses import MultiWorld, Location, Entrance
 from worlds.generic.Rules import CollectionRule
 
 
-from fuzz import BaseHook, GenOutcome
+from ..fuzz import BaseHook, GenOutcome
 
 
 Spot = Location | Entrance

@@ -277,7 +277,7 @@ if __name__ == "__main__":
     worker_main(proto)
 
 
-from fuzz import BaseHook, GenOutcome, ap_path as _AP_PATH
+from ..fuzz import BaseHook, GenOutcome, ap_path as _AP_PATH
 
 
 class Hook(BaseHook):

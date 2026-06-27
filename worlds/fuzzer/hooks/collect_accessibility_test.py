@@ -1,6 +1,6 @@
 import random
 
-from fuzz import BaseHook, GenOutcome
+from ..fuzz import BaseHook, GenOutcome
 
 from BaseClasses import MultiWorld, CollectionState, Location
 

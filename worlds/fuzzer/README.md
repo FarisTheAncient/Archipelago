@@ -185,7 +185,7 @@ You can declare a class like this one in a file alongside `fuzz.py` in your
 archipelago installation:
 
 ```py
-from fuzz import BaseHook, GenOutcome
+from ..fuzz import BaseHook, GenOutcome
 
 class Hook(BaseHook):
     def setup_main(self, args):

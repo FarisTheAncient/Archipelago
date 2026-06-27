@@ -1,6 +1,6 @@
 import os
 import yappi
-from fuzz import BaseHook, OUT_DIR
+from ..fuzz import BaseHook, OUT_DIR
 
 class Hook(BaseHook):
     def before_generate(self, _args):
