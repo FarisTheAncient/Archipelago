@@ -225,6 +225,25 @@ In the case of an internal or hybrid integration, you can directly add sections 
 
 For data storage keys and world-side handling of discovered entrances, see [Deferred Entrances](apworld-integration.md#deferred-entrances).
 
+
+## Deferred Events
+
+Worlds can also track events to steer players toward stuff they can do that might unlock some locations without 
+necessarily being locations themselves. Those deferred events do not show in the tracker tab because they are 
+indistinguishable from normal events. They are only displayed on the map tab, assuming they have an associated section. 
+
+Just like during generation, as soon as a deferred event is available in logic, it will be collected. It will then be 
+marked as collected on the map (dark gray). For the event to show as "in logic" (green) on the map, it must be in 
+an accessible region, but its rule must evaluate to false.  This is intentional: if its rule evaluated to true, it would
+be collected immediately and marked as collected. Out of logic deferred events show as accessible (in logic) as long as
+their region is accessible. Deferred events only show as "out of logic" (impassable) when their region is inaccessible.
+
+If you want to use deferred events, a typical implementation would set their deferred event access rule to 
+`lambda _: False`. Then, once they are collected by the player, change the access rule to `lambda _: True`. For events 
+that should only show as in logic under specific conditions, move the event location to a new region created 
+specifically for the event and set the rule on the `Entrance` connecting the event original region to the new deferred 
+event region. The rule must be on the entrance going to the new region, not on the event location. 
+
 ## Hiding locations on specific maps
 
 You can define locations that should not be displayed on certain maps using the `ut_map_page_hidden_locations` class attribute.
