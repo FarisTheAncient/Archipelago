@@ -166,11 +166,14 @@ Game.apworld
 
 Configuration:
 ```py
-tracker_world: ClassVar = {
-    "map_page_folder": "tracker",
-    "map_page_maps": "maps/maps.json",
-    "map_page_locations": "locations/locations.json"
-}
+class FooWorld(World):
+    game = "FooBar"
+    ...
+    tracker_world: ClassVar[dict[str, Any]] = {
+        "map_page_folder": "tracker",
+        "map_page_maps": "maps/maps.json",
+        "map_page_locations": "locations/locations.json"
+    }
 ```
 
 ## Implementing Auto tabbing
@@ -193,13 +196,14 @@ UT's poptracker implementation assumes that the lowest level name for the locati
 
 To support this, UT allows for worlds to create a mapping dict that will be used to convert pop section paths to AP Location names
 
-`poptracker_name_mapping` can be defined with the following template
+`poptracker_name_mapping` can be defined with the following template, as part of the `tracker_world` configurations:
 
 ```py
-
-poptracker_name_mapping: dict[str, int] = {
-    # These entries are the lowest TWO section names to allow for generic final names identified by the group name
-    "Secret Gathering Place/Holy Cross Chest": 123456,
+tracker_world: ClassVar[dict[str, Any]] = {
+    "poptracker_name_mapping": {
+        # These entries are the lowest TWO section names to allow for generic final names identified by the group name
+        "Secret Gathering Place/Holy Cross Chest": 123456,
+    }
 }
 ```
 
@@ -212,10 +216,12 @@ Locations will first check if they match a key in the mapping before the literal
 If your world supports entrance randomization and you want to display it in the map tab, you can create a mapping between poptracker entrance/section names and AP entrance names using `poptracker_entrance_mapping`:
 
 ```py
-poptracker_entrance_mapping: dict[str, str] = {
-    # Maps poptracker section name to AP entrance name
-    "Poptracker Entrance Name": "AP Entrance Name",
-    "Forest/North Entrance": "Forest - North Entrance",
+tracker_world: ClassVar[dict[str, Any]] = {
+    "poptracker_entrance_mapping": {
+        # Maps poptracker section name to AP entrance name
+        "Poptracker Entrance Name": "AP Entrance Name",
+        "Forest/North Entrance": "Forest - North Entrance",
+    }
 }
 ```
 
@@ -261,6 +267,8 @@ class MyWorld(World):
 ```
 
 The keys are the map names as they appear in your `maps.json` file, and the values are lists of location IDs (as integers) that should be hidden on those maps.
+
+Entrances and events can also be hidden by using `ut_map_page_hidden_entrances` and `ut_map_page_hidden_events`. With those attributes, the values are lists of entrance names and event names.
 
 ## Player current position icon implementation
 
