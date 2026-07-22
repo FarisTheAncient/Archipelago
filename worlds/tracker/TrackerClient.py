@@ -305,7 +305,7 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         if self.ctx.game:
             connected_cls = AutoWorld.AutoWorldRegister.world_types.get(self.ctx.game)
             if self.ctx.checksums[self.ctx.game] != connected_cls.get_data_package_data()["checksum"]:
-                logger.error(f"Local checksum = {self.ctx.checksums[self.ctx.game]} | remote checksum = {connected_cls.get_data_package_data()['checksum']}")
+                logger.error(f"Local checksum = {connected_cls.get_data_package_data()['checksum']} | remote checksum = {self.ctx.checksums[self.ctx.game]}")
 
 def cmd_load_map(self: TrackerCommandProcessor, map_id: str = "0"):
     """Force a poptracker map id to be loaded"""
@@ -1359,7 +1359,7 @@ class TrackerGameContext(CommonContext):
                     return
                 if self.checksums[self.game] != connected_cls.get_data_package_data()["checksum"]:
                     logger.warning("*****\nWarning: the local datapackage for the connected game does not match the server's datapackage\n*****")
-                    logger.error(f"Local checksum = {self.checksums[self.game]} | remote checksum = {connected_cls.get_data_package_data()['checksum']}")
+                    logger.error(f"Local checksum = {connected_cls.get_data_package_data()['checksum']} | remote checksum = {self.checksums[self.game]}")
                 self.tracker_core.initalize_tracker_core(connected_cls,args["slot_data"])
                 if self.tracker_core.tracker_disabled:
                     logger.error("World Author has requested UT be disabled on this world, please respect their decision")
