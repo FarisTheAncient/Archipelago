@@ -8,11 +8,11 @@ The intent of UT's map tab is to allow world devs to start making a poptracker p
 
 There are three approaches for integrating map support. Each has different trade-offs:
 
-| Approach | Use Case | Pros | Cons |
-|----------|----------|------|------|
-| **External** | Rely on existing poptracker packs | Smaller apworld, use existing community packs | Requires external pack management and maybe additional location mapping |
-| **Hybrid** | Fixing existing poptracker packs | Update JSONs and logic without changing the tracker pack | Requires both apworld and external pack |
-| **Internal** | Add the maps and locations directly in the apworld | No external dependencies, easier distribution | Larger apworld file |
+| Approach     | Use Case                                           | Pros                                                     | Cons                                                                    |
+|--------------|----------------------------------------------------|----------------------------------------------------------|-------------------------------------------------------------------------|
+| **External** | Rely on existing poptracker packs                  | Smaller apworld, use existing community packs            | Requires external pack management and maybe additional location mapping |
+| **Hybrid**   | Fixing existing poptracker packs                   | Update JSONs and logic without changing the tracker pack | Requires both apworld and external pack                                 |
+| **Internal** | Add the maps and locations directly in the apworld | No external dependencies, easier distribution            | Larger apworld file                                                     |
 
 **Recommendation**: Avoid including map images in the apworld due to copyright and file size concerns. Use either the external or hybrid approach depending on whether your pack's JSON names need adjustment.
 
@@ -25,7 +25,7 @@ from typing import ClassVar
 
 
 class MyWorld(World):
-    tracker_world: ClassVar = {
+    tracker_world: ClassVar[dict[str, Any]] = {
         "map_page_folder": <Name of the folder inside the apworld that has all of the poptracker files in it, used for internal poptracker packs>
         "external_pack_key": <optional string that is the name of the setting string that UT reads in order to find the external pop tracker pack, takes priority over internal packs>
         "map_page_maps": <Location(s) of the maps.json file(s) relative to the root folder of the pack, may be a list if more than one file exists>
@@ -95,7 +95,8 @@ Tracker_Pack.zip
 
 Configuration:
 ```py
-tracker_world: ClassVar = {
+tracker_world: ClassVar[dict[str, Any]] = {
+    # ... other tracker configuration ...
     "external_pack_key": "ut_pack_path",
     "map_page_maps": "maps/maps.json",
     "map_page_locations": "locations/locations.json"
@@ -108,13 +109,14 @@ You can also use `poptracker_name_mapping` to map non-matching location names fr
 
 If you define both `external_pack_key` and `map_page_folder`, UT will load the JSON files (`maps.json` and `locations.json`) from your apworld while using the images from the external pack.
 
-**Recommended when**: 
+**Recommended when**:
 - The existing poptracker pack's location names don't match your AP location names exactly (and you want to fix them)
 - Your logic changes more frequently than the map visuals
 
 Configuration:
 ```py
-tracker_world: ClassVar = {
+tracker_world: ClassVar[dict[str, Any]] = {
+    # ... other tracker configuration ...
     "map_page_folder": "tracker",  # JSONs loaded from here in the apworld
     "external_pack_key": "ut_pack_path",  # Images loaded from here
     "map_page_maps": "maps/maps.json",
@@ -166,14 +168,12 @@ Game.apworld
 
 Configuration:
 ```py
-class FooWorld(World):
-    game = "FooBar"
-    ...
-    tracker_world: ClassVar[dict[str, Any]] = {
-        "map_page_folder": "tracker",
-        "map_page_maps": "maps/maps.json",
-        "map_page_locations": "locations/locations.json"
-    }
+tracker_world: ClassVar[dict[str, Any]] = {
+    # ... other tracker configuration ...
+    "map_page_folder": "tracker",
+    "map_page_maps": "maps/maps.json",
+    "map_page_locations": "locations/locations.json"
+}
 ```
 
 ## Implementing Auto tabbing
@@ -200,6 +200,7 @@ To support this, UT allows for worlds to create a mapping dict that will be used
 
 ```py
 tracker_world: ClassVar[dict[str, Any]] = {
+    # ... other tracker configuration ...
     "poptracker_name_mapping": {
         # These entries are the lowest TWO section names to allow for generic final names identified by the group name
         "Secret Gathering Place/Holy Cross Chest": 123456,
@@ -211,12 +212,13 @@ tracker_world: ClassVar[dict[str, Any]] = {
 
 Locations will first check if they match a key in the mapping before the literal name matching allowing for some locations to be mapped, while others are just simple matching. If a mapping is incomplete and doesn't cover all locations in the poptracker pack, UT will still try to match the remaining locations to AP location names by their exact names.
 
-## Entrance tracking
+## Entrance tracking (Deferred entrances)
 
-If your world supports entrance randomization and you want to display it in the map tab, you can create a mapping between poptracker entrance/section names and AP entrance names using `poptracker_entrance_mapping`:
+The map tab can also track entrances, which allows for worlds with entrance randomization to display the connections on the map tab. If the section name in poptracker do not match AP entrance names, `poptracker_entrance_mapping` can be used to map the poptracker section names to AP entrance names.
 
 ```py
 tracker_world: ClassVar[dict[str, Any]] = {
+    # ... other tracker configuration ...
     "poptracker_entrance_mapping": {
         # Maps poptracker section name to AP entrance name
         "Poptracker Entrance Name": "AP Entrance Name",
@@ -225,30 +227,66 @@ tracker_world: ClassVar[dict[str, Any]] = {
 }
 ```
 
-This allows the map tab to show entrance connections and randomization information alongside location tracking.
-
 In the case of an internal or hybrid integration, you can directly add sections in the `locations.json` matching the entrance names, without additional mapping.
+
+Following color code is used for the icons:
+
+| Condition                                                    | Target region | Status                                |   Color   |
+|--------------------------------------------------------------|---------------|---------------------------------------|:---------:|
+| Parent region inaccessible or access rule resolving to False | Disconnected  | impassable (don't show target region) |    Red    |
+| Parent region accessible and access rule resolving to True   | Disconnected  | passable (don't show target region)   |   Green   |
+| Parent region accessible and access rule resolving to True   | Connected     | passed (show target region)           | Dark Gray |
+| Parent region inaccessible or access rule resolving to False | Connected     | impassable (show target region)       |    Red    |
 
 For data storage keys and world-side handling of discovered entrances, see [Deferred Entrances](apworld-integration.md#deferred-entrances).
 
+## Deferred events
 
-## Deferred Events
+Worlds can also track events to steer players toward stuff they can do that might unlock some locations without necessarily being locations themselves. Those deferred events do not show in the tracker tab because they are indistinguishable from normal events. They are only displayed on the map tab, assuming they have an associated section.
 
-Worlds can also track events to steer players toward stuff they can do that might unlock some locations without 
-necessarily being locations themselves. Those deferred events do not show in the tracker tab because they are 
-indistinguishable from normal events. They are only displayed on the map tab, assuming they have an associated section. 
+Just like during generation, as soon as a deferred event is available in logic, it will be collected. It will then be marked as collected on the map (dark gray). For the event to show as "in logic" (green) on the map, it must be in an accessible region, but its rule must evaluate to false. This is intentional: if its rule evaluated to true, it would be collected immediately and marked as collected. Out of logic deferred events show as accessible (in logic) as long as their region is accessible. Deferred events only show as "out of logic" (impassable) when their region is inaccessible.
 
-Just like during generation, as soon as a deferred event is available in logic, it will be collected. It will then be 
-marked as collected on the map (dark gray). For the event to show as "in logic" (green) on the map, it must be in 
-an accessible region, but its rule must evaluate to false.  This is intentional: if its rule evaluated to true, it would
-be collected immediately and marked as collected. Out of logic deferred events show as accessible (in logic) as long as
-their region is accessible. Deferred events only show as "out of logic" (impassable) when their region is inaccessible.
+| Condition                                                   | Status                    |    Color    |
+|-------------------------------------------------------------|---------------------------|:-----------:|
+| Parent region inaccessible                                  | impassable (out of logic) |     Red     |
+| Parent region accessible but access rule resolving to False | passable (in logic)       |    Green    |
+| Parent region accessible and access rule resolving to True  | passed (collected)        |  Dark Gray  |
 
-If you want to use deferred events, a typical implementation would set their deferred event access rule to 
-`lambda _: False`. Then, once they are collected by the player, change the access rule to `lambda _: True`. For events 
-that should only show as in logic under specific conditions, move the event location to a new region created 
-specifically for the event and set the rule on the `Entrance` connecting the event original region to the new deferred 
-event region. The rule must be on the entrance going to the new region, not on the event location. 
+If you want to use deferred events, a typical implementation would set their deferred event access rule to `lambda _: False`. Then, once they are collected by the player, change the access rule to `lambda _: True`. For events that should only show as in logic under specific conditions, move the event location to a new region created specifically for the event and set the rule on the `Entrance` connecting the event original region to the new deferred event region. The rule must be on the entrance going to the new region, not on the event location.
+
+Deferred events use the same mechanism as entrances to determine when they should be "reconnected". Add your keys to the `found_entrances_datastorage_key`, and the `reconnect_found_entrances` method in your world will be called. See [Deferred Entrances](apworld-integration.md#deferred-entrances) for more information.
+
+It is expected that deferred events will follow the `enforce_deferred_connections` config set in the `host.yaml`. When its value is `"off"`, events should not be deferred. Best practice is to check the value before attempting to change the rules of the events or entrances. **Only prepare your deferred events or entrances when the value is not `"off"`**. 
+
+Note that there is no equivalent of `poptracker_entrance_mapping` for events. The event names in the `locations.json` must match the AP location names exactly.
+
+### Code example
+
+```py
+class MyWorld(World):
+
+    # The {player} placeholder will be automatically replaced by UT.
+    found_entrances_datastorage_key: ClassVar[tuple[str, ...]] = (
+        "Slot:{player}:EntrancesToReconnect", # For deferred entrances
+        "Slot:{player}:EventsToCollect", # For deferred events
+    )
+
+    # ... other world code ...
+
+    def reconnect_found_entrances(self, storage_key: str, storage_value: list[str] | None) -> None:
+        if not getattr(self.multiworld, "enforce_deferred_connections", "off") != "off":
+            return
+
+        if storage_key.endswith("EntrancesToReconnect"):
+            # ... Your logic to reconnect entrances goes here, or maybe in a separate function. You can use the storage_value to determine which entrances to reconnect.
+            return
+
+        if storage_key.endswith("EventsToCollect"):
+            for event_name in storage_value or []:
+                event = self.get_location(event_name)
+                event.access_rule = lambda _: True  # Mark the event as collected by changing its access rule
+            return
+```
 
 ## Hiding locations on specific maps
 
@@ -260,8 +298,8 @@ class MyWorld(World):
         "Map Name 1": [location_id_1, location_id_2],
         "Map Name 2": [location_id_3],
     }
-    
-    tracker_world: ClassVar = {
+
+    tracker_world: ClassVar[dict[str, list[Any]]] = {
         # ... tracker configuration ...
     }
 ```
@@ -278,7 +316,7 @@ UT also supports rendering an icon based on a datastorage key, that the world ca
 
 ```py
 def location_icon_coords(index: int, data: Any) -> tuple[int, int, str] | None
-    #do code here
+    # do code here
     return x_coord, y_coord, internal_path_to_icon
 ```
 
