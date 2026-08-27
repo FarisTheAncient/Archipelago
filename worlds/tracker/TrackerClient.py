@@ -852,10 +852,52 @@ class TrackerGameContext(CommonContext):
         from kvui import MDRecycleView, HoverBehavior, MDLabel, MDDivider
         from kivymd.uix.tooltip import MDTooltip
         from kivy.uix.widget import Widget
+        from kivy.uix.scatterlayout import ScatterLayout
+        from kivy.uix.stencilview import StencilView
+        from kivy.graphics.transformation import Matrix
         from kivy.properties import StringProperty, NumericProperty, BooleanProperty
         from kivy.metrics import dp
         from kvui import ApAsyncImage, ToolTip
         from .TrackerKivy import SomethingNeatJustToMakePythonHappy
+
+        class BoxStencil(BoxLayout, StencilView):
+            pass
+
+        # ScatterLayout allows for panning with mouse but not scrolling to zoom (only multi-finger pinch)
+        # so we add our own mouse scroll handler
+        class ScrollWheelZoomScatterLayout(ScatterLayout):
+            zoomOutFactor = 1.1
+            zoomInFactor = 1 / zoomOutFactor
+            def on_touch_down(self, touch):
+                if self.parent and not self.parent.collide_point(*touch.pos):
+                    return False
+                # Kind of confusing but mouse scroll is under touch
+                if touch.is_mouse_scrolling:
+                    factor = self.zoomInFactor if touch.button == 'scrollup' else self.zoomOutFactor
+                    # Check if new zoom is within limits so user is less likely to lose the map
+                    if self.scale_min <= self.scale * factor <= self.scale_max:
+                        mat = Matrix().scale(factor, factor, 1)
+                        self.apply_transform(mat, anchor=touch.pos)
+                    return True
+                return super().on_touch_down(touch)
+
+            # We have to overwrite all the touch actions to return False since otherwise it blocks
+            # clicks to other UI elements, even when it's clipped by the stencil view. Not sure
+            # if Kivy has a better way to keep the scatterlayout from escaping its view.
+            def on_touch_move(self, touch):
+                if touch in self._touches:
+                    return super().on_touch_move(touch)
+                return False
+
+            def on_touch_up(self, touch):
+                if touch in self._touches:
+                    return super().on_touch_up(touch)
+                return False
+
+            def recenter_view(self):
+                self.scale = 1.0
+                self.pos = (0, 0)
+                self.transform = Matrix()
 
         class CheckItem(BoxLayout):
             text = StringProperty()
