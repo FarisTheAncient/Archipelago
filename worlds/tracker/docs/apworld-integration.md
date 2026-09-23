@@ -49,6 +49,27 @@ You may also want to adjust your world's behaviour in other functions to reduce 
             self.create_location(...)
 ```
 
+## "Glitched" Logic
+
+Some apworlds that define "soft" logic or otherwise have reason to tell the player that a location might be "physically" reachable, even if it's not "logically" reachable, can use the UT implementation of "glitched logic"
+
+By defining a `glitches_item_name` 
+
+```python
+class MyWorld(World):
+    glitches_item_name = "Being Good"
+```
+
+And then using them in rules
+```python
+
+    self.set_rule(loc, Or(Has("Swords",2), Has("Being Good")))
+```
+
+UT will then create an event item with the provided name, and all locations that enter logic after it's collected will be considered "glitched accessable"
+
+*Note*: Make sure your `create_item` can create that event item
+
 ## Generating without a YAML
 
 You can also make it so a YAML is not required to generate for your world. To do so, you must first store all options that affect generation in your slot data. Take care not to include options that don't affect generation and aren't useful for the game client.

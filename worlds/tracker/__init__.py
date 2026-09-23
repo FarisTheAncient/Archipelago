@@ -103,7 +103,7 @@ class TrackerSettings(Group):
         for all values you choose not to define. If 'other' is not given a
         priority, it will default to one more than the highest number given.
         Valid category names are: default, hinted, excluded, glitched,
-        hinted_glitched, excluded_glitched, disconnected, and other."""
+        hinted_glitched, excluded_glitched, unconnected, and other."""
 
     class SortingMethod(str):
         """Defines whether locations on the tracker tab are sorted by their

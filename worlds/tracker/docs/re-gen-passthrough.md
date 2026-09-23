@@ -42,6 +42,8 @@ If the default use case for a world using interpret_slot_data is to force a rege
 
 By having a world set the `ut_can_gen_without_yaml` flag and creating a static `interpret_slot_data` UT will not perform the first global generation and will instead use the slot_data on connection to a multiworld to trigger a solo generation that is used for tracking
 
+With the `ut_can_gen_without_yaml` flag set, a trivial `interpret_slot_data` (one that just returns slot_data without any changes) can actually be omitted, as with the flag set it's expected that slot data will be passed.
+
 # Disabling UT
 
 There are cases where the world dev knows that UT will have issues and doesn't have the time/will to add compatability.
