@@ -10,7 +10,7 @@ ADDONS_ERRORS:list[str] = []
 
 from Utils import tuplize_version
 
-UT_ADDONS_VERSION = "v0.1.1"
+UT_ADDONS_VERSION = "v0.1.2"
 
 UT_ADDONS_TUPLE = tuplize_version(UT_ADDONS_VERSION[1:].split("-",1)[0])
 
@@ -76,8 +76,8 @@ def stupid_thing(self: "TrackerCommandProcessor"):
 def next_progression(self: "TrackerCommandProcessor"):
     """Finds all items that will unlock a check immediately when collected, and a best guess of how many new checks they will unlock."""
     self.ctx.updateTracker()
-    assert self.ctx.tracker_core.multiworld
-    assert self.ctx.tracker_core.player_id
+    if self.ctx.tracker_core is None or self.ctx.tracker_core.multiworld is None or self.ctx.tracker_core.player_id is None:
+        return
     baseLocs = len(self.ctx.tracker_core.locations_available)
     counter = Counter()
     goal_items = []
