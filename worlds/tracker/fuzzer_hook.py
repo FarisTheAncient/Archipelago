@@ -12,7 +12,6 @@ from BaseClasses import MultiWorld,Location,ItemClassification
 from NetUtils import NetworkItem
 logger = logging.getLogger("Fuzzer")
 
-
 class Hook(BaseHook):
     ut_core:TrackerCore.TrackerCore
     player_files_path:str
@@ -110,3 +109,9 @@ class Hook(BaseHook):
 
     def reclassify_outcome(self, outcome, exc):
         return (self.status if self.status is not None else outcome), exc
+
+class YamllessHook(Hook):
+    def before_generate(self, args):
+        super().before_generate(args)
+        self.player_files_path = "Players" #Use default folder which won't have the correct yaml in it
+

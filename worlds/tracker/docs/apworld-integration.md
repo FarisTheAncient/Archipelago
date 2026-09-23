@@ -212,3 +212,10 @@ To implement a custom sort, you will need to override the `custom_ut_sort` funct
         return sorting_key
 ```
 This function will be used as the sorting key in the call to sort locations on the tracker tab. You may find this useful if there's a meaningful way to sort your locations that isn't alphabetical.
+
+
+## Fuzzer hooks
+
+UT provides two Hooks for the amazing [Fuzzer](https://github.com/Eijebong/Archipelago-fuzzer) utility, one (`worlds.tracker.fuzzer_hook:Hook`) that tests for UT compliance, and another (`worlds.tracker.fuzzer_hook:YamllessHook`) that tests for Yamlless UT compliance
+
+For more information about the Fuzzer, and how to use fuzzer hooks with it, see their documentation
