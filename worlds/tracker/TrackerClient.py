@@ -425,6 +425,7 @@ class TrackerGameContext(CommonContext):
             async_start(self.disconnect(False), name="disconnecting")
             raise e
         if updateTracker_ret.state is None:
+            if self.tracker_page is not None: self.tracker_page.addLine("Something went wrong, run /faris_asked and post the result in the Universal Tracker discord channel", False)
             return updateTracker_ret # core.updateTracker failed, just pass it along
         current_world = self.tracker_core.get_current_world()
         if current_world is None:
