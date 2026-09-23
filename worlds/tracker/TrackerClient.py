@@ -8,7 +8,7 @@ import sys
 from typing import Union, TYPE_CHECKING
 
 
-from BaseClasses import CollectionState, Location
+from BaseClasses import CollectionState, Location, LocationProgressType
 from Utils import __version__, async_start, open_filename, persistent_load, persistent_store
 from worlds import AutoWorld
 from . import TrackerWorld, UTMapTabData, CurrentTrackerState, UT_VERSION
@@ -708,8 +708,12 @@ class TrackerGameContext(CommonContext):
         self.ui.loc_border = m["location_border_thickness"] if "location_border_thickness" in m else 8  # default location size per poptracker/src/core/map.h
         temp_locs = [location for location in self.locs]
         map_locs = []
-        hidden_locations = getattr(self.tracker_core.get_current_world(), "ut_map_page_hidden_locations", {})
-        current_hidden_locs = hidden_locations.get(m["name"], [])
+        current_world = self.tracker_core.get_current_world()
+        assert current_world
+        hidden_locations = getattr(current_world, "ut_map_page_hidden_locations", {})
+        current_hidden_locs:list[str] = hidden_locations.get(m["name"], [])
+        if self.hide_excluded:
+            current_hidden_locs.extend([loc.name for loc in current_world.get_locations() if loc.address is not None and loc.progress_type == LocationProgressType.EXCLUDED])
         while temp_locs:
             temp_loc = temp_locs.pop()
             if "map_locations" in temp_loc:
