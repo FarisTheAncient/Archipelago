@@ -160,8 +160,19 @@ class TrackerCommandProcessor(ClientCommandProcessor):
         self.ctx.updateTracker()
         logger.info(f"Added {item_name} to manually collect.")
 
+    @mark_raw
+    def _cmd_manually_collects(self, params: str = ""):
+        """Manually adds an item name to the CollectionState multiple times."""
+        parts = params.split(maxsplit=1)
+        count = int(parts[0])
+        item_name = parts[1]
+        self.ctx.tracker_core.manual_items.extend([item_name] * count)
+        self.ctx.persist_seed_data()
+        self.ctx.updateTracker()
+        logger.info(f"Added {count}x {item_name} to manually collect.")
+
     def _cmd_reset_manually_collect(self):
-        """Resets the list of items manually collected by /manually_collect"""
+        """Resets the list of items manually collected by manual collects"""
         self.ctx.tracker_core.manual_items = []
         self.ctx.persist_seed_data()
         self.ctx.updateTracker()
