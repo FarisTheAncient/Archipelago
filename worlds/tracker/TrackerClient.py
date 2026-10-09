@@ -1590,17 +1590,18 @@ class TrackerGameContext(CommonContext):
         current_world = self.tracker_core.get_current_world()
         if not current_world:
             return ""
+        nl = "\n"  # py 3.11 compat
         sReturn = ""
         if hasattr(current_world,"explain_rule"):
             docstring = inspect.getdoc(current_world.explain_rule)
             if docstring:
-                sReturn += f"explain overrides:\n    {'\n    '.join(docstring.split('\n'))}"
+                sReturn += f"explain overrides:{nl}    {f'{nl}    '.join(docstring.split(nl))}"
         if hasattr(current_world,"get_logical_path"):
             docstring = inspect.getdoc(current_world.get_logical_path)
             if docstring:
                 if sReturn:
                     sReturn += "\n"
-                sReturn += f"get_logical_path overrides:\n    {'\n    '.join(docstring.split('\n'))}"
+                sReturn += f"get_logical_path overrides:{nl}    {f'{nl}    '.join(docstring.split(nl))}"
 
         return sReturn
 
