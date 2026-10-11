@@ -1,5 +1,7 @@
 # Elden Ring Location Guide
 
+[Game Guide](./en%20Elden%20Ring.md) | [Setup Guide](./en_setup_guide.md) | [Region Guide](./en_region_guide.md) | Location Guide
+
 ## Understanding the Acronyms
 
 ### What a location looks like 

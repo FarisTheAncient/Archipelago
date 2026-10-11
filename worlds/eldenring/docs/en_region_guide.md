@@ -1,5 +1,7 @@
 # Elden Ring Region Guide
 
+[Game Guide](./en%20Elden%20Ring.md) | [Setup Guide](./en_setup_guide.md) | Region Guide | [Location Guide](./en_location_guide.md)
+
 ## Regions and Acronyms
 
 Regions | [Base Game Regions](#base-game-1) | [DLC Regions](#dlc-1)
