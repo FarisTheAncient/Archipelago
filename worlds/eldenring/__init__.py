@@ -300,6 +300,8 @@ class EldenRing(World):
             raise OptionError(f"Player {self.player_name} has DLC excluded but DLC only is on.")
         elif len([boss for boss in m_goal_bosses if boss in dlc_bosses]) == 0: # dlc only, is there a dlc boss?
             raise OptionError(f"Player {self.player_name} has no boss goals in DLC but is doing DLC Only.")
+        else: # if dlc only no separate_prog
+            self.options.separate_progression.value = False
         
         if self.options.enable_dlc and self.base_enabled and len([boss for boss in m_goal_bosses if boss in base_bosses + dlc_bosses]) == 0: # is there a goal boss?
             raise OptionError(f"Player {self.player_name} no valid Goal bosses, please set a valid Goal boss.")
@@ -728,7 +730,7 @@ class EldenRing(World):
         
         self.multiworld.itempool += self.itempool
         
-        # warning(f"priority locations: {len(self.all_priority_locations)} important items: {len([i for i in self.itempool if i.classification in (ItemClassification.progression)])}")
+        # warning(f"priority locations: {len(self.all_priority_locations)} important items: {len([i for i in self.itempool if i.classification == ItemClassification.progression])}")
         warning(f"EldenRing {self.player_name} local items: {len([i for i in self.itempool if i.data.name in self.local_items])} of {len(self.itempool)}")
         
     def _create_dupe_locations(self) -> None:
@@ -785,18 +787,14 @@ class EldenRing(World):
             
             if required_prio != None:
                 location = required_prio
-            elif loc_needed > 0 or len(dlc_priority) == 0:
+            elif loc_needed > 0 or len(dlc_priority) == 0 and self.options.separate_progression:
                 if len(base_priority) == 0:
-                    if self.multiworld.players == 1:
-                        raise OptionError(f"Player {self.player_name} doesn't have base enought priority locations.")
                     warning(f"Player {self.player_name} ran out of base priority locations, add more.")
                     break # leave while loop
                 else:
                     location = self.random.choice(sorted(base_priority + early_base * (self.options.important_at_priority_early - 1)))
             elif dlc_loc_needed > 0:
                 if len(dlc_priority) == 0:
-                    if self.multiworld.players == 1:
-                        raise OptionError(f"Player {self.player_name} doesn't have enought dlc priority locations.")
                     warning(f"Player {self.player_name} ran out of dlc priority locations, add more.")
                     break # leave while loop
                 else:
@@ -828,7 +826,7 @@ class EldenRing(World):
                             if not location_dictionary[location].dlc: loc_needed -= 1
                             else: dlc_loc_needed -= 1
                             break
-                        else: # can't be duped or no more Dupe #
+                        else: # can't be duped
                             if location in base_priority:
                                 base_priority.remove(location)
                                 if location in early_base:
