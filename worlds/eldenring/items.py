@@ -2986,7 +2986,7 @@ _tarnished_items = [
     
     ERItemData("Hefty Scimitar", 31540000, ERItemCategory.WEAPON),
     ERItemData("Steel Helm", 5370000, ERItemCategory.ARMOR),
-    ERItemData("Steel Armor", 53701000, ERItemCategory.ARMOR),
+    ERItemData("Steel Armor", 5370100, ERItemCategory.ARMOR),
     ERItemData("Steel Gauntlets", 5370200, ERItemCategory.ARMOR),
     ERItemData("Steel Greaves", 5370300, ERItemCategory.ARMOR),
     

@@ -172,8 +172,10 @@ class DLCTimingOption(Choice):
     option_late = 2
     default = 1
     
-class DLCMaxLevelWeapons(Toggle):
-    """Upgrade all weapons to max level in the DLC."""
+class DLCMaxLevelWeapons(Toggle): # not fully supported
+    """Upgrade all weapons to max level in the DLC.
+
+    Currently this only works when using DLC Start."""
     display_name = "DLC Max Level Weapons"
     
 class DLCAbyssalTorrent(Toggle):

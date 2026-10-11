@@ -274,7 +274,8 @@ class EldenRing(World):
                 shard_dict['Req'] = shard_dict['Max']
         
         if self.options.important_at_priority_only and len(self.all_priority_locations) < 50: # make sure player adds enough locations
-            raise OptionError(f"Player {self.player_name} has important_at_priority_only enabled but has less then 50 priority locations. Add groups to priority_location_groups.")
+            raise OptionError(f"Player {self.player_name} has important_at_priority_only enabled but has {len(self.all_priority_locations)} "
+                              f"priority locations, less than 50 required. Add groups to priority_location_groups.")
         
         m_goal_bosses = self._goal_bosses()
         if self.options.exclude_dungeon.value: # exclude dungeon bosses
