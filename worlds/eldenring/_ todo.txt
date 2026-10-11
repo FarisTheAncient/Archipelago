@@ -15,8 +15,6 @@ python launcher.py "Build APWorlds" -- "Elden Ring"
 make a docs folder for locations and region descriptions
 and make a python script to automate item
 
-rusty key and stormveil lock do same thing-ish
-
 rest of keyitemshards at later point
 and presets for keyitemshards
 
@@ -35,7 +33,6 @@ option to turn off healing item randomization / start with
 - Art that will be needed probs -
 
 modified main menu with arch text
-a apitem item sprite for pickups and shop
 custom region lock items
 Stonesword Master Key, Regional Master Keys
 Traps

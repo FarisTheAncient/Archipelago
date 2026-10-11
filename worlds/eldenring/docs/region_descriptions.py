@@ -258,7 +258,7 @@ if __name__ == '__main__':
     # print(table)
 
     with open(
-        os.path.join(os.path.dirname(__file__), 'en_Elden Ring.md'),
+        os.path.join(os.path.dirname(__file__), 'en_region_guide.md'),
         'r+',
         encoding='utf-8'
     ) as f:
@@ -271,6 +271,6 @@ if __name__ == '__main__':
         f.write(original[:start] + table + original[end:])
         f.truncate()
 
-    print("Updated docs/en_Elden Ring.md!")
+    print("Updated docs/en_region_guide.md!")
     
     
