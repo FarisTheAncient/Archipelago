@@ -738,7 +738,7 @@ class EldenRing(World):
         """Create duplicate locations."""
         important_items = []
         for item in self.itempool:
-            if item.classification in (ItemClassification.progression): # , ItemClassification.progression_deprioritized
+            if item.classification == ItemClassification.progression: # , ItemClassification.progression_deprioritized
                 important_items.append(item)
         
         dlc_priority = [loc for loc in self.all_priority_locations if location_dictionary[loc].dlc and self.options.enable_dlc]
