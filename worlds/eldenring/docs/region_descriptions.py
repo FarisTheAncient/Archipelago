@@ -248,7 +248,7 @@ if __name__ == '__main__':
             table += f"</table><br><div>\n\n## DLC\n\n</div><table>\n"
         if last_region != find_label(region):
             last_region = find_label(region)
-            table += f"<tr><td><h3>{html.escape(last_region)}</td></tr>\n"
+            table += f"<tr><td><h3>\n\n### {html.escape(last_region)}\n\n</td></tr>\n"
         for (initial, description) in sorted(
             inital_dict.items(),
             key = lambda pair: pair[0]
