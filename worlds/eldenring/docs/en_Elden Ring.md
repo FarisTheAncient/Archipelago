@@ -614,27 +614,23 @@ Regions | [Base Game Regions](#base-game) | [DLC Regions](#dlc)
 <tr><td><strong>BTS/SF: </strong></td></tr>
 <tr><td><strong>BTS/SPA: </strong></td></tr>
 <tr><td><strong>BTS/TDB: </strong></td></tr>
-<tr><td><h3>Belurat Swamp</td></tr>
 <tr><td><h3>Castle Ensis</td></tr>
 <tr><td><strong>CE/CEC: </strong></td></tr>
 <tr><td><strong>CE/CF: </strong></td></tr>
 <tr><td><strong>CE/CLC: </strong></td></tr>
 <tr><td><h3>Fog Rift Fort</td></tr>
 <tr><td><strong>CE/(FRF): </strong></td></tr>
-<tr><td><h3>Jagged Peak Foot</td></tr>
+<tr><td><h3>Jagged Peak</td></tr>
 <tr><td><strong>JP/DPT: </strong></td></tr>
 <tr><td><strong>JP/FJP: </strong></td></tr>
 <tr><td><strong>JP/GADC: </strong></td></tr>
-<tr><td><h3>Jagged Peak</td></tr>
 <tr><td><strong>JP/JPM: </strong></td></tr>
 <tr><td><strong>JP/JPS: </strong></td></tr>
 <tr><td><h3>Charo&#x27;s Hidden Grave</td></tr>
 <tr><td><strong>CHG/CHG: </strong></td></tr>
 <tr><td><strong>CHG/LG: </strong></td></tr>
-<tr><td><h3>Lamenter&#x27;s Gaol (Entrance)</td></tr>
-<tr><td><h3>Lamenter&#x27;s Gaol (Upper)</td></tr>
-<tr><td><strong>CHG/(LG): </strong></td></tr>
-<tr><td><h3>Lamenter&#x27;s Gaol (Lower)</td></tr>
+<tr><td><h3>Charo&#x27;s Hidden Grave Dungeon</td></tr>
+<tr><td><strong>CHG/(LG): </strong>Lamenter&#x27;s Gaol.</td></tr>
 <tr><td><h3>Scadu Altus</td></tr>
 <tr><td><strong>SA/(BV): </strong></td></tr>
 <tr><td><strong>SA/(CC): </strong></td></tr>
@@ -655,16 +651,13 @@ Regions | [Base Game Regions](#base-game) | [DLC Regions](#dlc)
 <tr><td><strong>SA/RFSP: </strong></td></tr>
 <tr><td><strong>SA/SAW: </strong></td></tr>
 <tr><td><strong>SA/SC: </strong></td></tr>
-<tr><td><h3>Bonny Gaol</td></tr>
-<tr><td><strong>SA/(BG): </strong></td></tr>
-<tr><td><h3>Ruined Forge of Starfall Past</td></tr>
-<tr><td><strong>SA/(RFSP): </strong></td></tr>
-<tr><td><h3>Rauh Ruins Limited</td></tr>
-<tr><td><strong>SA/ARR: </strong></td></tr>
+<tr><td><h3>Scadu Altus Dungeons</td></tr>
+<tr><td><strong>SA/(BG): </strong>Bonny Gaol.</td></tr>
+<tr><td><strong>SA/(RFSP): </strong>Ruined Forge of Starfall Past.</td></tr>
+<tr><td><strong>SA/ARR: </strong>Rauh Ruins Limited, use infused stonesword key.</td></tr>
 <tr><td><h3>Cathedral of Manus Metyr</td></tr>
-<tr><td><h3>Finger Ruins of Miyr</td></tr>
-<tr><td><strong>FRM: </strong></td></tr>
-<tr><td><strong>SA/(CMM): </strong></td></tr>
+<tr><td><strong>FRM: </strong>Finger Ruins of Miyr.</td></tr>
+<tr><td><strong>SA/(CMM): </strong>Cathedral of Manus Metyr.</td></tr>
 <tr><td><h3>Rauh Base</td></tr>
 <tr><td><strong>RB/(NNM): </strong></td></tr>
 <tr><td><strong>RB/(TTR): </strong></td></tr>
@@ -674,24 +667,22 @@ Regions | [Base Game Regions](#base-game) | [DLC Regions](#dlc)
 <tr><td><strong>RB/SRC: </strong></td></tr>
 <tr><td><strong>RB/TRF: </strong></td></tr>
 <tr><td><strong>RB/TTR: </strong></td></tr>
-<tr><td><h3>Scorpion River Catacombs</td></tr>
-<tr><td><strong>RB/(SRC): </strong></td></tr>
-<tr><td><h3>Taylew&#x27;s Ruined Forge</td></tr>
-<tr><td><strong>RB/(TRF): </strong></td></tr>
+<tr><td><h3>Rauh Base Dungeons</td></tr>
+<tr><td><strong>RB/(SRC): </strong>Scorpion River Catacombs.</td></tr>
+<tr><td><strong>RB/(TRF): </strong>Taylew&#x27;s Ruined Forge.</td></tr>
 <tr><td><h3>Ellac River</td></tr>
 <tr><td><strong>ER/ERC: </strong></td></tr>
 <tr><td><strong>ER/ERD: </strong></td></tr>
 <tr><td><strong>ER/RC: </strong></td></tr>
-<tr><td><h3>Rivermouth Cave</td></tr>
-<tr><td><strong>ER/(RC): </strong></td></tr>
+<tr><td><h3>Ellac River Dungeon</td></tr>
+<tr><td><strong>ER/(RC): </strong>Rivermouth Cave.</td></tr>
 <tr><td><h3>Cerulean Coast</td></tr>
 <tr><td><strong>CC/CC: </strong></td></tr>
 <tr><td><strong>CC/CCC: </strong></td></tr>
 <tr><td><strong>CC/CCW: </strong></td></tr>
-<tr><td><h3>Finger Ruins of Rhia</td></tr>
 <tr><td><strong>CC/FRR: </strong></td></tr>
-<tr><td><strong>FRR: </strong></td></tr>
-<tr><td><strong>FRR/(FWH): </strong></td></tr>
+<tr><td><strong>FRR: </strong>Finger Ruins of Rhia.</td></tr>
+<tr><td><strong>FRR/(FWH): </strong>Finger-Weaver&#x27;s Hovel landmark, SE Finger Ruins of Rhia.</td></tr>
 <tr><td><h3>Stone Coffin Fissure</td></tr>
 <tr><td><strong>SCF/FC: </strong></td></tr>
 <tr><td><strong>SCF/FD: </strong></td></tr>
@@ -701,22 +692,17 @@ Regions | [Base Game Regions](#base-game) | [DLC Regions](#dlc)
 <tr><td><h3>Shadow Keep</td></tr>
 <tr><td><strong>SK/MGP: </strong></td></tr>
 <tr><td><strong>SK/SKMG: </strong></td></tr>
-<tr><td><h3>Shadow Keep Storehouse</td></tr>
 <tr><td><strong>Cross: </strong></td></tr>
 <tr><td><strong>SK/DCE: </strong></td></tr>
 <tr><td><strong>SK/SFiF: </strong></td></tr>
 <tr><td><strong>SK/SFoF: </strong></td></tr>
 <tr><td><strong>SK/SSF: </strong></td></tr>
-<tr><td><h3>Shadow Keep Storehouse Back</td></tr>
 <tr><td><strong>SK/SBS: </strong></td></tr>
 <tr><td><strong>SK/SL: </strong></td></tr>
 <tr><td><strong>ScV/SKBG: </strong></td></tr>
-<tr><td><h3>Shadow Keep, West Rampart</td></tr>
 <tr><td><strong>SK/SFF: </strong></td></tr>
 <tr><td><strong>SK/WR: </strong></td></tr>
-<tr><td><h3>Shadow Keep, Church District</td></tr>
 <tr><td><strong>SK/CDE: </strong></td></tr>
-<tr><td><h3>Shadow Keep, Church District Lower</td></tr>
 <tr><td><strong>SK/SC: </strong></td></tr>
 <tr><td><strong>SK/TWS: </strong></td></tr>
 <tr><td><h3>Scaduview</td></tr>
@@ -736,8 +722,7 @@ Regions | [Base Game Regions](#base-game) | [DLC Regions](#dlc)
 <tr><td><strong>HL/FH: </strong></td></tr>
 <tr><td><strong>HL/HB: </strong></td></tr>
 <tr><td><strong>HL/HL: </strong></td></tr>
-<tr><td><h3>Finger Ruins of Dheo</td></tr>
-<tr><td><strong>FRD: </strong></td></tr>
+<tr><td><strong>FRD: </strong>Finger Ruins of Dheo.</td></tr>
 <tr><td><h3>Recluses&#x27; River</td></tr>
 <tr><td><strong>RR/(ENM): </strong></td></tr>
 <tr><td><strong>RR/(RU): </strong></td></tr>
@@ -746,7 +731,7 @@ Regions | [Base Game Regions](#base-game) | [DLC Regions](#dlc)
 <tr><td><strong>RR/RRD: </strong></td></tr>
 <tr><td><strong>RR/RRU: </strong></td></tr>
 <tr><td><strong>RR/RU: </strong></td></tr>
-<tr><td><h3>Darklight Catacombs</td></tr>
+<tr><td><h3>Recluses&#x27; River Dungeon</td></tr>
 <tr><td><strong>RR/(DC): </strong></td></tr>
 <tr><td><h3>Abyssal Woods</td></tr>
 <tr><td><strong>AW/(AC): </strong></td></tr>

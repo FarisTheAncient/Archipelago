@@ -81,6 +81,31 @@ def find_description(initial: str) -> str:
         # gravesite plains
         case "": return ""
         
+        
+        
+        
+        
+        
+        case "CHG/(LG)": return "Lamenter's Gaol."
+        
+        case "SA/(BG)": return "Bonny Gaol."
+        case "SA/(RFSP)": return "Ruined Forge of Starfall Past."
+        case "SA/ARR": return "Rauh Ruins Limited, use infused stonesword key."
+        
+        case "FRM": return "Finger Ruins of Miyr."
+        case "SA/(CMM)": return "Cathedral of Manus Metyr."
+        
+        case "RB/(SRC)": return "Scorpion River Catacombs."
+        case "RB/(TRF)": return "Taylew's Ruined Forge."
+        
+        case "FRR": return "Finger Ruins of Rhia."
+        case "FRR/(FWH)": return "Finger-Weaver's Hovel landmark, SE Finger Ruins of Rhia."
+        
+        case "ER/(RC)": return "Rivermouth Cave."
+        
+        case "FRD": return "Finger Ruins of Dheo."
+        
+        
         case "": return ""
     
     return ""
@@ -167,15 +192,38 @@ def find_label(region: str) -> str:
     if region in ("Fog Rift Catacombs", "Belurat Gaol", "Dragon's Pit", "Ruined Forge Lava Intake"):
         return "Gravesite Plain Dungeons"
     
+    if region in ("Belurat", "Belurat Swamp"):
+        return "Belurat"    
     
+    if region in ("Jagged Peak", "Jagged Peak Foot"):
+        return "Jagged Peak"    
     
+    if region in ("Lamenter's Gaol (Entrance)", "Lamenter's Gaol (Upper)", "Lamenter's Gaol (Lower)"):
+        return "Charo's Hidden Grave Dungeon"    
     
+    if region in ("Bonny Gaol", "Ruined Forge of Starfall Past", "Rauh Ruins Limited"):
+        return "Scadu Altus Dungeons"    
     
+    if region in ("Cathedral of Manus Metyr", "Finger Ruins of Miyr"):
+        return "Cathedral of Manus Metyr"    
     
+    if region in ("Scorpion River Catacombs", "Taylew's Ruined Forge"):
+        return "Rauh Base Dungeons"    
     
-    if region in ("", ""):
-        return ""
+    if region in ("Cerulean Coast", "Finger Ruins of Rhia"):
+        return "Cerulean Coast"   
     
+    if region in ("Rivermouth Cave"):
+        return "Ellac River Dungeon"    
+    
+    if region in ("Shadow Keep", "Shadow Keep Storehouse", "Shadow Keep Storehouse Back", "Shadow Keep, West Rampart", "Shadow Keep, Church District", "Shadow Keep, Church District Lower"):
+        return "Shadow Keep"    
+    
+    if region in ("Hinterland", "Finger Ruins of Dheo"):
+        return "Hinterland" 
+        
+    if region in ("Darklight Catacombs"):
+        return "Recluses' River Dungeon"    
     
     # if nothing return region
     return region

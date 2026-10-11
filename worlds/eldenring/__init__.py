@@ -788,7 +788,7 @@ class EldenRing(World):
             
             if required_prio != None:
                 location = required_prio
-            elif loc_needed > 0 or len(dlc_priority) == 0 and self.options.separate_progression:
+            elif loc_needed > 0:
                 if len(base_priority) == 0:
                     warning(f"Player {self.player_name} ran out of base priority locations, add more.")
                     break # leave while loop
