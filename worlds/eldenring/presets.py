@@ -293,15 +293,15 @@ dlc_only = {
     
     "enable_dlc":                           EnableDLC.option_true,
     "dlc_start":                            DLCStart.option_dlc_start,
-    "dlc_starting_items":                   DLCStartingItems.default,
+    "dlc_starting_items":                   ["sacred tears", "golden seeds", "talisman pouches", "memory stones", "whetblades"],
     "dlc_starting_shop":                    DLCStartingShop.option_true,
     "dlc_care_package":                     DLCCarePackage.option_false,
     "dlc_initial_rune_level":               90,
     "dlc_messmer_kindle":                   DLCMessmerKindle.option_normal,
     "dlc_scadutree_fragments":              DLCScadutreeFragments.option_normal,
     "dlc_timing":                           DLCTimingOption.option_off,
-    "dlc_max_level_weapons":                DLCMaxLevelWeapons.option_false,
-    "dlc_abyssal_torrent":                  DLCAbyssalTorrent.option_false,
+    "dlc_max_level_weapons":                DLCMaxLevelWeapons.option_true,
+    "dlc_abyssal_torrent":                  DLCAbyssalTorrent.option_true,
     "spiritspring_stones":                  DLCSpiritspringStones.option_true,
     
     "enemy_rando":                          EnemyRando.option_true,
