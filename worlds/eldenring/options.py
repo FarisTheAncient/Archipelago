@@ -437,7 +437,7 @@ class PhysickFlaskOption(Choice):
     - **Early:** Make it anywhere before Altus and not in Caelid, if DLC Only it'll be in Gravesite Plain.
     - **Do Not Randomize:** Leave it at its normal spot, if DLC Only is on it'll be in Roundtable Twin Maiden Shop.
     """
-    display_name = "Crafting Kit Behavior"
+    display_name = "Flask of Wondrous Physick Behavior"
     option_randomize = 0
     option_early = 1
     option_do_not_randomize = 2

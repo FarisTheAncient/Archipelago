@@ -1671,6 +1671,11 @@ class EldenRing(World):
             self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: state.has("Imbued Sword Key", self.player, 3))
             self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: state.has("Imbued Sword Key", self.player, 3))
         
+        # no runes in shops
+        for loc in self.multiworld.get_unfilled_locations(self.player):
+            if loc.data.shop:
+                self._add_item_rule(loc.name, lambda item: (item.player != self.player and item.game != "Eldenring") or item.data.runes == None)
+        
         # Rykard and Serpent Rule
         if not self.options.rykard_encounter:
             if self.rykard_location and (self.rykard_location.dlc and self.options.enable_dlc or not self.rykard_location.dlc and self.base_enabled):

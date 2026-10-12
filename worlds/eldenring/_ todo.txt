@@ -12,6 +12,9 @@ python launcher.py "Build APWorlds" -- "Elden Ring"
 
 - TODO -
 
+BIG TODO, don't remove extra prio locations in dupe func, remove them after prog have been placed
+only with eldenring in world and all need important at prio on
+
 make a docs folder for locations and region descriptions
 and make a python script to automate item
 
