@@ -53,8 +53,8 @@ shard_list = { # item name: option name
 }
     
 class ExcludeDungeonBosses(DefaultOnToggle):
-    """Exclude dungeon bosses from Goal. ex: Catacomb and Cave bosses, not Siofra River bosses.
-    This includes priority location groups."""
+    """Exclude dungeon bosses from Goal. ex: Catacomb, Cave, Tunnels ect.., and **not** Underground, Ruins or Evergaol bosses.
+    \nThis includes dungeon bosses in boss rewards from priority location groups."""
     display_name = "Exclude Dungeon Bosses"
 
 class WorldLogic(Choice):
@@ -330,6 +330,14 @@ class MaterialRando(DefaultOnToggle):
     """Randomizes the indefinitely spawning materials."""
     display_name = "Material Randomizer"
 
+class DeathLinkAmnesty(Range): # unsupported, till after first release
+    """How many deaths before you send a deathlink to the multiworld."""
+    display_name = "DeathLink Amnesty"
+    range_start = 1
+    range_end = 10
+    default = 1
+    visibility = Visibility.none
+
 # MARK: Traps
     
 class BaseTrapCount(Range):
@@ -401,7 +409,7 @@ class NoEquipLoadOption(Toggle): # unsupported, till after first release
     display_name = "No Equip Load"
     visibility = Visibility.none
 
-class ReduceNonSomberUpgradeCost(Toggle):
+class ReduceNonSomberUpgradeCost(DefaultOnToggle):
     """Reduce regular Smithing Stone costs for non-somber weapons to one stone per weapon level."""
     display_name = "Reduce Upgrade Cost for Non-Somber Weapons"
 
@@ -506,7 +514,7 @@ class ERPriorityLocationGroups(PriorityLocations):
     - **Basin**: Basins that contain tears.
     - **Church**: Sacred Tears.
     - **Map**: Map pillars.
-    - **Fragment**: Scadu Fragments.
+    - **Fragment**: Scadu Fragments. *Includes enemy dropped ones.*
     - **Cross**: All cross items.
     - **Revered**: Revered Spirit Ashes.
     - **Key Items**: Key items.
@@ -546,15 +554,15 @@ class ERImportantAtPriorityEarly(Range):
     range_end = 5
     default = 1
 
-class FlaskUpgradesAtPriority(Toggle):
+class FlaskUpgradesAtPriority(DefaultOnToggle):
     "Should flask upgrades be randomized to important locations."
     display_name = "Flask Upgrades at Priority"
     
-class ScaduAtPriority(Toggle):
+class ScaduAtPriority(DefaultOnToggle):
     "Should scadu fragments be randomized to important locations."
     display_name = "Scadutree Fragments at Priority"
 
-class TalismanPouchesAtPriority(Toggle):
+class TalismanPouchesAtPriority(DefaultOnToggle):
     "Should talisman pouches be randomized to important locations."
     display_name = "Talisman Pouches at Priority"
 
@@ -688,6 +696,7 @@ class EROptions(PerGameCommonOptions):
     random_enemy_preset: RandomEnemyPresetOption
     material_rando: MaterialRando
     death_link: DeathLink
+    death_link_amnesty: DeathLinkAmnesty
     
     ngplus_trap_count: NGPlusTrapCount
     status_trap_count: StatusTrapCount
@@ -762,7 +771,8 @@ option_groups = [
         AutoUpgradeOption,
     ]),
     OptionGroup("Death Link", [
-        DeathLink
+        DeathLink,
+        DeathLinkAmnesty
     ]),
     OptionGroup("DLC", [
         EnableTarnishedPack,

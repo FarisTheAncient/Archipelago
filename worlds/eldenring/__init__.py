@@ -3324,8 +3324,6 @@ class EldenRing(World):
                         location.data.targets = [location.data.targets]
                     location_ids_to_targets[location.address] = list(location.data.targets)
 
-
-        
         duplicated_locations = {}
         for dupe_location in self.all_duplicate_locations:
             duplicated_locations[dupe_location] = dupe_location[:dupe_location.find("extra item")-2]
@@ -3373,6 +3371,7 @@ class EldenRing(World):
                 "dungeon_sweep": self.options.dungeon_sweep.value,
                 "material_rando": self.options.material_rando.value,
                 "death_link": self.options.death_link.value,
+                "death_link_amnesty": self.options.death_link_amnesty.value,
                 
                 "ngplus_trap_count": self.options.ngplus_trap_count.value,
                 "status_trap_count": self.options.status_trap_count.value,
