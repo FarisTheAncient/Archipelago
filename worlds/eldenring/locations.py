@@ -576,6 +576,7 @@ class ERLocationData:
             options.excluded_location_behavior.value >= 3
             and self.name in options.exclude_locations.value
         ) or (self.default_item_name == "Crafting Kit" and options.crafting_kit_option.value == 2
+        ) or (self.default_item_name == "Flask of Wondrous Physick" and options.physick_flask_option.value == 2
         ) or (self.map and options.map_option.value == 2
         ) or (self.smithingbell and options.smithing_bell_bearing_option.value == 2
         ) or (self.default_item_name == "Serpent-Hunter" and not options.enemy_rando and options.rykard_encounter
@@ -1165,7 +1166,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/(FH): Dectus Medallion (Left) - tower chest", "Dectus Medallion (Left)", key="604636,0:1046367500::", keyitem=True, chest=True, targets=('lot:1046360500')),
         ERLocationData("LG/(FH): Ash of War: Bloody Slash - enemy drop upper area", "Ash of War: Bloody Slash", key="604636,0:1046367700::", targets=('lot:1046360700')),
         ERLocationData("LG/SRW: Strip of White Flesh x3 - SE of SRW", "Strip of White Flesh x3", key="604637,0:1046377000::", targets=('lot:1046370000')),
-        ERLocationData("LG/(TCM): Flask of Wondrous Physick - in basin or at RH after 2 great runes", "Flask of Wondrous Physick", key="604638,0:0000060020:101800,11109774:", basin=True, randomize=False, targets=('lot:1046380300', 'shop:101878')),
+        ERLocationData("LG/(TCM): Flask of Wondrous Physick - in basin or at RH after 2 great runes", "Flask of Wondrous Physick", key="604638,0:0000060020:101800,11109774:", basin=True, targets=('lot:1046380300', 'shop:101878')),
         ERLocationData("LG/(TCM): Crimson Crystal Tear - in basin", "Crimson Crystal Tear", key="604638,0:0000065020::", basin=True, targets=('lot:1046380301')),
         ERLocationData("LG/TCM: Neutralizing Boluses - NE of TCM", "Neutralizing Boluses", key="604638,0:1046387010::", targets=('lot:1046380010')),
         ERLocationData("LG/(TCM): Sacred Tear - by statue", "Sacred Tear", key="604638,0:1046387100::", church=True, targets=('lot:1046380100')),
@@ -1366,7 +1367,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("RH/DLC: Flame Fortification - Corhyn shop", "Dummy item", key="110000,0:0000000000:100350:", incantations=True, shop=True, targets=('shop:100354')),
         ERLocationData("RH/DLC: Magic Fortification - Corhyn shop", "Dummy item", key="110000,0:0000000000:100350:", incantations=True, shop=True, targets=('shop:100355')),
         ERLocationData("RH/DLC: Dagger - Twin maiden shop", "Crafting Kit", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101864')),
-        ERLocationData("RH/DLC: Longsword - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101865')),
+        ERLocationData("RH/DLC: Longsword - Twin maiden shop", "Flask of Wondrous Physick", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101865')),
         ERLocationData("RH/DLC: Rapier - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101870')),
         ERLocationData("RH/DLC: Scimitar - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101866')),
         ERLocationData("RH/DLC: Reverse-Bladed Sword - Twin maiden shop", "Dummy item", key="111000,0:0000000000:6953,101800:", raceshop=True, shop=True, tp_dlc=True, targets=('shop:101896')),

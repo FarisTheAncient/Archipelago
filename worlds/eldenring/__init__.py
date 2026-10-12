@@ -230,7 +230,8 @@ class EldenRing(World):
                 or location_dictionary[loc].missable):
                 self.all_priority_locations.remove(loc)
             if loc in all_boss_locations_dictionary and all_boss_locations_dictionary[loc].dungeon and self.options.exclude_dungeon:
-                self.all_priority_locations.remove(loc)
+                if loc in self.all_priority_locations:
+                    self.all_priority_locations.remove(loc)
         
         local_item_only_lowercase = set(key.lower() for key in self.options.local_item_only.value)
         [local_item_only_lowercase.add(key.lower()) for key in self.settings.force_local_items]
@@ -1232,11 +1233,14 @@ class EldenRing(World):
         """ # fill local before adding to inventory
         if self.base_enabled:
             if self.options.crafting_kit_option.value == 1:
-                self._fill_local_item("Crafting Kit", region_order, lambda location: location.region_value <= 44) 
+                self._fill_local_item("Crafting Kit", region_order, lambda location: location.region_value <= 44)
+            if self.options.physick_flask_option.value == 1:
+                self._fill_local_item("Flask of Wondrous Physick", region_order, lambda location: location.region_value <= 44)
         else:
             if self.options.crafting_kit_option.value == 1:
                 self._fill_local_item("Crafting Kit", ["Gravesite Plain"])
-
+            if self.options.physick_flask_option.value == 1:
+                self._fill_local_item("Flask of Wondrous Physick", ["Gravesite Plain"])
 
         if self.options.enable_dlc:
             if self.options.dlc_scadutree_fragments.value == 1 or self.options.dlc_scadutree_fragments.value == 2 and self.multiworld.players == 1:
@@ -1246,7 +1250,6 @@ class EldenRing(World):
                  if item.data.name == "Messmer's Kindling" or item.data.name == "Messmer's Kindling Shard"]
             if self.options.dlc_start != 0:
                 [self._add_to_inventory(self.create_item(item)) for item in (
-                    "Flask of Wondrous Physick",
                     "Spectral Steed Whistle",
                     "Spirit Calling Bell",
                     "Whetstone Knife"
@@ -3382,6 +3385,7 @@ class EldenRing(World):
                 "auto_upgrade": self.options.auto_upgrade.value,
                 
                 "crafting_kit_option": self.options.crafting_kit_option.value,
+                "physick_flask_option": self.options.physick_flask_option.value,
                 "map_option": self.options.map_option.value,
                 "smithing_bell_bearing_option": self.options.smithing_bell_bearing_option.value,
                 "smooth_upgrade_items": self.options.smooth_upgrade_items.value,

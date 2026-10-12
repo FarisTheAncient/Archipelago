@@ -53,7 +53,8 @@ shard_list = { # item name: option name
 }
     
 class ExcludeDungeonBosses(DefaultOnToggle):
-    "Exclude dungeon bosses from Goal. ex: Catacomb and Cave bosses, not Siofra River bosses"
+    """Exclude dungeon bosses from Goal. ex: Catacomb and Cave bosses, not Siofra River bosses.
+    This includes priority location groups."""
     display_name = "Exclude Dungeon Bosses"
 
 class WorldLogic(Choice):
@@ -237,7 +238,8 @@ class DLCInitialRuneLevel(Range):
 # MARK: Other Rando
     
 class EnemyRando(DefaultOnToggle):
-    """Randomizes the enemies."""
+    """Randomizes the enemies.
+    You can change the enemy preset in the static randomizer itself before you randomize the game."""
     display_name = "Enemy Randomizer"
 
 class RestrictiveBossPlacement(DefaultOnToggle):
@@ -346,7 +348,7 @@ class ExampleTrapCount(BaseTrapCount):
     
 class NGPlusTrapCount(BaseTrapCount):
     """
-    NG+ Trap: Sets the game to NG+7 until the player dies.
+    NG+ Trap: Sets the game to random NG+ level until the player dies, these can be stacked.
     """
     display_name = "NG+ Trap Count"
     
@@ -417,6 +419,19 @@ class AutoUpgradeOption(Toggle):
     
 class CraftingKitOption(Choice):
     """Choose how the Crafting Kit is handled.
+
+    - **Randomize:** Can be anywhere.
+    - **Early:** Make it anywhere before Altus and not in Caelid, if DLC Only it'll be in Gravesite Plain.
+    - **Do Not Randomize:** Leave it at its normal spot, if DLC Only is on it'll be in Roundtable Twin Maiden Shop.
+    """
+    display_name = "Crafting Kit Behavior"
+    option_randomize = 0
+    option_early = 1
+    option_do_not_randomize = 2
+    default = 2
+    
+class PhysickFlaskOption(Choice):
+    """Choose how the Flask of Wondrous Physick is handled.
 
     - **Randomize:** Can be anywhere.
     - **Early:** Make it anywhere before Altus and not in Caelid, if DLC Only it'll be in Gravesite Plain.
@@ -690,6 +705,7 @@ class EROptions(PerGameCommonOptions):
     auto_upgrade: AutoUpgradeOption
     
     crafting_kit_option: CraftingKitOption
+    physick_flask_option: PhysickFlaskOption
     map_option: MapOption
     smithing_bell_bearing_option: SmithingBellBearingOption
     smooth_upgrade_items: SmoothUpgradeItems
@@ -775,6 +791,7 @@ option_groups = [
     # ]),
     OptionGroup("Item & Location Options", [
         CraftingKitOption,
+        PhysickFlaskOption,
         MapOption,
         SmithingBellBearingOption,
         SmoothUpgradeItems,

@@ -24,6 +24,9 @@ and presets for keyitemshards
 
 - Ideas -
 
+progressive greatrunes
+progressive smithing stone bell bearings
+
 progressive region locks for caelid > dragonbarrow, ensis > scadu altus, cerulean > charo
 client would need to give respective item based on progression?
 
