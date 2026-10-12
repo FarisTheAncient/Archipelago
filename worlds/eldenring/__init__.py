@@ -13,7 +13,7 @@ from Fill import remaining_fill
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import CollectionRule, ItemRule, add_rule, add_item_rule
 
-from .bosses import ERBossInfo, all_bosses, base_bosses, dlc_bosses, default_rykard_location, default_serpent_location
+from .bosses import ERBossInfo, all_bosses, base_bosses, dlc_bosses, default_rykard_location, default_serpent_location, all_boss_locations_dictionary
 from .items import ERItem, ERItemData, ERItemCategory, filler_item_names_dlc, filler_item_names_vanilla, item_descriptions, item_table, item_table_vanilla, item_table_dlc, item_table_tp_dlc, item_name_groups
 from .locations import ERLocation, ERLocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order, region_order_dlc, dupable_locations
 from .options import EROptions, option_groups, shard_list
@@ -228,6 +228,8 @@ class EldenRing(World):
             if (not self.base_enabled and not location_dictionary[loc].dlc 
                 or not self.options.enable_dlc and location_dictionary[loc].dlc 
                 or location_dictionary[loc].missable):
+                self.all_priority_locations.remove(loc)
+            if loc in all_boss_locations_dictionary and all_boss_locations_dictionary[loc].dungeon and self.options.exclude_dungeon:
                 self.all_priority_locations.remove(loc)
         
         local_item_only_lowercase = set(key.lower() for key in self.options.local_item_only.value)
@@ -865,7 +867,7 @@ class EldenRing(World):
                 
                 # before Liurnia
                 prio_locations = self._find_prio_locations("Limgrave")
-                total_required += 3 # weeping and siofra and Liurnia
+                total_required += 7 # weeping and siofra and Liurnia + bonus 4 just in case :)
                 locations_needed.extend(self._needed_locations(prio_locations, locations_needed, total_required))
                 
                 # stormveil
@@ -936,7 +938,7 @@ class EldenRing(World):
                 
                 # before ensis
                 prio_locations = self._find_prio_locations("Gravesite Plain")
-                total_required += 4 # ensis lock, belurat, ellac, jagged peak
+                total_required += 8 # ensis lock, belurat, ellac, jagged peak + bonus 4 just in case
                 locations_needed.extend(self._needed_locations(prio_locations, locations_needed, total_required))
                 
                 # before cerulean
@@ -1576,7 +1578,7 @@ class EldenRing(World):
                                         )
                                 if self.options.separate_progression.value:
                                     self._add_item_rule(location.name,
-                                        lambda item: (item.player != self.player and item.game != "EldenRing")
+                                        lambda item: (item.player != self.player) #and item.game != "EldenRing")
                                             or not ((item.data.is_dlc or item.found_in_dlc) and item.classification == ItemClassification.progression)
                                         )
                                 elif self.options.dlc_messmer_kindle.value:
@@ -1587,7 +1589,7 @@ class EldenRing(World):
                             elif region.name in region_order_dlc:
                                 if self.options.separate_progression.value:
                                     self._add_item_rule(location.name,
-                                        lambda item: (item.player != self.player and item.game != "EldenRing")
+                                        lambda item: (item.player != self.player) #and item.game != "EldenRing")
                                             or not (not (item.data.is_dlc or item.found_in_dlc) and item.classification == ItemClassification.progression)
                                         )
                                 

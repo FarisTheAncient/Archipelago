@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, Dict
 
 
 @dataclass
@@ -1300,5 +1300,6 @@ for boss in dlc_bosses:
     
 all_bosses = base_bosses + dlc_bosses
 
-all_boss_locations = []
-[all_boss_locations.extend(boss.locations) for boss in all_bosses]
+all_boss_locations_dictionary: Dict[str, ERBossInfo] = {}
+for boss in all_bosses:
+    all_boss_locations_dictionary.update({loc: boss for loc in boss.locations})

@@ -5,7 +5,7 @@ from logging import warning
 from BaseClasses import ItemClassification, Location, Region
 from .options import EROptions, ERPriorityLocationGroups
 from .items import ERItemCategory, item_table
-from .bosses import all_boss_locations
+from .bosses import all_boss_locations_dictionary
 
 # Regions in approximate order of progression
 #MARK: Location Order
@@ -546,18 +546,18 @@ class ERLocationData:
             self.spiritspring_stone and not options.spiritspring_stones
         ) or (
             (self.omit if isinstance(self.omit, bool) else self.omit(self, options))
-            and self.name not in all_boss_locations
+            and self.name not in all_boss_locations_dictionary
             and item_table[self.default_item_name].is_important(options) not in 
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
         ) or (
             options.excluded_location_behavior.value == 4
             and self.name in options.exclude_locations.value
-            and self.name not in all_boss_locations
+            and self.name not in all_boss_locations_dictionary
             and item_table[self.default_item_name].is_important(options) not in 
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
         ) or (
             options.missable_location_behavior.value == 4 and self.is_missable(options)
-            and self.name not in all_boss_locations
+            and self.name not in all_boss_locations_dictionary
             and item_table[self.default_item_name].is_important(options) not in 
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
         )
