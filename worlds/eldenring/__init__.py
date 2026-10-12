@@ -15,7 +15,7 @@ from worlds.generic.Rules import CollectionRule, ItemRule, add_rule, add_item_ru
 
 from .bosses import ERBossInfo, all_bosses, base_bosses, dlc_bosses, default_rykard_location, default_serpent_location
 from .items import ERItem, ERItemData, ERItemCategory, filler_item_names_dlc, filler_item_names_vanilla, item_descriptions, item_table, item_table_vanilla, item_table_dlc, item_table_tp_dlc, item_name_groups
-from .locations import ERLocation, ERLocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order, region_order_dlc, dupable_locations, early_dupable_locations
+from .locations import ERLocation, ERLocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order, region_order_dlc, dupable_locations
 from .options import EROptions, option_groups, shard_list
 from .presets import er_options_presets
 from Options import OptionError
@@ -124,14 +124,7 @@ class EldenRing(World):
         if location.ap_code is not None and location.name in dupable_locations
         for _ in range(1, 8) # how many dupes to prefill, dupe 1 and 2
         if dupable_locations[location.name] >= _
-    } #| {
-    #     f"{location.name}, extra item {_}": 8000000 + (location.ap_code - 7000000) + (len(location_dictionary) * _)
-    #     for locations in location_tables.values()
-    #     for location in locations
-    #     if location.ap_code is not None and location.name in early_dupable_locations
-    #     for _ in range(5, 8) # how many early dupes to prefill more, dupe 3 and 4
-    #     if dupable_locations[location.name] >= _
-    # }
+    }
     location_name_groups = location_name_groups
     item_name_groups = item_name_groups
     location_descriptions = location_descriptions

@@ -481,28 +481,25 @@ class ERPriorityLocationGroups(PriorityLocations):
     If you add more priority locations then progression items, random priority locations will contain normal items.
     Otherwise your world would contain a lot of other worlds progression.
     
-    - *Achievement Boss*: Base game Achievement bosses.
-    - *DLC Remembrance Boss*: DLC Remembrance bosses.
-    - *Boss Reward*: Base game bosses.
-    - *DLC Boss Reward*: DLC bosses.
-    - *Overworld Boss*: Base game Overworld bosses.
-    - *DLC Overworld Boss*: DLC Overworld bosses.
-    - *Chest*: Chests.
-    - *Scarab*: Scarabs.
-    - *Seedtree*: Golden Seed trees.
-    - *Basin*: Basins that contain tears.
-    - *Church*: Sacred Tears.
-    - *Map*: Map pillars.
-    - *Fragment*: Scadu Fragments.
-    - *Cross*: All cross items.
-    - *Revered*: Revered Spirit Ashes.
-    - *Key Items*: Key items.
+    - **Achievement Boss**: Base game Achievement bosses.
+    - **DLC Remembrance Boss**: DLC Remembrance bosses.
+    - **Boss Reward**: Base game bosses. *Use exclude_dungeon for overworld bosses only.*
+    - **DLC Boss Reward**: DLC bosses. *Use exclude_dungeon for overworld bosses only.*
+    - **Chest**: Chests.
+    - **Scarab**: Scarabs.
+    - **Seedtree**: Golden Seed trees.
+    - **Basin**: Basins that contain tears.
+    - **Church**: Sacred Tears.
+    - **Map**: Map pillars.
+    - **Fragment**: Scadu Fragments.
+    - **Cross**: All cross items.
+    - **Revered**: Revered Spirit Ashes.
+    - **Key Items**: Key items.
     """
     display_name = "Priority Location Groups"
-    default = ["Key Items", "Achievement Boss", "DLC Remembrance Boss", "Seedtree", "Map", "Church", "Cross", "Fragment"]
+    default = ["Key Items", "Boss Reward", "DLC Boss Reward", "Seedtree", "Map", "Church", "Cross", "Fragment"]
     valid_keys = ["Chest", "Scarab", "Seedtree", "Basin", "Church", "Map", "Key Items",
-        "Fragment", "Cross", "Revered", "Overworld Boss", "DLC Overworld Boss", 
-        "Achievement Boss", "DLC Remembrance Boss", "Boss Reward", "DLC Boss Reward"]
+        "Fragment", "Cross", "Revered", "Achievement Boss", "DLC Remembrance Boss", "Boss Reward", "DLC Boss Reward"]
     valid_keys_casefold = False
     
 class ERImportantAtPriorityOnly(DefaultOnToggle):
