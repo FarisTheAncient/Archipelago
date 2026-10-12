@@ -1,6 +1,6 @@
 # Elden Ring Location Guide
 
-[Game Guide](./en%20Elden%20Ring.md) | [Setup Guide](./en_setup_guide.md) | [Region Guide](./en_region_guide.md) | Location Guide
+[Game Guide](./en_Elden_Ring.md) | [Setup Guide](./en_setup_guide.md) | [Region Guide](./en_region_guide.md) | Location Guide
 
 ## Understanding the Acronyms
 
@@ -8,6 +8,8 @@
 `region acronym` **/** `grace or landmark acronym` **:** 
 <br>`original item` **-** `a landmark or descriptor` *(ex: scarab, boss drop)*
 <br>then a `direction from a grace or landmark` or a `very brief description to find location`
+
+Look up acronyms in the [Region Guide](./en_region_guide.md).
 
 ### Examples
 * **CD/AFCHN: Lifesteal Fist - scarab to NW**
@@ -19,6 +21,6 @@
 
 #### Some Useful Terminology
 
-`hostile npc drop`: the rare hostile npc's that aren't red
-<br>`invader drop`: invaders / red npc's
+`hostile npc drop`: the rare hostile npcs that aren't red
+<br>`invader drop`: invaders / red npcs
 <br>`enemy drop / ballon drop`: non boss enemies with a guaranteed drop
