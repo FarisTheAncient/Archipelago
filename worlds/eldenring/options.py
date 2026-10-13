@@ -60,10 +60,9 @@ class ExcludeDungeonBosses(DefaultOnToggle):
 class WorldLogic(Choice):
     """World Logic options
     
-    No region locking. This can create a huge sphere 1, so this setting is disallowed in multiworlds unless force_region_lock is disabled in host.yaml.
-    
     **Region Lock:** Each region will require a 'Special item'.
-    **Open World:** No region locking."""
+    **Open World:** No region locking. This can create a huge sphere 1, so this setting
+    is disallowed in multiworlds unless force_region_lock is disabled in host.yaml."""
     display_name = "World Logic"
     option_region_lock = 0
     option_open_world = 1
@@ -274,11 +273,11 @@ class NightBosses(Choice):
     """
     Normal: Bosses spawn at night.
     Always On: Bosses will always spawn.
-    Require Item: Bosses only spawn after finding an item.   just an idea from Spencenox, not implimented
     """
     display_name = "Night Bosses"
     option_normal = 0
     option_always_on = 1
+    # Require Item: Bosses only spawn after finding an item.   just an idea from Spencenox, not implimented
     # option_require_item = 2
     default = 0
 
