@@ -8,7 +8,7 @@ from logging import warning
 from typing import cast, Any, Callable, Dict, Set, List, Optional, TextIO, Union, Tuple
 
 from BaseClasses import CollectionState, MultiWorld, Region, Location, LocationProgressType, Entrance, ItemClassification
-from Fill import remaining_fill
+from Fill import remaining_fill, fill_restrictive, sweep_from_pool, FillError
 
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import CollectionRule, ItemRule, add_rule, add_item_rule
@@ -177,6 +177,37 @@ class EldenRing(World):
         # self.test_state()
         # self.visualize_world()
 
+    # not working, skill issue
+    # def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
+    #     if self.multiworld.players > 1 or not self.options.important_at_priority_only: return
+        
+    #     prio_locations = [loc for loc in fill_locations if loc.progress_type == LocationProgressType.PRIORITY]
+    #     prog_items = [i for i in progitempool if i.classification == ItemClassification.progression]
+    #     de_prog_items = [i for i in progitempool if i.classification == ItemClassification.progression_deprioritized]
+
+    #     self.random.shuffle(prog_items)
+    #     self.random.shuffle(prio_locations)
+        
+    #     # from prio gen
+    #     priority_fill_state = sweep_from_pool(self.multiworld.state, de_prog_items)
+    #     fill_restrictive(self.multiworld, priority_fill_state, prio_locations, prog_items,
+    #                         single_player_placement=True, swap=False, lock=True,
+    #                         name="Priority", one_item_per_player=True, allow_partial=True)
+    #     if prio_locations and prog_items:
+    #         priority_retry_state = sweep_from_pool(self.multiworld.state, de_prog_items)
+    #         fill_restrictive(self.multiworld, priority_retry_state, prio_locations, prog_items,
+    #                             single_player_placement=True, swap=False, lock=True,
+    #                             name="Priority Retry", one_item_per_player=False,
+    #                             allow_partial=bool(de_prog_items))
+            
+    #     if prog_items:
+    #         print(prog_items)
+    #         raise FillError("Couldn't place prog on priority.")
+        
+    #     for loc in fill_locations:
+    #         if loc.name in [p.name for p in prio_locations]:
+    #             loc.progress_type = LocationProgressType.DEFAULT
+        
     def post_fill(self):
         badly_placed_items: Dict[str, str] = {}
         if self.options.important_at_priority_only:
@@ -187,9 +218,8 @@ class EldenRing(World):
                     # raise OptionError(f"\n  A progression item: {loc.item},\n  was placed on a non-priority location: ({loc.name}),\n  you most likely have to little priority locations.")
               
         if len(badly_placed_items) > 0:
+            print("Just keep trying to gen till it works, and if that doesn't work its a option issue. important_at_priority_only is a complex option.")
             raise OptionError(f"{self.player_name} misplaced prog: {badly_placed_items}")
-            
-        return super().post_fill()
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -757,16 +787,17 @@ class EldenRing(World):
             raise OptionError(f"Player {self.player_name} has no dlc priority locations but dlc only progression items.")
         
         # make sure not to many priority locations exist
-        while loc_needed < 0:
-            removed = self.random.choice(sorted(base_priority))
-            base_priority.remove(removed)
-            self.all_priority_locations.remove(removed)
-            loc_needed += 1
-        while dlc_loc_needed < 0:
-            removed = self.random.choice(sorted(dlc_priority))
-            dlc_priority.remove(removed)
-            self.all_priority_locations.remove(removed)
-            dlc_loc_needed += 1
+        if self.multiworld.players > 1:
+            while loc_needed < 0:
+                removed = self.random.choice(sorted(base_priority))
+                base_priority.remove(removed)
+                self.all_priority_locations.remove(removed)
+                loc_needed += 1
+            while dlc_loc_needed < 0:
+                removed = self.random.choice(sorted(dlc_priority))
+                dlc_priority.remove(removed)
+                self.all_priority_locations.remove(removed)
+                dlc_loc_needed += 1
         
         # need to modify progress type here after create_regions
         for location in self.multiworld.get_locations(self.player):
@@ -1419,8 +1450,8 @@ class EldenRing(World):
                 self._add_entrance_rule("Altus Plateau", lambda state: self._can_get(state, "RSP/RSPO: Dragon Heart - boss drop") or 
                                         state.has("Dectus Medallion (Left)", self.player) and state.has("Dectus Medallion (Right)", self.player))
                 self._add_entrance_rule("Volcano Manor Upper", lambda state: self._can_get(state, "VM/GH: Godskin Stitcher - boss drop"))
-                self._add_entrance_rule("Leyndell, Royal Capital", lambda state: 
-                    self._can_get(state, "DD/AR: Fia's Mist - boss drop") or self._can_get(state, "CO: Dragon Greatclaw - capital great rune gate boss drop"))
+                # self._add_entrance_rule("Leyndell, Royal Capital", lambda state: 
+                #     self._can_get(state, "DD/AR: Fia's Mist - boss drop") or self._can_get(state, "CO: Dragon Greatclaw - capital great rune gate boss drop"))
                 self._add_entrance_rule("Leyndell, Royal Capital Throne", lambda state: self._can_get(state, "LRC/WCR: Talisman Pouch - mainboss drop"))
                 self._add_entrance_rule("Divine Tower of East Altus", lambda state: self._can_get(state, "LRC/QB: Morgott's Great Rune - mainboss drop"))
                 self._add_entrance_rule("Frenzied Flame Proscription", lambda state: self._can_get(state, "LRC/QB: Morgott's Great Rune - mainboss drop")
@@ -1539,8 +1570,6 @@ class EldenRing(World):
                 self._add_entrance_rule("Caelid", lambda state: self._has_key_or_shards(state, "Rusty Key"))
                 self._add_entrance_rule("Altus Plateau", "Academy Glintstone Key")
         
-            
-                
             if self.options.dlc_start == 0 and self.options.enable_dlc:
                 if self.options.dlc_timing == 2:
                     self._add_entrance_rule("Mohgwyn Palace", lambda state: self._can_go_to(state, "Consecrated Snowfield"))
@@ -1557,7 +1586,6 @@ class EldenRing(World):
                         lambda state: self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
                         and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
                     if self.options.dlc_timing == 0 and self.options.missable_location_behavior <= 1 and self.soft_logic_enabled: # Early medal
-                        
                         self._add_entrance_rule("Altus Plateau", lambda state: state.has("Pureblood Knight's Medal", self.player))
                         self._add_entrance_rule("Caelid", lambda state: state.has("Pureblood Knight's Medal", self.player))
             else:

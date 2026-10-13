@@ -2658,8 +2658,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("MP/(MDM): Mohg's Great Rune - mainboss drop", "Mohg's Great Rune", key="120500,0:0000000175::", boss=True, achievement=True, targets=('lot:10121')),
         ERLocationData("MP/MDE: Map: Mohgwyn Palace - to NW", "Map: Mohgwyn Palace", key="120500,0:0000062062::", map=True, targets=('lot:12050000')),
         ERLocationData("MP/PALR: Nomadic Warrior's Cookbook [24] - on E most ledge in S blood swamp", "Nomadic Warrior's Cookbook [24]", key="120500,0:0000067910::", cookbook=True, targets=('lot:12050050')),
-        ERLocationData("MP/(MDM): Festering Bloody Finger x6 - invader Varré near DMM grace", "Festering Bloody Finger x6", key="120500,0:0000400036::", missable=True, targets=('lot:100361', 'lot:110301')),
-        ERLocationData("MP/(MDM): Varré's Bouquet - invader Varré near DMM grace", "Varré's Bouquet", key="120500,0:0000400037::", missable=True, targets=('lot:100360', 'lot:110300')),
+        ERLocationData("MP/(MDM): Festering Bloody Finger x6 - invade Varré near DMM grace", "Festering Bloody Finger x6", key="120500,0:0000400036::", missable=True, targets=('lot:100361', 'lot:110301')),
+        ERLocationData("MP/(MDM): Varré's Bouquet - invade Varré near DMM grace", "Varré's Bouquet", key="120500,0:0000400037::", missable=True, targets=('lot:100360', 'lot:110300')),
         ERLocationData("MP/(MDM): Remembrance of the Blood Lord - mainboss drop", "Remembrance of the Blood Lord", key="120500,0:0000510120::", boss=True, achievement=True, remembrance=True, targets=('lot:10120')),
         ERLocationData("MP/PALR: Ash of War: Blood Tax - scarab to NE down path, first E dead-end in blood swamp", "Ash of War: Blood Tax", key="120500,0:0000540686::", scarab=True, targets=('lot:40686')),
         # weird item

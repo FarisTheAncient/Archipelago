@@ -60,6 +60,8 @@ class ExcludeDungeonBosses(DefaultOnToggle):
 class WorldLogic(Choice):
     """World Logic options
     
+    No region locking. This can create a huge sphere 1, so this setting is disallowed in multiworlds unless force_region_lock is disabled in host.yaml.
+    
     **Region Lock:** Each region will require a 'Special item'.
     **Open World:** No region locking."""
     display_name = "World Logic"
