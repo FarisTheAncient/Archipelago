@@ -186,6 +186,8 @@ class ERItemData:
         if options.important_at_priority_only:
             if options.flask_at_priority and self.base_name in {"Golden Seed", "Sacred Tear"}:
                 return ItemClassification.progression
+            if options.whetblades_at_priority and self.whetblade:
+                return ItemClassification.progression
             if options.talisman_pouches_at_priority and self.name == "Talisman Pouch":
                 return ItemClassification.progression
             if options.crystal_tears_at_priority and self.crystal_tear:

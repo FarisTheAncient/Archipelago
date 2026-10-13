@@ -562,6 +562,10 @@ class FlaskUpgradesAtPriority(DefaultOnToggle):
     "Should flask upgrades be randomized to important locations."
     display_name = "Flask Upgrades at Priority"
     
+class WhetbladesAtPriority(Toggle):
+    "Should whetblades be randomized to important locations."
+    display_name = "Whetblades at Priority"
+    
 class ScaduAtPriority(DefaultOnToggle):
     "Should scadu fragments be randomized to important locations."
     display_name = "Scadutree Fragments at Priority"
@@ -729,6 +733,7 @@ class EROptions(PerGameCommonOptions):
     important_at_priority_only: ERImportantAtPriorityOnly
     important_at_priority_early: ERImportantAtPriorityEarly
     flask_at_priority: FlaskUpgradesAtPriority
+    whetblades_at_priority: WhetbladesAtPriority
     scadu_at_priority: ScaduAtPriority
     talisman_pouches_at_priority: TalismanPouchesAtPriority
     crystal_tears_at_priority: CrystalTearsAtPriority
@@ -822,6 +827,7 @@ option_groups = [
         ERImportantAtPriorityOnly,
         ERImportantAtPriorityEarly,
         FlaskUpgradesAtPriority,
+        WhetbladesAtPriority,
         ScaduAtPriority,
         TalismanPouchesAtPriority,
         CrystalTearsAtPriority,

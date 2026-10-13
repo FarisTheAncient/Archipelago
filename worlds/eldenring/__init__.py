@@ -3434,6 +3434,7 @@ class EldenRing(World):
                 "important_at_priority_only": self.options.important_at_priority_only.value,
                 "important_at_priority_early": self.options.important_at_priority_early.value,
                 "flask_at_priority": self.options.flask_at_priority.value,
+                "whetblades_at_priority": self.options.whetblades_at_priority.value,
                 "scadu_at_priority": self.options.scadu_at_priority.value,
                 "talisman_pouches_at_priority": self.options.talisman_pouches_at_priority.value,
                 "crystal_tears_at_priority": self.options.crystal_tears_at_priority.value,
