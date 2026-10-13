@@ -1,6 +1,6 @@
 # Elden Ring Location Guide
 
-[Game Guide](./en_Elden_Ring.md) | [Setup Guide](./en_setup_guide.md) | [Region Guide](./en_region_guide.md) | Location Guide
+[Game Guide](./en_Elden_Ring.md) | [Setup Guide](./en_setup_guide.md) | [Region Guide](./en_region_guide.md) | Location Guide | [Goal Bosses Guide](./en_goal_bosses_guide.md)
 
 ## Understanding the Acronyms
 

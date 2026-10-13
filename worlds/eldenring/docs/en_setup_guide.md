@@ -1,6 +1,6 @@
 # Elden Ring Setup Guide
 
-[Game Guide](./en_Elden_Ring.md) | Setup Guide| [Region Guide](./en_region_guide.md) | [Location Guide](./en_location_guide.md)
+[Game Guide](./en_Elden_Ring.md) | Setup Guide | [Region Guide](./en_region_guide.md) | [Location Guide](./en_location_guide.md) | [Goal Bosses Guide](./en_goal_bosses_guide.md)
 
 ## Required software
 

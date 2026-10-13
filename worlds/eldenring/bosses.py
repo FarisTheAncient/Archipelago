@@ -1003,12 +1003,12 @@ base_bosses = [
 
 dlc_bosses = [
     # MARK: Gravesite Plain
-    ERBossInfo("Ghostflame Dragon (GP)", ["Gravesite Plain", "Overworld"], 2045440800, 2045440800,
+    ERBossInfo("Ghostflame Dragon (GP)", ["Gravesite Plain", "DLC Overworld"], 2045440800, 2045440800,
         locations=[
             "GP/BG: Dragon Heart - boss drop E of BG",
         ]
     ),
-    ERBossInfo("Knight of the Solitary Gaol (GP)", ["Gravesite Plain", "Overworld", "Mausoleum"], 2046410800, 2046410800,
+    ERBossInfo("Knight of the Solitary Gaol (GP)", ["Gravesite Plain", "DLC Overworld", "Mausoleum"], 2046410800, 2046410800,
         locations=[
             "GP/(WNM): Greatsword of Solitude - boss drop",
             "GP/(WNM): Helm of Solitude - boss drop",
@@ -1064,7 +1064,7 @@ dlc_bosses = [
     ),
     
     # MARK: Cerulean Coast
-    ERBossInfo("Dancer of Ranah (CC)", ["Cerulean Coast", "Overworld", "Mausoleum"], 2046380800, 2046380800,
+    ERBossInfo("Dancer of Ranah (CC)", ["Cerulean Coast", "DLC Overworld", "Mausoleum"], 2046380800, 2046380800,
         locations=[
             "CC/CCW: Dancing Blade of Ranah - boss drop",
             "CC/CCW: Dancer's Hood - boss drop",
@@ -1073,12 +1073,12 @@ dlc_bosses = [
             "CC/CCW: Dancer's Trousers - boss drop"
         ]
     ),
-    ERBossInfo("Demi-Human Queen Marigga (CC)", ["Cerulean Coast", "Overworld"], 2046400800, 2046400800,
+    ERBossInfo("Demi-Human Queen Marigga (CC)", ["Cerulean Coast", "DLC Overworld"], 2046400800, 2046400800,
         locations=[
             "CC/CCW: Star-Lined Sword - boss drop"
         ]
     ),
-    ERBossInfo("Ghostflame Dragon (CC)", ["Cerulean Coast", "Overworld"], 2048380850, 2048380850,
+    ERBossInfo("Ghostflame Dragon (CC)", ["Cerulean Coast", "DLC Overworld"], 2048380850, 2048380850,
         locations=[
             "CC/CC: Dragon Heart - boss drop",
             "CC/CC: Somber Ancient Dragon Smithing Stone - boss drop"
@@ -1096,24 +1096,24 @@ dlc_bosses = [
     ),
     
     # MARK: Jagged Peak
-    ERBossInfo("Jagged Peak Drake (JP/DPT)", ["Jagged Peak", "Overworld"], 2049410800, 2049410800,
+    ERBossInfo("Jagged Peak Drake (JP/DPT)", ["Jagged Peak", "DLC Overworld"], 2049410800, 2049410800,
         locations=[
             "JP/DPT: Dragon Heart - boss drop to E",
             "JP/DPT: Dragonscale Flesh - boss drop to E"
         ]
     ),
-    ERBossInfo("Jagged Peak Drake (JP/FJP)", ["Jagged Peak", "Overworld"], 2052400800, 2052400800, # the fighting one
+    ERBossInfo("Jagged Peak Drake (JP/FJP)", ["Jagged Peak", "DLC Overworld"], 2052400800, 2052400800, # the fighting one
         locations=[
             "JP/FJP: Dragon Heart - boss drop to SE",
             "JP/FJP: Dragonscale Flesh - boss drop to SE"
         ]
     ),
-    ERBossInfo("Bayle the Dread (JP)", ["Jagged Peak", "Overworld", "DLC Remembrance"], 2054390800, 2054390800, allow_rykard=True,
+    ERBossInfo("Bayle the Dread (JP)", ["Jagged Peak", "DLC Overworld", "DLC Remembrance"], 2054390800, 2054390800, allow_rykard=True,
         locations=[
             "JP/JPS: Heart of Bayle - mainboss drop"
         ]
     ),
-    ERBossInfo("Ancient Dragon Senessax (JP)", ["Jagged Peak", "Overworld"], 2054390850, 2054390850,
+    ERBossInfo("Ancient Dragon Senessax (JP)", ["Jagged Peak", "DLC Overworld"], 2054390850, 2054390850,
         locations=[
             "JP/JPM: Ancient Dragon Smithing Stone - boss drop to S",
             "JP/JPM: Somber Ancient Dragon Smithing Stone - boss drop to S"
@@ -1121,7 +1121,7 @@ dlc_bosses = [
     ),
     
     # MARK: Charo's Hidden Grave
-    ERBossInfo("Death Rite Bird (CHG)", ["Charo's Hidden Grave", "Overworld"], 2047390800, 2047390800,
+    ERBossInfo("Death Rite Bird (CHG)", ["Charo's Hidden Grave", "DLC Overworld"], 2047390800, 2047390800,
         locations=[
             "CHG/CHG: Ash of War: Ghostflame Call - boss drop to NW in lake"
         ]
@@ -1133,19 +1133,19 @@ dlc_bosses = [
     ),
     
     # MARK: Scadu Altus
-    ERBossInfo("Dryleaf Dane (SA)", ["Scadu Altus", "Overworld"], 2049440710, 2049440800, locations=[]),
-    ERBossInfo("Ghostflame Dragon (SA)", ["Scadu Altus", "Overworld"], 2049430800, 2049430800,
+    ERBossInfo("Dryleaf Dane (SA)", ["Scadu Altus", "DLC Overworld"], 2049440710, 2049440800, locations=[]),
+    ERBossInfo("Ghostflame Dragon (SA)", ["Scadu Altus", "DLC Overworld"], 2049430800, 2049430800,
         locations=[
             "SA/MR: Dragon Heart - boss drop to S",
             "SA/MR: Somber Ancient Dragon Smithing Stone - boss drop to S"
         ]
     ),
-    ERBossInfo("Black Knight Edreed (SA)", ["Scadu Altus", "Overworld", "Fort"], 2049430850, 2049430850,
+    ERBossInfo("Black Knight Edreed (SA)", ["Scadu Altus", "DLC Overworld", "Fort"], 2049430850, 2049430850,
         locations=[
             "SA/FR: Ash of War: Aspects of the Crucible: Wings - boss drop to S inside"
         ]
     ),
-    ERBossInfo("Ralva the Great Red Bear (SA)", ["Scadu Altus", "Overworld"], 2049450800, 2049450800,
+    ERBossInfo("Ralva the Great Red Bear (SA)", ["Scadu Altus", "DLC Overworld"], 2049450800, 2049450800,
         locations=[
             "SA/HC: Pelt of Ralva - boss drop to N, E before camp, deep woods"
         ]
@@ -1157,12 +1157,12 @@ dlc_bosses = [
     ),
     
     # MARK: Rauh Base
-    ERBossInfo("Rugalea the Great Red Bear (RB)", ["Rauh Base", "Overworld"], 2044470800, 2044470800,
+    ERBossInfo("Rugalea the Great Red Bear (RB)", ["Rauh Base", "DLC Overworld"], 2044470800, 2044470800,
         locations=[
             "RB/RN: Roar of Rugalea - boss drop to NW"
         ]
     ),
-    ERBossInfo("Red Bear (RB)", ["Rauh Base", "Overworld", "Mausoleum"], 2046450800, 2046450800,
+    ERBossInfo("Red Bear (RB)", ["Rauh Base", "DLC Overworld", "Mausoleum"], 2046450800, 2046450800,
         locations=[
             "RB/(NNM): Red Bear's Claw - boss drop",
             "RB/(NNM): Iron Rivet Armor - boss drop",
@@ -1205,17 +1205,17 @@ dlc_bosses = [
     ),
     
     # MARK: Hinterland
-    ERBossInfo("Tree Sentinel (HL hill)", ["Hinterland", "Overworld"], 2050470800, 2050470800, # these could be wrong but doesn't matter
+    ERBossInfo("Tree Sentinel (HL hill)", ["Hinterland", "DLC Overworld"], 2050470800, 2050470800, # these could be wrong but doesn't matter
         locations=[
             "HL/HL: Blessing of Marika - boss drop on hill"
         ]
     ),
-    ERBossInfo("Tree Sentinel (HL bridge)", ["Hinterland", "Overworld"], 2050480860, 2050480860, #
+    ERBossInfo("Tree Sentinel (HL bridge)", ["Hinterland", "DLC Overworld"], 2050480860, 2050480860, #
         locations=[
             "HL/HL: Blessing of Marika - boss drop by bridge"
         ]
     ),
-    ERBossInfo("Fallingstar Beast (HL)", ["Hinterland", "Overworld"], 2052480800, 2052480800,
+    ERBossInfo("Fallingstar Beast (HL)", ["Hinterland", "DLC Overworld"], 2052480800, 2052480800,
         locations=[
             "HL/FH: Gravitational Missile - boss drop to NE"
         ]
@@ -1243,7 +1243,7 @@ dlc_bosses = [
     ),
     
     # MARK: Recluses' River
-    ERBossInfo("Rakshasa (RR)", ["Recluses' River", "Overworld", "Mausoleum"], 2051440800, 2051440800,
+    ERBossInfo("Rakshasa (RR)", ["Recluses' River", "DLC Overworld", "Mausoleum"], 2051440800, 2051440800,
         locations=[
             "RR/(ENM): Rakshasa's Great Katana - boss drop",
             "RR/(ENM): Rakshasa Helm - boss drop",
@@ -1266,12 +1266,12 @@ dlc_bosses = [
     ),
     
     # MARK: Ancient Ruins of Rauh
-    ERBossInfo("Romina, Saint of the Bud (ARR)", ["Ancient Ruins of Rauh", "Overworld", "DLC Remembrance", "DLC Main"], 2044450800, 2044450800,
+    ERBossInfo("Romina, Saint of the Bud (ARR)", ["Ancient Ruins of Rauh", "DLC Overworld", "DLC Remembrance", "DLC Main"], 2044450800, 2044450800,
         locations=[
             "ARR/CBME: Remembrance of the Saint of the Bud - mainboss drop"
         ]
     ),
-    ERBossInfo("Divine Beast Dancing Lion (ARR)", ["Ancient Ruins of Rauh", "Overworld"], 2046460800, 2046460800,
+    ERBossInfo("Divine Beast Dancing Lion (ARR)", ["Ancient Ruins of Rauh", "DLC Overworld"], 2046460800, 2046460800,
         locations=[
             "ARR/ARGS: Divine Beast Tornado - boss drop to NE"
         ]
