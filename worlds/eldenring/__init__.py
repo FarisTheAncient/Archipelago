@@ -445,7 +445,6 @@ class EldenRing(World):
             create_connection("Liurnia of The Lakes", "Carian Study Hall (Inverted)")
             create_connection("Liurnia of The Lakes", "Ruin-Strewn Precipice")
             create_connection("Liurnia of The Lakes", "Ainsel River")
-            create_connection("Liurnia of The Lakes", "Ainsel River Main")
             
             create_connection("Liurnia of The Lakes", "The Four Belfries (Chapel of Anticipation)")
             create_connection("Liurnia of The Lakes", "The Four Belfries (Nokron)")
@@ -481,6 +480,7 @@ class EldenRing(World):
             create_connection("Nokron, Eternal City", "Deeproot Depths")
             
             create_connection("Deeproot Depths", "Deeproot Depths Boss")
+            create_connection("Deeproot Depths", "Ainsel River Main")
             
             create_connection("Ainsel River Main", "Lake of Rot")
             create_connection("Lake of Rot", "Moonlight Altar")
@@ -662,7 +662,7 @@ class EldenRing(World):
                     if location.name in self.all_priority_locations: # if its excluded remove it from priority
                         self.all_priority_locations.remove(location.name)
                 elif location.name in self.all_priority_locations:
-                    if location.shop or location.hidden: self.all_priority_locations.remove(location.name)
+                    if location.hidden: self.all_priority_locations.remove(location.name)
             else:
                 # Don't consider non-randomized locations to be AP-excluded
                 if location.name in excluded:
@@ -1388,7 +1388,6 @@ class EldenRing(World):
             self.multiworld.register_indirect_condition(self.get_region("Altus Plateau"), self.get_entrance("Go To Wailing Dunes"))
             self.multiworld.register_indirect_condition(self.get_region("Limgrave"), self.get_entrance("Go To Sellia Crystal Tunnel"))
             self.multiworld.register_indirect_condition(self.get_region("Deeproot Depths Upper"), self.get_entrance("Go To Deeproot Depths"))
-            self.multiworld.register_indirect_condition(self.get_region("Deeproot Depths"), self.get_entrance("Go To Ainsel River Main"))
             self.multiworld.register_indirect_condition(self.get_region("Deeproot Depths"), self.get_entrance("Go To Leyndell, Royal Capital"))
             self.multiworld.register_indirect_condition(self.get_region("Volcano Manor"), self.get_entrance("Go To Volcano Manor Dungeon"))
             self.multiworld.register_indirect_condition(self.get_region("Volcano Manor Dungeon"), self.get_entrance("Go To Altus Plateau"))
@@ -1540,25 +1539,31 @@ class EldenRing(World):
                 self._add_entrance_rule("Caelid", lambda state: self._has_key_or_shards(state, "Rusty Key"))
                 self._add_entrance_rule("Altus Plateau", "Academy Glintstone Key")
         
-            if not self.options.world_logic == "region_lock":
-                self._add_entrance_rule("Mohgwyn Palace",
-                    lambda state: state.has("Pureblood Knight's Medal", self.player)
-                    or self._can_go_to(state, "Consecrated Snowfield"))
+            
                 
             if self.options.dlc_start == 0 and self.options.enable_dlc:
                 if self.options.dlc_timing == 2:
+                    self._add_entrance_rule("Mohgwyn Palace", lambda state: self._can_go_to(state, "Consecrated Snowfield"))
                     self._add_entrance_rule("Gravesite Plain",
                         lambda state: self._has_key_or_shards(state, "Rold Medallion", "rold")
-                        and state.has("Haligtree Secret Medallion (Left)", self.player) and state.has("Haligtree Secret Medallion (Right)", self.player)
                         and self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
                         and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
                 else:
+                    if self.options.dlc_timing == 1:
+                        self._add_entrance_rule("Mohgwyn Palace", lambda state: state.has("Pureblood Knight's Medal", self.player) and self._can_go_to(state, "Altus Plateau"))
+                    else:
+                        self._add_entrance_rule("Mohgwyn Palace", lambda state: state.has("Pureblood Knight's Medal", self.player))
                     self._add_entrance_rule("Gravesite Plain", 
                         lambda state: self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
                         and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
                     if self.options.dlc_timing == 0 and self.options.missable_location_behavior <= 1 and self.soft_logic_enabled: # Early medal
+                        
                         self._add_entrance_rule("Altus Plateau", lambda state: state.has("Pureblood Knight's Medal", self.player))
                         self._add_entrance_rule("Caelid", lambda state: state.has("Pureblood Knight's Medal", self.player))
+            else:
+                self._add_entrance_rule("Mohgwyn Palace",
+                    lambda state: state.has("Pureblood Knight's Medal", self.player) or self._can_go_to(state, "Consecrated Snowfield"))
+                
         
         # MARK: DLC Rules
         if self.options.enable_dlc:

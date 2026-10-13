@@ -692,9 +692,9 @@ base_bosses = [
     ),
     ERBossInfo("Draconic Tree Sentinel (CO)", ["Capital Outskirts", "Overworld", "Main"], 1045520800, 1045520800,
         locations=[
-            "CO: Dragon Greatclaw - capital great rune gate boss drop",
-            "CO: Dragonclaw Shield - capital great rune gate boss drop"
-        ]
+            # "CO: Dragon Greatclaw - capital great rune gate boss drop",
+            # "CO: Dragonclaw Shield - capital great rune gate boss drop"
+        ] # marked missable for now
     ),
     # capital outskirts dungeons
     ERBossInfo("Crucible Knight & Crucible Knight Ordovis (CO/AHG)", ["Capital Outskirts", "Dungeon", "Grave"], 30100800, 30100800, dungeon=True,

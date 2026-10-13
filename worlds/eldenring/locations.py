@@ -94,7 +94,7 @@ region_order = [
     "Deeproot Depths",
     "Deeproot Depths Boss",
     
-    # Ainsel
+    # Ainsel Late
     "Ainsel River Main",
     "Lake of Rot",
     "Moonlight Altar",
@@ -604,6 +604,7 @@ class ERLocationData:
         if self.npc: names.append("Friendly NPC Rewards")
         if self.chest: names.append("Chest")
         if self.scarab: names.append("Scarab")
+        if self.shop and not self.missable: names.append("Shop")
         if self.outoftheway: names.append("Out of the Way")
         if self.drop: names.append("Drop")
         if self.hidden: names.append("Hidden")
@@ -1512,9 +1513,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/VA: Ivory Sickle - to E in coffin", "Ivory Sickle", key="603542,0:1035427040::", targets=('lot:1035420040')),
         ERLocationData("LL/FL: Somber Smithing Stone [1] x2 - to NW in chair", "Somber Smithing Stone [1] x2", key="603543,0:1035437010::", targets=('lot:1035430010')),
         ERLocationData("LL/FRL: Larval Tear - enemy drop to S, NW of gazebo", "Larval Tear", key="603543,0:1035437100::", targets=('lot:1035430100')),
-        ERLocationData("LL/(RC): Bloody Finger - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor", "Bloody Finger", key="603544,0:0000060270::", targets=('lot:100340')),
+        ERLocationData("LL/(RC): Bloody Finger - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor", "Bloody Finger", key="603544,0:0000060270::", missable=True, targets=('lot:100340')),
         ERLocationData("LL/(RC): Nomadic Warrior's Cookbook [12] - in church", "Nomadic Warrior's Cookbook [12]", key="603544,0:0000067060::", cookbook=True, targets=('lot:1035440200')),
-        ERLocationData("LL/(RC): Festering Bloody Finger x5 - talk to Varré after beating SV mainboss", "Festering Bloody Finger x5", key="603544,0:0000400030::", targets=('lot:100300')),
+        ERLocationData("LL/(RC): Festering Bloody Finger x5 - talk to Varré after beating SV mainboss", "Festering Bloody Finger x5", key="603544,0:0000400030::", missable=True, targets=('lot:100300')),
         ERLocationData("LL/(RC): Lord of Blood's Favor - talk to Varré after invading Magnus in AP", "Lord of Blood's Favor", key="603544,0:0000400031::", missable=True, targets=('lot:100310')),
         ERLocationData("LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor", "Pureblood Knight's Medal", key="603544,0:0000400032::", missable=True, targets=('lot:100320')),
         ERLocationData("LL/(AGT): Smithing Stone [3] - upper AGT, NW of fountain", "Smithing Stone [3]", key="603544,0:1035447000::", targets=('lot:1035440000')),
@@ -2657,8 +2658,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("MP/(MDM): Mohg's Great Rune - mainboss drop", "Mohg's Great Rune", key="120500,0:0000000175::", boss=True, achievement=True, targets=('lot:10121')),
         ERLocationData("MP/MDE: Map: Mohgwyn Palace - to NW", "Map: Mohgwyn Palace", key="120500,0:0000062062::", map=True, targets=('lot:12050000')),
         ERLocationData("MP/PALR: Nomadic Warrior's Cookbook [24] - on E most ledge in S blood swamp", "Nomadic Warrior's Cookbook [24]", key="120500,0:0000067910::", cookbook=True, targets=('lot:12050050')),
-        ERLocationData("MP/(MDM): Festering Bloody Finger x6 - invade Varré near DMM grace", "Festering Bloody Finger x6", key="120500,0:0000400036::", missable=True, targets=('lot:100361', 'lot:110301')),
-        ERLocationData("MP/(MDM): Varré's Bouquet - invade Varré near DMM grace", "Varré's Bouquet", key="120500,0:0000400037::", missable=True, targets=('lot:100360', 'lot:110300')),
+        ERLocationData("MP/(MDM): Festering Bloody Finger x6 - invader Varré near DMM grace", "Festering Bloody Finger x6", key="120500,0:0000400036::", missable=True, targets=('lot:100361', 'lot:110301')),
+        ERLocationData("MP/(MDM): Varré's Bouquet - invader Varré near DMM grace", "Varré's Bouquet", key="120500,0:0000400037::", missable=True, targets=('lot:100360', 'lot:110300')),
         ERLocationData("MP/(MDM): Remembrance of the Blood Lord - mainboss drop", "Remembrance of the Blood Lord", key="120500,0:0000510120::", boss=True, achievement=True, remembrance=True, targets=('lot:10120')),
         ERLocationData("MP/PALR: Ash of War: Blood Tax - scarab to NE down path, first E dead-end in blood swamp", "Ash of War: Blood Tax", key="120500,0:0000540686::", scarab=True, targets=('lot:40686')),
         # weird item
@@ -2702,10 +2703,10 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("MP/(MDM): Lord's Rune - by pillar in cave area", "Lord's Rune", key="120500,0:0012057690::", targets=('lot:12050690')),
         ERLocationData("MP/PALR: Smithing Stone [6] - to NE down path, third E dead-end in blood swamp", "Smithing Stone [6]", key="120500,0:0012057700::", targets=('lot:12050700')),
         ERLocationData("MP/(MDM): Somber Ancient Dragon Smithing Stone - in chest SE of boss elevator", "Somber Ancient Dragon Smithing Stone", key="120500,0:0012057900::", ambush=True, chest=True, targets=('lot:12050900')),
-        ERLocationData("MP/PALR: White Mask - invader in S blood swamp", "White Mask", key="120500,0:0012057950::", targets=('lot:12050950')),
-        ERLocationData("MP/PALR: War Surgeon Gloves - invader in S blood swamp", "War Surgeon Gloves", key="120500,0:0012057950::", targets=('lot:12050952')),
-        ERLocationData("MP/PALR: War Surgeon Trousers - invader in S blood swamp", "War Surgeon Trousers", key="120500,0:0012057950::", targets=('lot:12050953')),
-        ERLocationData("MP/PALR: War Surgeon Gown (Altered) - invader in S blood swamp", "War Surgeon Gown (Altered)", key="120500,0:0012057950::", targets=('lot:12050951')),
+        ERLocationData("MP/PALR: White Mask - invader in S blood swamp", "White Mask", key="120500,0:0012057950::", missable=True, targets=('lot:12050950')),
+        ERLocationData("MP/PALR: War Surgeon Gloves - invader in S blood swamp", "War Surgeon Gloves", key="120500,0:0012057950::", missable=True, targets=('lot:12050952')),
+        ERLocationData("MP/PALR: War Surgeon Trousers - invader in S blood swamp", "War Surgeon Trousers", key="120500,0:0012057950::", missable=True, targets=('lot:12050953')),
+        ERLocationData("MP/PALR: War Surgeon Gown (Altered) - invader in S blood swamp", "War Surgeon Gown (Altered)", key="120500,0:0012057950::", missable=True, targets=('lot:12050951')),
     ],
     "Farum Azula Main":[ # farumazula                                     done
         ERLocationData("FA/DTL: Ancient Dragon Apostle's Cookbook [4] - to SE up right path, W of seedtree, far end of path in building", "Ancient Dragon Apostle's Cookbook [4]", key="130000,0:0000068020::", cookbook=True, targets=('lot:13000650')), # 2
@@ -3342,7 +3343,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("CL/(RC): Smithing Stone [5] - room S of COP, up ladder x2", "Smithing Stone [5]", key="605136,0:1051367060::", targets=('lot:1051360060')),
         ERLocationData("CL/(RC): Smithing Stone [5] - by back entrance shortcut door", "Smithing Stone [5]", key="605136,0:1051367080::", targets=('lot:1051360080')),
         ERLocationData("CL/(RC): Smithing Stone [4] - out from grace, to W, up wood stairs on platform", "Smithing Stone [4]", key="605136,0:1051367090::", targets=('lot:1051360090')),
-        ERLocationData("CL/(RC): Smithing Stone [6] - in church during festival", "Smithing Stone [6]", key="605136,0:1051367100::", targets=('lot:1051360100')),
+        ERLocationData("CL/(RC): Smithing Stone [6] - in church during festival", "Smithing Stone [6]", key="605136,0:1051367100::", missable=True, targets=('lot:1051360100')),
         ERLocationData("CL/(RC): Somber Smithing Stone [5] - to N after boss arena", "Somber Smithing Stone [5]", key="605136,0:1051367110::", targets=('lot:1051360110')),
         ERLocationData("CL/(RC): Flamberge - room S of COP, up ladder, behind enemy", "Flamberge", key="605136,0:1051367130::", targets=('lot:1051360130')),
         ERLocationData("CL/(RC): Somber Smithing Stone [4] - enemy drop 1 front courtyard", "Somber Smithing Stone [4]", key="605136,0:1051367700::", targets=('lot:1051360700')),
@@ -5210,8 +5211,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("CO/HMS: Winged Crystal Tear - in basin to NE in black flower field", "Winged Crystal Tear", key="604453,0:0000065120::", basin=True, targets=('lot:1044530210')),
         ERLocationData("CO/(ME): Twiggy Cracked Tear - in basin", "Twiggy Cracked Tear", key="604453,0:0000065190::", basin=True, targets=('lot:1044530201')),
         ERLocationData("CO/HMS: Golden Rune [4] - to SE end of left cliff behind gravestone", "Golden Rune [4]", key="604453,0:1044537010::", targets=('lot:1044530010')),
-        ERLocationData("CO: Dragon Greatclaw - capital great rune gate boss drop", "Dragon Greatclaw", key="604552,0:0000530315::", altboss=True, targets=('lot:30315')),
-        ERLocationData("CO: Dragonclaw Shield - capital great rune gate boss drop", "Dragonclaw Shield", key="604552,0:0000530315::", altboss=True, targets=('lot:30316')),
+        ERLocationData("CO: Dragon Greatclaw - capital great rune gate boss drop", "Dragon Greatclaw", key="604552,0:0000530315::", altboss=True, missable=True, targets=('lot:30315')),
+        ERLocationData("CO: Dragonclaw Shield - capital great rune gate boss drop", "Dragonclaw Shield", key="604552,0:0000530315::", altboss=True, missable=True, targets=('lot:30316')),
         ERLocationData("CO/AHG: Gravity Stone Fan x3 - NE of AHG up on left cliff", "Gravity Stone Fan x3", key="604552,0:1045527000::", targets=('lot:1045520000')),
         ERLocationData("CO: Gravel Stone - around right cliff from capital great rune gate", "Gravel Stone", key="604552,0:1045527010::", targets=('lot:1045520010')),
         ERLocationData("CO/AHG: Smithing Stone [6] x2 - breakable statue N of AHG", "Smithing Stone [6] x2", key="604552,0:1045527020::", targets=('lot:1045520020')),
@@ -6268,6 +6269,7 @@ location_name_groups: Dict[str, Set[str]] = {
     "Friendly NPC Rewards": set(),
     "Chest": set(),
     "Scarab": set(),
+    "Shop": set(),
     "Out of the Way": set(),
     "Drop": set(),
     "Rise Puzzle": set(),
@@ -6345,7 +6347,7 @@ for location_name, location_table in location_tables.items():
         
 dupable_locations: Dict[str, int] = {}
 for k in ERPriorityLocationGroups.valid_keys:
-    dupable_locations.update({loc: 0 for loc in location_name_groups[k]})
+    dupable_locations.update({loc: 0 for loc in location_name_groups[k] if k.lower() != "shop"})
 # locations that required locations might need
 dupable_locations.update({"LG/(SG): Finger Severer - beside grace": 0, "GP/TPC: Scadutree Fragment - by cross": 0})
 

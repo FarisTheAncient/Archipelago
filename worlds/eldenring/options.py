@@ -161,15 +161,16 @@ class DLCScadutreeFragments(Choice):
     default = 1
 
 class DLCTimingOption(Choice):
-    """Guarantee that you don't need to enter the DLC until later in the run.
+    """Guarantee that you don't need to enter the DLC until later in the run. 
+    This just changes how early you can get Mohgwyn Palace access so you'll still need to find the region_lock items if its on.
 
     - **Early:** 'Pureblood Knight Medal' will spawn in an early sphere, unless MissableLocationBehaviorOption is set to do_not_randomize, it'll be at its normal spot.
-    - **Off:** You may have to enter the DLC with 'Pureblood Knight Medal' item.
-    - **Late:** You won't have to enter the DLC until after getting to Snowfield.
+    - **Mid:** You won't have Mohgwyn Palace access until after getting to Altus.
+    - **Late:** You won't have Mohgwyn Palace access until after getting to Snowfield.
     """
     display_name = "DLC Timing"
     option_early = 0
-    option_off = 1
+    option_mid = 1
     option_late = 2
     default = 1
     
@@ -518,11 +519,13 @@ class ERPriorityLocationGroups(PriorityLocations):
     - **Cross**: All cross items.
     - **Revered**: Revered Spirit Ashes.
     - **Key Items**: Key items.
-    """
+    
+    """ # - **Shop**: Unmissable shops.
     display_name = "Priority Location Groups"
     default = ["Key Items", "Boss Reward", "DLC Boss Reward", "Seedtree", "Map", "Church", "Cross", "Fragment"]
     valid_keys = ["Chest", "Scarab", "Seedtree", "Basin", "Church", "Map", "Key Items",
         "Fragment", "Cross", "Revered", "Achievement Boss", "DLC Remembrance Boss", "Boss Reward", "DLC Boss Reward"]
+    # todo "Shop" is causing bad fill errors
     valid_keys_casefold = False
     
 class ERImportantAtPriorityOnly(DefaultOnToggle):
