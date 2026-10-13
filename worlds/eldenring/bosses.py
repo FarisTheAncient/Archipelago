@@ -24,6 +24,9 @@ class ERBossInfo:
     dungeon: bool = False
     """This boss appears in a underground dungeon."""
     
+    missable: bool = False
+    """This boss is missable."""
+    
     allow_rykard: bool = False
     """Which bosses can be replaced by Rykard."""
 
@@ -86,7 +89,7 @@ base_bosses = [
         ]
     ),
     # limgrave dungeons
-    # ERBossInfo("Patches (LG/MCV)", ["Limgrave", "Dungeon", "Cave"], 31000800, 31000800, dungeon=True, locations=[]),
+    ERBossInfo("Patches (LG/MCV)", ["Limgrave", "Dungeon", "Cave"], 31000800, 31000800, dungeon=True, missable=True, locations=[]), # can be missed if rykard is killed first
     ERBossInfo("Ulcerated Tree Spirit (LG/FHG)", ["Limgrave", "Dungeon", "Grave"], 18000800, 18000800, dungeon=True,
         locations=[
             "LG/(FHG): Golden Seed - boss drop",
@@ -238,7 +241,7 @@ base_bosses = [
             "DD/AR: Fia's Mist - boss drop"
         ]
     ),
-    ERBossInfo("Lichdragon Fortissax (DD)", ["Deeproot Depths", "Underground", "Remembrance"], 12030850, 12030850, allow_rykard=True,
+    ERBossInfo("Lichdragon Fortissax (DD)", ["Deeproot Depths", "Underground", "Remembrance"], 12030850, 12030850, missable=True, allow_rykard=True,
         locations=[
             #"DD/PDT: Remembrance of the Lichdragon - mainboss drop"
         ]
@@ -690,7 +693,7 @@ base_bosses = [
             "CO/(HMS): Medicine Peddler's Bell Bearing - night boss drop"
         ]
     ),
-    ERBossInfo("Draconic Tree Sentinel (CO)", ["Capital Outskirts", "Overworld", "Main"], 1045520800, 1045520800,
+    ERBossInfo("Draconic Tree Sentinel (CO)", ["Capital Outskirts", "Overworld", "Main"], 1045520800, 1045520800, missable=True,
         locations=[
             # "CO: Dragon Greatclaw - capital great rune gate boss drop",
             # "CO: Dragonclaw Shield - capital great rune gate boss drop"
@@ -1133,7 +1136,7 @@ dlc_bosses = [
     ),
     
     # MARK: Scadu Altus
-    ERBossInfo("Dryleaf Dane (SA)", ["Scadu Altus", "DLC Overworld"], 2049440710, 2049440800, locations=[]),
+    ERBossInfo("Dryleaf Dane (SA)", ["Scadu Altus", "DLC Overworld"], 2049440710, 2049440800, missable=True, locations=[]),
     ERBossInfo("Ghostflame Dragon (SA)", ["Scadu Altus", "DLC Overworld"], 2049430800, 2049430800,
         locations=[
             "SA/MR: Dragon Heart - boss drop to S",

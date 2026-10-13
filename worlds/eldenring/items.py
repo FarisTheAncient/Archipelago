@@ -2245,6 +2245,11 @@ _vanilla_items = [
     
     ERItemData("Dummy item", 0, ERItemCategory.GOODS, skip=True), # used in dlc roundtable, and dupe priority locations
     
+    # MARK: Progressive Items
+    
+    ERItemData("Progressive Smithing-Stone Bell Bearing", 9999999, ERItemCategory.GOODS, classification=ItemClassification.progression),
+    ERItemData("Progressive Somberstone Bell Bearing", 9999999, ERItemCategory.GOODS, classification=ItemClassification.progression),
+    
     # MARK: Key Shards
     ERItemData("Rusty Key Shard", 8010, ERItemCategory.GOODS, classification=ItemClassification.progression),
     ERItemData("Rold Medallion Shard", 8107, ERItemCategory.GOODS, classification=ItemClassification.progression),
@@ -2273,14 +2278,11 @@ _vanilla_items = [
     
     # MARK: Region Lock Items
     ERItemData("Weeping Lock", 7830300, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
-    # ERItemData("Stormveil Lock", 7830301, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
     ERItemData("Liurnia Lock", 7830302, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
     
     ERItemData("Siofra Lock", 7830303, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
     ERItemData("Ainsel Lock", 7830304, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
     ERItemData("Deeproot Lock", 7830305, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
-    
-    # ERItemData("Altus Lock", 99999, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True), # dectus
     
     ERItemData("Caelid Lock", 7830306, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
     

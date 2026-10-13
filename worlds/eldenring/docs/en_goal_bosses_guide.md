@@ -166,7 +166,6 @@ This table shows all Boss Groups you can use for your Goal
 <tr><td><strong>Demi-Human Queen Gilika (AP/LR)</strong></td></tr>
 <tr><td><strong>Demi-Human Queen Maggie (MtG)</strong></td></tr>
 <tr><td><strong>Demi-Human Queen Margot (MtG/VC)</strong></td></tr>
-<tr><td><strong>Draconic Tree Sentinel (CO)</strong></td></tr>
 <tr><td><strong>Dragonkin Soldier (LR)</strong></td></tr>
 <tr><td><strong>Dragonkin Soldier (SR)</strong></td></tr>
 <tr><td><strong>Dragonkin Soldier of Nokstella (AR)</strong></td></tr>
@@ -213,7 +212,6 @@ This table shows all Boss Groups you can use for your Goal
 <tr><td><strong>Hoarah Loux (LAC)</strong></td></tr>
 <tr><td><strong>Kindred of Rot (MtG/SC)</strong></td></tr>
 <tr><td><strong>Leonine Misbegotten (WP/CM)</strong></td></tr>
-<tr><td><strong>Lichdragon Fortissax (DD)</strong></td></tr>
 <tr><td><strong>Loretta, Knight of the Haligtree (MH)</strong></td></tr>
 <tr><td><strong>Loretta, Royal Knight (LL)</strong></td></tr>
 <tr><td><strong>Mad Pumpkin Head (LG/WR)</strong></td></tr>
@@ -314,7 +312,6 @@ This table shows all Boss Groups you can use for your Goal
 <tr><td><strong>Decaying Ekzykes (CL)</strong></td></tr>
 <tr><td><strong>Demi-Human Queen Gilika (AP/LR)</strong></td></tr>
 <tr><td><strong>Demi-Human Queen Maggie (MtG)</strong></td></tr>
-<tr><td><strong>Draconic Tree Sentinel (CO)</strong></td></tr>
 <tr><td><strong>Erdtree Avatar (CL)</strong></td></tr>
 <tr><td><strong>Erdtree Avatar (LL/MEE)</strong></td></tr>
 <tr><td><strong>Erdtree Avatar (LL/MEW)</strong></td></tr>
@@ -543,7 +540,6 @@ This table shows all Boss Groups you can use for your Goal
 
 </td></tr>
 <tr><td><strong>Commander Niall (MotG/CS)</strong></td></tr>
-<tr><td><strong>Draconic Tree Sentinel (CO)</strong></td></tr>
 <tr><td><strong>Elden Beast (ET)</strong></td></tr>
 <tr><td><strong>Fire Giant (Phase 2) (FP)</strong></td></tr>
 <tr><td><strong>Godfrey, First Elden Lord (LRC)</strong></td></tr>
@@ -574,7 +570,6 @@ This table shows all Boss Groups you can use for your Goal
 <tr><td><strong>Fire Giant (Phase 2) (FP)</strong></td></tr>
 <tr><td><strong>Godrick the Grafted (SV)</strong></td></tr>
 <tr><td><strong>Hoarah Loux (LAC)</strong></td></tr>
-<tr><td><strong>Lichdragon Fortissax (DD)</strong></td></tr>
 <tr><td><strong>Malenia, Blade of Miquella (EBH)</strong></td></tr>
 <tr><td><strong>Maliketh, The Black Blade (FA)</strong></td></tr>
 <tr><td><strong>Mohg, Lord of Blood (MP)</strong></td></tr>
@@ -635,7 +630,6 @@ This table shows all Boss Groups you can use for your Goal
 <tr><td><strong>Dragonkin Soldier (SR)</strong></td></tr>
 <tr><td><strong>Dragonkin Soldier of Nokstella (AR)</strong></td></tr>
 <tr><td><strong>Fia&#x27;s Champions (DD)</strong></td></tr>
-<tr><td><strong>Lichdragon Fortissax (DD)</strong></td></tr>
 <tr><td><strong>Mimic Tear (NR)</strong></td></tr>
 <tr><td><strong>Regal Ancestor Spirit (NR)</strong></td></tr>
 <tr><td><strong>Valiant Gargoyles (NR)</strong></td></tr>
@@ -654,7 +648,6 @@ This table shows all Boss Groups you can use for your Goal
 </td></tr>
 <tr><td><strong>Crucible Knight Siluria (DD)</strong></td></tr>
 <tr><td><strong>Fia&#x27;s Champions (DD)</strong></td></tr>
-<tr><td><strong>Lichdragon Fortissax (DD)</strong></td></tr>
 <tr><td><h3>
 
 ### Liurnia of The Lakes Boss
@@ -796,7 +789,6 @@ This table shows all Boss Groups you can use for your Goal
 <tr><td><strong>Bell Bearing Hunter (CO)</strong></td></tr>
 <tr><td><strong>Crucible Knight &amp; Crucible Knight Ordovis (CO/AHG)</strong></td></tr>
 <tr><td><strong>Deathbird (CO)</strong></td></tr>
-<tr><td><strong>Draconic Tree Sentinel (CO)</strong></td></tr>
 <tr><td><strong>Grave Warden Duelist (CO/AST)</strong></td></tr>
 <tr><td><strong>Onyx Lord (CO/ST)</strong></td></tr>
 <tr><td><h3>
@@ -925,7 +917,6 @@ This table shows all Boss Groups you can use for your Goal
 <tr><td><strong>Death Rite Bird (CHG)</strong></td></tr>
 <tr><td><strong>Demi-Human Queen Marigga (CC)</strong></td></tr>
 <tr><td><strong>Divine Beast Dancing Lion (ARR)</strong></td></tr>
-<tr><td><strong>Dryleaf Dane (SA)</strong></td></tr>
 <tr><td><strong>Fallingstar Beast (HL)</strong></td></tr>
 <tr><td><strong>Ghostflame Dragon (CC)</strong></td></tr>
 <tr><td><strong>Ghostflame Dragon (GP)</strong></td></tr>
@@ -963,7 +954,6 @@ This table shows all Boss Groups you can use for your Goal
 <tr><td><strong>Demi-Human Swordmaster Onze (GP/BG)</strong></td></tr>
 <tr><td><strong>Divine Beast Dancing Lion (ARR)</strong></td></tr>
 <tr><td><strong>Divine Beast Dancing Lion (BTS)</strong></td></tr>
-<tr><td><strong>Dryleaf Dane (SA)</strong></td></tr>
 <tr><td><strong>Fallingstar Beast (HL)</strong></td></tr>
 <tr><td><strong>Ghostflame Dragon (CC)</strong></td></tr>
 <tr><td><strong>Ghostflame Dragon (GP)</strong></td></tr>
@@ -1093,7 +1083,6 @@ This table shows all Boss Groups you can use for your Goal
 </td></tr>
 <tr><td><strong>Black Knight Edreed (SA)</strong></td></tr>
 <tr><td><strong>Curseblade Labirith (SA/BG)</strong></td></tr>
-<tr><td><strong>Dryleaf Dane (SA)</strong></td></tr>
 <tr><td><strong>Ghostflame Dragon (SA)</strong></td></tr>
 <tr><td><strong>Ralva the Great Red Bear (SA)</strong></td></tr>
 <tr><td><h3>

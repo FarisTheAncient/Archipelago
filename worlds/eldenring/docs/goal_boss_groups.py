@@ -10,10 +10,11 @@ all_groups: Dict[str, list[str]] = {}
 
 if __name__ == '__main__':
     for boss in all_bosses:
-        for t in boss.type:
-            if t not in all_groups:
-                all_groups.update({t: []})
-            all_groups[t].append(boss.name) 
+        if not boss.missable:
+            for t in boss.type:
+                if t not in all_groups:
+                    all_groups.update({t: []})
+                all_groups[t].append(boss.name) 
             
     table = f"### Base Game\n"
     for type in all_groups:

@@ -160,54 +160,7 @@ class EldenRing(World):
     
     local_items: Set[str] = set()
     # this is only used to output local count in create_items
-    
-    def visualize_world(self): # puml gets put in root folder
-        Utils.visualize_regions(self.multiworld.get_region(self.multiworld.worlds[1].origin_region_name, 1), f"{self.multiworld.player_name[1]}.puml")
 
-    def test_state(self) -> None:
-        cant_reach = []
-        all_state = self.multiworld.get_all_state(False)
-        for loc in self.multiworld.get_locations():
-            if not loc in self.multiworld.get_reachable_locations(all_state):
-                cant_reach.append(loc)
-        warning(f"cant reach: {cant_reach}")
-        
-    def pre_fill(self):
-        ""
-        # self.test_state()
-        # self.visualize_world()
-
-    # not working, skill issue
-    # def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
-    #     if self.multiworld.players > 1 or not self.options.important_at_priority_only: return
-        
-    #     prio_locations = [loc for loc in fill_locations if loc.progress_type == LocationProgressType.PRIORITY]
-    #     prog_items = [i for i in progitempool if i.classification == ItemClassification.progression]
-    #     de_prog_items = [i for i in progitempool if i.classification == ItemClassification.progression_deprioritized]
-
-    #     self.random.shuffle(prog_items)
-    #     self.random.shuffle(prio_locations)
-        
-    #     # from prio gen
-    #     priority_fill_state = sweep_from_pool(self.multiworld.state, de_prog_items)
-    #     fill_restrictive(self.multiworld, priority_fill_state, prio_locations, prog_items,
-    #                         single_player_placement=True, swap=False, lock=True,
-    #                         name="Priority", one_item_per_player=True, allow_partial=True)
-    #     if prio_locations and prog_items:
-    #         priority_retry_state = sweep_from_pool(self.multiworld.state, de_prog_items)
-    #         fill_restrictive(self.multiworld, priority_retry_state, prio_locations, prog_items,
-    #                             single_player_placement=True, swap=False, lock=True,
-    #                             name="Priority Retry", one_item_per_player=False,
-    #                             allow_partial=bool(de_prog_items))
-            
-    #     if prog_items:
-    #         print(prog_items)
-    #         raise FillError("Couldn't place prog on priority.")
-        
-    #     for loc in fill_locations:
-    #         if loc.name in [p.name for p in prio_locations]:
-    #             loc.progress_type = LocationProgressType.DEFAULT
-        
     def post_fill(self):
         badly_placed_items: Dict[str, str] = {}
         if self.options.important_at_priority_only:
@@ -259,8 +212,8 @@ class EldenRing(World):
                 or not self.options.enable_dlc and location_dictionary[loc].dlc 
                 or location_dictionary[loc].missable):
                 self.all_priority_locations.remove(loc)
-            if self.options.exclude_dungeon:
-                if loc in all_boss_locations_dictionary and all_boss_locations_dictionary[loc].dungeon or location_dictionary[loc].dungeon:
+            if self.options.exclude_dungeon:           # i don't think i even need to check this as the new dungeon code should cover it
+                if location_dictionary[loc].dungeon or loc in all_boss_locations_dictionary and all_boss_locations_dictionary[loc].dungeon:
                     if loc in self.all_priority_locations:
                         self.all_priority_locations.remove(loc)
         
@@ -3110,7 +3063,7 @@ class EldenRing(World):
         for name in self.options.goal:
             assert name.endswith(" Boss")
             goal_type = name[:-len(" Boss")]
-            boss = [boss for boss in all_bosses if goal_type in boss.type and boss.flag != None]
+            boss = [boss for boss in all_bosses if goal_type in boss.type and boss.flag != None and not boss.missable]
             assert boss
             # no dupe bosses
             [result.append(b) for b in boss if b not in result]
@@ -3369,6 +3322,16 @@ class EldenRing(World):
         if self.serpent_location:
             force_bosses[self.serpent_location.id] = default_serpent_location.id
         
+        dungeon_sweep_id_to_locations: Dict[int, list[str]] = {}
+        for region in location_tables:
+            # if the region has a dungeon item
+            if location_tables[region][0].dungeon:
+                # find boss flag and add locations it should grant to list
+                for loc in location_tables[region]:
+                    if loc.name in all_boss_locations_dictionary:
+                        dungeon_sweep_id_to_locations.update({all_boss_locations_dictionary[loc.name].id: [l.name for l in location_tables[region]]})
+                        break
+
         slot_data = {
             "options": {
                 "key_item_shards": self.options.key_item_shards.value,
@@ -3462,6 +3425,7 @@ class EldenRing(World):
             "locationIdsToTargets": location_ids_to_targets,
             "allStartingItems": self.all_starting_items, # list of _er_item_full_id
             "duplicatedLocations": duplicated_locations,
+            "dungeonSweepLocations": dungeon_sweep_id_to_locations,
             "versions": ">=0.1 <0.2",
         }
 
