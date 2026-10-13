@@ -520,13 +520,16 @@ class ERPriorityLocationGroups(PriorityLocations):
     - **Cross**: All cross items.
     - **Revered**: Revered Spirit Ashes.
     - **Key Items**: Key items.
+    - **Shop**: Unmissable shops.
+    - **Spiritspring Stones**: Spiritspring Stone if spiritspring_stones is on.
+    """ 
     
-    """ # - **Shop**: Unmissable shops.
     display_name = "Priority Location Groups"
     default = ["Key Items", "Boss Reward", "DLC Boss Reward", "Seedtree", "Map", "Church", "Cross", "Fragment"]
-    valid_keys = ["Chest", "Scarab", "Seedtree", "Basin", "Church", "Map", "Key Items",
-        "Fragment", "Cross", "Revered", "Achievement Boss", "DLC Remembrance Boss", "Boss Reward", "DLC Boss Reward"]
-    # todo "Shop" is causing bad fill errors
+    valid_keys = ["Chest", "Scarab", "Seedtree", "Basin", "Church", "Map", "Key Items", 
+        "Fragment", "Cross", "Revered", "Achievement Boss", "DLC Remembrance Boss", "Boss Reward", "DLC Boss Reward",
+        "Shop", "Spiritspring Stones",
+        ]
     valid_keys_casefold = False
     
 class ERImportantAtPriorityOnly(DefaultOnToggle):

@@ -328,6 +328,9 @@ class ERLocationData:
     progression: bool = False
     """Whether this location normally contains an item that blocks forward progress."""
     
+    disallow_duplicates: bool = False
+    """Whether this location can't be duplicated for important_at_priority_only."""
+    
     basin: bool = False
     """Whether this location is a basin."""
     
@@ -604,7 +607,9 @@ class ERLocationData:
         if self.npc: names.append("Friendly NPC Rewards")
         if self.chest: names.append("Chest")
         if self.scarab: names.append("Scarab")
-        if self.shop and not self.missable: names.append("Shop")
+        if self.shop and not self.missable: 
+            names.append("Shop")
+            self.disallow_duplicates = True
         if self.outoftheway: names.append("Out of the Way")
         if self.drop: names.append("Drop")
         if self.hidden: names.append("Hidden")
@@ -618,6 +623,9 @@ class ERLocationData:
         if self.basin: names.append("Basin")
         if self.fragment: names.append("Fragment")
         if self.revered: names.append("Revered")
+        if self.spiritspring_stone: 
+            names.append("Spiritspring Stones")
+            self.disallow_duplicates = True
         
         if self.region_value >= len(region_order) - 21 and self.region_value <= len(region_order):
             names.append("Post Leyndell")
@@ -6284,6 +6292,7 @@ location_name_groups: Dict[str, Set[str]] = {
     "Basin": set(),
     "Fragment": set(),
     "Revered": set(),
+    "Spiritspring Stones": set(),
     
     "Goods": set(),
     "Weapons": set(),
@@ -6347,7 +6356,7 @@ for location_name, location_table in location_tables.items():
         
 dupable_locations: Dict[str, int] = {}
 for k in ERPriorityLocationGroups.valid_keys:
-    dupable_locations.update({loc: 0 for loc in location_name_groups[k] if k.lower() != "shop"})
+    dupable_locations.update({loc: 0 for loc in location_name_groups[k] if not location_dictionary[loc].disallow_duplicates})
 # locations that required locations might need
 dupable_locations.update({"LG/(SG): Finger Severer - beside grace": 0, "GP/TPC: Scadutree Fragment - by cross": 0})
 
