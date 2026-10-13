@@ -2,7 +2,7 @@ from collections.abc import Sequence
 from collections import defaultdict
 from enum import Enum
 from itertools import combinations
-from dataclasses import replace, dataclass
+from dataclasses import replace, dataclass, asdict
 import settings, typing, Utils, math, json
 from logging import warning
 from typing import cast, Any, Callable, Dict, Set, List, Optional, TextIO, Union, Tuple
@@ -3321,15 +3321,21 @@ class EldenRing(World):
             force_bosses[self.rykard_location.id] = default_rykard_location.id
         if self.serpent_location:
             force_bosses[self.serpent_location.id] = default_serpent_location.id
-        
-        dungeon_sweep_id_to_locations: Dict[int, list[str]] = {}
+
+        @dataclass
+        class sweep_flags:
+            flag: int
+            ids: list[int]
+            extra_flag: Optional[int] = None
+
+        dungeon_sweep_flag_to_locations: list[sweep_flags] = []
         for region in location_tables:
             # if the region has a dungeon item
             if location_tables[region][0].dungeon:
-                # find boss flag and add locations it should grant to list
+                # find boss flag and add locations apcode it should grant to list
                 for loc in location_tables[region]:
                     if loc.name in all_boss_locations_dictionary:
-                        dungeon_sweep_id_to_locations.update({all_boss_locations_dictionary[loc.name].id: [l.name for l in location_tables[region]]})
+                        dungeon_sweep_flag_to_locations.append(sweep_flags(all_boss_locations_dictionary[loc.name].flag, [l.ap_code for l in location_tables[region] if not l.unsweepable]))
                         break
 
         slot_data = {
@@ -3425,7 +3431,7 @@ class EldenRing(World):
             "locationIdsToTargets": location_ids_to_targets,
             "allStartingItems": self.all_starting_items, # list of _er_item_full_id
             "duplicatedLocations": duplicated_locations,
-            "dungeonSweepLocations": dungeon_sweep_id_to_locations,
+            "dungeonSweepLocations": [json.dumps(asdict(f)) for f in dungeon_sweep_flag_to_locations],
             "versions": ">=0.1 <0.2",
         }
 

@@ -444,6 +444,9 @@ class ERLocationData:
     dungeon: bool = False
     """Whether this locations is inside of a dungeon."""
     
+    unsweepable: bool = False
+    """Whether this locations is inside of a dungeon and cannot be picked up via sweep."""
+    
     outoftheway: bool = False
     """Whether this location is might take a bit to get."""
     
@@ -4341,7 +4344,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("DB/(DC): Beast Blood x3 - bottom of dropdown", "Beast Blood x3", key="311000,0:0031107120::", targets=('lot:31100120')),
     ],
     "Sellia Hideaway":[ # dragonbarrow_selliahideaway                     done
-        ERLocationData("DB/(SH): Stars of Ruin - lower first big room N side, need Sellian Sealbreaker, given by Lusat", "Stars of Ruin", key="311100,0:0000400430::", targets=('lot:104300')),
+        ERLocationData("DB/(SH): Stars of Ruin - lower first big room N side, need Sellian Sealbreaker, given by Lusat", "Stars of Ruin", key="311100,0:0000400430::", unsweepable=True, targets=('lot:104300')),
         ERLocationData("DB/(SH): Lusat's Glintstone Crown - side with Sellen, lower first big room N side, where Lusat was", "Lusat's Glintstone Crown", key="311100,0:0000400431::", targets=('lot:114310')),
         ERLocationData("DB/(SH): Lusat's Robe - side with Sellen, lower first big room N side, where Lusat was", "Lusat's Robe", key="311100,0:0000400431::", targets=('lot:114311')),
         ERLocationData("DB/(SH): Lusat's Manchettes - side with Sellen, lower first big room N side, where Lusat was", "Lusat's Manchettes", key="311100,0:0000400431::", targets=('lot:114312')),

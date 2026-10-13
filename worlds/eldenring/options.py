@@ -620,8 +620,8 @@ class ERExcludeLocations(ExcludeLocations):
     - **Out of the Way**: Items that take a bit to get.
     - **Drop**: One time drop items from enemies."""
     default = frozenset({"Hidden"})
-    valid_keys = {"dlc", "hidden", "blizzard", "scarab", "furnace golem", "out of the way", "drop", "post leyndell"} # testing "All Locations"
-    valid_keys_casefold = True
+    valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Post Leyndell"} # testing "All Locations"
+    valid_keys_casefold = False
     
     unconverted_groups = set() # this is so dumb but it works, i need the unconverted group names
     def verify_keys(self) -> None:
