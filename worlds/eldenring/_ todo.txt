@@ -14,11 +14,7 @@ python launcher.py "Build APWorlds" -- "Elden Ring"
 
 update some bosses to only be themselfs, ex maliketh is farum end boss
 
-BIG TODO, don't remove extra prio locations in dupe func, remove them after prog have been placed
-only with eldenring in world and all need important at prio on
-
-make a docs folder for locations and region descriptions
-and make a python script to automate item
+finish region descriptions
 
 rest of keyitemshards at later point
 and presets for keyitemshards

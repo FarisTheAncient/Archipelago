@@ -54,7 +54,7 @@ shard_list = { # item name: option name
     
 class ExcludeDungeonBosses(DefaultOnToggle):
     """Exclude dungeon bosses from Goal. ex: Catacomb, Cave, Tunnels ect.., and **not** Underground, Ruins or Evergaol bosses.
-    \nThis includes dungeon bosses in boss rewards from priority location groups."""
+    \nThis includes all dungeon locations in priority location groups."""
     display_name = "Exclude Dungeon Bosses"
 
 class WorldLogic(Choice):

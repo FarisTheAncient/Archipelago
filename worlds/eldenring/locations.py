@@ -441,6 +441,9 @@ class ERLocationData:
     for an illusory wall or one random mob with a guaranteed drop.
     """
     
+    dungeon: bool = False
+    """Whether this locations is inside of a dungeon."""
+    
     outoftheway: bool = False
     """Whether this location is might take a bit to get."""
     
@@ -5979,7 +5982,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("SA/(CMM): Miriam's Vanishing - Ymir shop", "Miriam's Vanishing", key="615045,0:0000000000:102300:", sorceries=True, missable=True, shop=True, targets=('shop:102300')),
         ERLocationData("SA/(CMM): Fleeting Microcosm - Ymir shop after ringing both hanging bells", "Fleeting Microcosm", key="615045,0:0000000000:9440,102300:", sorceries=True, missable=True, shop=True, targets=('shop:102303')),
         ERLocationData("SA/(CMM): Hole-Laden Necklace - given by Ymir on first meeting", "Hole-Laden Necklace", key="615045,0:0000400660::", keyitem=True, targets=('lot:106600')),
-        ERLocationData("SA/(CMM): Ruins Map - given by Ymir on first meeting", "Ruins Map", key="615045,0:0000400660::", keyitem=True, targets=('lot:106601')),
+        ERLocationData("SA/(CMM): Ruins Map - given by Ymir on first meeting", "Ruins Map", key="615045,0:0000400660::", missable=True, targets=('lot:106601')), # if you get both bells its missed
         ERLocationData("SA/(CMM): Beloved Stardust - given by Ymir after ringing the hanging bell in FRR", "Beloved Stardust", key="615045,0:0000400661::", missable=True, targets=('lot:106611', 'lot:106631')),
         ERLocationData("SA/(CMM): Ruins Map (2nd) - given by Ymir after ringing the hanging bell in FRR", "Ruins Map (2nd)", key="615045,0:0000400661::", missable=True, targets=('lot:106610', 'lot:106630')),
         ERLocationData("SA/(CMM): Ruins Map (3rd) - given by Ymir after ringing both hanging bells", "Ruins Map (3rd)", key="615045,0:0000400662::", missable=True, targets=('lot:106620', 'lot:106632')),
@@ -6257,6 +6260,99 @@ for region in [# conditional locations
 ]:
     for location in location_tables[region]:
         location.conditional = True
+        
+for region in [ # dungeons
+    # base
+    "Coastal Cave",
+    "Church of Dragon Communion",
+    "Groveside Cave",
+    "Stormfoot Catacombs",
+    "Limgrave Tunnels",
+    "Murkwater Cave",
+    "Murkwater Catacombs",
+    "Highroad Cave",
+    "Deathtouched Catacombs",
+    "Fringefolk Hero's Grave",
+    
+    "Impaler's Catacombs",
+    "Tombsward Catacombs",
+    "Tombsward Cave",
+    "Morne Tunnel",
+    "Earthbore Cave",
+    
+    "Road's End Catacombs",
+    "Black Knife Catacombs",
+    "Cliffbottom Catacombs",
+    "Stillwater Cave",
+    "Lakeside Crystal Cave",
+    "Academy Crystal Cave",
+    "Raya Lucaria Crystal Tunnel",
+    
+    "Caelid Catacombs",
+    "Gaol Cave",
+    "Sellia Crystal Tunnel",
+    "Abandoned Cave",
+    "Minor Erdtree Catacombs",
+    "Gale Tunnel",
+    
+    "War-Dead Catacombs",
+    
+    "Dragonbarrow Cave",
+    "Sellia Hideaway",
+    
+    "Sainted Hero's Grave",
+    "Unsightly Catacombs",
+    "Perfumer's Grotto",
+    "Sage's Cave",
+    "Old Altus Tunnel",
+    "Altus Tunnel",
+    
+    "Wyndham Catacombs",
+    "Gelmir Hero's Grave",
+    "Seethewater Cave",
+    "Volcano Cave",
+    
+    "Auriza Hero's Grave",
+    "Auriza Side Tomb",
+    "Sealed Tunnel",
+    
+    "Leyndell Catacombs",
+    
+    "Hidden Path to the Haligtree",
+    
+    "Giants' Mountaintop Catacombs",
+    "Spiritcaller Cave",
+    
+    "Giant-Conquering Hero's Grave",
+    
+    "Consecrated Snowfield Catacombs",
+    "Cave of the Forlorn",
+    "Yelough Anix Tunnel",
+    
+    # DLC
+    "Fog Rift Catacombs",
+    "Belurat Gaol",
+    "Dragon's Pit",
+    "Ruined Forge Lava Intake",
+    
+    "Fog Rift Fort",
+    
+    "Lamenter's Gaol (Entrance)",
+    "Lamenter's Gaol (Upper)", #main
+    "Lamenter's Gaol (Lower)", #boss
+    
+    "Bonny Gaol",
+    "Ruined Forge of Starfall Past",
+    
+    "Scorpion River Catacombs",
+    "Taylew's Ruined Forge",
+    
+    "Rivermouth Cave",
+    
+    "Darklight Catacombs",
+]:
+    for location in location_tables[region]:
+        location.dungeon = True
 
 for location in location_tables["Leyndell, Royal Capital"]:
     if not location.missable: location.missable = missable_capital

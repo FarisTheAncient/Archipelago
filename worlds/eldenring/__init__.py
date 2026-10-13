@@ -259,9 +259,10 @@ class EldenRing(World):
                 or not self.options.enable_dlc and location_dictionary[loc].dlc 
                 or location_dictionary[loc].missable):
                 self.all_priority_locations.remove(loc)
-            if loc in all_boss_locations_dictionary and all_boss_locations_dictionary[loc].dungeon and self.options.exclude_dungeon:
-                if loc in self.all_priority_locations:
-                    self.all_priority_locations.remove(loc)
+            if self.options.exclude_dungeon:
+                if loc in all_boss_locations_dictionary and all_boss_locations_dictionary[loc].dungeon or location_dictionary[loc].dungeon:
+                    if loc in self.all_priority_locations:
+                        self.all_priority_locations.remove(loc)
         
         local_item_only_lowercase = set(key.lower() for key in self.options.local_item_only.value)
         [local_item_only_lowercase.add(key.lower()) for key in self.settings.force_local_items]
