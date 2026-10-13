@@ -51,11 +51,9 @@ Some options can be changed in the middle of a run, but aside from RandomizerHel
 
 After you have generated the mod files, use the "Launch Elden Ring" button to launch the mod. This uses a built-in [me3](https://me3.help/) to run `randomizer-launcher.me3`.
 
-If you have me3 installed, you can run `randomizer-launcher.me3` yourself without needing to have randomizer open, but **make sure** you have the latest version of me3 first (at least v0.13.0 is required to support Elden Ring 1.17). Manually editing `randomizer-launcher.me3` or moving around files after generating it can break the mod.
+If the built-in launcher doesn't work or if you're on Linux, you can run `randomizer-launcher.me3` yourself without needing to have randomizer open, but **make sure** you have the latest version of me3 installed first (at least v0.13.0 is required to support Elden Ring 1.17). Manually editing `randomizer-launcher.me3` or moving around files after generating it can break the mod.
 
-**There is a known issue for new installs of the mod where the game crashes after a few seconds. This usually goes away after 2-3 attempts, so try to launch again if this happens.**
-
-The game launches using an alternate save file which will not affect your main save, with a name formatted like `ap-<seed>-<slot>.sl2`. To start a run, create a new character. If the room is rehosted at a new URL, create a different character for that room instance.
+The game launches using an alternate save file which will not affect your main save, with a name formatted like `ap-<seed>-<slot>.sl2`. To start a run, create a new character. If the room gets recreated from scratch at any point, create a different character for the new room instance.
 
 ## Frequently asked questions
 
@@ -65,7 +63,7 @@ The apworld is basically compatible with [Universal Tracker](https://archipelago
 
 ### Can I play on Linux?
 
-This has not been tested, but using the randomizer exe and using Elden Ring with me3 has been done before with Wine/Proton. The client dll may have additional issues that require fixes. When it's working, instructions will be added here.
+It appears to work to use Wine/Proton to run the randomizer exe and launch Elden Ring with the mod. However, instead of using the launch button, it may work better to install native Linux [me3](https://me3.help/) and use that to launch `randomizer-launcher.me3`. More details can be added here if a reliable setup flow is found.
 
 A native Linux randomizer program is planned at some point, which also requires implementing Linux support for some dependent libraries.
 
@@ -88,7 +86,7 @@ As of v0.1, the mod does not support the Japanese version of eldenring.exe becau
 
 If you're having trouble launching the game with the mod, see the troubleshooting section on the [main randomizer mod page](https://www.nexusmods.com/eldenring/mods/428?tab=description) which partly applies here.
 
-As mentioned above, there is a known issue for new installs of the mod where the game crashes after a few seconds. This usually goes away after 2-3 attempts, so try to launch again if this happens.
+If the launcher button shows the me3 console but doesn't actually start the game, you can try running `randomizer-launcher.me3` directly. Make sure you're using the latest version of [me3](https://me3.help/) before doing this. Alternatively, this issue usually goes away after 2-3 attempts of trying to launch.
 
 If you see an error message pop up in-game followed by the game closing, this is likely a client error. Further information may be logged in the `dll\log` directory. Note the client dll is currently a debug build because the release build crashes, which will be addressed in the future.
 
