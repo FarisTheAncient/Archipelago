@@ -473,11 +473,12 @@ class SmithingBellBearingOption(Choice):
     - **Randomize:** Can be anywhere.
     - **Progression Randomize:** Make them a progression item, and be required for the area after they would normally be in and for DLC.
     - **Do Not Randomize:** Leave them at their normal spots.
-    """
+    """ # - **Progressive:** Make them progressive, they will also be a progression item.
     display_name = "Smithing Bell Bearing Behavior"
     option_randomize = 0
     option_progression_randomize = 1
     option_do_not_randomize = 2
+    # option_progressive = 3
     default = 1
     
 class SmoothUpgradeItems(DefaultOnToggle):

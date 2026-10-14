@@ -167,7 +167,8 @@ class ERItemData:
         
         if (options.great_runes_required_mountain.value >= 0 and self.name == "Rold Medallion"
         or options.use_master_key.value != 0 and self.base_name == "Stonesword Key"
-        or options.rykard_encounter and options.enemy_rando and self.name == "Serpent-Hunter"): return True
+        or options.rykard_encounter and options.enemy_rando and self.name == "Serpent-Hunter"
+        or options.smithing_bell_bearing_option.value == 3 and self.upgrade_bell_bearing): return True
         return self.skip if isinstance(self.skip, bool) else self.skip(self, options)
 
     def is_important(self, options: EROptions) -> ItemClassification:

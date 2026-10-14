@@ -546,11 +546,13 @@ class EldenRing(World):
             # Haligtree
             create_connection("Miquella's Haligtree", "Elphael, Brace of the Haligtree")
             
-            if self.options.dlc_timing != 2:
-                create_connection("Limgrave", "Mohgwyn Palace")
-            else:
+            if (self.options.dlc_timing == 2
+                or not location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options)):
                 create_connection("Consecrated Snowfield", "Mohgwyn Palace")
-            
+            elif self.options.dlc_timing == 1:
+                create_connection("Altus Plateau", "Mohgwyn Palace")
+            else:
+                create_connection("Limgrave", "Mohgwyn Palace")
             
             create_connection("Leyndell, Ashen Capital", "Leyndell, Ashen Capital Throne")
             create_connection("Leyndell, Ashen Capital Throne", "Erdtree")
@@ -1154,6 +1156,10 @@ class EldenRing(World):
             if self.options.use_master_key.value == 1: all_injectable_items += [item_table[item] for item in item_table if item_table[item].master_key]
             elif self.options.use_master_key.value == 2: all_injectable_items += [item_table["Stonesword Master Key"]]
         
+        if self.options.smithing_bell_bearing_option.value == 3:
+            all_injectable_items += [item_table["Progressive Smithing-Stone Bell Bearing"] for i in range(4)]
+            all_injectable_items += [item_table["Progressive Somberstone Bell Bearing"] for i in range(5)]
+        
         all_injectable_items += self._add_traps()
         
         injectable_mandatory = [
@@ -1524,28 +1530,32 @@ class EldenRing(World):
                 self._add_entrance_rule("Caelid", lambda state: self._has_key_or_shards(state, "Rusty Key"))
                 self._add_entrance_rule("Altus Plateau", "Academy Glintstone Key")
         
-            if self.options.dlc_start == 0 and self.options.enable_dlc:
-                if self.options.dlc_timing == 2:
-                    self._add_entrance_rule("Mohgwyn Palace", lambda state: self._can_go_to(state, "Consecrated Snowfield"))
-                    self._add_entrance_rule("Gravesite Plain",
-                        lambda state: self._has_key_or_shards(state, "Rold Medallion", "rold")
-                        and self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
-                        and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
-                else:
-                    if self.options.dlc_timing == 1:
-                        self._add_entrance_rule("Mohgwyn Palace", lambda state: state.has("Pureblood Knight's Medal", self.player) and self._can_go_to(state, "Altus Plateau"))
+            if location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options):
+                if self.options.dlc_start == 0 and self.options.enable_dlc:
+                    if self.options.dlc_timing == 2:
+                        self._add_entrance_rule("Mohgwyn Palace", lambda state: self._can_go_to(state, "Consecrated Snowfield"))
+                        self._add_entrance_rule("Gravesite Plain",
+                            lambda state: self._has_key_or_shards(state, "Rold Medallion", "rold")
+                            and self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
+                            and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
                     else:
-                        self._add_entrance_rule("Mohgwyn Palace", lambda state: state.has("Pureblood Knight's Medal", self.player))
-                    self._add_entrance_rule("Gravesite Plain", 
-                        lambda state: self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
-                        and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
-                    if self.options.dlc_timing == 0 and self.options.missable_location_behavior <= 1 and self.soft_logic_enabled: # Early medal
-                        self._add_entrance_rule("Altus Plateau", lambda state: state.has("Pureblood Knight's Medal", self.player))
-                        self._add_entrance_rule("Caelid", lambda state: state.has("Pureblood Knight's Medal", self.player))
-            else:
-                self._add_entrance_rule("Mohgwyn Palace",
-                    lambda state: state.has("Pureblood Knight's Medal", self.player) or self._can_go_to(state, "Consecrated Snowfield"))
-                
+                        if self.options.dlc_timing == 1:
+                            self._add_entrance_rule("Mohgwyn Palace", lambda state: state.has("Pureblood Knight's Medal", self.player) and self._can_go_to(state, "Altus Plateau"))
+                        else:
+                            self._add_entrance_rule("Mohgwyn Palace", lambda state: state.has("Pureblood Knight's Medal", self.player))
+                        self._add_entrance_rule("Gravesite Plain", 
+                            lambda state: self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
+                            and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
+                        if self.options.dlc_timing == 0 and self.options.missable_location_behavior <= 1 and self.soft_logic_enabled: # Early medal
+                            self._add_entrance_rule("Altus Plateau", lambda state: state.has("Pureblood Knight's Medal", self.player))
+                            self._add_entrance_rule("Caelid", lambda state: state.has("Pureblood Knight's Medal", self.player))
+                else:
+                    self._add_entrance_rule("Mohgwyn Palace",
+                        lambda state: state.has("Pureblood Knight's Medal", self.player) or self._can_go_to(state, "Consecrated Snowfield"))
+            elif self.options.dlc_start == 0 and self.options.enable_dlc: # pkm not randomized
+                self._add_entrance_rule("Gravesite Plain", 
+                    lambda state: self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
+                    and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
         
         # MARK: DLC Rules
         if self.options.enable_dlc:
@@ -3335,7 +3345,14 @@ class EldenRing(World):
                 # find boss flag and add locations apcode it should grant to list
                 for loc in location_tables[region]:
                     if loc.name in all_boss_locations_dictionary:
-                        dungeon_sweep_flag_to_locations.append(sweep_flags(all_boss_locations_dictionary[loc.name].flag, [l.ap_code for l in location_tables[region] if not l.unsweepable]))
+                        flag = all_boss_locations_dictionary[loc.name].flag
+                        locations = [l.ap_code for l in location_tables[region] if not l.unsweepable]
+                        if flag == 30050800: # LL/BKC
+                            dungeon_sweep_flag_to_locations.append(sweep_flags(flag, locations, 30050850))
+                        elif flag == 31190800: # AP/SCV
+                            dungeon_sweep_flag_to_locations.append(sweep_flags(flag, locations, 31190850))
+                        else:
+                            dungeon_sweep_flag_to_locations.append(sweep_flags(flag, locations))
                         break
 
         slot_data = {
