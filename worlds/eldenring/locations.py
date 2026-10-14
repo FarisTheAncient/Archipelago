@@ -409,6 +409,9 @@ class ERLocationData:
     shop: bool = False
     """Whether this location can appear in an NPC's shop."""
     
+    progshop: bool = False
+    """Whether this shop can have prog at it when used with important_at_priority_only."""
+    
     raceshop: bool = False #idk what is
     """Whether this location can appear in an raceshop."""
     
@@ -612,7 +615,7 @@ class ERLocationData:
         if self.dungeon: names.append("Dungeon")
         if self.chest: names.append("Chest")
         if self.scarab: names.append("Scarab")
-        if self.shop and not self.missable: 
+        if self.progshop: 
             names.append("Shop")
             self.disallow_duplicates = True
         if self.outoftheway: names.append("Out of the Way")
@@ -759,8 +762,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("SV/LL: Shabriri Grape - from LL/LFC to E, inside by ghost", "Shabriri Grape", key="100000,0:0010007850::", targets=('lot:10000850')),
     ],
     "Stormveil Castle":[ # stormveil                                      done
-        ERLocationData("SV/SMG: Caestus - Gostoc shop, after main gate open", "Caestus", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100012')),
-        ERLocationData("SV/SMG: Buckler - Gostoc shop, after main gate open", "Buckler", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100004')),
+        ERLocationData("SV/SMG: Caestus - Gostoc shop, after main gate open", "Caestus", key="100000,0:0000000000:100000:", shop=True, progshop=True, targets=('shop:100012')),
+        ERLocationData("SV/SMG: Buckler - Gostoc shop, after main gate open", "Buckler", key="100000,0:0000000000:100000:", shop=True, progshop=True, targets=('shop:100004')),
         ERLocationData("SV/SMG: Great Arrow x5 - Gostoc shop, after main gate open", "Great Arrow x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100013')),
         ERLocationData("SV/SMG: Ballista Bolt x5 - Gostoc shop, after main gate open", "Ballista Bolt x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100014')),
         ERLocationData("SV/SMG: Bandit Manchettes - Gostoc shop, after main gate open", "Bandit Manchettes", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100015')),
@@ -976,8 +979,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/(WR): Starlight Shards - given by Sellen after you show her Stars of Ruin", "Starlight Shards", key="140000,0:0000400103::", missable=True, exclusive=True, targets=('lot:101030')),
         
         ERLocationData("LG/SR: Haligdrake Talisman - cave entrance lower beach to NW", "Haligdrake Talisman", key="180000,0:0018007070::", talisman=True, outoftheway=True, targets=('lot:18000070')),
-        ERLocationData("LG/CC: Broadsword - Nomadic Merchant SE of CC", "Broadsword", key="604136,0:0000000000:100575:", raceshop=True, shop=True, targets=('shop:100587')),
-        ERLocationData("LG/CC: Club - Nomadic Merchant SE of CC", "Club", key="604136,0:0000000000:100575:", raceshop=True, shop=True, targets=('shop:100586')),
+        ERLocationData("LG/CC: Broadsword - Nomadic Merchant SE of CC", "Broadsword", key="604136,0:0000000000:100575:", raceshop=True, shop=True, progshop=True, targets=('shop:100587')),
+        ERLocationData("LG/CC: Club - Nomadic Merchant SE of CC", "Club", key="604136,0:0000000000:100575:", raceshop=True, shop=True, progshop=True, targets=('shop:100586')),
         ERLocationData("LG/CC: Iron Roundshield - Nomadic Merchant SE of CC", "Iron Roundshield", key="604136,0:0000000000:100575:", raceshop=True, shop=True, targets=('shop:100588')),
         ERLocationData("LG/CC: Shortbow - Nomadic Merchant SE of CC", "Shortbow", key="604136,0:0000000000:100575:", raceshop=True, shop=True, targets=('shop:100589')),
         ERLocationData("LG/CC: Neutralizing Boluses x5 - Nomadic Merchant SE of CC", "Neutralizing Boluses x5", key="604136,0:0000000000:100575:", raceshop=True, shop=True, targets=('shop:100592')),
@@ -993,9 +996,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/SC: Starlight Shards - cliff above W of SC", "Starlight Shards", key="604137,0:1041377020::", targets=('lot:1041370020')),
         ERLocationData("LG/SR: Lump of Flesh x3 - lower beach to W", "Lump of Flesh x3", key="604235,0:1042357000::", targets=('lot:1042350000')),
         ERLocationData("LG/CC: Gold-Pickled Fowl Foot - SE of CC along beach", "Gold-Pickled Fowl Foot", key="604235,0:1042357010::", targets=('lot:1042350010')),
-        ERLocationData("LG/(CE): Crafting Kit - Kalé Shop", "Crafting Kit", key="604236,0:0000000000:100500,101800,11109775:", raceshop=True, shop=True, targets=('shop:100501', 'shop:101879')),
-        ERLocationData("LG/(CE): Torch - Kalé Shop", "Torch", key="604236,0:0000000000:100500:", raceshop=True, shop=True, targets=('shop:100510')),
-        ERLocationData("LG/(CE): Large Leather Shield - Kalé Shop", "Large Leather Shield", key="604236,0:0000000000:100500:", raceshop=True, shop=True, targets=('shop:100511')),
+        ERLocationData("LG/(CE): Crafting Kit - Kalé Shop", "Crafting Kit", key="604236,0:0000000000:100500,101800,11109775:", raceshop=True, shop=True, progshop=True, targets=('shop:100501', 'shop:101879')),
+        ERLocationData("LG/(CE): Torch - Kalé Shop", "Torch", key="604236,0:0000000000:100500:", raceshop=True, shop=True, progshop=True, targets=('shop:100510')),
+        ERLocationData("LG/(CE): Large Leather Shield - Kalé Shop", "Large Leather Shield", key="604236,0:0000000000:100500:", raceshop=True, shop=True, progshop=True, targets=('shop:100511')),
         ERLocationData("LG/(CE): Chain Coif - Kalé Shop", "Chain Coif", key="604236,0:0000000000:100500:", raceshop=True, shop=True, targets=('shop:100515')),
         ERLocationData("LG/(CE): Chain Armor - Kalé Shop", "Chain Armor", key="604236,0:0000000000:100500:", raceshop=True, shop=True, targets=('shop:100516')),
         ERLocationData("LG/(CE): Gauntlets - Kalé Shop", "Gauntlets", key="604236,0:0000000000:100500:", raceshop=True, shop=True, targets=('shop:100517')),
@@ -1106,8 +1109,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/(AS): Smithing Stone [1] - on corpse", "Smithing Stone [1]", key="604438,0:1044387010::", targets=('lot:1044380010')),
         ERLocationData("LG/MCO: Poisonbloom x2 - NE of MCO", "Poisonbloom x2", key="604438,0:1044387040::", targets=('lot:1044380040')),
         ERLocationData("LG/SB: Golden Rune [1] - past bridge to SE", "Golden Rune [1]", key="604438,0:1044387100::", targets=('lot:1044380100')),
-        ERLocationData("LG/SB: Short Sword - Nomadic Merchant to E", "Short Sword", key="604439,0:0000000000:100525:", raceshop=True, shop=True, targets=('shop:100542')),
-        ERLocationData("LG/SB: Halberd - Nomadic Merchant to E", "Halberd", key="604439,0:0000000000:100525:", raceshop=True, shop=True, targets=('shop:100543')),
+        ERLocationData("LG/SB: Short Sword - Nomadic Merchant to E", "Short Sword", key="604439,0:0000000000:100525:", raceshop=True, shop=True, progshop=True, targets=('shop:100542')),
+        ERLocationData("LG/SB: Halberd - Nomadic Merchant to E", "Halberd", key="604439,0:0000000000:100525:", raceshop=True, shop=True, progshop=True, targets=('shop:100543')),
         ERLocationData("LG/SB: Bandit Mask - Nomadic Merchant to E", "Bandit Mask", key="604439,0:0000000000:100525:", raceshop=True, shop=True, targets=('shop:100546')),
         ERLocationData("LG/SB: Pickled Turtle Neck x3 - Nomadic Merchant to E", "Pickled Turtle Neck x3", key="604439,0:0000000000:100525:", raceshop=True, shop=True, targets=('shop:100541')),
         ERLocationData("LG/SB: Note: Flame Chariots - Nomadic Merchant to E", "Note: Flame Chariots", key="604439,0:0000000000:100525:", raceshop=True, shop=True, targets=('shop:100539')),
@@ -1123,8 +1126,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/FHW: Golden Rune [2] 2 - graveyard to SW", "Golden Rune [2]", key="604535,0:1045357070::", targets=('lot:1045350070')),
         ERLocationData("LG/FHW: Golden Rune [1] 3 - graveyard to SW", "Golden Rune [1]", key="604535,0:1045357080::", targets=('lot:1045350080')),
         ERLocationData("LG/FHW: Golden Rune [1] 4 - graveyard to SW", "Golden Rune [1]", key="604535,0:1045357090::", targets=('lot:1045350090')),
-        ERLocationData("LG/ME: Hand Axe - Nomadic Merchant S of ME", "Hand Axe", key="604536,0:0000000000:100550:", raceshop=True, shop=True, targets=('shop:100563')),
-        ERLocationData("LG/ME: Riveted Wooden Shield - Nomadic Merchant S of ME", "Riveted Wooden Shield", key="604536,0:0000000000:100550:", raceshop=True, shop=True, targets=('shop:100564')),
+        ERLocationData("LG/ME: Hand Axe - Nomadic Merchant S of ME", "Hand Axe", key="604536,0:0000000000:100550:", raceshop=True, shop=True, progshop=True, targets=('shop:100563')),
+        ERLocationData("LG/ME: Riveted Wooden Shield - Nomadic Merchant S of ME", "Riveted Wooden Shield", key="604536,0:0000000000:100550:", raceshop=True, shop=True, progshop=True, targets=('shop:100564')),
         ERLocationData("LG/ME: Blue-Gold Kite Shield - Nomadic Merchant S of ME", "Blue-Gold Kite Shield", key="604536,0:0000000000:100550:", raceshop=True, shop=True, targets=('shop:100565')),
         ERLocationData("LG/ME: St. Trina's Arrow x10 - Nomadic Merchant S of ME", "St. Trina's Arrow x10", key="604536,0:0000000000:100550:", raceshop=True, shop=True, targets=('shop:100566')),
         ERLocationData("LG/ME: Festering Bloody Finger x5 - Nomadic Merchant S of ME", "Festering Bloody Finger x5", key="604536,0:0000000000:100550:", raceshop=True, shop=True, targets=('shop:100561')),
@@ -1214,10 +1217,10 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("RH: Cure Poison - Corhyn shop", "Cure Poison", key="110000,0:0000000000:100350:", incantations=True, shop=True, targets=('shop:100353')),
         ERLocationData("RH: Flame Fortification - Corhyn shop", "Flame Fortification", key="110000,0:0000000000:100350:", incantations=True, shop=True, targets=('shop:100354')),
         ERLocationData("RH: Magic Fortification - Corhyn shop", "Magic Fortification", key="110000,0:0000000000:100350:", incantations=True, shop=True, targets=('shop:100355')),
-        ERLocationData("RH: Dagger - Twin maiden shop", "Dagger", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101864')),
-        ERLocationData("RH: Longsword - Twin maiden shop", "Longsword", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101865')),
-        ERLocationData("RH: Rapier - Twin maiden shop", "Rapier", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101870')),
-        ERLocationData("RH: Scimitar - Twin maiden shop", "Scimitar", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101866')),
+        ERLocationData("RH: Dagger - Twin maiden shop", "Dagger", key="111000,0:0000000000:101800:", raceshop=True, shop=True, progshop=True, targets=('shop:101864')),
+        ERLocationData("RH: Longsword - Twin maiden shop", "Longsword", key="111000,0:0000000000:101800:", raceshop=True, shop=True, progshop=True, targets=('shop:101865')),
+        ERLocationData("RH: Rapier - Twin maiden shop", "Rapier", key="111000,0:0000000000:101800:", raceshop=True, shop=True, progshop=True, targets=('shop:101870')),
+        ERLocationData("RH: Scimitar - Twin maiden shop", "Scimitar", key="111000,0:0000000000:101800:", raceshop=True, shop=True, progshop=True, targets=('shop:101866')),
         ERLocationData("RH: Reverse-Bladed Sword - Twin maiden shop", "Reverse-Bladed Sword", key="111000,0:0000000000:6953,101800:", raceshop=True, shop=True, tp_dlc=True, targets=('shop:101896')),
         ERLocationData("RH: Mace - Twin maiden shop", "Mace", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101868')),
         ERLocationData("RH: Battle Axe - Twin maiden shop", "Battle Axe", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101867')),
@@ -1382,11 +1385,11 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("RH/DLC: Magic Fortification - Corhyn shop", "Dummy item", key="110000,0:0000000000:100350:", incantations=True, shop=True, targets=('shop:100355')),
         ERLocationData("RH/DLC: Dagger - Twin maiden shop", "Crafting Kit", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101864')),
         ERLocationData("RH/DLC: Longsword - Twin maiden shop", "Flask of Wondrous Physick", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101865')),
-        ERLocationData("RH/DLC: Rapier - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101870')),
-        ERLocationData("RH/DLC: Scimitar - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101866')),
+        ERLocationData("RH/DLC: Rapier - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, progshop=True, targets=('shop:101870')),
+        ERLocationData("RH/DLC: Scimitar - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, progshop=True, targets=('shop:101866')),
         ERLocationData("RH/DLC: Reverse-Bladed Sword - Twin maiden shop", "Dummy item", key="111000,0:0000000000:6953,101800:", raceshop=True, shop=True, tp_dlc=True, targets=('shop:101896')),
-        ERLocationData("RH/DLC: Mace - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101868')),
-        ERLocationData("RH/DLC: Battle Axe - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101867')),
+        ERLocationData("RH/DLC: Mace - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, progshop=True, targets=('shop:101868')),
+        ERLocationData("RH/DLC: Battle Axe - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, progshop=True, targets=('shop:101867')),
         ERLocationData("RH/DLC: Short Spear - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101869')),
         ERLocationData("RH/DLC: Heater Shield - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101873')),
         ERLocationData("RH/DLC: Finger Seal - Twin maiden shop", "Dummy item", key="111000,0:0000000000:101800:", raceshop=True, shop=True, targets=('shop:101871')),
@@ -1515,7 +1518,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/SoI: Golden Rune [6] - ballon to N close one", "Golden Rune [6]", key="603448,0:1034487300::", targets=('lot:1034481300')),
         ERLocationData("LL/SoI: Golden Rune [6] - ballon to N far one", "Golden Rune [6]", key="603448,0:1034487310::", targets=('lot:1034481310')),
         ERLocationData("LL/RM: Carian Filigreed Crest - Iji shop after defeating LG/FHE boss", "Carian Filigreed Crest", key="603449,0:0000000000:100225,1034509360:", missable=True, shop=True, targets=('shop:100229')),
-        ERLocationData("LL/RM: Somber Smithing Stone [3] x3 - Iji shop", "Somber Smithing Stone [3] x3", key="603449,0:0000000000:100225:", raceshop=True, shop=True, targets=('shop:100227')),
+        ERLocationData("LL/RM: Somber Smithing Stone [3] x3 - Iji shop", "Somber Smithing Stone [3] x3", key="603449,0:0000000000:100225:", raceshop=True, shop=True, progshop=True, targets=('shop:100227')),
         ERLocationData("LL/RM: Somber Smithing Stone [4] x3 - Iji shop", "Somber Smithing Stone [4] x3", key="603449,0:0000000000:100225:", raceshop=True, shop=True, targets=('shop:100228')),
         ERLocationData("LL/RM: Iji's Mirrorhelm - kill Iji or after quest", "Iji's Mirrorhelm", key="603449,0:0000400241::", missable=True, death=True, targets=('lot:102401')),
         ERLocationData("LL/VA: Haligtree Secret Medallion (Right) - given by Albus", "Haligtree Secret Medallion (Right)", key="603542,0:0000400130::", keyitem=True, outoftheway=True, targets=('lot:101300', 'lot:111300')),
@@ -1689,14 +1692,14 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/CIr: Warming Stone x3 - W of CIr in graveyard", "Warming Stone x3", key="603839,0:1038397000::", targets=('lot:1038390000')),
         ERLocationData("LL/LLS: Glintstone Craftsman's Cookbook [1] - to S in camp", "Glintstone Craftsman's Cookbook [1]", key="603840,0:0000067410::", targets=('lot:1038400010')),
         ERLocationData("LL/LLS: Smoldering Butterfly x6 - to S in camp", "Smoldering Butterfly x6", key="603840,0:1038407000::", targets=('lot:1038400000')),
-        ERLocationData("LL/LLS: Estoc - Nomadic Merchant shop", "Estoc", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100626')),
-        ERLocationData("LL/LLS: Kite Shield - Nomadic Merchant shop", "Kite Shield", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100627')),
+        ERLocationData("LL/LLS: Estoc - Nomadic Merchant shop", "Estoc", key="603841,0:0000000000:100625:", raceshop=True, shop=True, progshop=True, targets=('shop:100626')),
+        ERLocationData("LL/LLS: Kite Shield - Nomadic Merchant shop", "Kite Shield", key="603841,0:0000000000:100625:", raceshop=True, shop=True, progshop=True, targets=('shop:100627')),
         ERLocationData("LL/LLS: Astrologer's Staff - Nomadic Merchant shop", "Astrologer's Staff", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100633')),
         ERLocationData("LL/LLS: Astrologer Hood - Nomadic Merchant shop", "Astrologer Hood", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100628')),
         ERLocationData("LL/LLS: Astrologer Robe - Nomadic Merchant shop", "Astrologer Robe", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100629')),
         ERLocationData("LL/LLS: Astrologer Gloves - Nomadic Merchant shop", "Astrologer Gloves", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100630')),
         ERLocationData("LL/LLS: Astrologer Trousers - Nomadic Merchant shop", "Astrologer Trousers", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100631')),
-        ERLocationData("LL/LLS: Lantern - Nomadic Merchant shop", "Lantern", key="603841,0:0000000000:100625:", raceshop=True,shop=True, targets=('shop:100632')),
+        ERLocationData("LL/LLS: Lantern - Nomadic Merchant shop", "Lantern", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100632')),
         ERLocationData("LL/LLS: Nomadic Warrior's Cookbook [11] - Nomadic Merchant shop", "Nomadic Warrior's Cookbook [11]", key="603841,0:0000000000:100625:", raceshop=True, cookbook=True, shop=True, targets=('shop:100625')),
         ERLocationData("LL/LLS: Smithing Stone [1] x5 - Nomadic Merchant shop", "Smithing Stone [1] x5", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100636')),
         ERLocationData("LL/LLS: Smithing Stone [2] x3 - Nomadic Merchant shop", "Smithing Stone [2] x3", key="603841,0:0000000000:100625:", raceshop=True, shop=True, targets=('shop:100637')),
@@ -1790,9 +1793,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
     "Bellum Highway":[ # bellum                                           done
         ERLocationData("LL/BC: Nightrider Glaive - night boss drop S of BC", "Nightrider Glaive", key="603648,0:1036487400::", altboss=True, night=True, targets=('lot:1036480401')),
         ERLocationData("LL/BC: Ash of War: Giant Hunt - night boss drop S of BC", "Ash of War: Giant Hunt", key="603648,0:1036487400::", altboss=True, night=True, targets=('lot:1036480400')),
-        ERLocationData("LL/BC: Rift Shield - Nomadic Merchant shop N of BC", "Rift Shield", key="603649,0:0000000000:100700:", raceshop=True, shop=True, targets=('shop:100705')),
-        ERLocationData("LL/BC: Blue Crest Heater Shield - Nomadic Merchant shop N of BC", "Blue Crest Heater Shield", key="603649,0:0000000000:100700:", raceshop=True, shop=True, targets=('shop:100706')),
-        ERLocationData("LL/BC: Composite Bow - Nomadic Merchant shop N of BC", "Composite Bow", key="603649,0:0000000000:100700:", raceshop=True, shop=True, targets=('shop:100704')),
+        ERLocationData("LL/BC: Rift Shield - Nomadic Merchant shop N of BC", "Rift Shield", key="603649,0:0000000000:100700:", raceshop=True, shop=True, progshop=True, targets=('shop:100705')),
+        ERLocationData("LL/BC: Blue Crest Heater Shield - Nomadic Merchant shop N of BC", "Blue Crest Heater Shield", key="603649,0:0000000000:100700:", raceshop=True, shop=True, progshop=True, targets=('shop:100706')),
+        ERLocationData("LL/BC: Composite Bow - Nomadic Merchant shop N of BC", "Composite Bow", key="603649,0:0000000000:100700:", raceshop=True, shop=True, progshop=True, targets=('shop:100704')),
         ERLocationData("LL/BC: Rune Arc x3 - Nomadic Merchant shop N of BC", "Rune Arc x3", key="603649,0:0000000000:100700:", raceshop=True, shop=True, targets=('shop:100714')),
         ERLocationData("LL/BC: Immunizing White Cured Meat x3 - Nomadic Merchant shop N of BC", "Immunizing White Cured Meat x3", key="603649,0:0000000000:100700:", raceshop=True, shop=True, targets=('shop:100718')),
         ERLocationData("LL/BC: Invigorating White Cured Meat x3 - Nomadic Merchant shop N of BC", "Invigorating White Cured Meat x3", key="603649,0:0000000000:100700:", raceshop=True, shop=True, targets=('shop:100719')),
@@ -1963,8 +1966,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("AP/AHJ: Beast Blood - to SE by tent", "Beast Blood", key="604051,0:1040517030::", targets=('lot:1040510030')),
         ERLocationData("AP/(ScC): Lightning Greatbolt x10 - on corpse", "Lightning Greatbolt x10", key="604051,0:1040517040::", targets=('lot:1040510040')),
         ERLocationData("AP/(ScC): Sacred Tear - by statue", "Sacred Tear", key="604051,0:1040517400::", church=True, outoftheway=True, targets=('lot:1040510400')),
-        ERLocationData("AP/FSG: Scorpion Kite Shield - Nomadic Merchant", "Scorpion Kite Shield", key="604052,0:0000000000:100750:", raceshop=True, shop=True, targets=('shop:100764')),
-        ERLocationData("AP/FSG: Red Crest Heater Shield - Nomadic Merchant", "Red Crest Heater Shield", key="604052,0:0000000000:100750:", raceshop=True, shop=True, targets=('shop:100766')),
+        ERLocationData("AP/FSG: Scorpion Kite Shield - Nomadic Merchant", "Scorpion Kite Shield", key="604052,0:0000000000:100750:", raceshop=True, shop=True, progshop=True, targets=('shop:100764')),
+        ERLocationData("AP/FSG: Red Crest Heater Shield - Nomadic Merchant", "Red Crest Heater Shield", key="604052,0:0000000000:100750:", raceshop=True, shop=True, progshop=True, targets=('shop:100766')),
         ERLocationData("AP/FSG: Crossed-Tree Towershield - Nomadic Merchant", "Crossed-Tree Towershield", key="604052,0:0000000000:100750:", raceshop=True, shop=True, targets=('shop:100767')),
         ERLocationData("AP/FSG: Tree Surcoat - Nomadic Merchant", "Tree Surcoat", key="604052,0:0000000000:100750:", raceshop=True, shop=True, targets=('shop:100770')),
         ERLocationData("AP/FSG: Festering Bloody Finger x3 - Nomadic Merchant", "Festering Bloody Finger x3", key="604052,0:0000000000:100750:", raceshop=True, shop=True, targets=('shop:100771')),
@@ -2269,8 +2272,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LAC/QB: Remembrance of Hoarah Loux - mainboss drop", "Remembrance of Hoarah Loux", key="110500,0:0000510070::", boss=True, achievement=True, remembrance=True, targets=('lot:10070')),
     ],
     "Ainsel River":[ # ainsel_start                                       done
-        ERLocationData("AR/UPR: Prisoner Iron Mask - Hermit Merchant NW of UPR in temple", "Prisoner Iron Mask", key="120100,0:0000000000:100950:", raceshop=True, shop=True, targets=('shop:100965')),
-        ERLocationData("AR/UPR: Prisoner Clothing - Hermit Merchant NW of UPR in temple", "Prisoner Clothing", key="120100,0:0000000000:100950:", raceshop=True, shop=True, targets=('shop:100966')),
+        ERLocationData("AR/UPR: Prisoner Iron Mask - Hermit Merchant NW of UPR in temple", "Prisoner Iron Mask", key="120100,0:0000000000:100950:", raceshop=True, shop=True, progshop=True, targets=('shop:100965')),
+        ERLocationData("AR/UPR: Prisoner Clothing - Hermit Merchant NW of UPR in temple", "Prisoner Clothing", key="120100,0:0000000000:100950:", raceshop=True, shop=True, progshop=True, targets=('shop:100966')),
         ERLocationData("AR/UPR: Prisoner Trousers - Hermit Merchant NW of UPR in temple", "Prisoner Trousers", key="120100,0:0000000000:100950:", raceshop=True, shop=True, targets=('shop:100967')),
         ERLocationData("AR/UPR: Celestial Dew - Hermit Merchant NW of UPR in temple", "Celestial Dew", key="120100,0:0000000000:100950:", raceshop=True, shop=True, targets=('shop:100962')),
         ERLocationData("AR/UPR: Gravity Stone Fan x20 - Hermit Merchant NW of UPR in temple", "Gravity Stone Fan x20", key="120100,0:0000000000:100950:", raceshop=True, shop=True, targets=('shop:100963')),
@@ -2398,8 +2401,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("ARM/(UPR): Somber Smithing Stone [7] - enemy drop by 2 statues", "Somber Smithing Stone [7]", key="120100,0:0012017995::", targets=('lot:12015995')),
     ],
     "Siofra River":[ # siofra                                             done
-        ERLocationData("SR/WW: Shotel - Abandoned Merchant to W in upper interior area", "Shotel", key="120200,0:0000000000:100925:", raceshop=True, shop=True, targets=('shop:100937')),
-        ERLocationData("SR/WW: Dwelling Arrow x30 - Abandoned Merchant to W in upper interior area", "Dwelling Arrow x30", key="120200,0:0000000000:100925:", raceshop=True, shop=True, targets=('shop:100935')),
+        ERLocationData("SR/WW: Shotel - Abandoned Merchant to W in upper interior area", "Shotel", key="120200,0:0000000000:100925:", raceshop=True, shop=True, progshop=True, targets=('shop:100937')),
+        ERLocationData("SR/WW: Dwelling Arrow x30 - Abandoned Merchant to W in upper interior area", "Dwelling Arrow x30", key="120200,0:0000000000:100925:", raceshop=True, shop=True, progshop=True, targets=('shop:100935')),
         ERLocationData("SR/WW: Soap x3 - Abandoned Merchant to W in upper interior area", "Soap x3", key="120200,0:0000000000:100925:", raceshop=True, shop=True, targets=('shop:100940')),
         ERLocationData("SR/WW: Stonesword Key x3 - Abandoned Merchant to W in upper interior area", "Stonesword Key x3", key="120200,0:0000000000:100925:", raceshop=True, shop=True, targets=('shop:100928')),
         ERLocationData("SR/WW: Larval Tear - Abandoned Merchant to W in upper interior area", "Larval Tear", key="120200,0:0000000000:100925:", raceshop=True, shop=True, targets=('shop:100936')),
@@ -2460,8 +2463,6 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("SR/WW: Slumbering Egg x2 - upper siofra, to SW right of waterfall", "Slumbering Egg x2", key="120200,0:0012027970::", targets=('lot:12020970')),
         ERLocationData("SR/WW: Golden Rune [7] - upper siofra, to W behind tower", "Golden Rune [7]", key="120200,0:0012027980::", targets=('lot:12020980')),
         ERLocationData("SR/WW: Golden Rune [7] - upper siofra, to NW by small waterfall", "Golden Rune [7]", key="120200,0:0012027990::", targets=('lot:12020990')),
-        # inf ERLocationData("SR/WW: Arrow - Abandoned Merchant to W in upper interior area", "Arrow", key="120200,3:0000000000:100925:", shop=True),
-        # inf ERLocationData("SR/WW: Bolt - Abandoned Merchant to W in upper interior area", "Bolt", key="120200,3:0000000000:100925:", shop=True),
         
         ERLocationData("SR/SRWD: Oracle Bubbles - scarab on statue in ruins", "Oracle Bubbles", key="120700,0:0000540652::", scarab=True, targets=('lot:40652')),
         ERLocationData("SR/SRWD: Furlcalling Finger Remedy - to SE in pool of water", "Furlcalling Finger Remedy", key="120700,0:0012077000::", targets=('lot:12070000')),
@@ -2663,7 +2664,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("DD/RFC: Numen's Rune - enemy drop to S", "Numen's Rune", key="120300,0:0012037850::", targets=('lot:12030850')),
     ],
     "Mohgwyn Palace":[ # mohgwyn                                          done
-        ERLocationData("MP/(MDM): Festering Bloody Finger x10 - Imprisoned Merchant down first left in cave", "Festering Bloody Finger x10", key="120500,0:0000000000:100975:", raceshop=True, shop=True, targets=('shop:100982')),
+        ERLocationData("MP/(MDM): Festering Bloody Finger x10 - Imprisoned Merchant down first left in cave", "Festering Bloody Finger x10", key="120500,0:0000000000:100975:", raceshop=True, shop=True, progshop=True, targets=('shop:100982')),
         ERLocationData("MP/(MDM): Rune Arc x3 - Imprisoned Merchant down first left in cave", "Rune Arc x3", key="120500,0:0000000000:100975:", raceshop=True, shop=True, targets=('shop:100981')),
         ERLocationData("MP/(MDM): Stanching Boluses x3 - Imprisoned Merchant down first left in cave", "Stanching Boluses x3", key="120500,0:0000000000:100975:", raceshop=True, shop=True, targets=('shop:100983')),
         ERLocationData("MP/(MDM): Stonesword Key x5 - Imprisoned Merchant down first left in cave", "Stonesword Key x5", key="120500,0:0000000000:100975:", raceshop=True, shop=True, targets=('shop:100976')),
@@ -2853,8 +2854,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("MtG/PSA: Golden Rune [6] - to NE on tip", "Golden Rune [6]", key="603753,0:1037537010::", targets=('lot:1037530010')),
         ERLocationData("MtG/SR: Smithing Stone [5] - S of SR in river", "Smithing Stone [5]", key="603753,0:1037537020::", targets=('lot:1037530020')),
         ERLocationData("MtG/SR: Golden Seed - seedtree to N", "Golden Seed", key="603753,0:1037537400::", seedtree=True, targets=('lot:1037530400')),
-        ERLocationData("MtG/NMGC: Guilty Hood - Nomadic Merchant in ladder section to E", "Guilty Hood", key="603754,0:0000000000:100775:", raceshop=True, shop=True, targets=('shop:100798')),
-        ERLocationData("MtG/NMGC: Confessor Hood - Nomadic Merchant in ladder section to E", "Confessor Hood", key="603754,0:0000000000:100775:", raceshop=True, shop=True, targets=('shop:100794')),
+        ERLocationData("MtG/NMGC: Guilty Hood - Nomadic Merchant in ladder section to E", "Guilty Hood", key="603754,0:0000000000:100775:", raceshop=True, shop=True, progshop=True, targets=('shop:100798')),
+        ERLocationData("MtG/NMGC: Confessor Hood - Nomadic Merchant in ladder section to E", "Confessor Hood", key="603754,0:0000000000:100775:", raceshop=True, shop=True, progshop=True, targets=('shop:100794')),
         ERLocationData("MtG/NMGC: Confessor Armor - Nomadic Merchant in ladder section to E", "Confessor Armor", key="603754,0:0000000000:100775:", raceshop=True, shop=True, targets=('shop:100795')),
         ERLocationData("MtG/NMGC: Confessor Gloves - Nomadic Merchant in ladder section to E", "Confessor Gloves", key="603754,0:0000000000:100775:", raceshop=True, shop=True, targets=('shop:100796')),
         ERLocationData("MtG/NMGC: Confessor Boots - Nomadic Merchant in ladder section to E", "Confessor Boots", key="603754,0:0000000000:100775:", raceshop=True, shop=True, targets=('shop:100797')),
@@ -3077,9 +3078,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("RLA/MAG: Celestial Dew - down SE ramp by gate", "Celestial Dew", key="603545,0:1035457000::", targets=('lot:1035450000')),
         ERLocationData("RLA/MAG: Strip of White Flesh x2 - down SE ramp before gate", "Strip of White Flesh x2", key="603545,0:1035457030::", targets=('lot:1035450030')),
         
-        ERLocationData("RLA/MAG: St. Trina's Arrow x20 - Isolated Merchant down SE ramp", "St. Trina's Arrow x20", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, targets=('shop:100689')),
-        ERLocationData("RLA/MAG: Blue Cloth Cowl - Isolated Merchant down SE ramp", "Blue Cloth Cowl", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, targets=('shop:100691')),
-        ERLocationData("RLA/MAG: Blue Cloth Vest - Isolated Merchant down SE ramp", "Blue Cloth Vest", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, targets=('shop:100692')),
+        ERLocationData("RLA/MAG: St. Trina's Arrow x20 - Isolated Merchant down SE ramp", "St. Trina's Arrow x20", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, progshop=True, targets=('shop:100689')),
+        ERLocationData("RLA/MAG: Blue Cloth Cowl - Isolated Merchant down SE ramp", "Blue Cloth Cowl", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, progshop=True, targets=('shop:100691')),
+        ERLocationData("RLA/MAG: Blue Cloth Vest - Isolated Merchant down SE ramp", "Blue Cloth Vest", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, progshop=True, targets=('shop:100692')),
         ERLocationData("RLA/MAG: Warrior Gauntlets - Isolated Merchant down SE ramp", "Warrior Gauntlets", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, targets=('shop:100693')),
         ERLocationData("RLA/MAG: Warrior Greaves - Isolated Merchant down SE ramp", "Warrior Greaves", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, targets=('shop:100694')),
         ERLocationData("RLA/MAG: Sacrificial Twig x3 - Isolated Merchant down SE ramp", "Sacrificial Twig x3", key="603545,0:0000000000:100675:", raceshop=True, fortress=True, shop=True, targets=('shop:100682')),
@@ -3111,9 +3112,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("EBH/HR: Somber Ancient Dragon Smithing Stone - use needle on flower in boss arena after Millicent quest", "Somber Ancient Dragon Smithing Stone", key="150000,0:0000400325::", missable=True, targets=('lot:103241')),
         ERLocationData("EBH/EIW: Rotten Winged Sword Insignia - help Millicent", "Rotten Winged Sword Insignia", key="150000,0:0000400480::", missable=True, exclusive=True, targets=('lot:104800')),
         ERLocationData("EBH/HR: Remembrance of the Rot Goddess - mainboss drop", "Remembrance of the Rot Goddess", key="150000,0:0000510200::", boss=True, achievement=True, remembrance=True, targets=('lot:10200')),
-        ERLocationData("EBH/EIW: Golden Seed - boss drop in rot pond across large root", "Golden Seed", key="150000,0:0015001200::", miscboss=True, targets=('lot:15001200')),
-        ERLocationData("EBH/PR: Lord's Rune - boss drop to E on outer wall", "Lord's Rune", key="150000,0:0015001270::", miscboss=True, targets=('lot:15001270')),
-        ERLocationData("EBH/PR: Rotten Staff - boss drop to E on outer wall", "Rotten Staff", key="150000,0:0015001280::", miscboss=True, targets=('lot:15001280')),
+        ERLocationData("EBH/EIW: Golden Seed - miniboss drop in rot pond across large root", "Golden Seed", key="150000,0:0015001200::", miscboss=True, targets=('lot:15001200')),
+        ERLocationData("EBH/PR: Lord's Rune - miniboss drop to E on outer wall", "Lord's Rune", key="150000,0:0015001270::", miscboss=True, targets=('lot:15001270')),
+        ERLocationData("EBH/PR: Rotten Staff - miniboss drop to E on outer wall", "Rotten Staff", key="150000,0:0015001280::", miscboss=True, targets=('lot:15001280')),
         ERLocationData("EBH/PR: Ghost Glovewort [9] - enemy drop 1 at bottom", "Ghost Glovewort [9]", key="150000,0:0015001300::", drop=True, targets=('lot:402056001')),
         ERLocationData("EBH/PR: Ghost Glovewort [9] - enemy drop 2 at bottom", "Ghost Glovewort [9]", key="150000,0:0015001310::", drop=True, targets=('lot:402056011')),
         ERLocationData("EBH/PR: Ghost Glovewort [9] - enemy drop 3 at bottom", "Ghost Glovewort [9]", key="150000,0:0015001320::", drop=True, targets=('lot:402056021')),
@@ -3236,7 +3237,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("CL/SASB: Crab Eggs x4 - to W", "Crab Eggs x4", key="604837,0:1048377000::", targets=('lot:1048370000')),
         ERLocationData("CL/CHS: Golden Rune [3] - to E", "Golden Rune [3]", key="604837,0:1048377020::", targets=('lot:1048370020')),
         ERLocationData("CL/CHS: Golden Rune [4] - on top of mound to SE", "Golden Rune [4]", key="604837,0:1048377030::", targets=('lot:1048370030')),
-        ERLocationData("CL/ACHN: Preserving Boluses x3 - Nomadic Merchant to E", "Preserving Boluses x3", key="604838,0:0000000000:100800:", raceshop=True, shop=True, targets=('shop:100813')),
+        ERLocationData("CL/ACHN: Preserving Boluses x3 - Nomadic Merchant to E", "Preserving Boluses x3", key="604838,0:0000000000:100800:", raceshop=True, shop=True, progshop=True, targets=('shop:100813')),
         ERLocationData("CL/ACHN: Aeonian Butterfly x5 - Nomadic Merchant to E", "Aeonian Butterfly x5", key="604838,0:0000000000:100800:", raceshop=True, shop=True, targets=('shop:100814')),
         ERLocationData("CL/(SSR): Perfume Bottle - in raised ruin", "Perfume Bottle", key="604838,0:0000066790::", targets=('lot:1048380010')),
         ERLocationData("CL/ACHN: Ash of War: Lifesteal Fist - scarab to N", "Ash of War: Lifesteal Fist", key="604838,0:0000540402::", scarab=True, targets=('lot:40402')),
@@ -3272,8 +3273,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("CL/CCC: Somber Smithing Stone [4] - scarab E of CCC", "Somber Smithing Stone [4]", key="604936,0:0000540424::", scarab=True, targets=('lot:40424')),
         ERLocationData("CL/IG: Smoldering Butterfly x3 - to NW", "Smoldering Butterfly x3", key="604936,0:1049367000::", targets=('lot:1049360000')),
         ERLocationData("CL/SASB: Fan Daggers x6 - to S", "Fan Daggers x6", key="604936,0:1049367010::", targets=('lot:1049360010')),
-        ERLocationData("CL/SASB: Champion Headband - Nomadic Merchant to SW", "Champion Headband", key="604937,0:0000000000:100825:", raceshop=True, cookbook=True, shop=True, targets=('shop:100841')),
-        ERLocationData("CL/SASB: Champion Pauldron - Nomadic Merchant to SW", "Champion Pauldron", key="604937,0:0000000000:100825:", raceshop=True, cookbook=True, shop=True, targets=('shop:100842')),
+        ERLocationData("CL/SASB: Champion Headband - Nomadic Merchant to SW", "Champion Headband", key="604937,0:0000000000:100825:", raceshop=True, cookbook=True, shop=True, progshop=True, targets=('shop:100841')),
+        ERLocationData("CL/SASB: Champion Pauldron - Nomadic Merchant to SW", "Champion Pauldron", key="604937,0:0000000000:100825:", raceshop=True, cookbook=True, shop=True, progshop=True, targets=('shop:100842')),
         ERLocationData("CL/SASB: Champion Bracers - Nomadic Merchant to SW", "Champion Bracers", key="604937,0:0000000000:100825:", raceshop=True, cookbook=True, shop=True, targets=('shop:100843')),
         ERLocationData("CL/SASB: Champion Gaiters - Nomadic Merchant to SW", "Champion Gaiters", key="604937,0:0000000000:100825:", raceshop=True, cookbook=True, shop=True, targets=('shop:100844')),
         ERLocationData("CL/SASB: Greathelm - Nomadic Merchant to SW", "Greathelm", key="604937,0:0000000000:100825:", raceshop=True, cookbook=True, shop=True, targets=('shop:100845')),
@@ -3429,8 +3430,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("VM/VM: Ghiza's Wheel - invader drop up the main stairs", "Ghiza's Wheel", key="160000,0:0016007940::", targets=('lot:16000940')),
     ],
     "Murkwater Cave":[ # limgrave_murkwatercave                           done
-        ERLocationData("LG/(MCV): Parrying Dagger - Patches shop", "Parrying Dagger", key="160000,0:0000000000:100100:", raceshop=True, shop=True, targets=('shop:100108')),
-        ERLocationData("LG/(MCV): Horse Crest Wooden Shield - Patches shop", "Horse Crest Wooden Shield", key="160000,0:0000000000:100100:", raceshop=True, shop=True, targets=('shop:100122')),
+        ERLocationData("LG/(MCV): Parrying Dagger - Patches shop", "Parrying Dagger", key="160000,0:0000000000:100100:", raceshop=True, shop=True, progshop=True, targets=('shop:100108')),
+        ERLocationData("LG/(MCV): Horse Crest Wooden Shield - Patches shop", "Horse Crest Wooden Shield", key="160000,0:0000000000:100100:", raceshop=True, shop=True, progshop=True, targets=('shop:100122')),
         ERLocationData("LG/(MCV): Great Arrow x10 - Patches shop", "Great Arrow x10", key="160000,0:0000000000:100100:", raceshop=True, shop=True, targets=('shop:100115')),
         ERLocationData("LG/(MCV): Ballista Bolt x5 - Patches shop", "Ballista Bolt x5", key="160000,0:0000000000:100100:", raceshop=True, shop=True, targets=('shop:100116')),
         ERLocationData("LG/(MCV): Sacrificial Twig - Patches shop", "Sacrificial Twig", key="160000,0:0000000000:100100:", raceshop=True, shop=True, targets=('shop:100111')),
@@ -3844,8 +3845,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("GP/PPC: Altus Bloom x20 - Thiollier / Moore Shop", "Altus Bloom x20", key="614542,0:0000000000:102250,102270,2045429330:", missable=True, shop=True, targets=('shop:102276')), #Thiollier #Moore
         ERLocationData("GP/PPC: Toxic Mushroom x10 - Thiollier / Moore Shop", "Toxic Mushroom x10", key="614542,0:0000000000:102250,102270,2045429330:", missable=True, shop=True, targets=('shop:102279')), #Thiollier #Moore
         ERLocationData("GP/PPC: Toxic Mossling x5 - Thiollier / Moore Shop", "Toxic Mossling x5", key="614542,0:0000000000:102250,102270,2045429330:", missable=True, shop=True, targets=('shop:102280')), #Thiollier #Moore
-        ERLocationData("GP/MGC: Rune Arc x3 - Moore Shop", "Rune Arc x3", key="614542,0:0000000000:102250:", raceshop=True, shop=True, targets=('shop:102250')), #Moore
-        ERLocationData("GP/MGC: Spellproof Pickled Liver x2 - Moore Shop", "Spellproof Pickled Liver x2", key="614542,0:0000000000:102250:", raceshop=True, shop=True, targets=('shop:102260')), #Moore
+        ERLocationData("GP/MGC: Rune Arc x3 - Moore Shop", "Rune Arc x3", key="614542,0:0000000000:102250:", raceshop=True, shop=True, progshop=True, targets=('shop:102250')), #Moore
+        ERLocationData("GP/MGC: Spellproof Pickled Liver x2 - Moore Shop", "Spellproof Pickled Liver x2", key="614542,0:0000000000:102250:", raceshop=True, shop=True, progshop=True, targets=('shop:102260')), #Moore
         ERLocationData("GP/MGC: Fireproof Pickled Liver x2 - Moore Shop", "Fireproof Pickled Liver x2", key="614542,0:0000000000:102250:", raceshop=True, shop=True, targets=('shop:102261')), #Moore
         ERLocationData("GP/MGC: Lightningproof Pickled Liver x2 - Moore Shop", "Lightningproof Pickled Liver x2", key="614542,0:0000000000:102250:", raceshop=True, shop=True, targets=('shop:102262')), #Moore
         ERLocationData("GP/MGC: Holyproof Pickled Liver x2 - Moore Shop", "Holyproof Pickled Liver x2", key="614542,0:0000000000:102250:", raceshop=True, shop=True, targets=('shop:102263')), #Moore
@@ -4709,8 +4710,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
     ],
     "Weeping Peninsula":[ # peninsula                                     done
         ERLocationData("WP/BS: Irina's Letter - talk to Irina to SE", "Irina's Letter", key="350000,0:0000400080::", missable=True, targets=('lot:100800', 'lot:110800', 'lot:110811')),
-        ERLocationData("WP/(IMS): Zweihander - Isolated Merchant", "Zweihander", key="604132,0:0000000000:100650:", raceshop=True, shop=True, targets=('shop:100660')),
-        ERLocationData("WP/(IMS): Great Arrow x15 - Isolated Merchant", "Great Arrow x15", key="604132,0:0000000000:100650:", raceshop=True, shop=True, targets=('shop:100663')),
+        ERLocationData("WP/(IMS): Zweihander - Isolated Merchant", "Zweihander", key="604132,0:0000000000:100650:", raceshop=True, shop=True, progshop=True, targets=('shop:100660')),
+        ERLocationData("WP/(IMS): Great Arrow x15 - Isolated Merchant", "Great Arrow x15", key="604132,0:0000000000:100650:", raceshop=True, shop=True, progshop=True, targets=('shop:100663')),
         ERLocationData("WP/(IMS): Ballista Bolt x15 - Isolated Merchant", "Ballista Bolt x15", key="604132,0:0000000000:100650:", raceshop=True, shop=True, targets=('shop:100656')),
         ERLocationData("WP/(IMS): Sacrificial Twig x3 - Isolated Merchant", "Sacrificial Twig x3", key="604132,0:0000000000:100650:", raceshop=True, shop=True, targets=('shop:100657')),
         ERLocationData("WP/(IMS): Festering Bloody Finger x5 - Isolated Merchant", "Festering Bloody Finger x5", key="604132,0:0000000000:100650:", raceshop=True, shop=True, targets=('shop:100664')),
@@ -4795,9 +4796,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("WP/CMR: Sacrificial Axe - night boss drop far to SW", "Sacrificial Axe", key="604432,0:1044327400::", altboss=True, night=True, targets=('lot:1044320400')),
         ERLocationData("WP/CMR: Nightrider Flail - night boss drop to SW", "Nightrider Flail", key="604432,0:1044327410::", altboss=True, night=True, targets=('lot:1044320411')),
         ERLocationData("WP/CMR: Ash of War: Barricade Shield - night boss drop to SW", "Ash of War: Barricade Shield", key="604432,0:1044327410::", altboss=True, night=True, targets=('lot:1044320410')),
-        ERLocationData("WP/CMR: Bastard Sword - Nomadic Merchant to SE", "Bastard Sword", key="604433,0:0000000000:100600:", raceshop=True, shop=True, targets=('shop:100607')),
-        ERLocationData("WP/CMR: Red Thorn Roundshield - Nomadic Merchant to SE", "Red Thorn Roundshield", key="604433,0:0000000000:100600:", raceshop=True, shop=True, targets=('shop:100602')),
-        ERLocationData("WP/CMR: Round Shield - Nomadic Merchant to SE", "Round Shield", key="604433,0:0000000000:100600:", raceshop=True, shop=True, targets=('shop:100603')),
+        ERLocationData("WP/CMR: Bastard Sword - Nomadic Merchant to SE", "Bastard Sword", key="604433,0:0000000000:100600:", raceshop=True, shop=True, progshop=True, targets=('shop:100607')),
+        ERLocationData("WP/CMR: Red Thorn Roundshield - Nomadic Merchant to SE", "Red Thorn Roundshield", key="604433,0:0000000000:100600:", raceshop=True, shop=True, progshop=True, targets=('shop:100602')),
+        ERLocationData("WP/CMR: Round Shield - Nomadic Merchant to SE", "Round Shield", key="604433,0:0000000000:100600:", raceshop=True, shop=True, progshop=True, targets=('shop:100603')),
         ERLocationData("WP/CMR: Light Crossbow - Nomadic Merchant to SE", "Light Crossbow", key="604433,0:0000000000:100600:", raceshop=True, shop=True, targets=('shop:100608')),
         ERLocationData("WP/CMR: Great Arrow x8 - Nomadic Merchant to SE", "Great Arrow x8", key="604433,0:0000000000:100600:", raceshop=True, shop=True, targets=('shop:100611')),
         ERLocationData("WP/CMR: Ballista Bolt x8 - Nomadic Merchant to SE", "Ballista Bolt x8", key="604433,0:0000000000:100600:", raceshop=True, shop=True, targets=('shop:100612')),
@@ -5144,8 +5145,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/(ReR): Snow Witch Hat - in chest, after giving Fingerslayer Blade to Ranni", "Snow Witch Hat", key="603451,0:1034517900::", missable=True, chest=True, targets=('lot:1034510900')),
         ERLocationData("LL/(ReR): Snow Witch Robe - in chest, after giving Fingerslayer Blade to Ranni", "Snow Witch Robe", key="603451,0:1034517900::", missable=True, chest=True, targets=('lot:1034510901')),
         ERLocationData("LL/(ReR): Snow Witch Skirt - in chest, after giving Fingerslayer Blade to Ranni", "Snow Witch Skirt", key="603451,0:1034517900::", missable=True, chest=True, targets=('lot:1034510902')),
-        ERLocationData("LL/(CM): Ripple Blade - Pidia shop", "Ripple Blade", key="603550,0:0000000000:100325:", raceshop=True, fortress=True, shop=True, targets=('shop:100338')),
-        ERLocationData("LL/(CM): Black Leather Shield - Pidia shop", "Black Leather Shield", key="603550,0:0000000000:100325:", raceshop=True, fortress=True, shop=True, targets=('shop:100339')),
+        ERLocationData("LL/(CM): Ripple Blade - Pidia shop", "Ripple Blade", key="603550,0:0000000000:100325:", raceshop=True, fortress=True, shop=True, progshop=True, targets=('shop:100338')),
+        ERLocationData("LL/(CM): Black Leather Shield - Pidia shop", "Black Leather Shield", key="603550,0:0000000000:100325:", raceshop=True, fortress=True, shop=True, progshop=True, targets=('shop:100339')),
         ERLocationData("LL/(CM): Celestial Dew - Pidia shop", "Celestial Dew", key="603550,0:0000000000:100325:", raceshop=True, fortress=True, shop=True, targets=('shop:100335')),
         ERLocationData("LL/(CM): Larval Tear - Pidia shop", "Larval Tear", key="603550,0:0000000000:100325:", raceshop=True, fortress=True, shop=True, targets=('shop:100336')),
         ERLocationData("LL/(CM): Weathered Map - Pidia shop", "Weathered Map", key="603550,0:0000000000:100325:", raceshop=True, fortress=True, shop=True, targets=('shop:100340')),
@@ -5203,8 +5204,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
     
         ERLocationData("CO/OWB: Golden Rune [5] - to SE", "Golden Rune [5]", key="604352,0:1043527030::", targets=('lot:1043520030')),
         ERLocationData("CO/OWB: Golden Rune [12] - enemy drop to S, follow left cliff around", "Golden Rune [12]", key="604352,0:1043527700::", targets=('lot:430033423')),
-        ERLocationData("CO/(HMS): Sentry's Torch - Hermit Merchant", "Sentry's Torch", key="604353,0:0000000000:100725:", raceshop=True, shop=True, targets=('shop:100727')),
-        ERLocationData("CO/(HMS): Distinguished Greatshield - Hermit Merchant", "Distinguished Greatshield", key="604353,0:0000000000:100725:", raceshop=True, shop=True, targets=('shop:100730')),
+        ERLocationData("CO/(HMS): Sentry's Torch - Hermit Merchant", "Sentry's Torch", key="604353,0:0000000000:100725:", raceshop=True, shop=True, progshop=True, targets=('shop:100727')),
+        ERLocationData("CO/(HMS): Distinguished Greatshield - Hermit Merchant", "Distinguished Greatshield", key="604353,0:0000000000:100725:", raceshop=True, shop=True, progshop=True, targets=('shop:100730')),
         ERLocationData("CO/(HMS): Prophet Blindfold - Hermit Merchant", "Prophet Blindfold", key="604353,0:0000000000:100725:", raceshop=True, shop=True, targets=('shop:100739')),
         ERLocationData("CO/(HMS): Prophet Trousers - Hermit Merchant", "Prophet Trousers", key="604353,0:0000000000:100725:", raceshop=True, shop=True, targets=('shop:100740')),
         ERLocationData("CO/(HMS): Prophet Robe - Hermit Merchant", "Prophet Robe", key="604353,0:0000000000:100725:", raceshop=True, shop=True, targets=('shop:100741')),
@@ -5366,9 +5367,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("FL/GLR: Golden Seed - seedtree to S", "Golden Seed", key="604952,0:1049527800::", seedtree=True, targets=('lot:1049520800')),
     ],
     "Dragonbarrow":[ # dragonbarrow                                       done
-        ERLocationData("DB/(IMS): Spiked Caestus - Isolated Merchant", "Spiked Caestus", key="604841,0:0000000000:100875:", raceshop=True, shop=True, targets=('shop:100888')),
-        ERLocationData("DB/(IMS): Beast-Repellent Torch - Isolated Merchant", "Beast-Repellent Torch", key="604841,0:0000000000:100875:", raceshop=True, shop=True, targets=('shop:100889')),
-        ERLocationData("DB/(IMS): Land of Reeds Helm - Isolated Merchant", "Land of Reeds Helm", key="604841,0:0000000000:100875:", raceshop=True, shop=True, targets=('shop:100882')),
+        ERLocationData("DB/(IMS): Spiked Caestus - Isolated Merchant", "Spiked Caestus", key="604841,0:0000000000:100875:", raceshop=True, shop=True, progshop=True, targets=('shop:100888')),
+        ERLocationData("DB/(IMS): Beast-Repellent Torch - Isolated Merchant", "Beast-Repellent Torch", key="604841,0:0000000000:100875:", raceshop=True, shop=True, progshop=True, targets=('shop:100889')),
+        ERLocationData("DB/(IMS): Land of Reeds Helm - Isolated Merchant", "Land of Reeds Helm", key="604841,0:0000000000:100875:", raceshop=True, shop=True, progshop=True, targets=('shop:100882')),
         ERLocationData("DB/(IMS): Land of Reeds Armor - Isolated Merchant", "Land of Reeds Armor", key="604841,0:0000000000:100875:", raceshop=True, shop=True, targets=('shop:100883')),
         ERLocationData("DB/(IMS): Land of Reeds Gauntlets - Isolated Merchant", "Land of Reeds Gauntlets", key="604841,0:0000000000:100875:", raceshop=True, shop=True, targets=('shop:100884')),
         ERLocationData("DB/(IMS): Land of Reeds Greaves - Isolated Merchant", "Land of Reeds Greaves", key="604841,0:0000000000:100875:", raceshop=True, shop=True, targets=('shop:100885')),
@@ -5472,8 +5473,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("MotG/ASVR: Drawstring Holy Grease x2 - to SW on right side of bridge, on ground", "Drawstring Holy Grease x2", key="605155,0:1051557310::", targets=('lot:1051550310')),
         ERLocationData("MotG/ASVR: Rainbow Stone x4 - to SW on right side of bridge, by wall", "Rainbow Stone x4", key="605155,0:1051557320::", targets=('lot:1051550320')),
         ERLocationData("MotG/ASVR: Golden Rune [13] - to SW to right before bridge", "Golden Rune [13]", key="605155,0:1051557330::", targets=('lot:1051550330')),
-        ERLocationData("MotG/(SL): Vagabond Knight Helm - Hermit Merchant S of SL up spiritsping above to W of ASVR grace", "Vagabond Knight Helm", key="605156,0:0000000000:100900:", raceshop=True, shop=True, targets=('shop:100915')),
-        ERLocationData("MotG/(SL): Vagabond Knight Armor - Hermit Merchant S of SL up spiritsping above to W of ASVR grace", "Vagabond Knight Armor", key="605156,0:0000000000:100900:", raceshop=True, shop=True, targets=('shop:100916')),
+        ERLocationData("MotG/(SL): Vagabond Knight Helm - Hermit Merchant S of SL up spiritsping above to W of ASVR grace", "Vagabond Knight Helm", key="605156,0:0000000000:100900:", raceshop=True, shop=True, progshop=True, targets=('shop:100915')),
+        ERLocationData("MotG/(SL): Vagabond Knight Armor - Hermit Merchant S of SL up spiritsping above to W of ASVR grace", "Vagabond Knight Armor", key="605156,0:0000000000:100900:", raceshop=True, shop=True, progshop=True, targets=('shop:100916')),
         ERLocationData("MotG/(SL): Vagabond Knight Gauntlets - Hermit Merchant S of SL up spiritsping above to W of ASVR grace", "Vagabond Knight Gauntlets", key="605156,0:0000000000:100900:", raceshop=True, shop=True, targets=('shop:100917')),
         ERLocationData("MotG/(SL): Vagabond Knight Greaves - Hermit Merchant S of SL up spiritsping above to W of ASVR grace", "Vagabond Knight Greaves", key="605156,0:0000000000:100900:", raceshop=True, shop=True, targets=('shop:100918')),
         ERLocationData("MotG/(SL): Rune Arc x3 - Hermit Merchant S of SL up spiritsping above to W of ASVR grace", "Rune Arc x3", key="605156,0:0000000000:100900:", raceshop=True, shop=True, targets=('shop:100909')),

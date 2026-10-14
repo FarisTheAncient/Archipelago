@@ -12,6 +12,8 @@ python launcher.py "Build APWorlds" -- "Elden Ring"
 
 - TODO -
 
+make dungeon work in exclude locations, keeps getting fill errors
+
 update some bosses to only be themselfs, ex maliketh is farum end boss
 
 finish region descriptions
@@ -51,45 +53,3 @@ Traps
 descriptions done
 finshed 26/02/07, took 10 months 🤯
 current progress 4908/4908
-
-
-people who want to be pinged for playtesting
-
-@blupeecounter @belgarath._. @cieltheseall @trypha
-@mdg555 @kr00mmi2444 @labgremlin @legofacebob
-@battleninja42 @leviendeavor @mannamedgarbo @thebreadstick
-@thesaltlord @bignose4 @dakennyman @Quanterve07
-@maker. @tyofucksmen @jasler7 @jelly_poppy
-@star0chris @codekid90000 @gamermick @bunkleberry
-@springisepic @mineskill @drewdrew2987 @thraxus
-@lightningvtx @zobeeplays @vituici @leyndoe
-@harbingerof.chaos @curtis710 @annoyingcoder @cazisaboi
-@zapony @griskald @layka @sebbytitan
-@justbeuno @martyred @sipcogamingguild @henriii
-@taywoodz @toent @chummyspoof @seraphineveles
-@kebabman13 @samhead2001 @yufiievershade @yojo.
-@mecha @freeeshooter @dankestxknight @heartschord
-@obscure_moore @fbyuyu @halkalis @skymyu
-@barnsby @oda_11pm @.mcat @.flore
-@sojn @quiteapickle @ktrane @royop
-@andrewki @cmass27 @mhayden1 @knyte_ex
-@xdjlf @arnicauwu @nyxkerrigan @kase6959
-@kingtitanite @shackledmars @freyab00b13s @funnyhatman
-@nicedinos13 @togtmw @jakesicle @mrydeas
-@nicko564 @boomerremover @yc3y @sirjambo
-@.allu @theran_1 @dark9rt @lplp18
-@absoluteatlas @niox_storm @4st3r._ @rosandria
-@derfailer @darnex @justhenumber7 @ultimasolus
-@pedr11n @kialiens @thevideogamester @p.tato
-@boxgoblin @doubletindy @drakonn__ @deathbypudding
-@nailown @jeffreyzx @repulsivelettuce @ahhhreptar
-@gearfiveluffy01 @yasumikamino @bananaxd2000 @itsvax
-@windwafernow @tenrys @dobrari @senbeller
-@lethblak @lisaleinvt @nuzzerlovesyou @boblerrr
-@adub37 @sutakos @megaknight05 @carrsh
-@ubernugget @.aznova @reignycs @kiewie
-@bokyubi @journair @dezinator @animubot
-@stressoexpresso @jasler7 @garfunkelton @syrknightnight
-@moroccan7755 @markrk @seesaweffectt @cerbion
-@tyrsniper @lucyfer0903 @noobpvper @diegosm2216
-@xanoxa

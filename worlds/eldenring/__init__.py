@@ -281,10 +281,10 @@ class EldenRing(World):
                 self.goal_bosses += [boss for boss in m_goal_bosses if boss in dlc_bosses]
         elif len([boss for boss in m_goal_bosses if boss in base_bosses]) == 0: # dlc disabled, is there a base game boss?
             raise OptionError(f"Player {self.player_name} has no boss goals in Base Game but has DLC disabled.")
-                
+        
         if self.base_enabled:
             self.goal_bosses += [boss for boss in m_goal_bosses if boss in base_bosses]
-        elif "dlc" in self.options.exclude_locations.excluded_groups(): # dlc only, is dlc excluded?
+        elif "DLC" in self.options.exclude_locations.excluded_groups(): # dlc only, is dlc excluded?
             raise OptionError(f"Player {self.player_name} has DLC excluded but DLC only is on.")
         elif len([boss for boss in m_goal_bosses if boss in dlc_bosses]) == 0: # dlc only, is there a dlc boss?
             raise OptionError(f"Player {self.player_name} has no boss goals in DLC but is doing DLC Only.")
@@ -1133,7 +1133,7 @@ class EldenRing(World):
             for item_name in item_table:
                 if ((self.base_enabled and item_table[item_name].lock and not item_table[item_name].is_dlc) 
                 or (self.options.enable_dlc and item_table[item_name].lock and item_table[item_name].is_dlc
-                    and "dlc" not in self.options.exclude_locations.excluded_groups())):
+                    and "DLC" not in self.options.exclude_locations.excluded_groups())):
                     if item_name != "Gravesite Lock" or self.options.dlc_start == 0 and self.options.enable_dlc:
                         all_injectable_items += [item_table[item_name]]
         
@@ -1584,7 +1584,7 @@ class EldenRing(World):
             if self.options.dlc_start == 1:
                 self._add_entrance_rule("Rauh Ruins Limited", 
                     lambda state: state.has("Imbued Sword Key", self.player, 1) or self._can_go_to(state, "Ancient Ruins of Rauh"))
-            elif "dlc" not in self.options.exclude_locations.excluded_groups():
+            elif "DLC" not in self.options.exclude_locations.excluded_groups():
                 if (self.options.dlc_scadutree_fragments.value
                     or self.options.dlc_messmer_kindle.value
                     or self.options.separate_progression.value): # only do loop if one of these are on

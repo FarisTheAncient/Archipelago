@@ -276,7 +276,7 @@ base_game_only = {
     "smooth_rune_items":                    SmoothRuneItems.option_true,
     "spell_shop_spells_only":               SpellShopSpellsOnly.option_true,
     "early_legacy_dungeons":                EarlyLegacyDungeonsEarly.option_true,
-    "priority_location_groups":             ERPriorityLocationGroups.default,
+    "priority_location_groups":             ["Key Items", "Boss Reward", "Seedtree", "Map", "Church"],
     "local_item_only":                      LocalItemOnly.default,
     "exclude_locations":                    ERExcludeLocations.default,
     "excluded_location_behavior":           ExcludedLocationBehaviorOption.option_forbid_useful,
