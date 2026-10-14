@@ -218,9 +218,9 @@ class DLCStartingItems(OptionList):
     supports_weighting = False
     default = ["Talisman Pouches", "Whetblades"]
 
-    valid_keys = ["sacred tears", "golden seeds", "talisman pouches", 
-                  "memory stones", "whetblades", "upgrade bell bearings"]
-    valid_keys_casefold = True
+    valid_keys = ["Sacred Tears", "Golden Seeds", "Talisman Pouches", 
+                  "Memory Stones", "Whetblades", "Upgrade Bell Bearings"]
+    valid_keys_casefold = False
 
 class DLCStartingShop(Toggle):
     """Add a shop at grace with all base game equipment for free."""

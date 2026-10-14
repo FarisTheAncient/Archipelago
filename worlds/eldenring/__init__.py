@@ -1135,30 +1135,35 @@ class EldenRing(World):
                 ) and shard_list[shard] in self.options.key_item_shards.value and self.options.key_item_shards.value[shard_list[shard]]['Max'] > 1:
                 all_injectable_items += [item_table[shard] for i in range(self.options.key_item_shards.value[shard_list[shard]]['Max'])]
         
-        if self.options.enable_dlc:
-            if self.options.dlc_start == 1:
-                # if not started with add to injection since base game items dont exist
-                if "Sacred Tears" not in self.options.dlc_starting_items.value: all_injectable_items += [item_table["Sacred Tear"] for i in range(12)]
-                if "Golden Seeds" not in self.options.dlc_starting_items.value: all_injectable_items += [item_table["Golden Seed"] for i in range(43)]
-                if "Talisman Pouches" not in self.options.dlc_starting_items.value: all_injectable_items += [item_table["Talisman Pouch"] for i in range(3)]
-                if "Memory Stones" not in self.options.dlc_starting_items.value: all_injectable_items += [item_table["Memory Stone"] for i in range(8)]
-                if "Whetblades" not in self.options.dlc_starting_items.value: all_injectable_items += [item_table["Iron Whetblade"],
-                    item_table["Red-Hot Whetblade"], item_table["Sanctified Whetblade"], item_table["Glintstone Whetblade"], item_table["Black Whetblade"]]
-                if "Upgrade Bell Bearings" not in self.options.dlc_starting_items.value: all_injectable_items += [
-                    item_table["Smithing-Stone Miner's Bell Bearing [1]"],
+        if not self.base_enabled:
+            dlc_start_lower: list[str] = [i.lower() for i in self.options.dlc_starting_items.value]
+            # if not started with add to injection since base game items dont exist
+            if "sacred tears" not in dlc_start_lower: all_injectable_items += [item_table["Sacred Tear"] for i in range(12)]
+            if "golden seeds" not in dlc_start_lower: all_injectable_items += [item_table["Golden Seed"] for i in range(43)]
+            if "talisman pouches" not in dlc_start_lower: all_injectable_items += [item_table["Talisman Pouch"] for i in range(3)]
+            if "memory stones" not in dlc_start_lower: all_injectable_items += [item_table["Memory Stone"] for i in range(8)]
+            if "whetblades" not in dlc_start_lower: 
+                all_injectable_items += [item_table["Iron Whetblade"],item_table["Red-Hot Whetblade"], 
+                    item_table["Sanctified Whetblade"], item_table["Glintstone Whetblade"], item_table["Black Whetblade"]]
+            if "upgrade bell bearings" not in dlc_start_lower:
+                if self.options.smithing_bell_bearing_option.value == 3:
+                    all_injectable_items += [item_table["Progressive Smithing-Stone Bell Bearing"] for i in range(4)]
+                    all_injectable_items += [item_table["Progressive Somberstone Bell Bearing"] for i in range(5)]
+                else:    
+                    all_injectable_items += [item_table["Smithing-Stone Miner's Bell Bearing [1]"],
                     item_table["Smithing-Stone Miner's Bell Bearing [2]"],item_table["Smithing-Stone Miner's Bell Bearing [3]"],
                     item_table["Smithing-Stone Miner's Bell Bearing [4]"],item_table["Somberstone Miner's Bell Bearing [1]"],
                     item_table["Somberstone Miner's Bell Bearing [2]"],item_table["Somberstone Miner's Bell Bearing [3]"],
                     item_table["Somberstone Miner's Bell Bearing [4]"],item_table["Somberstone Miner's Bell Bearing [5]"]]
-                if self.options.enemy_rando and not self.options.rykard_encounter: all_injectable_items += [item_table["Serpent-Hunter"]]
+            if self.options.enemy_rando and not self.options.rykard_encounter: all_injectable_items += [item_table["Serpent-Hunter"]]
         
         if self.base_enabled:
             if self.options.use_master_key.value == 1: all_injectable_items += [item_table[item] for item in item_table if item_table[item].master_key]
             elif self.options.use_master_key.value == 2: all_injectable_items += [item_table["Stonesword Master Key"]]
         
-        if self.options.smithing_bell_bearing_option.value == 3:
-            all_injectable_items += [item_table["Progressive Smithing-Stone Bell Bearing"] for i in range(4)]
-            all_injectable_items += [item_table["Progressive Somberstone Bell Bearing"] for i in range(5)]
+            if self.options.smithing_bell_bearing_option.value == 3:
+                all_injectable_items += [item_table["Progressive Smithing-Stone Bell Bearing"] for i in range(4)]
+                all_injectable_items += [item_table["Progressive Somberstone Bell Bearing"] for i in range(5)]
         
         all_injectable_items += self._add_traps()
         
@@ -1247,21 +1252,29 @@ class EldenRing(World):
                 )]
 
         if not self.base_enabled: # dlc starting items
-            for item in self.itempool:
-                for val in self.options.dlc_starting_items.value:
-                    if item.data.name == "Sacred Tear" and "sacred tears" == val.lower(): 
-                        self._add_to_inventory(item); break
-                    elif item.data.name == "Golden Seed" and "golden seeds" == val.lower(): 
-                        self._add_to_inventory(item); break
-                    elif item.data.name == "Talisman Pouch" and "talisman pouches" == val.lower(): 
-                        self._add_to_inventory(item); break
-                    elif item.data.name == "Memory Stone" and "memory stones" == val.lower(): 
-                        self._add_to_inventory(item); break
-                    elif item.data.whetblade and "whetblades" == val.lower(): 
-                        self._add_to_inventory(item); break
-                    elif item.data.upgrade_bell_bearing and "upgrade bell bearings" == val.lower(): 
-                        self._add_to_inventory(item); break
-
+            dlc_start_lower: list[str] = [i.lower() for i in self.options.dlc_starting_items.value]
+            if "sacred tears" in dlc_start_lower:
+                for i in range(12):
+                    self._add_to_inventory(self.create_item("Sacred Tear"))
+            if "golden seeds" in dlc_start_lower: 
+                for i in range(43):
+                    self._add_to_inventory(self.create_item("Golden Seed"))
+            if "talisman pouches" in dlc_start_lower: 
+                for i in range(3):
+                    self._add_to_inventory(self.create_item("Talisman Pouch"))
+            if "memory stones" in dlc_start_lower: 
+                for i in range(8):
+                    self._add_to_inventory(self.create_item("Memory Stone")) 
+            if "whetblades" in dlc_start_lower: 
+                for i in ["Iron Whetblade","Red-Hot Whetblade","Sanctified Whetblade","Glintstone Whetblade","Black Whetblade"]:
+                    self._add_to_inventory(self.create_item(i))
+            if "upgrade bell bearings" in dlc_start_lower: 
+                for i in ["Smithing-Stone Miner's Bell Bearing [1]",
+                    "Smithing-Stone Miner's Bell Bearing [2]","Smithing-Stone Miner's Bell Bearing [3]",
+                    "Smithing-Stone Miner's Bell Bearing [4]","Somberstone Miner's Bell Bearing [1]",
+                    "Somberstone Miner's Bell Bearing [2]","Somberstone Miner's Bell Bearing [3]",
+                    "Somberstone Miner's Bell Bearing [4]","Somberstone Miner's Bell Bearing [5]"]:
+                    self._add_to_inventory(self.create_item(i))
         if self.options.map_option == 1:
             [self._add_to_inventory(item) for item in self.itempool if item.data.map]
         

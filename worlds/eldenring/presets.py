@@ -293,7 +293,7 @@ dlc_only = {
     
     "enable_dlc":                           EnableDLC.option_true,
     "dlc_start":                            DLCStart.option_dlc_start,
-    "dlc_starting_items":                   ["sacred tears", "golden seeds", "talisman pouches", "memory stones", "whetblades"],
+    "dlc_starting_items":                   ["Sacred Tears", "Golden Seeds", "Talisman Pouches", "Memory Stones", "Whetblades"],
     "dlc_starting_shop":                    DLCStartingShop.option_true,
     "dlc_care_package":                     DLCCarePackage.option_false,
     "dlc_initial_rune_level":               90,

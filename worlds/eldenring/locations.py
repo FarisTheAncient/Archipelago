@@ -1180,7 +1180,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/FHW: Golden Seed - seedtree to E", "Golden Seed", key="604636,0:1046367100::", seedtree=True, targets=('lot:1046360100')),
         ERLocationData("LG/(FH): Dectus Medallion (Left) - tower chest", "Dectus Medallion (Left)", key="604636,0:1046367500::", keyitem=True, chest=True, targets=('lot:1046360500')),
         ERLocationData("LG/(FH): Ash of War: Bloody Slash - enemy drop upper area", "Ash of War: Bloody Slash", key="604636,0:1046367700::", targets=('lot:1046360700')),
-        ERLocationData("LG/SRW: Strip of White Flesh x3 - SE of SRW", "Strip of White Flesh x3", key="604637,0:1046377000::", targets=('lot:1046370000')),
+        ERLocationData("LG/SRW: Strip of White Flesh x3 - NE of SRW", "Strip of White Flesh x3", key="604637,0:1046377000::", targets=('lot:1046370000')),
         ERLocationData("LG/(TCM): Flask of Wondrous Physick - in basin or at RH after 2 great runes", "Flask of Wondrous Physick", key="604638,0:0000060020:101800,11109774:", basin=True, targets=('lot:1046380300', 'shop:101878')),
         ERLocationData("LG/(TCM): Crimson Crystal Tear - in basin", "Crimson Crystal Tear", key="604638,0:0000065020::", basin=True, targets=('lot:1046380301')),
         ERLocationData("LG/TCM: Neutralizing Boluses - NE of TCM", "Neutralizing Boluses", key="604638,0:1046387010::", targets=('lot:1046380010')),
