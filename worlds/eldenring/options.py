@@ -53,9 +53,9 @@ shard_list = { # item name: option name
 }
     
 class ExcludeDungeonBosses(DefaultOnToggle):
-    """Exclude dungeon bosses from Goal. ex: Catacomb, Cave, Tunnels ect.., and **not** Underground, Ruins or Evergaol bosses.
-    \nThis includes all dungeon locations in priority location groups."""
-    display_name = "Exclude Dungeon Bosses"
+    """Exclude mini dungeon bosses from Goal. ex: Catacomb, Cave, Tunnels ect.., and **not** Underground, Ruins or Evergaol bosses.
+    \nThis includes all mini dungeon locations in priority location groups."""
+    display_name = "Exclude Mini Dungeon Bosses"
 
 class WorldLogic(Choice):
     """World Logic options
@@ -612,14 +612,17 @@ class LocalItemOnly(OptionList):
     valid_keys_casefold = True
 
 class ERExcludeLocations(ExcludeLocations):
-    """Prevent these locations from having an important items.
+    """Prevent these locations from having an important item.
     - **DLC**: If you want DLC items but dont wanna do DLC.
-    - **Hidden**: Hard to find items.
+    - **Hidden**: Hard to find locations.
     - **Blizzard**: The hard to see area of snowfield.
     - **Scarab**: Scarabs that drop items.
     - **Furnace Golem**: DLC Furnace Golems.
-    - **Out of the Way**: Items that take a bit to get.
-    - **Drop**: One time drop items from enemies."""
+    - **Out of the Way**: Locations that take a bit to get.
+    - **Drop**: One time drop items from enemies.
+    
+    - **Post Leyndell**: Used for great rune hunt, excludes everything after Leyndell.
+    """ # - **Dungeon**: All locations in mini dungeons. I get fill errors with this, random quest items seem to have issues
     default = frozenset({"Hidden"})
     valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Post Leyndell"} # testing "All Locations"
     valid_keys_casefold = False

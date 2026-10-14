@@ -531,8 +531,7 @@ class ERLocationData:
             ERLocationData.__location_id += 1
         if self.enemyfragment: self.fragment = True
         if self.hangingpot: self.hidden = True
-        if (self.boss or self.altboss or self.catacombboss or self.miscboss or self.minidungeonboss or self.graveboss
-        or self.caveboss or self.tunnelboss or self.dragonboss or self.gaolboss): # any boss should be a prominent place
+        if self.name in all_boss_locations_dictionary: # any boss should be a prominent place
             if not self.missable:
                 self.prominent = True
         if self.church or self.seedtree or self.basin or self.map or self.fragment or self.cross or self.revered:
@@ -596,8 +595,7 @@ class ERLocationData:
 
         This is computed from the properties assigned to this location."""
         names = []
-        if (self.boss or self.altboss or self.catacombboss or self.miscboss or self.minidungeonboss or self.graveboss
-        or self.caveboss or self.tunnelboss or self.dragonboss or self.gaolboss):
+        if self.name in all_boss_locations_dictionary:
             if not self.dlc:
                 names.append("Boss Reward")
             else:
@@ -611,6 +609,7 @@ class ERLocationData:
         if self.progression: names.append("Progression")
         if self.hostile_npc: names.append("Hostile NPC Rewards")
         if self.npc: names.append("Friendly NPC Rewards")
+        if self.dungeon: names.append("Dungeon")
         if self.chest: names.append("Chest")
         if self.scarab: names.append("Scarab")
         if self.shop and not self.missable: 
@@ -1639,7 +1638,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/FRL: Smithing Stone [2] x3 - to N just past bridge", "Smithing Stone [2] x3", key="603644,0:1036447040::", targets=('lot:1036440040')),
         ERLocationData("LL/(AGT): Shattershard Arrow (Fletched) x6 - on railing middle of upper AGT main stairs", "Shattershard Arrow (Fletched) x6", key="603644,0:1036447050::", targets=('lot:1036440050')),
         ERLocationData("LL/(AGT): Glintstone Firefly x4 - NE corner of upper AGT", "Glintstone Firefly x4", key="603644,0:1036447060::", targets=('lot:1036440060')),
-        ERLocationData("LL/(AGT): Golden Seed - SE of upper AGT main stairs", "Golden Seed", key="603644,0:1036447300::", seedtree=True, targets=('lot:1036440300')),
+        ERLocationData("LL/(AGT): Golden Seed - seedtree SE of upper AGT main stairs", "Golden Seed", key="603644,0:1036447300::", seedtree=True, targets=('lot:1036440300')),
         ERLocationData("LL/AGT: Crystal Cave Moss x3 - N of upper AGT main stairs, by graves right of big building", "Crystal Cave Moss x3", key="603645,0:1036457020::", targets=('lot:1036450020')),
         ERLocationData("LL/AGT: Stonesword Key - in chest N of upper AGT main stairs, within second tower left of big building", "Stonesword Key", key="603645,0:1036457110::", targets=('lot:1036450110')),
         ERLocationData("LL/GTN: Ancient Death Rancor - night boss drop to S", "Ancient Death Rancor", key="603645,0:1036457400::", altboss=True, night=True, targets=('lot:1036450400')),
@@ -6379,6 +6378,7 @@ location_name_groups: Dict[str, Set[str]] = {
     "Shop": set(),
     "Out of the Way": set(),
     "Drop": set(),
+    "Dungeon": set(),
     "Rise Puzzle": set(),
     "Breakable": set(),
     "Hidden": set(),

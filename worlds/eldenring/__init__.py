@@ -206,12 +206,19 @@ class EldenRing(World):
         self.base_enabled = not (self.options.dlc_start == 1 and self.options.enable_dlc)
         self.created_regions = set()
         self.all_excluded_locations.update(self.options.exclude_locations.value)
+        for loc in self.all_excluded_locations.copy():
+            if (not self.base_enabled and not location_dictionary[loc].dlc 
+                or not self.options.enable_dlc and location_dictionary[loc].dlc):
+                self.all_excluded_locations.remove(loc)
+        
         self.all_priority_locations.update(self.options.priority_location_groups.value)
         for loc in self.all_priority_locations.copy():
             if (not self.base_enabled and not location_dictionary[loc].dlc 
                 or not self.options.enable_dlc and location_dictionary[loc].dlc 
-                or location_dictionary[loc].missable):
+                or location_dictionary[loc].missable or loc in self.all_excluded_locations):
                 self.all_priority_locations.remove(loc)
+            
+            # this be removed once I get dungeons in exclude locations working, fill errors :(
             if self.options.exclude_dungeon:           # i don't think i even need to check this as the new dungeon code should cover it
                 if location_dictionary[loc].dungeon or loc in all_boss_locations_dictionary and all_boss_locations_dictionary[loc].dungeon:
                     if loc in self.all_priority_locations:
@@ -645,10 +652,10 @@ class EldenRing(World):
                     )
                 ): 
                     new_location.progress_type = LocationProgressType.EXCLUDED
-                    if location.name in self.all_priority_locations: # if its excluded remove it from priority
-                        self.all_priority_locations.remove(location.name)
-                elif location.name in self.all_priority_locations:
-                    if location.hidden: self.all_priority_locations.remove(location.name)
+                #     if location.name in self.all_priority_locations: # if its excluded remove it from priority
+                #         self.all_priority_locations.remove(location.name)
+                # elif location.name in self.all_priority_locations:
+                #     if location.hidden: self.all_priority_locations.remove(location.name)
             else:
                 # Don't consider non-randomized locations to be AP-excluded
                 if location.name in excluded:
@@ -1251,30 +1258,30 @@ class EldenRing(World):
                     "Whetstone Knife"
                 )]
 
-        if not self.base_enabled: # dlc starting items
-            dlc_start_lower: list[str] = [i.lower() for i in self.options.dlc_starting_items.value]
-            if "sacred tears" in dlc_start_lower:
-                for i in range(12):
-                    self._add_to_inventory(self.create_item("Sacred Tear"))
-            if "golden seeds" in dlc_start_lower: 
-                for i in range(43):
-                    self._add_to_inventory(self.create_item("Golden Seed"))
-            if "talisman pouches" in dlc_start_lower: 
-                for i in range(3):
-                    self._add_to_inventory(self.create_item("Talisman Pouch"))
-            if "memory stones" in dlc_start_lower: 
-                for i in range(8):
-                    self._add_to_inventory(self.create_item("Memory Stone")) 
-            if "whetblades" in dlc_start_lower: 
-                for i in ["Iron Whetblade","Red-Hot Whetblade","Sanctified Whetblade","Glintstone Whetblade","Black Whetblade"]:
-                    self._add_to_inventory(self.create_item(i))
-            if "upgrade bell bearings" in dlc_start_lower: 
-                for i in ["Smithing-Stone Miner's Bell Bearing [1]",
-                    "Smithing-Stone Miner's Bell Bearing [2]","Smithing-Stone Miner's Bell Bearing [3]",
-                    "Smithing-Stone Miner's Bell Bearing [4]","Somberstone Miner's Bell Bearing [1]",
-                    "Somberstone Miner's Bell Bearing [2]","Somberstone Miner's Bell Bearing [3]",
-                    "Somberstone Miner's Bell Bearing [4]","Somberstone Miner's Bell Bearing [5]"]:
-                    self._add_to_inventory(self.create_item(i))
+        # if not self.base_enabled:
+            # dlc_start_lower: list[str] = [i.lower() for i in self.options.dlc_starting_items.value]
+            # if "sacred tears" in dlc_start_lower:
+            #     for i in range(12):
+            #         self._add_to_inventory(self.create_item("Sacred Tear"))
+            # if "golden seeds" in dlc_start_lower: 
+            #     for i in range(43):
+            #         self._add_to_inventory(self.create_item("Golden Seed"))
+            # if "talisman pouches" in dlc_start_lower: 
+            #     for i in range(3):
+            #         self._add_to_inventory(self.create_item("Talisman Pouch"))
+            # if "memory stones" in dlc_start_lower: 
+            #     for i in range(8):
+            #         self._add_to_inventory(self.create_item("Memory Stone")) 
+            # if "whetblades" in dlc_start_lower: 
+            #     for i in ["Iron Whetblade","Red-Hot Whetblade","Sanctified Whetblade","Glintstone Whetblade","Black Whetblade"]:
+            #         self._add_to_inventory(self.create_item(i))
+            # if "upgrade bell bearings" in dlc_start_lower: 
+            #     for i in ["Smithing-Stone Miner's Bell Bearing [1]",
+            #         "Smithing-Stone Miner's Bell Bearing [2]","Smithing-Stone Miner's Bell Bearing [3]",
+            #         "Smithing-Stone Miner's Bell Bearing [4]","Somberstone Miner's Bell Bearing [1]",
+            #         "Somberstone Miner's Bell Bearing [2]","Somberstone Miner's Bell Bearing [3]",
+            #         "Somberstone Miner's Bell Bearing [4]","Somberstone Miner's Bell Bearing [5]"]:
+            #         self._add_to_inventory(self.create_item(i))
         if self.options.map_option == 1:
             [self._add_to_inventory(item) for item in self.itempool if item.data.map]
         
