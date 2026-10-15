@@ -878,18 +878,21 @@
                 ]
             },
             {
-                "name": "Demo spawns",
+                "name": "Station complete",
                 "sections":[
-                    {"name": "CS / water refill (A1LP)"},
-                    {"name": "CS Museum"},
-                    {"name": "Opening Olaf garage"}
+                    {"name": "Finish CS"}
                 ],
                 "map_locations":[
                     {
                         "map":"world_map",
                         "x":1890,
-                        "y":2000
-                    }   
+                        "y":1985
+                    },
+                    {
+                        "map":"city_south",
+                        "x":1488,
+                        "y":1100
+                    }
                 ]
             },
             {
