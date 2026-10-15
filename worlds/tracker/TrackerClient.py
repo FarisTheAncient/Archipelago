@@ -325,6 +325,10 @@ def cmd_list_maps(self: TrackerCommandProcessor):
     else:
         logger.info("No world with internal map loaded")
 
+def cmd_reload_pack(self: TrackerCommandProcessor):
+    """Force a reload of the map pack"""
+    if not self.ctx.game:
+        self.ctx.load_pack()
 
 class TrackerGameContext(CommonContext):
     game = ""
@@ -1820,10 +1824,15 @@ class TrackerGameContext(CommonContext):
                         icon_key = self.tracker_world.location_setting_key
                         if icon_key:
                             self.set_notify(icon_key)
-                    if "load_map" not in self.command_processor.commands or not self.command_processor.commands["load_map"]:
-                        self.command_processor.commands["load_map"] = cmd_load_map
-                    if "list_maps" not in self.command_processor.commands or not self.command_processor.commands["list_maps"]:
-                        self.command_processor.commands["list_maps"] = cmd_list_maps
+                        if "load_map" not in self.command_processor.commands or not self.command_processor.commands["load_map"]:
+                            self.command_processor.commands["load_map"] = cmd_load_map
+                        if "list_maps" not in self.command_processor.commands or not self.command_processor.commands["list_maps"]:
+                            self.command_processor.commands["list_maps"] = cmd_list_maps
+
+                    from Utils import is_frozen
+                    
+                    if "reload_pack" not in self.command_processor.commands or not self.command_processor.commands["reload_pack"] and (not self.tracker_world or not is_frozen()):
+                        self.command_processor.commands["reload_pack"] = cmd_reload_pack
                 self.defered_entrance_datastorage_keys = getattr(self.tracker_core.get_current_world(),"found_entrances_datastorage_key",None)
                 from . import DeferredEntranceMode
                 if self.defered_entrance_datastorage_keys and self.tracker_core.enforce_deferred_connections != DeferredEntranceMode.disabled:
@@ -1916,6 +1925,8 @@ class TrackerGameContext(CommonContext):
                     del self.command_processor.commands["load_map"]
                 if "list_maps" in self.command_processor.commands:
                     del self.command_processor.commands["list_maps"]
+                if "reload_pack" in self.command_processor.commands:
+                    del self.command_processor.commands["reload_pack"]
                 self.map_id = None
                 self.root_pack_path = None
                 self.coord_dict.clear()
