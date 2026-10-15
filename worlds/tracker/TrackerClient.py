@@ -327,8 +327,23 @@ def cmd_list_maps(self: TrackerCommandProcessor):
 
 def cmd_reload_pack(self: TrackerCommandProcessor):
     """Force a reload of the map pack"""
-    if not self.ctx.game:
-        self.ctx.load_pack()
+    if self.ctx.game is not None:
+        self.ctx.map_id = None
+        self.ctx.root_pack_path = None
+        self.ctx.coord_dict.clear()
+        self.ctx.deferred_dict.clear()
+        self.ctx.ldeferred_dict.clear()
+        connected_cls = AutoWorld.AutoWorldRegister.world_types.get(self.ctx.game)
+        if self.ctx.ui is not None and hasattr(connected_cls, "tracker_world"):
+            self.ctx.tracker_world = UTMapTabData(self.ctx.slot, self.ctx.team, **getattr(connected_cls,"tracker_world",{}))
+        elif self.ctx.ui is not None and hasattr(self.ctx.tracker_core.get_current_world(),"tracker_world"):
+            self.ctx.tracker_world = UTMapTabData(self.ctx.slot, self.ctx.team, **getattr(self.ctx.tracker_core.get_current_world(),"tracker_world",{}))
+        else:
+            self.ctx.tracker_world = None
+        if self.ctx.tracker_world is not None:
+            self.ctx.load_pack()
+    else:
+        logger.info("Somehow no game is loaded")
 
 class TrackerGameContext(CommonContext):
     game = ""
