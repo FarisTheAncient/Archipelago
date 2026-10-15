@@ -1,0 +1,924 @@
+[
+    {
+        "name": "World Map",
+        "children":[
+            {
+                "name":"Train driver license",
+                "sections":[{"name": "Train driver license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 120
+                }]
+            },
+            {
+                "name":"DE2 license",
+                "sections":[{"name": "DE2 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 220
+                }]
+            },
+            {
+                "name":"DE2 orders completed",
+                "sections":[{"name": "DE2 orders completed"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 200,
+                    "y": 220
+                }]
+            },
+            {
+                "name":"Freight haul license",
+                "sections":[{"name": "Freight haul license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 320
+                }]
+            },
+            {
+                "name":"Shunting license",
+                "sections":[{"name": "Shunting license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 420
+                }]
+            },
+            {
+                "name":"Fragile license",
+                "sections":[{"name": "Fragile license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 520
+                }]
+            },
+            {
+                "name":"Dispatcher license",
+                "sections":[{"name": "Dispatcher license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 620
+                }]
+            },
+            {
+                "name":"Long 1 license",
+                "sections":[{"name": "Long 1 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 720
+                }]
+            },
+            {
+                "name":"Long 2 license",
+                "sections":[{"name": "Long 2 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 820
+                }]
+            },
+            {
+                "name":"Concurrent 1 license",
+                "sections":[{"name": "Concurrent 1 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 920
+                }]
+            },
+            {
+                "name":"Concurrent 2 license",
+                "sections":[{"name": "Concurrent 2 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 1020
+                }]
+            },
+            {
+                "name":"S060 license",
+                "sections":[{"name": "S060 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 1120
+                }]
+            },
+            {
+                "name":"S060 orders completed",
+                "sections":[{"name": "S060 orders completed"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 200,
+                    "y": 1120
+                }]
+            },
+            {
+                "name":"DH4 license",
+                "sections":[{"name": "DH4 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 1220
+                }]
+            },
+            {
+                "name":"DH4 orders completed",
+                "sections":[{"name": "DH4 orders completed"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 200,
+                    "y": 1220
+                }]
+            },
+            {
+                "name":"DM3 license",
+                "sections":[{"name": "DM3 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 50,
+                    "y": 1320
+                }]
+            },
+            {
+                "name":"DM3 orders completed",
+                "sections":[{"name": "DM3 orders completed"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 200,
+                    "y": 1320
+                }]
+            },
+            {
+                "name":"Multiple unit license",
+                "sections":[{"name": "Multiple unit license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 120
+                }]
+            },
+            {
+                "name":"Museum license",
+                "sections":[{"name": "Museum license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 220
+                }]
+            },
+            {
+                "name":"Logistical haul license",
+                "sections":[{"name": "Logistical haul license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 320
+                }]
+            },
+            {
+                "name":"Manual service license",
+                "sections":[{"name": "Manual service license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 420
+                }]
+            },
+            {
+                "name":"S282 license",
+                "sections":[{"name": "S282 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 520
+                }]
+            },
+            {
+                "name":"S282 orders completed",
+                "sections":[{"name": "S282 orders completed"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 500,
+                    "y": 520
+                }]
+            },
+            {
+                "name":"DE6 license",
+                "sections":[{"name": "DE6 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 620
+                }]
+            },
+            {
+                "name":"DE6 orders completed",
+                "sections":[{"name": "DE6 orders completed"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 500,
+                    "y": 620
+                }]
+            },
+            {
+                "name":"Hazmat 1 license",
+                "sections":[{"name": "Hazmat 1 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 720
+                }]
+            },
+            {
+                "name":"Hazmat 2 license",
+                "sections":[{"name": "Hazmat 2 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 820
+                }]
+            },
+            {
+                "name":"Hazmat 3 license",
+                "sections":[{"name": "Hazmat 3 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 920
+                }]
+            },
+            {
+                "name":"Military 1 license",
+                "sections":[{"name": "Military 1 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 1020
+                }]
+            },
+            {
+                "name":"Military 2 license",
+                "sections":[{"name": "Military 2 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 1120
+                }]
+            },
+            {
+                "name":"Military 3 license",
+                "sections":[{"name": "Military 3 license"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 350,
+                    "y": 1220
+                }]
+            }
+        ]
+    },
+    {
+        "name": "Garages",
+        "children":[
+            {
+                "name":"Opening Old Bob garage",
+                "sections":[{"name": "Opening Old Bob garage"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 800,
+                    "y": 520
+                }]
+            },
+            {
+                "name":"Opening Reginald garage",
+                "sections":[{"name": "Opening Reginald garage"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 1150,
+                    "y": 1750
+                }]
+            },
+            {
+                "name":"Opening Steves garage",
+                "sections":[{"name": "Opening Steves garage"}],
+                "map_locations":[{
+                    "map": "world_map",
+                    "x": 2400,
+                    "y": 1750
+                }]
+            }
+        ]
+    },
+    {
+        "name": "City South",
+        "children":[
+            {
+                "name":"Shunting Orders",
+                "sections":[
+                    { "name": "CS shunting order 1"},
+                    { "name": "CS shunting order 2"},
+                    { "name": "CS shunting order 3"},
+                    { "name": "CS shunting order 4"},
+                    { "name": "CS shunting order 5"},
+                    { "name": "CS shunting order 6"},
+                    { "name": "CS shunting order 7"},
+                    { "name": "CS shunting order 8"},
+                    { "name": "CS shunting order 9"},
+                    { "name": "CS shunting order 10"},
+                    { "name": "CS shunting order 11"},
+                    { "name": "CS shunting order 12"},
+                    { "name": "CS shunting order 13"},
+                    { "name": "CS shunting order 14"},
+                    { "name": "CS shunting order 15"},
+                    { "name": "CS shunting order 16"},
+                    { "name": "CS shunting order 17"},
+                    { "name": "CS shunting order 18"},
+                    { "name": "CS shunting order 19"},
+                    { "name": "CS shunting order 20"},
+                    { "name": "CS shunting order 21"},
+                    { "name": "CS shunting order 22"},
+                    { "name": "CS shunting order 23"},
+                    { "name": "CS shunting order 24"},
+                    { "name": "CS shunting order 25"},
+                    { "name": "CS shunting order 26"},
+                    { "name": "CS shunting order 27"},
+                    { "name": "CS shunting order 28"},
+                    { "name": "CS shunting order 29"},
+                    { "name": "CS shunting order 30"},
+                    { "name": "CS shunting order 31"},
+                    { "name": "CS shunting order 32"},
+                    { "name": "CS shunting order 33"},
+                    { "name": "CS shunting order 34"},
+                    { "name": "CS shunting order 35"},
+                    { "name": "CS shunting order 36"},
+                    { "name": "CS shunting order 37"},
+                    { "name": "CS shunting order 38"},
+                    { "name": "CS shunting order 39"},
+                    { "name": "CS shunting order 40"},
+                    { "name": "CS shunting order 41"},
+                    { "name": "CS shunting order 42"},
+                    { "name": "CS shunting order 43"},
+                    { "name": "CS shunting order 44"},
+                    { "name": "CS shunting order 45"},
+                    { "name": "CS shunting order 46"},
+                    { "name": "CS shunting order 47"},
+                    { "name": "CS shunting order 48"},
+                    { "name": "CS shunting order 49"},
+                    { "name": "CS shunting order 50"},
+                    { "name": "CS shunting order 51"},
+                    { "name": "CS shunting order 52"},
+                    { "name": "CS shunting order 53"},
+                    { "name": "CS shunting order 54"},
+                    { "name": "CS shunting order 55"},
+                    { "name": "CS shunting order 56"},
+                    { "name": "CS shunting order 57"},
+                    { "name": "CS shunting order 58"},
+                    { "name": "CS shunting order 59"},
+                    { "name": "CS shunting order 60"},
+                    { "name": "CS shunting order 61"},
+                    { "name": "CS shunting order 62"},
+                    { "name": "CS shunting order 63"},
+                    { "name": "CS shunting order 64"},
+                    { "name": "CS shunting order 65"},
+                    { "name": "CS shunting order 66"},
+                    { "name": "CS shunting order 67"},
+                    { "name": "CS shunting order 68"},
+                    { "name": "CS shunting order 69"},
+                    { "name": "CS shunting order 70"},
+                    { "name": "CS shunting order 71"},
+                    { "name": "CS shunting order 72"},
+                    { "name": "CS shunting order 73"},
+                    { "name": "CS shunting order 74"},
+                    { "name": "CS shunting order 75"},
+                    { "name": "CS shunting order 76"},
+                    { "name": "CS shunting order 77"},
+                    { "name": "CS shunting order 78"},
+                    { "name": "CS shunting order 79"},
+                    { "name": "CS shunting order 80"},
+                    { "name": "CS shunting order 81"},
+                    { "name": "CS shunting order 82"},
+                    { "name": "CS shunting order 83"},
+                    { "name": "CS shunting order 84"},
+                    { "name": "CS shunting order 85"},
+                    { "name": "CS shunting order 86"},
+                    { "name": "CS shunting order 87"},
+                    { "name": "CS shunting order 88"},
+                    { "name": "CS shunting order 89"},
+                    { "name": "CS shunting order 90"},
+                    { "name": "CS shunting order 91"},
+                    { "name": "CS shunting order 92"},
+                    { "name": "CS shunting order 93"},
+                    { "name": "CS shunting order 94"},
+                    { "name": "CS shunting order 95"},
+                    { "name": "CS shunting order 96"},
+                    { "name": "CS shunting order 97"},
+                    { "name": "CS shunting order 98"},
+                    { "name": "CS shunting order 99"},
+                    { "name": "CS shunting order 100"},
+                    { "name": "CS shunting order 101"},
+                    { "name": "CS shunting order 102"},
+                    { "name": "CS shunting order 103"},
+                    { "name": "CS shunting order 104"},
+                    { "name": "CS shunting order 105"},
+                    { "name": "CS shunting order 106"},
+                    { "name": "CS shunting order 107"},
+                    { "name": "CS shunting order 108"},
+                    { "name": "CS shunting order 109"},
+                    { "name": "CS shunting order 110"},
+                    { "name": "CS shunting order 111"},
+                    { "name": "CS shunting order 112"},
+                    { "name": "CS shunting order 113"},
+                    { "name": "CS shunting order 114"},
+                    { "name": "CS shunting order 115"},
+                    { "name": "CS shunting order 116"},
+                    { "name": "CS shunting order 117"},
+                    { "name": "CS shunting order 118"},
+                    { "name": "CS shunting order 119"},
+                    { "name": "CS shunting order 120"},
+                    { "name": "CS shunting order 121"},
+                    { "name": "CS shunting order 122"},
+                    { "name": "CS shunting order 123"},
+                    { "name": "CS shunting order 124"},
+                    { "name": "CS shunting order 125"},
+                    { "name": "CS shunting order 126"},
+                    { "name": "CS shunting order 127"},
+                    { "name": "CS shunting order 128"},
+                    { "name": "CS shunting order 129"},
+                    { "name": "CS shunting order 130"},
+                    { "name": "CS shunting order 131"},
+                    { "name": "CS shunting order 132"},
+                    { "name": "CS shunting order 133"},
+                    { "name": "CS shunting order 134"},
+                    { "name": "CS shunting order 135"},
+                    { "name": "CS shunting order 136"},
+                    { "name": "CS shunting order 137"},
+                    { "name": "CS shunting order 138"},
+                    { "name": "CS shunting order 139"},
+                    { "name": "CS shunting order 140"},
+                    { "name": "CS shunting order 141"},
+                    { "name": "CS shunting order 142"},
+                    { "name": "CS shunting order 143"},
+                    { "name": "CS shunting order 144"},
+                    { "name": "CS shunting order 145"},
+                    { "name": "CS shunting order 146"},
+                    { "name": "CS shunting order 147"},
+                    { "name": "CS shunting order 148"},
+                    { "name": "CS shunting order 149"},
+                    { "name": "CS shunting order 150"},
+                    { "name": "CS shunting order 151"},
+                    { "name": "CS shunting order 152"},
+                    { "name": "CS shunting order 153"},
+                    { "name": "CS shunting order 154"},
+                    { "name": "CS shunting order 155"},
+                    { "name": "CS shunting order 156"},
+                    { "name": "CS shunting order 157"},
+                    { "name": "CS shunting order 158"},
+                    { "name": "CS shunting order 159"},
+                    { "name": "CS shunting order 160"},
+                    { "name": "CS shunting order 161"},
+                    { "name": "CS shunting order 162"},
+                    { "name": "CS shunting order 163"},
+                    { "name": "CS shunting order 164"},
+                    { "name": "CS shunting order 165"},
+                    { "name": "CS shunting order 166"},
+                    { "name": "CS shunting order 167"},
+                    { "name": "CS shunting order 168"},
+                    { "name": "CS shunting order 169"},
+                    { "name": "CS shunting order 170"},
+                    { "name": "CS shunting order 171"},
+                    { "name": "CS shunting order 172"},
+                    { "name": "CS shunting order 173"},
+                    { "name": "CS shunting order 174"},
+                    { "name": "CS shunting order 175"},
+                    { "name": "CS shunting order 176"},
+                    { "name": "CS shunting order 177"},
+                    { "name": "CS shunting order 178"},
+                    { "name": "CS shunting order 179"},
+                    { "name": "CS shunting order 180"},
+                    { "name": "CS shunting order 181"},
+                    { "name": "CS shunting order 182"},
+                    { "name": "CS shunting order 183"},
+                    { "name": "CS shunting order 184"},
+                    { "name": "CS shunting order 185"},
+                    { "name": "CS shunting order 186"},
+                    { "name": "CS shunting order 187"},
+                    { "name": "CS shunting order 188"},
+                    { "name": "CS shunting order 189"},
+                    { "name": "CS shunting order 190"},
+                    { "name": "CS shunting order 191"},
+                    { "name": "CS shunting order 192"},
+                    { "name": "CS shunting order 193"},
+                    { "name": "CS shunting order 194"},
+                    { "name": "CS shunting order 195"},
+                    { "name": "CS shunting order 196"},
+                    { "name": "CS shunting order 197"},
+                    { "name": "CS shunting order 198"},
+                    { "name": "CS shunting order 199"},
+                    { "name": "CS shunting order 200"},
+                    { "name": "CS shunting order 201"},
+                    { "name": "CS shunting order 202"},
+                    { "name": "CS shunting order 203"},
+                    { "name": "CS shunting order 204"},
+                    { "name": "CS shunting order 205"},
+                    { "name": "CS shunting order 206"},
+                    { "name": "CS shunting order 207"},
+                    { "name": "CS shunting order 208"},
+                    { "name": "CS shunting order 209"},
+                    { "name": "CS shunting order 210"},
+                    { "name": "CS shunting order 211"},
+                    { "name": "CS shunting order 212"},
+                    { "name": "CS shunting order 213"},
+                    { "name": "CS shunting order 214"},
+                    { "name": "CS shunting order 215"},
+                    { "name": "CS shunting order 216"},
+                    { "name": "CS shunting order 217"},
+                    { "name": "CS shunting order 218"},
+                    { "name": "CS shunting order 219"},
+                    { "name": "CS shunting order 220"},
+                    { "name": "CS shunting order 221"},
+                    { "name": "CS shunting order 222"},
+                    { "name": "CS shunting order 223"},
+                    { "name": "CS shunting order 224"},
+                    { "name": "CS shunting order 225"},
+                    { "name": "CS shunting order 226"},
+                    { "name": "CS shunting order 227"},
+                    { "name": "CS shunting order 228"},
+                    { "name": "CS shunting order 229"},
+                    { "name": "CS shunting order 230"},
+                    { "name": "CS shunting order 231"},
+                    { "name": "CS shunting order 232"},
+                    { "name": "CS shunting order 233"},
+                    { "name": "CS shunting order 234"},
+                    { "name": "CS shunting order 235"},
+                    { "name": "CS shunting order 236"},
+                    { "name": "CS shunting order 237"},
+                    { "name": "CS shunting order 238"},
+                    { "name": "CS shunting order 239"},
+                    { "name": "CS shunting order 240"},
+                    { "name": "CS shunting order 241"},
+                    { "name": "CS shunting order 242"},
+                    { "name": "CS shunting order 243"},
+                    { "name": "CS shunting order 244"},
+                    { "name": "CS shunting order 245"},
+                    { "name": "CS shunting order 246"},
+                    { "name": "CS shunting order 247"},
+                    { "name": "CS shunting order 248"},
+                    { "name": "CS shunting order 249"},
+                    { "name": "CS shunting order 250"},
+                    { "name": "CS shunting order 251"},
+                    { "name": "CS shunting order 252"},
+                    { "name": "CS shunting order 253"},
+                    { "name": "CS shunting order 254"},
+                    { "name": "CS shunting order 255"}
+                ],
+                "map_locations":[
+                    {
+                        "map": "world_map",
+                        "x": 1810,
+                        "y": 1850
+                    },
+                    {
+                        "map": "city_south",
+                        "x": 1400,
+                        "y": 1000
+                    }
+                ]
+            },
+            {
+                "name": "Transport Orders",
+                "sections":[
+                    { "name": "CS transport order 1"},
+                    { "name": "CS transport order 2"},
+                    { "name": "CS transport order 3"},
+                    { "name": "CS transport order 4"},
+                    { "name": "CS transport order 5"},
+                    { "name": "CS transport order 6"},
+                    { "name": "CS transport order 7"},
+                    { "name": "CS transport order 8"},
+                    { "name": "CS transport order 9"},
+                    { "name": "CS transport order 10"},
+                    { "name": "CS transport order 11"},
+                    { "name": "CS transport order 12"},
+                    { "name": "CS transport order 13"},
+                    { "name": "CS transport order 14"},
+                    { "name": "CS transport order 15"},
+                    { "name": "CS transport order 16"},
+                    { "name": "CS transport order 17"},
+                    { "name": "CS transport order 18"},
+                    { "name": "CS transport order 19"},
+                    { "name": "CS transport order 20"},
+                    { "name": "CS transport order 21"},
+                    { "name": "CS transport order 22"},
+                    { "name": "CS transport order 23"},
+                    { "name": "CS transport order 24"},
+                    { "name": "CS transport order 25"},
+                    { "name": "CS transport order 26"},
+                    { "name": "CS transport order 27"},
+                    { "name": "CS transport order 28"},
+                    { "name": "CS transport order 29"},
+                    { "name": "CS transport order 30"},
+                    { "name": "CS transport order 31"},
+                    { "name": "CS transport order 32"},
+                    { "name": "CS transport order 33"},
+                    { "name": "CS transport order 34"},
+                    { "name": "CS transport order 35"},
+                    { "name": "CS transport order 36"},
+                    { "name": "CS transport order 37"},
+                    { "name": "CS transport order 38"},
+                    { "name": "CS transport order 39"},
+                    { "name": "CS transport order 40"},
+                    { "name": "CS transport order 41"},
+                    { "name": "CS transport order 42"},
+                    { "name": "CS transport order 43"},
+                    { "name": "CS transport order 44"},
+                    { "name": "CS transport order 45"},
+                    { "name": "CS transport order 46"},
+                    { "name": "CS transport order 47"},
+                    { "name": "CS transport order 48"},
+                    { "name": "CS transport order 49"},
+                    { "name": "CS transport order 50"},
+                    { "name": "CS transport order 51"},
+                    { "name": "CS transport order 52"},
+                    { "name": "CS transport order 53"},
+                    { "name": "CS transport order 54"},
+                    { "name": "CS transport order 55"},
+                    { "name": "CS transport order 56"},
+                    { "name": "CS transport order 57"},
+                    { "name": "CS transport order 58"},
+                    { "name": "CS transport order 59"},
+                    { "name": "CS transport order 60"},
+                    { "name": "CS transport order 61"},
+                    { "name": "CS transport order 62"},
+                    { "name": "CS transport order 63"},
+                    { "name": "CS transport order 64"},
+                    { "name": "CS transport order 65"},
+                    { "name": "CS transport order 66"},
+                    { "name": "CS transport order 67"},
+                    { "name": "CS transport order 68"},
+                    { "name": "CS transport order 69"},
+                    { "name": "CS transport order 70"},
+                    { "name": "CS transport order 71"},
+                    { "name": "CS transport order 72"},
+                    { "name": "CS transport order 73"},
+                    { "name": "CS transport order 74"},
+                    { "name": "CS transport order 75"},
+                    { "name": "CS transport order 76"},
+                    { "name": "CS transport order 77"},
+                    { "name": "CS transport order 78"},
+                    { "name": "CS transport order 79"},
+                    { "name": "CS transport order 80"},
+                    { "name": "CS transport order 81"},
+                    { "name": "CS transport order 82"},
+                    { "name": "CS transport order 83"},
+                    { "name": "CS transport order 84"},
+                    { "name": "CS transport order 85"},
+                    { "name": "CS transport order 86"},
+                    { "name": "CS transport order 87"},
+                    { "name": "CS transport order 88"},
+                    { "name": "CS transport order 89"},
+                    { "name": "CS transport order 90"},
+                    { "name": "CS transport order 91"},
+                    { "name": "CS transport order 92"},
+                    { "name": "CS transport order 93"},
+                    { "name": "CS transport order 94"},
+                    { "name": "CS transport order 95"},
+                    { "name": "CS transport order 96"},
+                    { "name": "CS transport order 97"},
+                    { "name": "CS transport order 98"},
+                    { "name": "CS transport order 99"},
+                    { "name": "CS transport order 100"},
+                    { "name": "CS transport order 101"},
+                    { "name": "CS transport order 102"},
+                    { "name": "CS transport order 103"},
+                    { "name": "CS transport order 104"},
+                    { "name": "CS transport order 105"},
+                    { "name": "CS transport order 106"},
+                    { "name": "CS transport order 107"},
+                    { "name": "CS transport order 108"},
+                    { "name": "CS transport order 109"},
+                    { "name": "CS transport order 110"},
+                    { "name": "CS transport order 111"},
+                    { "name": "CS transport order 112"},
+                    { "name": "CS transport order 113"},
+                    { "name": "CS transport order 114"},
+                    { "name": "CS transport order 115"},
+                    { "name": "CS transport order 116"},
+                    { "name": "CS transport order 117"},
+                    { "name": "CS transport order 118"},
+                    { "name": "CS transport order 119"},
+                    { "name": "CS transport order 120"},
+                    { "name": "CS transport order 121"},
+                    { "name": "CS transport order 122"},
+                    { "name": "CS transport order 123"},
+                    { "name": "CS transport order 124"},
+                    { "name": "CS transport order 125"},
+                    { "name": "CS transport order 126"},
+                    { "name": "CS transport order 127"},
+                    { "name": "CS transport order 128"},
+                    { "name": "CS transport order 129"},
+                    { "name": "CS transport order 130"},
+                    { "name": "CS transport order 131"},
+                    { "name": "CS transport order 132"},
+                    { "name": "CS transport order 133"},
+                    { "name": "CS transport order 134"},
+                    { "name": "CS transport order 135"},
+                    { "name": "CS transport order 136"},
+                    { "name": "CS transport order 137"},
+                    { "name": "CS transport order 138"},
+                    { "name": "CS transport order 139"},
+                    { "name": "CS transport order 140"},
+                    { "name": "CS transport order 141"},
+                    { "name": "CS transport order 142"},
+                    { "name": "CS transport order 143"},
+                    { "name": "CS transport order 144"},
+                    { "name": "CS transport order 145"},
+                    { "name": "CS transport order 146"},
+                    { "name": "CS transport order 147"},
+                    { "name": "CS transport order 148"},
+                    { "name": "CS transport order 149"},
+                    { "name": "CS transport order 150"},
+                    { "name": "CS transport order 151"},
+                    { "name": "CS transport order 152"},
+                    { "name": "CS transport order 153"},
+                    { "name": "CS transport order 154"},
+                    { "name": "CS transport order 155"},
+                    { "name": "CS transport order 156"},
+                    { "name": "CS transport order 157"},
+                    { "name": "CS transport order 158"},
+                    { "name": "CS transport order 159"},
+                    { "name": "CS transport order 160"},
+                    { "name": "CS transport order 161"},
+                    { "name": "CS transport order 162"},
+                    { "name": "CS transport order 163"},
+                    { "name": "CS transport order 164"},
+                    { "name": "CS transport order 165"},
+                    { "name": "CS transport order 166"},
+                    { "name": "CS transport order 167"},
+                    { "name": "CS transport order 168"},
+                    { "name": "CS transport order 169"},
+                    { "name": "CS transport order 170"},
+                    { "name": "CS transport order 171"},
+                    { "name": "CS transport order 172"},
+                    { "name": "CS transport order 173"},
+                    { "name": "CS transport order 174"},
+                    { "name": "CS transport order 175"},
+                    { "name": "CS transport order 176"},
+                    { "name": "CS transport order 177"},
+                    { "name": "CS transport order 178"},
+                    { "name": "CS transport order 179"},
+                    { "name": "CS transport order 180"},
+                    { "name": "CS transport order 181"},
+                    { "name": "CS transport order 182"},
+                    { "name": "CS transport order 183"},
+                    { "name": "CS transport order 184"},
+                    { "name": "CS transport order 185"},
+                    { "name": "CS transport order 186"},
+                    { "name": "CS transport order 187"},
+                    { "name": "CS transport order 188"},
+                    { "name": "CS transport order 189"},
+                    { "name": "CS transport order 190"},
+                    { "name": "CS transport order 191"},
+                    { "name": "CS transport order 192"},
+                    { "name": "CS transport order 193"},
+                    { "name": "CS transport order 194"},
+                    { "name": "CS transport order 195"},
+                    { "name": "CS transport order 196"},
+                    { "name": "CS transport order 197"},
+                    { "name": "CS transport order 198"},
+                    { "name": "CS transport order 199"},
+                    { "name": "CS transport order 200"},
+                    { "name": "CS transport order 201"},
+                    { "name": "CS transport order 202"},
+                    { "name": "CS transport order 203"},
+                    { "name": "CS transport order 204"},
+                    { "name": "CS transport order 205"},
+                    { "name": "CS transport order 206"},
+                    { "name": "CS transport order 207"},
+                    { "name": "CS transport order 208"},
+                    { "name": "CS transport order 209"},
+                    { "name": "CS transport order 210"},
+                    { "name": "CS transport order 211"},
+                    { "name": "CS transport order 212"},
+                    { "name": "CS transport order 213"},
+                    { "name": "CS transport order 214"},
+                    { "name": "CS transport order 215"},
+                    { "name": "CS transport order 216"},
+                    { "name": "CS transport order 217"},
+                    { "name": "CS transport order 218"},
+                    { "name": "CS transport order 219"},
+                    { "name": "CS transport order 220"},
+                    { "name": "CS transport order 221"},
+                    { "name": "CS transport order 222"},
+                    { "name": "CS transport order 223"},
+                    { "name": "CS transport order 224"},
+                    { "name": "CS transport order 225"},
+                    { "name": "CS transport order 226"},
+                    { "name": "CS transport order 227"},
+                    { "name": "CS transport order 228"},
+                    { "name": "CS transport order 229"},
+                    { "name": "CS transport order 230"},
+                    { "name": "CS transport order 231"},
+                    { "name": "CS transport order 232"},
+                    { "name": "CS transport order 233"},
+                    { "name": "CS transport order 234"},
+                    { "name": "CS transport order 235"},
+                    { "name": "CS transport order 236"},
+                    { "name": "CS transport order 237"},
+                    { "name": "CS transport order 238"},
+                    { "name": "CS transport order 239"},
+                    { "name": "CS transport order 240"},
+                    { "name": "CS transport order 241"},
+                    { "name": "CS transport order 242"},
+                    { "name": "CS transport order 243"},
+                    { "name": "CS transport order 244"},
+                    { "name": "CS transport order 245"},
+                    { "name": "CS transport order 246"},
+                    { "name": "CS transport order 247"},
+                    { "name": "CS transport order 248"},
+                    { "name": "CS transport order 249"},
+                    { "name": "CS transport order 250"},
+                    { "name": "CS transport order 251"},
+                    { "name": "CS transport order 252"},
+                    { "name": "CS transport order 253"},
+                    { "name": "CS transport order 254"},
+                    { "name": "CS transport order 255"}
+                ],
+                "map_locations":[
+                    {
+                        "map":"world_map",
+                        "x":1890,
+                        "y":1850
+                    },
+                    {
+                        "map":"city_south",
+                        "x":1575,
+                        "y":1000
+                    }
+                ]
+            },
+            {
+                "name": "Demo spawns",
+                "sections":[
+                    {"name": "CS / water refill (A1LP)"},
+                    {"name": "CS Museum"},
+                    {"name": "Opening Olaf garage"}
+                ],
+                "map_locations":[
+                    {
+                        "map":"world_map",
+                        "x":1970,
+                        "y":1850
+                    }   
+                ]
+            },
+            {
+                "name": "Demo spawns",
+                "sections":[
+                    {"name": "CS / water refill (A1LP)"},
+                    {"name": "CS Museum"},
+                    {"name": "Opening Olaf garage"}
+                ],
+                "map_locations":[
+                    {
+                        "map":"world_map",
+                        "x":1890,
+                        "y":2000
+                    }   
+                ]
+            },
+            {
+                "name": "CS / water refill (A1LP)",
+                "sections":[{"name":"CS / water refill (A1LP)"}],
+                "map_locations":[{
+                    "map":"city_south",
+                    "x": 1480,
+                    "y": 620
+                }]
+            },
+            {
+                "name": "CS Museum",
+                "sections":[{"name":"CS Museum"}],
+                "map_locations":[{
+                    "map":"city_south",
+                    "x": 2300,
+                    "y": 530
+                }]
+            },
+            {
+                "name": "Opening Olaf garage",
+                "sections":[{"name":"Opening Olaf garage"}],
+                "map_locations":[{
+                    "map":"city_south",
+                    "x": 2040,
+                    "y": 1000
+                }]
+            }
+        ]
+    }
+]

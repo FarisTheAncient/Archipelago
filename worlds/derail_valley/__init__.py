@@ -1,12 +1,20 @@
 from worlds.AutoWorld import WebWorld, World
-from typing import Set, List
+from typing import Set, List, ClassVar, Union, Any
 from BaseClasses import Tutorial, Item
+from settings import Group, FilePath
 
 from .items import DVItem, get_items, get_classification, get_starting_items, get_filler_items
 from .locations import get_locations, get_all_locations_data
 from .rules import set_location_rules
 from .options import dv_option_groups, DVOptions, DemoLocoBehaviour
 from .regions import init_areas
+
+class DVSettings(Group):
+    class UTPackPath(FilePath):
+        required = False
+        ut_dialog_name = "Select DVMapsPlus Zip"
+
+    ut_pack_path: Union[UTPackPath, str] = UTPackPath()
 
 class DVWeb(WebWorld):
     theme = "stone"
@@ -35,6 +43,15 @@ class DVWorld(World):
     options_dataclass = DVOptions  # options the player can set
     options: DVOptions  # typing hints for option results
     topology_present = True  # show path to required location checks in spoiler
+    settings: DVSettings
+
+    # This struct controls how UT renders the maps
+    tracker_world: ClassVar[dict[str, Any]] = {
+        "external_pack_key": "ut_pack_path", # From the Group ealier
+        "map_page_folder": "tracker",
+        "map_page_maps": "maps.json",
+        "map_page_locations": "locations.json"
+    }
 
     # The following two dicts are required for the generation to know which
     # items exist. They could be generated from json or something else. They can
@@ -48,9 +65,9 @@ class DVWorld(World):
     all_locos = ["DE2", "DM3", "DH4", "DE6", "S060", "S282"]
     all_locos_license = [f"{x} locomotive license" for x in all_locos]
     item_name_to_id = {data.name: data.code for
-                       data in all_items}
+                       data in all_items if data.code is not None}
     location_name_to_id = {loc_type.name: loc_type.code for
-                            loc_type in all_locations}
+                            loc_type in all_locations if loc_type.code is not None}
     starting_items: List[Item] = []
     starting_station: str
 
