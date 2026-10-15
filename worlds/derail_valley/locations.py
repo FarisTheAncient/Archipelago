@@ -37,16 +37,16 @@ def get_locations(world: "DVWorld", region: Region) -> List[DVLocation]:
         if world.options.museum_checks:
             ret.append(DVLocation(world.player,loco+" relic parts to museum", 0x620+i, region))
             ret.append(DVLocation(world.player,loco+" relic painted", 0x630+i, region))
-        end_relic = DVLocation(world.player, f"Finish {loco} relic", None, region)
-        end_relic.place_locked_item(DVItem(f"Finish {loco} relic", ItemClassification.progression, None, world.player))
+        end_relic = DVLocation(world.player, f"Finish {loco} relic", 0x1100+i, region)
+        end_relic.place_locked_item(DVItem(f"Finish {loco} relic", ItemClassification.progression, 0x1000+i, world.player))
         ret.append(end_relic)
     if world.options.demo_checks:
         ret.extend([DVLocation(world.player, loc.name, loc.code, region) for loc in all_locations_data if (0x400 <= loc.code and loc.code < 0x600)])
     ret.extend([DVLocation(world.player, loc.name, loc.code, region) for loc in all_locations_data if (0x640 <= loc.code and loc.code < 0x700) ])
     
-    for station in world.all_stations:
-        end_station = DVLocation(world.player, "Finish "+station, None, region)
-        end_station.place_locked_item(DVItem("Finish "+station, ItemClassification.progression, None, world.player))
+    for i, station in enumerate(world.all_stations):
+        end_station = DVLocation(world.player, "Finish "+station, 0x1000+i, region)
+        end_station.place_locked_item(DVItem("Finish "+station, ItemClassification.progression, 0x1000+i, world.player))
         ret.append(end_station)
 
     return ret
@@ -132,19 +132,22 @@ def get_all_locations_data() -> List[DVLocationData]:
 		DVLocationData("FRC / Locomotives spawn", 0x435, "Museum"),
 		DVLocationData("CW in water / East exit", 0x436, "Museum"),
 		DVLocationData("CME Coal Mine", 0x437, "Museum"),
-		DVLocationData("MF East of roundhouse 1", 0x438, "Museum") ])
+		DVLocationData("MF East of roundhouse 1", 0x438, "Museum") 
+    ])
 
     
     for i, station in enumerate(all_stations):
         if station != "MB":
             location_table.extend([DVLocationData(f"{station} shunting order {k+1}", 0x2000+0x100*i+k, "Shunting jobs") for k in range(256)])
         location_table.extend([DVLocationData(f"{station} transport order {k+1}", 0x4000+i*0x100+k, "Transport jobs") for k in range(256)])
+        location_table.append(DVLocationData("Finish "+station, 0x1000+i, "Victory condition"))
     
     for i, loco in enumerate(all_locos):
         location_table.append(DVLocationData(loco+" orders completed", 0x600+i, "Loco jobs"))
         location_table.append(DVLocationData(loco+" relic parts to museum", 0x620+i, "Museum"))
         location_table.append(DVLocationData(loco+" relic painted", 0x630+i, "Museum"))
         location_table.append(DVLocationData(loco+" license", 0x660+i, "Loco license"))
+        location_table.append(DVLocationData(f"Finish {loco} relic", 0x1100+i, "Victory condition"))
 
 
 

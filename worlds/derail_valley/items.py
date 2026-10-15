@@ -204,7 +204,36 @@ _item_table: List[ItemData] = [
     ItemData("BE2 spawn rights", ItemClassification.useful, 0x360, 1),
     ItemData("Caboose spawn rights", ItemClassification.filler, 0x361, 1),
     ItemData("DE6 Slug spawn rights", ItemClassification.filler, 0x362, 1),
-    ItemData("DM1U spawn rights", ItemClassification.filler, 0x363, 1)
+    ItemData("DM1U spawn rights", ItemClassification.filler, 0x363, 1),
+    
+    ItemData("Finish CME", ItemClassification.progression, 0x1000, 0),
+    ItemData("Finish CMS", ItemClassification.progression, 0x1001, 0),
+    ItemData("Finish CP", ItemClassification.progression, 0x1002, 0),
+    ItemData("Finish CS", ItemClassification.progression, 0x1003, 0),
+    ItemData("Finish CW", ItemClassification.progression, 0x1004, 0),
+    ItemData("Finish FF", ItemClassification.progression, 0x1005, 0),
+    ItemData("Finish FM", ItemClassification.progression, 0x1006, 0),
+    ItemData("Finish FRC", ItemClassification.progression, 0x1007, 0),
+    ItemData("Finish FRS", ItemClassification.progression, 0x1008, 0),
+    ItemData("Finish GF", ItemClassification.progression, 0x1009, 0),
+    ItemData("Finish HB", ItemClassification.progression, 0x100A, 0),
+    ItemData("Finish IME", ItemClassification.progression, 0x100B, 0),
+    ItemData("Finish IMW", ItemClassification.progression, 0x100C, 0),
+    ItemData("Finish MB", ItemClassification.progression, 0x100D, 0),
+    ItemData("Finish MF", ItemClassification.progression, 0x100E, 0),
+    ItemData("Finish OR", ItemClassification.progression, 0x100F, 0),
+    ItemData("Finish OWC", ItemClassification.progression, 0x1010, 0),
+    ItemData("Finish OWN", ItemClassification.progression, 0x1011, 0),
+    ItemData("Finish SM", ItemClassification.progression, 0x1012, 0),
+    ItemData("Finish SW", ItemClassification.progression, 0x1013, 0),
+    
+    ItemData("Finish DE2 relic", ItemClassification.progression, 0x1100, 0),
+    ItemData("Finish DM3 relic", ItemClassification.progression, 0x1101, 0),
+    ItemData("Finish DH4 relic", ItemClassification.progression, 0x1102, 0),
+    ItemData("Finish DE6 relic", ItemClassification.progression, 0x1103, 0),
+    ItemData("Finish S060 relic", ItemClassification.progression, 0x1104, 0),
+    ItemData("Finish S282 relic", ItemClassification.progression, 0x1105, 0),
+    
 ]
 
 def get_classification(name: str) -> ItemClassification:
