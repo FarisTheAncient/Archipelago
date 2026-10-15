@@ -1,32 +1,47 @@
 from typing import List
-from rule_builder.rules import Has, HasAny, HasAll, HasFromList, HasAllCounts, True_, Or, Rule
+
+from rule_builder.rules import Has, HasAny, HasAll, HasFromList, HasAllCounts, True_, False_, Or, Rule
 
 from .locations import DVLocation
 
 can_operate_steam = HasAll("Oiler", "Lighter") & HasAny("Shovel", "Golden Shovel", "Expert Shovel")
 
-def military(station):
-    if station == "MB":
-        return Has("Progressive Military license")
-    return True_()
-def can_operate(loco):
-    if loco in ["S060 locomotive license", "S282 locomotive license"]:
-        return can_operate_steam & Has(loco)
-    return Has(loco)
 def set_location_rules(world: "DVWorld", location_table: List[DVLocation]) -> None:
     victory_condition = world.options.victory_condition.value # 0 = Nb jobs / 1 = Relic
     transport_job = HasAny("Freight haul license", "Logistical haul license")
     job_license = Has("Shunting license") | transport_job
     nb_shunts = world.options.nb_shunts.value
     nb_freights = world.options.nb_freights.value
-    can_operate_one_loco = Or(*[can_operate(f"{loco} locomotive license") for loco in world.all_locos])
-    can_make_money = job_license & can_operate_one_loco 
 
     def relic_loco_rule(loco_name: str, level: int=1) -> Rule:
         if world.options.demo_loco_spawn.value == 0:
             return True_() # Always have access, somewhere
         else:
             return Has(f"Demo locomotive {loco_name}",level)
+    def can_operate(loco) -> Rule:
+        if loco in ["S060 locomotive license", "S282 locomotive license"]:
+            return can_operate_steam & Has(loco)
+        return Has(loco)
+    
+    can_operate_one_loco = Or(*[can_operate(f"{loco} locomotive license") for loco in world.all_locos])
+    can_make_money = job_license & can_operate_one_loco
+    
+    def build_station_rules(station) -> tuple[Rule, Rule]:
+        base_rule = can_operate_one_loco & Has(station + " Station unlock")
+        if station == "MB":
+            return False_(), base_rule & (
+                (Has("Progressive Military license", 1) & Has("Logistical haul license")) |
+                (Has("Progressive Military license", 2) & transport_job)
+            )
+        if station in ["OR", "OWC", "OWN"]:
+            return base_rule & Has("Shunting license"), base_rule & (
+                Has("Logistical haul license") |
+                (Has("Freight haul license") & Has("Progressive Hazmat license", 2))
+            )
+        if station == "CP":
+            return base_rule & Has("Shunting license"), base_rule & Has("Logistical haul license")
+        return base_rule & Has("Shunting license"), base_rule & transport_job
+        
     
     #Readability
     set_rule = lambda loc, rule: world.set_rule(world.multiworld.get_location(loc, world.player), rule)
@@ -65,12 +80,14 @@ def set_location_rules(world: "DVWorld", location_table: List[DVLocation]) -> No
 
     # Orders belong to their stations
     for station in world.all_stations:
+        shunting_rule, transport_rule = build_station_rules(station)
         for k in range(nb_shunts):
-            set_rule(f"{station} shunting order {k+1}", can_operate_one_loco & HasAll(f"{station} Station unlock", "Shunting license") & military(station))
+            if station != "MB":
+                set_rule(f"{station} shunting order {k+1}", shunting_rule)
         for k in range(nb_freights):
-            set_rule(f"{station} transport order {k+1}", can_operate_one_loco & Has(f"{station} Station unlock") & transport_job & military(station))
+            set_rule(f"{station} transport order {k+1}", transport_rule)
         
-        set_rule("Finish "+station, (can_make_money & Has(f"{station} Station unlock") & military(station)) if victory_condition == 0 else True_())
+        set_rule("Finish "+station, (shunting_rule | transport_rule) if victory_condition == 0 else True_())
     
     for loco in world.all_locos:
         if world.options.nb_locos.value > 0:
@@ -101,9 +118,9 @@ def set_location_rules(world: "DVWorld", location_table: List[DVLocation]) -> No
     set_rule("Fragile license", can_make_money)
     set_rule("Long 1 license", can_make_money)
     set_rule("Long 2 license", can_make_money & Has("Progressive Train Length license"))
-    set_rule("Hazmat 1 license", can_make_money & Has("Fragile license"))
-    set_rule("Hazmat 2 license", can_make_money & Has("Progressive Hazmat license"))
-    set_rule("Hazmat 3 license", can_make_money & Has("Progressive Hazmat license", 2))
+    set_rule("Hazmat 1 license", can_make_money & Has("Progressive Hazmat license"))
+    set_rule("Hazmat 2 license", can_make_money & Has("Progressive Hazmat license", 2))
+    set_rule("Hazmat 3 license", can_make_money & Has("Progressive Hazmat license", 3))
     set_rule("Military 1 license", can_make_money)
     set_rule("Military 2 license", can_make_money & Has("Progressive Military license"))
     set_rule("Military 3 license", can_make_money & Has("Progressive Military license", 2))
