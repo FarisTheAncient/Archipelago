@@ -171,8 +171,9 @@ class EldenRing(World):
                     # raise OptionError(f"\n  A progression item: {loc.item},\n  was placed on a non-priority location: ({loc.name}),\n  you most likely have to little priority locations.")
               
         if len(badly_placed_items) > 0:
-            print("Just keep trying to gen till it works, and if that doesn't work its a option issue. important_at_priority_only is a complex option.")
-            raise OptionError(f"{self.player_name} misplaced prog: {badly_placed_items}")
+            raise OptionError(f"{self.player_name} misplaced prog: {badly_placed_items}"
+                              f"\nIf there are about 1-3 misplaced items just gen again till it works,"
+                              f"\nIf there are 10+ you don't have enough priority locations, add more groups.")
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -206,10 +207,6 @@ class EldenRing(World):
         self.base_enabled = not (self.options.dlc_start == 1 and self.options.enable_dlc)
         self.created_regions = set()
         self.all_excluded_locations.update(self.options.exclude_locations.value)
-        for loc in self.all_excluded_locations.copy():
-            if (not self.base_enabled and not location_dictionary[loc].dlc 
-                or not self.options.enable_dlc and location_dictionary[loc].dlc):
-                self.all_excluded_locations.remove(loc)
         
         self.all_priority_locations.update(self.options.priority_location_groups.value)
         for loc in self.all_priority_locations.copy():
@@ -218,11 +215,14 @@ class EldenRing(World):
                 or location_dictionary[loc].missable or loc in self.all_excluded_locations):
                 self.all_priority_locations.remove(loc)
             
-            # this be removed once I get dungeons in exclude locations working, fill errors :(
-            if self.options.exclude_dungeon:           # i don't think i even need to check this as the new dungeon code should cover it
-                if location_dictionary[loc].dungeon or loc in all_boss_locations_dictionary and all_boss_locations_dictionary[loc].dungeon:
-                    if loc in self.all_priority_locations:
-                        self.all_priority_locations.remove(loc)
+        # remove excluded from prio then make sure excluded doesnt contain prog or useful
+        for loc in self.all_excluded_locations.copy():
+            if (not self.base_enabled and not location_dictionary[loc].dlc 
+                or not self.options.enable_dlc and location_dictionary[loc].dlc
+                or ItemClassification.progression in item_table[location_dictionary[loc].default_item_name].is_important(self.options)
+                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options)):
+                self.all_excluded_locations.remove(loc)
+                self.options.exclude_locations.value.remove(loc)
         
         local_item_only_lowercase = set(key.lower() for key in self.options.local_item_only.value)
         [local_item_only_lowercase.add(key.lower()) for key in self.settings.force_local_items]

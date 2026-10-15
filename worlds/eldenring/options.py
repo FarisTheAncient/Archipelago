@@ -53,8 +53,7 @@ shard_list = { # item name: option name
 }
     
 class ExcludeDungeonBosses(DefaultOnToggle):
-    """Exclude mini dungeon bosses from Goal. ex: Catacomb, Cave, Tunnels ect.., and **not** Underground, Ruins or Evergaol bosses.
-    \nThis includes all mini dungeon locations in priority location groups."""
+    """Exclude mini dungeon bosses from Goal. ex: Catacomb, Cave, Tunnels ect.., and **not** Underground, Ruins or Evergaol bosses."""
     display_name = "Exclude Mini Dungeon Bosses"
 
 class WorldLogic(Choice):
@@ -287,7 +286,7 @@ class NightBosses(Choice):
     default = 0
 
 class DungeonSweep(Toggle): # unsupported, till after first release
-    """After killing the boss of a dungeon collect all remaining items within that dungeon automatically."""
+    """After killing the boss of a mini dungeon collect all remaining items within that dungeon automatically."""
     display_name = "Dungeon Sweep"
     visibility = Visibility.none
 
@@ -625,11 +624,12 @@ class ERExcludeLocations(ExcludeLocations):
     - **Furnace Golem**: DLC Furnace Golems.
     - **Out of the Way**: Locations that take a bit to get.
     - **Drop**: One time drop items from enemies.
+    - **Dungeon**: All locations in mini dungeons. *Caves, Catas, Tunnels, ect..*
     
     - **Post Leyndell**: Used for great rune hunt, excludes everything after Leyndell.
-    """ # - **Dungeon**: All locations in mini dungeons. I get fill errors with this, random quest items seem to have issues
-    default = frozenset({"Hidden"})
-    valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Post Leyndell"} # testing "All Locations"
+    """ # - **Post Stormveil**: Used for short runs, excludes everything after Stormveil.   needs code to stop rules past stormveil, leyndell and dlc
+    default = frozenset({"Hidden", "Dungeon"}) # "Post Stormveil"
+    valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell", } # testing "All Locations"
     valid_keys_casefold = False
     
     unconverted_groups = set() # this is so dumb but it works, i need the unconverted group names

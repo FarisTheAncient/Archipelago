@@ -637,6 +637,9 @@ class ERLocationData:
         
         if self.region_value >= len(region_order) - 21 and self.region_value <= len(region_order):
             names.append("Post Leyndell")
+            
+        if self.region_value > location_tables["Earthbore Cave"][0].region_value: # everything after weeping in region_order
+            names.append("Post Stormveil")
 
         default_item = item_table[cast(str, self.default_item_name)]
         names.append({
@@ -3112,9 +3115,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("EBH/HR: Somber Ancient Dragon Smithing Stone - use needle on flower in boss arena after Millicent quest", "Somber Ancient Dragon Smithing Stone", key="150000,0:0000400325::", missable=True, targets=('lot:103241')),
         ERLocationData("EBH/EIW: Rotten Winged Sword Insignia - help Millicent", "Rotten Winged Sword Insignia", key="150000,0:0000400480::", missable=True, exclusive=True, targets=('lot:104800')),
         ERLocationData("EBH/HR: Remembrance of the Rot Goddess - mainboss drop", "Remembrance of the Rot Goddess", key="150000,0:0000510200::", boss=True, achievement=True, remembrance=True, targets=('lot:10200')),
-        ERLocationData("EBH/EIW: Golden Seed - miniboss drop in rot pond across large root", "Golden Seed", key="150000,0:0015001200::", miscboss=True, targets=('lot:15001200')),
-        ERLocationData("EBH/PR: Lord's Rune - miniboss drop to E on outer wall", "Lord's Rune", key="150000,0:0015001270::", miscboss=True, targets=('lot:15001270')),
-        ERLocationData("EBH/PR: Rotten Staff - miniboss drop to E on outer wall", "Rotten Staff", key="150000,0:0015001280::", miscboss=True, targets=('lot:15001280')),
+        ERLocationData("EBH/EIW: Golden Seed - miniboss drop in rot pond across large root", "Golden Seed", key="150000,0:0015001200::", miniboss=True, targets=('lot:15001200')),
+        ERLocationData("EBH/PR: Lord's Rune - miniboss drop to E on outer wall", "Lord's Rune", key="150000,0:0015001270::", miniboss=True, targets=('lot:15001270')),
+        ERLocationData("EBH/PR: Rotten Staff - miniboss drop to E on outer wall", "Rotten Staff", key="150000,0:0015001280::", miniboss=True, targets=('lot:15001280')),
         ERLocationData("EBH/PR: Ghost Glovewort [9] - enemy drop 1 at bottom", "Ghost Glovewort [9]", key="150000,0:0015001300::", drop=True, targets=('lot:402056001')),
         ERLocationData("EBH/PR: Ghost Glovewort [9] - enemy drop 2 at bottom", "Ghost Glovewort [9]", key="150000,0:0015001310::", drop=True, targets=('lot:402056011')),
         ERLocationData("EBH/PR: Ghost Glovewort [9] - enemy drop 3 at bottom", "Ghost Glovewort [9]", key="150000,0:0015001320::", drop=True, targets=('lot:402056021')),
@@ -6338,8 +6341,6 @@ for region in [ # dungeons
     "Dragon's Pit",
     "Ruined Forge Lava Intake",
     
-    "Fog Rift Fort",
-    
     "Lamenter's Gaol (Entrance)",
     "Lamenter's Gaol (Upper)", #main
     "Lamenter's Gaol (Lower)", #boss
@@ -6402,6 +6403,7 @@ location_name_groups: Dict[str, Set[str]] = {
     #"Upgraded Weapons": set(),
     
     "Post Leyndell": set(),
+    "Post Stormveil": set(),
     # testing 
     "All Locations": set(),
 }
@@ -6457,7 +6459,7 @@ for location_name, location_table in location_tables.items():
 dupable_locations: Dict[str, int] = {}
 for k in ERPriorityLocationGroups.valid_keys:
     dupable_locations.update({loc: 0 for loc in location_name_groups[k] if not location_dictionary[loc].disallow_duplicates})
-# locations that required locations might need
+# locations that required_locations might need
 dupable_locations.update({"LG/(SG): Finger Severer - beside grace": 0, "GP/TPC: Scadutree Fragment - by cross": 0})
 
 # make sure no lot gets over 8 locations
