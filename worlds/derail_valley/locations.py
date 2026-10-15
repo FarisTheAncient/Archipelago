@@ -26,7 +26,8 @@ def get_locations(world: "DVWorld", region: Region) -> List[DVLocation]:
     
     for i, station in enumerate(world.all_stations):
         for k in range(world.options.nb_shunts.value):
-            ret.append(DVLocation(world.player, f"{station} shunting order {k+1}", 0x2000+0x100*i+k, region))
+            if station != "MB":
+                ret.append(DVLocation(world.player, f"{station} shunting order {k+1}", 0x2000+0x100*i+k, region))
         for k in range(world.options.nb_freights.value):
             ret.append(DVLocation(world.player, f"{station} transport order {k+1}", 0x4000+0x100*i+k, region))
     
@@ -135,7 +136,8 @@ def get_all_locations_data() -> List[DVLocationData]:
 
     
     for i, station in enumerate(all_stations):
-        location_table.extend([DVLocationData(f"{station} shunting order {k+1}", 0x2000+0x100*i+k, "Shunting jobs") for k in range(256)])
+        if station != "MB":
+            location_table.extend([DVLocationData(f"{station} shunting order {k+1}", 0x2000+0x100*i+k, "Shunting jobs") for k in range(256)])
         location_table.extend([DVLocationData(f"{station} transport order {k+1}", 0x4000+i*0x100+k, "Transport jobs") for k in range(256)])
     
     for i, loco in enumerate(all_locos):
