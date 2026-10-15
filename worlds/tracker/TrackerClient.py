@@ -328,6 +328,7 @@ def cmd_list_maps(self: TrackerCommandProcessor):
 def cmd_reload_pack(self: TrackerCommandProcessor):
     """Force a reload of the map pack"""
     if self.ctx.game is not None:
+        old_map_id = self.ctx.map_id
         self.ctx.map_id = None
         self.ctx.root_pack_path = None
         self.ctx.coord_dict.clear()
@@ -342,6 +343,8 @@ def cmd_reload_pack(self: TrackerCommandProcessor):
             self.ctx.tracker_world = None
         if self.ctx.tracker_world is not None:
             self.ctx.load_pack()
+            self.ctx.load_map(old_map_id)
+            self.ctx.updateTracker()
     else:
         logger.info("Somehow no game is loaded")
 
