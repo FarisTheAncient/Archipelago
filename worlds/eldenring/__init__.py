@@ -1598,8 +1598,8 @@ class EldenRing(World):
                                         )
                                 if self.options.separate_progression.value:
                                     self._add_item_rule(location.name,
-                                        lambda item: (item.player != self.player) #and item.game != "EldenRing")
-                                            or not ((item.data.is_dlc or item.found_in_dlc) and item.classification == ItemClassification.progression)
+                                        lambda item: (item.player != self.player)
+                                            or not ((item.data.is_dlc or item.found_in_dlc) and item.advancement)
                                         )
                                 elif self.options.dlc_messmer_kindle.value:
                                     self._add_item_rule(location.name,
@@ -1609,8 +1609,8 @@ class EldenRing(World):
                             elif region.name in region_order_dlc:
                                 if self.options.separate_progression.value:
                                     self._add_item_rule(location.name,
-                                        lambda item: (item.player != self.player) #and item.game != "EldenRing")
-                                            or not (not (item.data.is_dlc or item.found_in_dlc) and item.classification == ItemClassification.progression)
+                                        lambda item: (item.player != self.player) #and item.game != "EldenRing"
+                                            or not (not (item.data.is_dlc or item.found_in_dlc) and item.advancement)
                                         )
                                 
                                 
@@ -1668,7 +1668,7 @@ class EldenRing(World):
             
             # DLC region rules
             
-            if self.options.soft_logic: # jagged peak is a later game area, make it not first :)
+            if self.options.soft_logic: # jagged peak is a later game area, make it not first
                 self._add_entrance_rule("Jagged Peak Foot", lambda state: self._can_go_to(state, "Belurat") or self._can_go_to(state, "Ellac River") or self._can_go_to(state, "Castle Ensis"))
             
             self._add_entrance_rule("Belurat Swamp", lambda state: # the long drop down path lets you go here
@@ -1715,7 +1715,7 @@ class EldenRing(World):
                         # Make non-priority locations exclude progression items.
                         for loc in self.multiworld.get_unfilled_locations(self.player):
                             if loc.progress_type != LocationProgressType.PRIORITY:
-                                self._add_item_rule(loc.name, lambda item: item.classification != ItemClassification.progression)
+                                self._add_item_rule(loc.name, lambda item: not item.advancement or item.deprioritized)
         
         # Ending Goal
         self.multiworld.completion_condition[self.player] = lambda state: self._is_complete(state)
@@ -3403,6 +3403,7 @@ class EldenRing(World):
                 "spiritspring_stones": self.options.spiritspring_stones.value,
                 
                 "enemy_rando": self.options.enemy_rando.value,
+                "merge_bosses": self.options.merge_bosses.value,
                 "restrictive_bosses": self.options.restrictive_bosses.value,
                 "rykard_encounter": self.options.rykard_encounter.value,
                 "boss_scaling_percent": self.options.boss_scaling_percent.value,

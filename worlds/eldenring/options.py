@@ -244,6 +244,11 @@ class EnemyRando(DefaultOnToggle):
     You can change the enemy preset in the static randomizer itself before you randomize the game."""
     display_name = "Enemy Randomizer"
 
+class MergeAllBosses(DefaultOnToggle):
+    """Merge all boss categories into the same pool.
+    \nWhen off: major bosses, minidungeon bosses, world minibosses, evergaol bosses, night bosses, dragon bosses are all randomized among themselves only"""
+    display_name = "Merge All Bosses"
+
 class RestrictiveBossPlacement(DefaultOnToggle):
     """Restrict arenas bosses can be placed into based on size."""
     display_name = "Restrictive Boss Placement"
@@ -702,6 +707,7 @@ class EROptions(PerGameCommonOptions):
     spiritspring_stones: DLCSpiritspringStones
     
     enemy_rando: EnemyRando
+    merge_bosses: MergeAllBosses
     restrictive_bosses: RestrictiveBossPlacement
     rykard_encounter: RykardEncounter
     boss_scaling_percent: BossScalingPercent
@@ -766,6 +772,7 @@ option_groups = [
     ]),
     OptionGroup("Other Randomizers", [
         EnemyRando,
+        MergeAllBosses,
         RestrictiveBossPlacement,
         RykardEncounter,
         BossScalingPercent,
