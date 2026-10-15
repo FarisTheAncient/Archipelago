@@ -187,10 +187,11 @@ _item_table: List[ItemData] = [
     ItemData("Freight haul license", ItemClassification.progression, 0x310, 1),
     ItemData("Logistical haul license", ItemClassification.progression, 0x311, 1),
     ItemData("Shunting license", ItemClassification.progression, 0x312, 1),
-    ItemData("Fragile license", ItemClassification.progression, 0x313, 1),
-    ItemData("Progressive Train Length license", ItemClassification.progression, 0x314, 2),
-    ItemData("Progressive Hazmat license", ItemClassification.progression, 0x315, 3),
-    ItemData("Progressive Military license", ItemClassification.progression, 0x316, 3),
+    # ItemData("Fragile license", ItemClassification.progression, 0x313, 1),
+    ItemData("Progressive Train Length license", ItemClassification.progression, 0x314, 2), # Long 1 -> Long 2
+    ItemData("Progressive Hazmat license", ItemClassification.progression, 0x315, 4), # Fragile -> Hazmat 1 -> Hazmat 2 -> Hazmat 3
+    ItemData("Progressive Military license", ItemClassification.progression, 0x316, 3), # Military 1 -> Military 2 -> Military 3
+    # Military 1 only gives access to logistical haul jobs, Military 3 is only useful for nuclear transport job
     
 
     ItemData("Demo locomotive DE2", ItemClassification.progression, 0x350, 2),
