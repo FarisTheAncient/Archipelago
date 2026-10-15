@@ -1,5 +1,5 @@
 from typing import List
-from rule_builder.rules import Has, HasAny, HasAll, HasFromList, HasAllCounts, True_, Or
+from rule_builder.rules import Has, HasAny, HasAll, HasFromList, HasAllCounts, True_, Or, Rule
 
 from .locations import DVLocation
 
@@ -21,6 +21,12 @@ def set_location_rules(world: "DVWorld", location_table: List[DVLocation]) -> No
     nb_freights = world.options.nb_freights.value
     can_operate_one_loco = Or(*[can_operate(f"{loco} locomotive license") for loco in world.all_locos])
     can_make_money = job_license & can_operate_one_loco 
+
+    def relic_loco_rule(loco_name: str, level: int=1) -> Rule:
+        if world.options.demo_loco_spawn.value == 0:
+            return True_() # Always have access, somewhere
+        else:
+            return Has(f"Demo locomotive {loco_name}",level)
     
     #Readability
     set_rule = lambda loc, rule: world.set_rule(world.multiworld.get_location(loc, world.player), rule)
@@ -48,7 +54,7 @@ def set_location_rules(world: "DVWorld", location_table: List[DVLocation]) -> No
     if victory_condition == 0:
         world.set_completion_rule(HasFromList(*("Finish "+station for station in world.all_stations), count=world.options.nb_stations.value))
     else: #VictoryCondition.option_demo_loco
-        world.set_completion_rule(HasFromList(*(f"Finish {loco} relic" for loco in world.all_locos), count=world.options.nb_demo_locos))
+        world.set_completion_rule(HasFromList(*(f"Finish {loco} relic" for loco in world.all_locos), count=world.options.nb_demo_locos.value))
     
     # Rules for demonstrator locations
     for loc in location_table:
@@ -70,10 +76,10 @@ def set_location_rules(world: "DVWorld", location_table: List[DVLocation]) -> No
         if world.options.nb_locos.value > 0:
             set_rule(loco+" orders completed", can_make_money & can_operate(f"{loco} locomotive license"))
         if world.options.museum_checks:
-            set_rule(loco+" relic parts to museum", can_make_money & HasAll("Museum license","Demo locomotive "+loco))
-            set_rule(loco+" relic painted", can_make_money & HasAllCounts({f"{loco} locomotive license":1, "Paint Sprayer":1, "Manual service license":1, "Museum license":1, "Demo locomotive "+loco: 2}| ({} if True else {"Sand can":2, "Demonstrator Paint Can":2})))
+            set_rule(loco+" relic parts to museum", can_make_money & Has("Museum license") & relic_loco_rule(loco,1))
+            set_rule(loco+" relic painted", can_make_money & HasAllCounts({f"{loco} locomotive license":1, "Paint Sprayer":1, "Manual service license":1, "Museum license":1} | ({} if True else {"Sand can":2, "Demonstrator Paint Can":2})) & relic_loco_rule(loco,1))
         set_rule(f"Finish {loco} relic",
-                       (can_make_money & HasAllCounts({f"{loco} locomotive license":1, "Paint Sprayer":1, "Manual service license":1, "Museum license":1, "Demo locomotive "+loco: 2}))
+                       (can_make_money & HasAllCounts({f"{loco} locomotive license":1, "Paint Sprayer":1, "Manual service license":1, "Museum license":1}) & relic_loco_rule(loco,2))
                        if victory_condition == 1 else True_())
     
     set_rule("DE2 license", can_make_money)
