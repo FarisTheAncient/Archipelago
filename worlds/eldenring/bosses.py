@@ -1030,7 +1030,7 @@ dlc_bosses = [
             "GP/(BG): Demi-Human Swordsman Yosh - boss drop"
         ]
     ),
-    ERBossInfo("Ancient Dragon-Man (GP/DP)", ["Gravesite Plain", "Dungeon", "Cave"], 43010800, 43010800, dungeon=True,
+    ERBossInfo("Ancient Dragon-Man (GP/DP)", ["Gravesite Plain", "Dungeon", "Cave"], 43010800, 43010800,
         locations=[
             "GP/(DP): Dragon-Hunter's Great Katana - boss drop"
         ]
@@ -1254,7 +1254,7 @@ dlc_bosses = [
             "RR/(ENM): Rakshasa Greaves - boss drop"
         ]
     ),
-    ERBossInfo("Jori, Elder Inquisitor (RR/DC)", ["Recluses' River", "Dungeon", "Catacomb"], 2052430800, 2052430800, dungeon=True,
+    ERBossInfo("Jori, Elder Inquisitor (RR/DC)", ["Recluses' River", "Dungeon", "Catacomb"], 2052430800, 2052430800,
         locations=[
             "RR/(DC): Barbed Staff-Spear - boss drop"
         ]

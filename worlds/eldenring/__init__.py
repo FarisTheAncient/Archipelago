@@ -18,7 +18,7 @@ from .items import ERItem, ERItemData, ERItemCategory, filler_item_names_dlc, fi
 from .locations import ERLocation, ERLocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order, region_order_dlc, dupable_locations
 from .options import EROptions, option_groups, shard_list
 from .presets import er_options_presets
-from Options import OptionError
+from Options import OptionError, Option
 
 # Settings
 class EldenRingSettings(settings.Group):
@@ -146,10 +146,16 @@ class EldenRing(World):
     This is used to determine where the Serpent-Hunter can be placed.
     """
     
+    # UT stuff
     soft_logic_enabled: bool = None
+    location_id_to_alias: Dict[int, str] = {}
+    ut_can_gen_without_yaml = True
+    
     base_enabled: bool = None
+    dlc_excluded: bool = None
     all_excluded_locations: Set[str] = set()
     all_priority_locations: Set[str] = set()
+    all_possible_priority_locations: Set[str] = set()
     all_duplicate_locations: Set[str] = set()
     all_starting_items: list[int] = []
     starting_inventory: list[str] = [] # start inv from options
@@ -188,6 +194,7 @@ class EldenRing(World):
         self.created_regions = None
         self.all_excluded_locations = set()
         self.all_priority_locations = set()
+        self.all_possible_priority_locations = set()
         self.all_duplicate_locations = set()
         self.prio_in_region = {}
         self.all_starting_items = []
@@ -199,10 +206,45 @@ class EldenRing(World):
         self.local_items = set()
         self.explicit_indirect_conditions = False
         self.soft_logic_enabled = True
+        self.location_id_to_alias: dict[int, str] = {}
 
     def generate_early(self) -> None:
+        re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if re_gen_passthrough and self.game in re_gen_passthrough:
+            self.soft_logic_enabled = False
+            slot_data: dict[str, Any] = re_gen_passthrough[self.game]
+            slot_options: dict[str, Any] = slot_data.get("options", {})
+            for key, value in slot_options.items():
+                opt: Optional[Option] = getattr(self.options, key, None)
+                if opt is not None:
+                    setattr(self.options, key, opt.from_any(value))
+        
+            # Inform Universal Tracker where Rykard is being randomized to.
+            if slot_options["enemy_rando"] and slot_options["rykard_encounter"] == False:
+                force_bosses = slot_data["forceBosses"]
+                for boss in all_bosses:
+                    if boss.id in force_bosses and force_bosses[boss.id] == default_rykard_location.id:
+                        self.rykard_location = boss
+                    if boss.id in force_bosses and force_bosses[boss.id] == default_serpent_location.id:
+                        self.serpent_location = boss
+        else:
+            # Randomize Rykard and Serpent manually so that we know where to place the Serpent-Hunter.
+            if self.options.enemy_rando and not self.options.rykard_encounter: # only force if not given SH
+                self.rykard_location = self.random.choice(
+                    [boss for boss in all_bosses if self._allow_boss_for_rykard(boss)])
+                self.serpent_location = self.random.choice(
+                    [boss for boss in all_bosses if self._allow_boss_for_rykard(boss) and boss.name != self.rykard_location.name])
+            elif not self.options.enemy_rando:
+                self.rykard_location = default_rykard_location
+                self.serpent_location = default_serpent_location
+        
         for region in location_tables: # make sure table has all values
             self.dupe_location_tables.setdefault(region, [])
+        
+        self.dlc_excluded = "DLC" in self.options.exclude_locations.excluded_groups()
+        if self.dlc_excluded and self.options.excluded_location_behavior.value >= 3:
+            # do not rando or omit, just disabled the dlc lol
+            self.options.enable_dlc.value = False
         
         self.base_enabled = not (self.options.dlc_start == 1 and self.options.enable_dlc)
         self.created_regions = set()
@@ -277,14 +319,14 @@ class EldenRing(World):
                 self.options.world_logic.value = 0
         
         if self.options.enable_dlc:
-            if "dlc" not in self.options.exclude_locations.excluded_groups(): # if dlc is excluded, exclude bosses too
+            if not self.dlc_excluded: # if dlc not excluded, add dlc bosses
                 self.goal_bosses += [boss for boss in m_goal_bosses if boss in dlc_bosses]
         elif len([boss for boss in m_goal_bosses if boss in base_bosses]) == 0: # dlc disabled, is there a base game boss?
             raise OptionError(f"Player {self.player_name} has no boss goals in Base Game but has DLC disabled.")
         
         if self.base_enabled:
             self.goal_bosses += [boss for boss in m_goal_bosses if boss in base_bosses]
-        elif "DLC" in self.options.exclude_locations.excluded_groups(): # dlc only, is dlc excluded?
+        elif self.dlc_excluded: # dlc only, is dlc excluded?
             raise OptionError(f"Player {self.player_name} has DLC excluded but DLC only is on.")
         elif len([boss for boss in m_goal_bosses if boss in dlc_bosses]) == 0: # dlc only, is there a dlc boss?
             raise OptionError(f"Player {self.player_name} has no boss goals in DLC but is doing DLC Only.")
@@ -293,31 +335,6 @@ class EldenRing(World):
         
         if self.options.enable_dlc and self.base_enabled and len([boss for boss in m_goal_bosses if boss in base_bosses + dlc_bosses]) == 0: # is there a goal boss?
             raise OptionError(f"Player {self.player_name} no valid Goal bosses, please set a valid Goal boss.")
-            
-        # Inform Universal Tracker where Rykard is being randomized to.
-        if hasattr(self.multiworld, "re_gen_passthrough"):
-            if "EldenRing" in self.multiworld.re_gen_passthrough:
-                if (self.multiworld.re_gen_passthrough["EldenRing"]["options"]["enemy_rando"] 
-                    and self.multiworld.re_gen_passthrough["EldenRing"]["options"]["rykard_encounter"] == False):
-                    
-                    force_bosses = self.multiworld.re_gen_passthrough["EldenRing"]["forceBosses"]
-                    for boss in all_bosses:
-                        if boss.id in force_bosses and force_bosses[boss.id] == default_rykard_location.id:
-                            self.rykard_location = boss
-                        if boss.id in force_bosses and force_bosses[boss.id] == default_serpent_location.id:
-                            self.serpent_location = boss
-                            
-                self.soft_logic_enabled = False # turn off soft logic with UT
-        else:
-            # Randomize Rykard and Serpent manually so that we know where to place the Serpent-Hunter.
-            if self.options.enemy_rando and not self.options.rykard_encounter: # only force if not given SH
-                self.rykard_location = self.random.choice(
-                    [boss for boss in all_bosses if self._allow_boss_for_rykard(boss)])
-                self.serpent_location = self.random.choice(
-                    [boss for boss in all_bosses if self._allow_boss_for_rykard(boss) and boss.name != self.rykard_location.name])
-            elif not self.options.enemy_rando:
-                self.rykard_location = default_rykard_location
-                self.serpent_location = default_serpent_location
         
         using_table = {}
         if self.base_enabled: 
@@ -361,7 +378,7 @@ class EldenRing(World):
         # or not self.options.enable_dlc and boss.dlc or not self.base_enabled and not boss.dlc
 
     #MARK: Connections
-    def create_regions(self) -> None: 
+    def create_regions(self) -> None:
         # Create Vanilla Regions
         regions: Dict[str, Region] = {"Menu": self.create_region("Menu", {})}
         if self.base_enabled:  regions.update({region_name: self.create_region(region_name, location_tables[region_name]) for region_name in region_order})
@@ -749,6 +766,8 @@ class EldenRing(World):
         if not dlc_priority and dlc_loc_needed and (self.options.dlc_messmer_kindle or self.options.dlc_scadutree_fragments) and self.options.enable_dlc: 
             raise OptionError(f"Player {self.player_name} has no dlc priority locations but dlc only progression items.")
         
+        # save all possible prio locations
+        self.all_possible_priority_locations = self.all_priority_locations
         # make sure not to many priority locations exist
         if self.multiworld.players > 1:
             while loc_needed < 0:
@@ -831,6 +850,7 @@ class EldenRing(World):
                 if found: break
         
         self.all_priority_locations.update(self.all_duplicate_locations)
+        self.all_possible_priority_locations.update(self.all_duplicate_locations)
 
     # MARK: Priority Fixer
     # currently guarantees access to main path, and some side paths
@@ -1133,7 +1153,7 @@ class EldenRing(World):
             for item_name in item_table:
                 if ((self.base_enabled and item_table[item_name].lock and not item_table[item_name].is_dlc) 
                 or (self.options.enable_dlc and item_table[item_name].lock and item_table[item_name].is_dlc
-                    and "DLC" not in self.options.exclude_locations.excluded_groups())):
+                    and not self.dlc_excluded)):
                     if item_name != "Gravesite Lock" or self.options.dlc_start == 0 and self.options.enable_dlc:
                         all_injectable_items += [item_table[item_name]]
         
@@ -1584,7 +1604,7 @@ class EldenRing(World):
             if self.options.dlc_start == 1:
                 self._add_entrance_rule("Rauh Ruins Limited", 
                     lambda state: state.has("Imbued Sword Key", self.player, 1) or self._can_go_to(state, "Ancient Ruins of Rauh"))
-            elif "DLC" not in self.options.exclude_locations.excluded_groups():
+            elif not self.dlc_excluded:
                 if (self.options.dlc_scadutree_fragments.value
                     or self.options.dlc_messmer_kindle.value
                     or self.options.separate_progression.value): # only do loop if one of these are on
@@ -1756,6 +1776,8 @@ class EldenRing(World):
                 self._add_entrance_rule("Mt. Gelmir", "Mt. Gelmir Lock")
                 self._add_entrance_rule("Volcano Manor Entrance", "Volcano Lock")
                 self._add_entrance_rule("Volcano Manor Dungeon", "Volcano Lock")
+                
+                self._add_entrance_rule("Subterranean Shunning-Grounds", "Sewer Lock")
                 
                 self._add_entrance_rule("Mohgwyn Palace", "Mohgwyn Lock")
                 
@@ -3478,3 +3500,17 @@ class EldenRing(World):
     @staticmethod
     def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
         return slot_data
+    
+    # UT Stuff
+    
+    def custom_ut_sort(self, region_label: str, location_label: str) -> str | int:
+        if not self.options.important_at_priority_only: return region_label
+        if "(*)" in location_label: # this works, lmao, removes the (*)
+            location_label = location_label[:-4]
+        value = location_dictionary[location_label].region_value
+        if location_label not in self.all_possible_priority_locations:
+            value += 1000
+        else:
+            self.location_id_to_alias[self.location_name_to_id[location_label]] = "*"
+        return value
+    

@@ -6356,7 +6356,8 @@ for region in [ # dungeons
     "Darklight Catacombs",
 ]:
     for location in location_tables[region]:
-        location.dungeon = True
+        if not location.criticalpath: # don't exclude critical path bosses
+            location.dungeon = True
 
 for location in location_tables["Leyndell, Royal Capital"]:
     if not location.missable: location.missable = missable_capital
