@@ -72,9 +72,12 @@ class TrackerCommandProcessor(ClientCommandProcessor):
     def __init__(self, ctx: CommonContext):
         super().__init__(ctx)
         try:
-            from worlds.tracker_addons import UT_FUNCTIONS
+            from worlds import tracker_addons
             from functools import update_wrapper
-            for name, function in UT_FUNCTIONS.items():
+            # Older addon packages expose only the command registry.
+            functions = (tracker_addons.get_functions() if hasattr(tracker_addons, "get_functions")
+                         else tracker_addons.UT_FUNCTIONS)
+            for name, function in functions.items():
                 if name not in self.commands:
                     function.__doc__ = f"Provided by : {function.__module__}\n{function.__doc__}"
                     def temp_lambda(function:Callable=function):
