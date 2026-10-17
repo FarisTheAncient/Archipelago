@@ -619,7 +619,7 @@ class EldenRing(World):
             create_connection("Shadow Keep", "Shadow Keep Storehouse")
             create_connection("Shadow Keep Storehouse", "Shadow Keep, West Rampart")
             create_connection("Shadow Keep, West Rampart", "Ancient Ruins of Rauh")
-            create_connection("Ancient Ruins of Rauh", "Enir Ilim")
+            create_connection("Ancient Ruins of Rauh", "Enir-Ilim")
             
             create_connection("Shadow Keep", "Recluses' River")
             create_connection("Recluses' River", "Darklight Catacombs")
@@ -1620,7 +1620,7 @@ class EldenRing(World):
                 self._add_entrance_rule("Rauh Ruins Limited", 
                     lambda state: state.has("Imbued Sword Key", self.player, 4) or self._can_go_to(state, "Ancient Ruins of Rauh"))
               
-            self._add_entrance_rule("Enir Ilim", lambda state: self._has_key_or_shards(state, "Messmer's Kindling"))
+            self._add_entrance_rule("Enir-Ilim", lambda state: self._has_key_or_shards(state, "Messmer's Kindling"))
             
             self.multiworld.register_indirect_condition(self.get_region("Castle Ensis"), self.get_entrance("Go To Scadu Altus"))
             self.multiworld.register_indirect_condition(self.get_region("Ancient Ruins of Rauh"), self.get_entrance("Go To Rauh Ruins Limited"))
@@ -1646,12 +1646,12 @@ class EldenRing(World):
                 self._add_entrance_rule("Shadow Keep", lambda state: self._can_get(state, "SK/SKMG: Aspects of the Crucible: Thorns - boss drop"))
                 self._add_entrance_rule("Scaduview", lambda state: self._can_get(state, "ScV/SKBG: Remembrance of the Wild Boar Rider - mainboss drop"))
                 self._add_entrance_rule("Abyssal Woods", lambda state: self._can_get(state, "RR/(DC): Barbed Staff-Spear - boss drop"))
-                self._add_entrance_rule("Enir Ilim", lambda state: self._can_get(state, "ARR/CBME: Remembrance of the Saint of the Bud - mainboss drop"))
+                self._add_entrance_rule("Enir-Ilim", lambda state: self._can_get(state, "ARR/CBME: Remembrance of the Saint of the Bud - mainboss drop"))
             
             # dlc paintings
             self._add_location_rule("GP/BG: Serpent Crest Shield - painting reward SE of BG", "\"Incursion\" Painting")
             self._add_location_rule("RB/NNM: Spiraltree Seal - \"The Sacred Tower\" Painting reward SW of NNM", 
-                lambda state: state.has("\"The Sacred Tower\" Painting", self.player) and self._can_go_to(state, "Enir Ilim"))
+                lambda state: state.has("\"The Sacred Tower\" Painting", self.player) and self._can_go_to(state, "Enir-Ilim"))
             self._add_location_rule("JP/JPM: Rock Heart - \"Domain of Dragons\" Painting reward, after first spirit spring head down return path", "\"Domain of Dragons\" Painting")
             
             # furnace golem / Hefty Furnace Pot
@@ -1672,7 +1672,7 @@ class EldenRing(World):
                 self._add_entrance_rule("Jagged Peak Foot", lambda state: self._can_go_to(state, "Belurat") or self._can_go_to(state, "Ellac River") or self._can_go_to(state, "Castle Ensis"))
             
             self._add_entrance_rule("Belurat Swamp", lambda state: # the long drop down path lets you go here
-                state.has("Well Depths Key", self.player) or self._can_go_to(state, "Enir Ilim"))
+                state.has("Well Depths Key", self.player) or self._can_go_to(state, "Enir-Ilim"))
             
             self._add_entrance_rule("Hinterland", "O Mother")
             
@@ -2271,7 +2271,6 @@ class EldenRing(World):
             self._add_location_rule([
                 "SV/GG: Ancient Dragon Smithing Stone - Gostoc shop after finishing Nepheli and Kenneth Haight's quests",
                 "SV/GG: Ancient Dragon Smithing Stone - talk to Nepheli in SV after her and Kenneth's questlines",
-                "SV/GG: Stormhawk Axe - kill Nepheli"
             ], lambda state: self._can_go_to(state, "Leyndell, Royal Capital") and state.has("The Stormhawk King", self.player))
             
             # MARK: Gideon
@@ -2633,7 +2632,7 @@ class EldenRing(World):
                 ], lambda state: self._can_go_to(state, "Stone Coffin Fissure"))
             
             self._add_location_rule("SCF/GDP: St. Trina's Blossom - on St. Trina's body after EI mainboss",
-                lambda state: self._can_go_to(state, "Enir Ilim"))
+                lambda state: self._can_go_to(state, "Enir-Ilim"))
             
             # MARK: Moore
             
