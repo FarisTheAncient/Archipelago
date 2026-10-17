@@ -1,5 +1,24 @@
 [
     
     {"name":"world_map", "img": "DVMapsPlus-Build99/World Maps/WorldMap.png"},
-    {"name":"city_south", "img": "DVMapsPlus-Build99/Station Maps/PNG/06 CS.png"}
+    {"name":"coal_mine_east", "img": "DVMapsPlus-Build99/Station Maps/PNG/03 CME.png"},
+    {"name":"coal_mine_south", "img": "DVMapsPlus-Build99/Station Maps/PNG/04 CMS.png"},
+    {"name":"coal_power", "img": "DVMapsPlus-Build99/Station Maps/PNG/05 CP.png"},
+    {"name":"city_south", "img": "DVMapsPlus-Build99/Station Maps/PNG/06 CS.png"},
+    {"name":"city_west", "img": "DVMapsPlus-Build99/Station Maps/PNG/07 CW.png"},
+    {"name":"food_factory", "img": "DVMapsPlus-Build99/Station Maps/PNG/08 FF.png"},
+    {"name":"farm", "img": "DVMapsPlus-Build99/Station Maps/PNG/09 FM.png"},
+    {"name":"forest_central", "img": "DVMapsPlus-Build99/Station Maps/PNG/10 FRC.png"},
+    {"name":"forest_south", "img": "DVMapsPlus-Build99/Station Maps/PNG/11 FRS.png"},
+    {"name":"goods_factory", "img": "DVMapsPlus-Build99/Station Maps/PNG/12 GF.png"},
+    {"name":"harbor", "img": "DVMapsPlus-Build99/Station Maps/PNG/13 HB.png"},
+    {"name":"iron_mine_east", "img": "DVMapsPlus-Build99/Station Maps/PNG/14 IME .png"},
+    {"name":"iron_mine_west", "img": "DVMapsPlus-Build99/Station Maps/PNG/15 IMW.png"},
+    {"name":"military_base", "img": "DVMapsPlus-Build99/Station Maps/PNG/16 MB.png"},
+    {"name":"machine_factory", "img": "DVMapsPlus-Build99/Station Maps/PNG/17 MF.png"},
+    {"name":"oil_refinery", "img": "DVMapsPlus-Build99/Station Maps/PNG/18 OR.png"},
+    {"name":"oil_well_central", "img": "DVMapsPlus-Build99/Station Maps/PNG/19 OWC.png"},
+    {"name":"oil_well_north", "img": "DVMapsPlus-Build99/Station Maps/PNG/20 OWN.png"},
+    {"name":"steel_mill", "img": "DVMapsPlus-Build99/Station Maps/PNG/21 SM.png"},
+    {"name":"sawmill", "img": "DVMapsPlus-Build99/Station Maps/PNG/22 SW.png"}
 ]
