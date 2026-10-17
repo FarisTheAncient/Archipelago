@@ -567,7 +567,8 @@ class ERImportantAtPriorityEarly(Range):
     default = 1
 
 class OtherWorldUsefulAtPriority(DefaultOnToggle):
-    """Should other worlds useful items place only at priority locations."""
+    """Should other worlds useful items place only at priority locations.
+    You probaly don't want this off, but also can cause gen fails due to lots of item rules."""
     display_name = "Other World Useful At Priority"
 
 class FlaskUpgradesAtPriority(DefaultOnToggle):
@@ -633,7 +634,7 @@ class ERExcludeLocations(ExcludeLocations):
     
     - **Post Leyndell**: Used for great rune hunt, excludes everything after Leyndell.
     """ # - **Post Stormveil**: Used for short runs, excludes everything after Stormveil.   needs code to stop rules past stormveil, leyndell and dlc
-    default = frozenset({"Hidden", "Dungeon"}) # "Post Stormveil"
+    default = frozenset({"Hidden", "Drop", "Dungeon"}) # "Post Stormveil"
     valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell", } # testing "All Locations"
     valid_keys_casefold = False
     
@@ -747,6 +748,7 @@ class EROptions(PerGameCommonOptions):
     smooth_rune_items: SmoothRuneItems
     spell_shop_spells_only: SpellShopSpellsOnly
     early_legacy_dungeons: EarlyLegacyDungeonsEarly
+    
     priority_location_groups: ERPriorityLocationGroups
     important_at_priority_only: ERImportantAtPriorityOnly
     important_at_priority_early: ERImportantAtPriorityEarly
@@ -846,6 +848,7 @@ option_groups = [
         ERPriorityLocationGroups,
         ERImportantAtPriorityOnly,
         ERImportantAtPriorityEarly,
+        OtherWorldUsefulAtPriority,
         FlaskUpgradesAtPriority,
         WhetbladesAtPriority,
         ScaduAtPriority,
