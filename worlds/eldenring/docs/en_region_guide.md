@@ -76,8 +76,8 @@ Regions | [Base Game Regions](#base-game-1) | [DLC Regions](#dlc-1)
 ### Limgrave
 
 </td></tr>
-<tr><td><strong>BS: </strong>Bridge of Sacrifice landmark, connection point between S Limgrave and Weeping Peninsula.</td></tr>
 <tr><td><strong>LG/(AS): </strong>Artists Shack landmark, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/(BS): </strong>Bridge of Sacrifice landmark, connection point between S Limgrave and Weeping Peninsula.</td></tr>
 <tr><td><strong>LG/(CE): </strong>Church of Elleh landmark, W Limgrave.</td></tr>
 <tr><td><strong>LG/(DBR): </strong>Dragon-Burnt Ruins landmark, S Limgrave.</td></tr>
 <tr><td><strong>LG/(FH): </strong>Fort Haight landmark, E Limgrave.</td></tr>

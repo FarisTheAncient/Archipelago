@@ -566,6 +566,11 @@ class ERImportantAtPriorityEarly(Range):
     range_end = 5
     default = 1
 
+class OtherWorldUsefulAtPriority(DefaultOnToggle):
+    """Should other worlds useful items place only at priority locations.
+    You probaly don't want this off, but also can cause gen fails due to lots of item rules."""
+    display_name = "Other World Useful At Priority"
+
 class FlaskUpgradesAtPriority(DefaultOnToggle):
     "Should flask upgrades be randomized to important locations."
     display_name = "Flask Upgrades at Priority"
@@ -607,6 +612,7 @@ class LocalItemOnly(OptionList):
     - [1000] **Filler**: All Crafting Mats, and some craftables.
     - [2200] **Non-Filler**: Smithing stones, Spells and Spirit ashes.
     
+    This option really likes to fill error if to many items are local.
     If every category is set to local, Accessory and AshofWar will be unset to dodge fill errors.
     *host.yaml can force categories local.*
     """
@@ -628,7 +634,7 @@ class ERExcludeLocations(ExcludeLocations):
     
     - **Post Leyndell**: Used for great rune hunt, excludes everything after Leyndell.
     """ # - **Post Stormveil**: Used for short runs, excludes everything after Stormveil.   needs code to stop rules past stormveil, leyndell and dlc
-    default = frozenset({"Hidden", "Dungeon"}) # "Post Stormveil"
+    default = frozenset({"Hidden", "Drop", "Dungeon"}) # "Post Stormveil"
     valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell", } # testing "All Locations"
     valid_keys_casefold = False
     
@@ -742,9 +748,11 @@ class EROptions(PerGameCommonOptions):
     smooth_rune_items: SmoothRuneItems
     spell_shop_spells_only: SpellShopSpellsOnly
     early_legacy_dungeons: EarlyLegacyDungeonsEarly
+    
     priority_location_groups: ERPriorityLocationGroups
     important_at_priority_only: ERImportantAtPriorityOnly
     important_at_priority_early: ERImportantAtPriorityEarly
+    other_world_useful_at_priority: OtherWorldUsefulAtPriority
     flask_at_priority: FlaskUpgradesAtPriority
     whetblades_at_priority: WhetbladesAtPriority
     scadu_at_priority: ScaduAtPriority
@@ -840,6 +848,7 @@ option_groups = [
         ERPriorityLocationGroups,
         ERImportantAtPriorityOnly,
         ERImportantAtPriorityEarly,
+        OtherWorldUsefulAtPriority,
         FlaskUpgradesAtPriority,
         WhetbladesAtPriority,
         ScaduAtPriority,

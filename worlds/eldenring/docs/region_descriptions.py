@@ -13,7 +13,7 @@ region_initals_to_description: Dict[str, Dict[str, str]] = {}
 def find_description(initial: str) -> str:
     match initial:
         # limgrave
-        case "BS": return "Bridge of Sacrifice landmark, connection point between S Limgrave and Weeping Peninsula."
+        case "LG/(BS)": return "Bridge of Sacrifice landmark, connection point between S Limgrave and Weeping Peninsula."
         case "LG/(AS)": return "Artists Shack landmark, Mid Limgrave."
         case "LG/(CE)": return "Church of Elleh landmark, W Limgrave."
         case "LG/(DBR)": return "Dragon-Burnt Ruins landmark, S Limgrave."
