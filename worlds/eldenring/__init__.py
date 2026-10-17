@@ -1277,31 +1277,7 @@ class EldenRing(World):
                     "Spirit Calling Bell",
                     "Whetstone Knife"
                 )]
-
-        # if not self.base_enabled:
-            # dlc_start_lower: list[str] = [i.lower() for i in self.options.dlc_starting_items.value]
-            # if "sacred tears" in dlc_start_lower:
-            #     for i in range(12):
-            #         self._add_to_inventory(self.create_item("Sacred Tear"))
-            # if "golden seeds" in dlc_start_lower: 
-            #     for i in range(43):
-            #         self._add_to_inventory(self.create_item("Golden Seed"))
-            # if "talisman pouches" in dlc_start_lower: 
-            #     for i in range(3):
-            #         self._add_to_inventory(self.create_item("Talisman Pouch"))
-            # if "memory stones" in dlc_start_lower: 
-            #     for i in range(8):
-            #         self._add_to_inventory(self.create_item("Memory Stone")) 
-            # if "whetblades" in dlc_start_lower: 
-            #     for i in ["Iron Whetblade","Red-Hot Whetblade","Sanctified Whetblade","Glintstone Whetblade","Black Whetblade"]:
-            #         self._add_to_inventory(self.create_item(i))
-            # if "upgrade bell bearings" in dlc_start_lower: 
-            #     for i in ["Smithing-Stone Miner's Bell Bearing [1]",
-            #         "Smithing-Stone Miner's Bell Bearing [2]","Smithing-Stone Miner's Bell Bearing [3]",
-            #         "Smithing-Stone Miner's Bell Bearing [4]","Somberstone Miner's Bell Bearing [1]",
-            #         "Somberstone Miner's Bell Bearing [2]","Somberstone Miner's Bell Bearing [3]",
-            #         "Somberstone Miner's Bell Bearing [4]","Somberstone Miner's Bell Bearing [5]"]:
-            #         self._add_to_inventory(self.create_item(i))
+        
         if self.options.map_option == 1:
             [self._add_to_inventory(item) for item in self.itempool if item.data.map]
         
@@ -1735,7 +1711,8 @@ class EldenRing(World):
                         # Make non-priority locations exclude progression items.
                         for loc in self.multiworld.get_unfilled_locations(self.player):
                             if loc.progress_type != LocationProgressType.PRIORITY:
-                                self._add_item_rule(loc.name, lambda item: not item.advancement or item.deprioritized)
+                                self._add_item_rule(loc.name, lambda item: not item.advancement or item.deprioritized 
+                                    or item.player != self.player and item.useful and self.options.other_world_useful_at_priority)
         
         # Ending Goal
         self.multiworld.completion_condition[self.player] = lambda state: self._is_complete(state)
@@ -3460,9 +3437,11 @@ class EldenRing(World):
                 "spell_shop_spells_only": self.options.spell_shop_spells_only.value,
                 "early_legacy_dungeons": self.options.early_legacy_dungeons.value,
                 "local_item_only": self.options.local_item_only.value,
+                
                 "priority_location_groups": self.options.priority_location_groups.value,
                 "important_at_priority_only": self.options.important_at_priority_only.value,
                 "important_at_priority_early": self.options.important_at_priority_early.value,
+                "other_world_useful_at_priority": self.options.other_world_useful_at_priority.value,
                 "flask_at_priority": self.options.flask_at_priority.value,
                 "whetblades_at_priority": self.options.whetblades_at_priority.value,
                 "scadu_at_priority": self.options.scadu_at_priority.value,
@@ -3504,10 +3483,10 @@ class EldenRing(World):
     # UT Stuff
     
     def custom_ut_sort(self, region_label: str, location_label: str) -> str | int:
-        if not self.options.important_at_priority_only: return region_label
         if "(*)" in location_label: # this works, lmao, removes the (*)
             location_label = location_label[:-4]
         value = location_dictionary[location_label].region_value
+        if not self.options.important_at_priority_only: return value
         if location_label not in self.all_possible_priority_locations:
             value += 1000
         else:

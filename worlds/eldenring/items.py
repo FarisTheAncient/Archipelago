@@ -1392,7 +1392,7 @@ _vanilla_items = [
     #ERItemData("Rykard's Great Rune (Restored)", 194, ERItemCategory.GOODS),
     #ERItemData("Mohg's Great Rune (Restored)", 195, ERItemCategory.GOODS),
     #ERItemData("Malenia's Great Rune (Restored)", 196, ERItemCategory.GOODS),
-    ERItemData("Flask of Wondrous Physick", 250, ERItemCategory.GOODS, classification=ItemClassification.progression_deprioritized),
+    ERItemData("Flask of Wondrous Physick", 250, ERItemCategory.GOODS, classification=ItemClassification.progression),
 
     ERItemData("Rowa Raisin", 810, ERItemCategory.GOODS),
     ERItemData("Sweet Raisin", 811, ERItemCategory.GOODS),

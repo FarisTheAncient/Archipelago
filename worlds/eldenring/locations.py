@@ -972,7 +972,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/(WR): Carian Slicer - Royal House Scroll", "Carian Slicer", key="140000,0:0000000000:100050,100275,100400,1034509451,1037469301,1044369245:", missable=True, sorceries=True, shop=True, conditional=True, targets=('shop:100062', 'shop:100284', 'shop:100407')),
         ERLocationData("LG/(WR): Great Glintstone Shard - Academy Scroll", "Great Glintstone Shard", key="140000,0:0000000000:100050,100275,100400,1034509455,1037469316,1044369250:", missable=True, sorceries=True, shop=True, conditional=True, targets=('shop:100059', 'shop:100281', 'shop:100404')),
         ERLocationData("LG/(WR): Swift Glintstone Shard - Academy Scroll", "Swift Glintstone Shard", key="140000,0:0000000000:100050,100275,100400,1034509455,1037469316,1044369250:", missable=True, sorceries=True, shop=True, conditional=True, targets=('shop:100060', 'shop:100282', 'shop:100405')),
-        ERLocationData("LG/(WR): Glintstone Pebble - Sellen Shop", "Glintstone Pebble", key="140000,0:0000000000:100050:", sorceries=True, shop=True, targets=('shop:100050')),
+        # this isn't sorceries, so that pumpkin heads priority can place here, even with spell at spell shop
+        ERLocationData("LG/(WR): Glintstone Pebble - Sellen Shop", "Glintstone Pebble", key="140000,0:0000000000:100050:", sorceries=False, shop=True, targets=('shop:100050')), 
         ERLocationData("LG/(WR): Glintstone Stars - Sellen Shop", "Glintstone Stars", key="140000,0:0000000000:100050:", sorceries=True, shop=True, targets=('shop:100055')),
         ERLocationData("LG/(WR): Crystal Barrage - Sellen Shop", "Crystal Barrage", key="140000,0:0000000000:100050:", sorceries=True, shop=True, targets=('shop:100053')),
         ERLocationData("LG/(WR): Glintstone Arc - Sellen Shop", "Glintstone Arc", key="140000,0:0000000000:100050:", sorceries=True, shop=True, targets=('shop:100054')),
@@ -1072,8 +1073,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/WS: Ash of War: Golden Vow - enemy drop NE of WS", "Ash of War: Golden Vow", key="604339,0:1043397500::", targets=('lot:435110106')),
         ERLocationData("LG/DC: Soporific Grease x3 - above on the pillar of divine bridge N of DC", "Soporific Grease x3", key="604340,0:1043407000::", targets=('lot:1043400000')),
         
-        ERLocationData("BS: Stonesword Key - behind wooden platform", "Stonesword Key", key="604434,0:1044347000::", targets=('lot:1044340000')),                 # Bridge of Sacrifice item
-        ERLocationData("BS: Smithing Stone [1] x3 - corpse hanging off edge", "Smithing Stone [1] x3", key="604434,0:1044347010::", targets=('lot:1044340010')),  # Bridge of Sacrifice item
+        ERLocationData("LG/(BS): Stonesword Key - behind wooden platform", "Stonesword Key", key="604434,0:1044347000::", targets=('lot:1044340000')),                 # Bridge of Sacrifice item
+        ERLocationData("LG/(BS): Smithing Stone [1] x3 - corpse hanging off edge", "Smithing Stone [1] x3", key="604434,0:1044347010::", targets=('lot:1044340010')),  # Bridge of Sacrifice item
         
         ERLocationData("LG/FHE: Ruin Fragment x3 - SW of Evergaol", "Ruin Fragment x3", key="604434,0:1044347050::", targets=('lot:1044340050')),
         ERLocationData("LG/FHE: Large Club - S of Evergaol", "Large Club", key="604434,0:1044347080::", targets=('lot:1044340080')),
@@ -1166,16 +1167,16 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/SWVO: Golden Rune [6] - graveyard to S", "Golden Rune [6]", key="604538,0:1045387080::", targets=('lot:1045380080')),
         ERLocationData("LG/(SWV): Deathroot - boss drop", "Deathroot", key="604539,0:0000530170::", altboss=True, targets=('lot:30170')),
         ERLocationData("LG/(SWV): Skeletal Militiaman Ashes - boss drop", "Skeletal Militiaman Ashes", key="604539,0:0000530170::", altboss=True, targets=('lot:30171')),
-        ERLocationData("LG/SWV: Golden Rune [4] - ruins NE of SMV", "Golden Rune [4]", key="604539,0:1045397000::", targets=('lot:1045390000')),
+        ERLocationData("LG/SWV: Golden Rune [4] - ruins NE of SWV", "Golden Rune [4]", key="604539,0:1045397000::", targets=('lot:1045390000')),
         ERLocationData("LG/(SWV): Mushroom x3 - within ruins", "Mushroom x3", key="604539,0:1045397020::", targets=('lot:1045390020')),
         ERLocationData("LG/SWV: Smithing Stone [2] - to E, down cliff middle of pond", "Smithing Stone [2]", key="604539,0:1045397040::", targets=('lot:1045390040')),
-        ERLocationData("LG/SWV: Golden Rune [1] 1 - graveyard SE of SMV", "Golden Rune [1]", key="604539,0:1045397050::", targets=('lot:1045390050')),
-        ERLocationData("LG/SWV: Golden Rune [1] 2 - graveyard SE of SMV", "Golden Rune [1]", key="604539,0:1045397060::", targets=('lot:1045390060')),
-        ERLocationData("LG/SWV: Golden Rune [1] 3 - graveyard SE of SMV", "Golden Rune [1]", key="604539,0:1045397070::", targets=('lot:1045390070')),
-        ERLocationData("LG/SWV: Golden Rune [1] 4 - graveyard SE of SMV", "Golden Rune [1]", key="604539,0:1045397080::", targets=('lot:1045390080')),
-        ERLocationData("LG/SWV: Golden Rune [5] - graveyard SE of SMV", "Golden Rune [5]", key="604539,0:1045397090::", targets=('lot:1045390090')),
-        ERLocationData("LG/SWV: Golden Rune [2] - graveyard SE of SMV", "Golden Rune [2]", key="604539,0:1045397100::", targets=('lot:1045390100')),
-        ERLocationData("LG/SWV: Golden Rune [1] 5 - graveyard SE of SMV", "Golden Rune [1]", key="604539,0:1045397110::", targets=('lot:1045390110')),
+        ERLocationData("LG/SWV: Golden Rune [1] 1 - graveyard SE of SWV", "Golden Rune [1]", key="604539,0:1045397050::", targets=('lot:1045390050')),
+        ERLocationData("LG/SWV: Golden Rune [1] 2 - graveyard SE of SWV", "Golden Rune [1]", key="604539,0:1045397060::", targets=('lot:1045390060')),
+        ERLocationData("LG/SWV: Golden Rune [1] 3 - graveyard SE of SWV", "Golden Rune [1]", key="604539,0:1045397070::", targets=('lot:1045390070')),
+        ERLocationData("LG/SWV: Golden Rune [1] 4 - graveyard SE of SWV", "Golden Rune [1]", key="604539,0:1045397080::", targets=('lot:1045390080')),
+        ERLocationData("LG/SWV: Golden Rune [5] - graveyard SE of SWV", "Golden Rune [5]", key="604539,0:1045397090::", targets=('lot:1045390090')),
+        ERLocationData("LG/SWV: Golden Rune [2] - graveyard SE of SWV", "Golden Rune [2]", key="604539,0:1045397100::", targets=('lot:1045390100')),
+        ERLocationData("LG/SWV: Golden Rune [1] 5 - graveyard SE of SWV", "Golden Rune [1]", key="604539,0:1045397110::", targets=('lot:1045390110')),
         ERLocationData("LG/(SWV): Green Turtle Talisman - behind imp statue", "Green Turtle Talisman", key="604539,0:1045397120::", talisman=True, outoftheway=True, chest=True, targets=('lot:1045390120')), # 1
         ERLocationData("LG/(SWV): Smithing Stone [1] - N side", "Smithing Stone [1]", key="604539,0:1045397140::", targets=('lot:1045390140')),
         ERLocationData("LG/(FH): Nomadic Warrior's Cookbook [6] - ground floor room", "Nomadic Warrior's Cookbook [6]", key="604636,0:0000067020::", cookbook=True, targets=('lot:1046360020')),
@@ -2742,10 +2743,10 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("FA/DTA: Lightning Grease x5 - to NW, N end of staute corridor, down left path", "Lightning Grease x5", key="130000,0:0013007460::", targets=('lot:13000460')),
         ERLocationData("FA/DTA: Somber Smithing Stone [9] - to NW, upstairs NW corner", "Somber Smithing Stone [9]", key="130000,0:0013007470::", targets=('lot:13000470')),
         ERLocationData("FA/DTA: Ancient Dragon Smithing Stone - to NW, upstairs to S", "Ancient Dragon Smithing Stone", key="130000,0:0013007480::", targets=('lot:13000480')),
-        ERLocationData("FA/DTA: Golden Rune [12] - to NW, down cumbled path, right item", "Golden Rune [12]", key="130000,0:0013007490::", targets=('lot:13000490')),
-        ERLocationData("FA/DTA: Dragoncrest Shield Talisman +2 - to NW, down cumbled path, left item", "Dragoncrest Shield Talisman +2", key="130000,0:0013007500::", talisman=True, targets=('lot:13000500')),
-        ERLocationData("FA/DTA: Dappled Cured Meat - to NW, down cumbled path, upstairs on right", "Dappled Cured Meat", key="130000,0:0013007510::", targets=('lot:13000510')),
-        ERLocationData("FA/DTA: Smithing Stone [8] - to NW, down cumbled path, on floating rubble before next grace", "Smithing Stone [8]", key="130000,0:0013007520::", targets=('lot:13000520')),
+        ERLocationData("FA/DTA: Golden Rune [12] - to NW, down crumbled path, right item", "Golden Rune [12]", key="130000,0:0013007490::", targets=('lot:13000490')),
+        ERLocationData("FA/DTA: Dragoncrest Shield Talisman +2 - to NW, down crumbled path, left item", "Dragoncrest Shield Talisman +2", key="130000,0:0013007500::", talisman=True, targets=('lot:13000500')),
+        ERLocationData("FA/DTA: Dappled Cured Meat - to NW, down crumbled path, upstairs on right", "Dappled Cured Meat", key="130000,0:0013007510::", targets=('lot:13000510')),
+        ERLocationData("FA/DTA: Smithing Stone [8] - to NW, down crumbled path, on floating rubble before next grace", "Smithing Stone [8]", key="130000,0:0013007520::", targets=('lot:13000520')),
         ERLocationData("FA/DTL: Lord's Rune - to SE in fountain", "Lord's Rune", key="130000,0:0013007530::", targets=('lot:13000530')), # 2
         ERLocationData("FA/DTL: Nascent Butterfly x2 - to SE down left stairs by tree", "Nascent Butterfly x2", key="130000,0:0013007540::", targets=('lot:13000540')), # 2
         ERLocationData("FA/DTL: Golden Rune [12] - to SE up right path, E of seedtree left of gazebo by tree", "Golden Rune [12]", key="130000,0:0013007550::", targets=('lot:13000550')), # 2

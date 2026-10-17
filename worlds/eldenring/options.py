@@ -566,6 +566,10 @@ class ERImportantAtPriorityEarly(Range):
     range_end = 5
     default = 1
 
+class OtherWorldUsefulAtPriority(DefaultOnToggle):
+    """Should other worlds useful items place only at priority locations."""
+    display_name = "Other World Useful At Priority"
+
 class FlaskUpgradesAtPriority(DefaultOnToggle):
     "Should flask upgrades be randomized to important locations."
     display_name = "Flask Upgrades at Priority"
@@ -607,6 +611,7 @@ class LocalItemOnly(OptionList):
     - [1000] **Filler**: All Crafting Mats, and some craftables.
     - [2200] **Non-Filler**: Smithing stones, Spells and Spirit ashes.
     
+    This option really likes to fill error if to many items are local.
     If every category is set to local, Accessory and AshofWar will be unset to dodge fill errors.
     *host.yaml can force categories local.*
     """
@@ -745,6 +750,7 @@ class EROptions(PerGameCommonOptions):
     priority_location_groups: ERPriorityLocationGroups
     important_at_priority_only: ERImportantAtPriorityOnly
     important_at_priority_early: ERImportantAtPriorityEarly
+    other_world_useful_at_priority: OtherWorldUsefulAtPriority
     flask_at_priority: FlaskUpgradesAtPriority
     whetblades_at_priority: WhetbladesAtPriority
     scadu_at_priority: ScaduAtPriority

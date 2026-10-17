@@ -65,7 +65,7 @@ base_bosses = [
     ),
     ERBossInfo("Mad Pumpkin Head (LG/WR)", ["Limgrave", "Overworld", "Ruin"], 1044360800, 1044360800,
         locations=[
-            # "LG/(WR): Glintstone Pebble - Sellen Shop",
+            "LG/(WR): Glintstone Pebble - Sellen Shop",
             # "LG/(WR): Glintstone Stars - Sellen Shop",
             # "LG/(WR): Crystal Barrage - Sellen Shop",
             # "LG/(WR): Glintstone Arc - Sellen Shop",
@@ -326,7 +326,7 @@ base_bosses = [
     ),
     ERBossInfo("Royal Revenant (LL/KR)", ["Liurnia of The Lakes", "Overworld", "Ruin"], 1034480800, 1034480800,
         locations=[
-            # "LL/(KR): Frozen Needle - in chest E side of ruins underground behind illusory floor"
+            "LL/(KR): Frozen Needle - in chest E side of ruins underground behind illusory floor"
         ]
     ),
     # liurnia dungeons
@@ -443,7 +443,7 @@ base_bosses = [
     ),
     ERBossInfo("Mad Pumpkin Head Duo (CL/CR)", ["Caelid", "Overworld", "Ruin"], 1048400800, 1048400800,
         locations=[
-            # "CL/(CR): Visage Shield - in chest after boss"
+            "CL/(CR): Visage Shield - in chest after boss"
         ]
     ),
     ERBossInfo("Night's Cavalry (CL)", ["Caelid", "Overworld"], 1049370800, 1049370800,
@@ -579,7 +579,7 @@ base_bosses = [
     
     ERBossInfo("Demi-Human Queen Gilika (AP/LR)", ["Altus Plateau", "Overworld"], 1038510800, 1038510800,
         locations=[
-            # "AP/LR: Ritual Sword Talisman - in chest after boss underground"
+            "AP/LR: Ritual Sword Talisman - in chest after boss underground"
         ]
     ),
     ERBossInfo("Ancient Dragon Lansseax (AP)", ["Altus Plateau", "Overworld"], 1041520800, 1041520800, # early altus 1037510800   late altus 1041520800
@@ -616,7 +616,7 @@ base_bosses = [
     ),
     ERBossInfo("Sanguine Noble (AP/WbR)", ["Altus Plateau", "Overworld", "Ruin"], 1040530800, 1040530800,
         locations=[
-            # "AP/(WbR): Bloody Helice - in chest after boss underground"
+            "AP/(WbR): Bloody Helice - in chest after boss underground"
         ]
     ),
     ERBossInfo("Fallingstar Beast (AP)", ["Altus Plateau", "Overworld"], 1041500800, 1041500800,
