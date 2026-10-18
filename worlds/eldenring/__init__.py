@@ -175,8 +175,7 @@ class EldenRing(World):
                     and loc.data.name not in self.all_possible_priority_locations): # not preplaced
                     badly_placed_items[loc.name] = loc.item
                     # a location that is not prio got a prio item and wasn't preplaced !!!!!!! fail gen
-                    # raise OptionError(f"\n  A progression item: {loc.item},\n  was placed on a non-priority location: ({loc.name}),\n  you most likely have to little priority locations.")
-              
+                    
         if len(badly_placed_items) > 0:
             raise OptionError(f"{self.player_name} misplaced prog: {badly_placed_items}"
                               f"\nIf there are about 1-3 misplaced items just gen again till it works,"
@@ -207,7 +206,7 @@ class EldenRing(World):
         self.local_items = set()
         self.explicit_indirect_conditions = False
         self.soft_logic_enabled = True
-        self.location_id_to_alias: dict[int, str] = {}
+        self.location_id_to_alias = {}
 
     def generate_early(self) -> None:
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
@@ -738,14 +737,15 @@ class EldenRing(World):
         
         self.multiworld.itempool += self.itempool
         
-        # warning(f"priority locations: {len(self.all_priority_locations)} important items: {len([i for i in self.itempool if i.classification == ItemClassification.progression])}")
+        warning(f"EldenRing {self.player_name} (Priority locations: {len(self.all_priority_locations)}, Important items: {len([i for i in self.itempool if i.classification == ItemClassification.progression])})")
         warning(f"EldenRing {self.player_name} local items: {len([i for i in self.itempool if i.data.name in self.local_items])} of {len(self.itempool)}")
         
     def _create_dupe_locations(self) -> None:
         """Create duplicate locations."""
         important_items = []
         for item in self.itempool:
-            if item.classification == ItemClassification.progression: # , ItemClassification.progression_deprioritized
+            if (ItemClassification.progression in item.classification and not ItemClassification.deprioritized in item.classification 
+                or self.options.other_world_useful_at_priority and ItemClassification.useful in item.classification):
                 important_items.append(item)
         
         dlc_priority = [loc for loc in self.all_priority_locations if location_dictionary[loc].dlc and self.options.enable_dlc]
@@ -770,17 +770,21 @@ class EldenRing(World):
         # save all possible prio locations
         self.all_possible_priority_locations = self.all_priority_locations.copy()
         # make sure not to many priority locations exist
-        if self.multiworld.players > 1:
-            while loc_needed < 0:
-                removed = self.random.choice(sorted(base_priority))
-                base_priority.remove(removed)
-                self.all_priority_locations.remove(removed)
-                loc_needed += 1
-            while dlc_loc_needed < 0:
-                removed = self.random.choice(sorted(dlc_priority))
-                dlc_priority.remove(removed)
-                self.all_priority_locations.remove(removed)
-                dlc_loc_needed += 1
+        if self.multiworld.players != 1:
+            for world in [self.multiworld.worlds[w] for w in self.multiworld.worlds]:
+                # if important_at_priority_only is off or game isn't eldenring add restriction rules
+                if world.game == "EldenRing" and not world.options.important_at_priority_only or world.game != "EldenRing":
+                    while loc_needed < 0:
+                        removed = self.random.choice(sorted(base_priority))
+                        base_priority.remove(removed)
+                        self.all_priority_locations.remove(removed)
+                        loc_needed += 1
+                    while dlc_loc_needed < 0:
+                        removed = self.random.choice(sorted(dlc_priority))
+                        dlc_priority.remove(removed)
+                        self.all_priority_locations.remove(removed)
+                        dlc_loc_needed += 1
+                    break
         
         # need to modify progress type here after create_regions
         for location in self.multiworld.get_locations(self.player):
@@ -1706,23 +1710,23 @@ class EldenRing(World):
         # if more then 1 world exists stop prio placing outside of prio
         if self.options.important_at_priority_only:
             if self.multiworld.players != 1: # more then 1 eldenring
-                for world in [self.multiworld.worlds[w] for w in self.multiworld.worlds]:
-                    # if important_at_priority_only is off or game isn't eldenring add restriction rules
-                    if world.game == "EldenRing" and not world.options.important_at_priority_only or world.game != "EldenRing":
+                # for world in [self.multiworld.worlds[w] for w in self.multiworld.worlds]:
+                #     # if important_at_priority_only is off or game isn't eldenring add restriction rules
+                #     if world.game == "EldenRing" and not world.options.important_at_priority_only or world.game != "EldenRing":
                         # Make non-priority locations exclude progression items.
-                        for loc in self.multiworld.get_unfilled_locations(self.player):
-                            if loc.progress_type != LocationProgressType.PRIORITY:
-                                if self.options.other_world_useful_at_priority and loc.data.name in self.all_possible_priority_locations:
-                                    self._add_item_rule(loc.name, lambda item: # not ER prog or other player items
-                                        item.deprioritized or item.trap or not item.advancement and (item.player == self.player or item.game == self.game)
-                                        or (item.player != self.player and item.game != self.game and not item.advancement))
-                                elif self.options.other_world_useful_at_priority:
-                                    self._add_item_rule(loc.name, lambda item: # not ER prog or only other filler
-                                        item.deprioritized or item.trap or not item.advancement and (item.player == self.player or item.game == self.game)
-                                        or (item.player != self.player and item.game != self.game and not (item.useful or item.advancement)))
-                                else: # not prog only, when option is off
-                                    self._add_item_rule(loc.name, lambda item: item.deprioritized or not item.advancement)  
-                        break                                       
+                for loc in self.multiworld.get_unfilled_locations(self.player):
+                    if loc.progress_type != LocationProgressType.PRIORITY:
+                        if self.options.other_world_useful_at_priority and loc.data.name in self.all_possible_priority_locations:
+                            self._add_item_rule(loc.name, lambda item: # not ER prog or other player items
+                                item.deprioritized or item.trap or not item.advancement and (item.player == self.player or item.game == self.game)
+                                or (item.player != self.player and item.game != self.game and not item.advancement))
+                        elif self.options.other_world_useful_at_priority:
+                            self._add_item_rule(loc.name, lambda item: # not ER prog or only other filler
+                                item.deprioritized or item.trap or not item.advancement and (item.player == self.player or item.game == self.game)
+                                or (item.player != self.player and item.game != self.game and not (item.useful or item.advancement)))
+                        else: # not prog only, when option is off
+                            self._add_item_rule(loc.name, lambda item: item.deprioritized or not item.advancement)  
+                # break
         
         # Ending Goal
         self.multiworld.completion_condition[self.player] = lambda state: self._is_complete(state)
