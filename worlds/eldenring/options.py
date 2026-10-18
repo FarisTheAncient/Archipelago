@@ -348,7 +348,7 @@ class DeathLinkAmnesty(Range): # unsupported, till after first release
 
 class TotalTrapCount(Range):
     """Total amount of traps in the world.
-    \nThis can be capped to total filler your world has or 1000 if your crazy.
+    \nThis can be capped to total filler your world has or 1000 if you're crazy.
     \nA quarter of added traps are split evenly between enabled trap types and the rest are divided based on trap chances.
     \nThis does nothing if no traps are enabled."""
     display_name = "Total Trap Count"
@@ -373,7 +373,7 @@ class NGPlusTrapChance(BaseTrapChance):
     display_name = "NG+ Trap Chance"
     
 class StatusTrapChance(BaseTrapChance):
-    """**Status Trap:** Applies a random status to the player, with a low chance of deathblight when receieveing multiple in quick suggestion."""
+    """**Status Trap:** Applies a random status to the player, with a low chance of deathblight when receieveing multiple in close suggestion."""
     display_name = "Status Trap Chance"
     
 class BlindnessTrapChance(BaseTrapChance):
