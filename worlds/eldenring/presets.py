@@ -21,8 +21,6 @@ from .options import GoalOption, ExcludeDungeonBosses, WorldLogic, RegionSoftLog
         DLCAbyssalTorrent,\
         DLCSpiritspringStones,\
         DLCStart, DLCStartingItems, DLCStartingShop, DLCCarePackage, DLCInitialRuneLevel,\
-        NGPlusTrapCount, StatusTrapCount,\
-        BlindnessTrapCount,\
         CraftingKitOption, MapOption, SmithingBellBearingOption,\
         SmoothUpgradeItems, SmoothRuneItems,\
         SpellShopSpellsOnly,\
@@ -69,11 +67,6 @@ template = {
     "random_enemy_preset":                  RandomEnemyPresetOption,
     "material_rando":                       MaterialRando,
     "death_link":                           DeathLink,
-    
-    "ngplus_trap_count":                    NGPlusTrapCount,
-    "status_trap_count":                    StatusTrapCount,
-    
-    "blindness_trap_count":                 BlindnessTrapCount,
 
     "random_start":                         RandomizeStartingLoadout,
     "randomize_starting_keepsakes":         RandomizeStartingKeepsakes,
@@ -145,11 +138,6 @@ all_random_options = {
     "random_enemy_preset":                  RandomEnemyPresetOption.default,
     "material_rando":                       "random",
     "death_link":                           DeathLink.option_false,
-    
-    "ngplus_trap_count":                    "random",
-    "status_trap_count":                    "random",
-    
-    "blindness_trap_count":                 "random",
 
     "random_start":                         RandomizeStartingLoadout.option_true,
     "randomize_starting_keepsakes":         RandomizeStartingKeepsakes.option_true,

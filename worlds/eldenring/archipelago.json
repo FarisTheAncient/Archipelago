@@ -1,6 +1,6 @@
 {
     "game": "EldenRing",
     "minimum_ap_version": "0.6.7",
-    "world_version": "0.1.2",
+    "world_version": "0.1.3",
     "authors": ["Bedrock"]
 }

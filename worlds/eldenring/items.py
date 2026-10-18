@@ -3005,12 +3005,13 @@ _tarnished_items = [
 vanilla_traps = [
     ERItemData("Example Vanilla Trap", 99999, ERItemCategory.GOODS, ItemClassification.trap),
     ERItemData("NG+ Trap", 7830600, ERItemCategory.GOODS, ItemClassification.trap),
-    ERItemData("Status Trap", 99999, ERItemCategory.GOODS, ItemClassification.trap),
+    ERItemData("Status Trap", 7830601, ERItemCategory.GOODS, ItemClassification.trap),
+    ERItemData("Blindness Trap", 7830602, ERItemCategory.GOODS, ItemClassification.trap),
+    ERItemData("Blizzard Trap", 7830603, ERItemCategory.GOODS, ItemClassification.trap),
 ]
 
 dlc_traps = [
     ERItemData("Example DLC Trap", 99999, ERItemCategory.GOODS, ItemClassification.trap),
-    ERItemData("Blindness Trap", 99999, ERItemCategory.GOODS, ItemClassification.trap),
 ]
 
 for item in _dlc_items + dlc_traps:

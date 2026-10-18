@@ -345,52 +345,54 @@ class DeathLinkAmnesty(Range): # unsupported, till after first release
     visibility = Visibility.none
 
 # MARK: Traps
-    
-class BaseTrapCount(Range):
-    """
-    Base Class for Trap Count
-    """
+
+class TotalTrapCount(Range):
+    """Total amount of traps in the world.
+    \nThis can be capped to total filler your world has or 1000 if your crazy.
+    \nA quarter of added traps are split evenly between enabled trap types and the rest are divided based on trap chances.
+    \nThis does nothing if no traps are enabled."""
+    display_name = "Total Trap Count"
     range_start = 0
-    range_end = 10
+    range_end = 1000
+    default = 25
+    
+class BaseTrapChance(Choice):
+    """Base Class for Trap Count"""
+    option_none = 0
+    option_low = 1
+    option_med = 2
+    option_high = 3
     default = 0
     
-class ExampleTrapCount(BaseTrapCount):
-    """
-    Example Trap: Description
-    """
-    display_name = "Example Trap Count"
+class ExampleTrapChance(BaseTrapChance):
+    """**Example Trap:** Description"""
+    display_name = "Example Trap Chance"
     
-class NGPlusTrapCount(BaseTrapCount):
-    """
-    NG+ Trap: Sets the game to random NG+ level until the player dies, these can be stacked.
-    """
-    display_name = "NG+ Trap Count"
+class NGPlusTrapChance(BaseTrapChance):
+    """**NG+ Trap:** Sets the game to random NG+ level until the player dies."""
+    display_name = "NG+ Trap Chance"
     
-class StatusTrapCount(BaseTrapCount): # unsupported, till after first release
-    """
-    Status Trap: Applies a random status to the player.
-    """ # excluding deathblight... or keep it for the funny clips
-    # maybe add a 1/10 chance to add an additional effect that stacks, so a 1/1000 for 4 effects lol
-    display_name = "Status Trap Count"
-    visibility = Visibility.none
+class StatusTrapChance(BaseTrapChance):
+    """**Status Trap:** Applies a random status to the player, with a low chance of deathblight when receieveing multiple in quick suggestion."""
+    display_name = "Status Trap Chance"
+    
+class BlindnessTrapChance(BaseTrapChance):
+    """**Blindness Trap:** Blinds the player for a short time."""
+    display_name = "Blindness Trap Chance"
+    
+class BlizzardTrapChance(BaseTrapChance):
+    """**Blizzard Trap:** Spawns a blizzard that heavily limits visibility as long as you're outside."""
+    display_name = "Blizzard Trap Chance"
     
 # game speed trap, speeds game up by 25% - 50%
     
 # Traps that need dlc stuff to work
     
-class ExampleDLCTrapCount(BaseTrapCount):
+class ExampleDLCTrapChance(BaseTrapChance):
     """
     Example DLC Trap: Description
     """
-    display_name = "Example DLC Trap Count"
-    
-class BlindnessTrapCount(BaseTrapCount): # unsupported, till after first release
-    """
-    Blindness Trap: Blinds the player for a short time.
-    """
-    display_name = "Blindness Trap Count"
-    visibility = Visibility.none
-    
+    display_name = "Example DLC Trap Chance"
 
 # MARK: Item & Location
 
@@ -725,10 +727,11 @@ class EROptions(PerGameCommonOptions):
     death_link: DeathLink
     death_link_amnesty: DeathLinkAmnesty
     
-    ngplus_trap_count: NGPlusTrapCount
-    status_trap_count: StatusTrapCount
-    
-    blindness_trap_count: BlindnessTrapCount
+    total_trap_count: TotalTrapCount
+    ngplus_trap_chance: NGPlusTrapChance
+    status_trap_chance: StatusTrapChance
+    blindness_trap_chance: BlindnessTrapChance
+    blizzard_trap_chance: BlizzardTrapChance
 
     random_start: RandomizeStartingLoadout
     randomize_starting_keepsakes: RandomizeStartingKeepsakes
@@ -824,11 +827,14 @@ option_groups = [
         DLCInitialRuneLevel,
     ]),
     OptionGroup("Traps", [
-        NGPlusTrapCount,
-        StatusTrapCount,
+        TotalTrapCount,
+        NGPlusTrapChance,
+        StatusTrapChance,
+        BlindnessTrapChance,
+        BlizzardTrapChance,
     ]),
     # OptionGroup("DLC Traps", [
-    #     BlindnessTrapCount
+    #     BlindnessTrapChance
     # ]),
     OptionGroup("Item & Location Options", [
         CraftingKitOption,

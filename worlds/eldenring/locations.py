@@ -534,11 +534,6 @@ class ERLocationData:
             ERLocationData.__location_id += 1
         if self.enemyfragment: self.fragment = True
         if self.hangingpot: self.hidden = True
-        if self.name in all_boss_locations_dictionary: # any boss should be a prominent place
-            if not self.missable:
-                self.prominent = True
-        if self.church or self.seedtree or self.basin or self.map or self.fragment or self.cross or self.revered:
-            self.prominent = True
             
         if self.exclusive: # makes sure exclusive is marked missable
             self.missable = True

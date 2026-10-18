@@ -735,10 +735,17 @@ class EldenRing(World):
         self.itempool.extend(self.create_item(self.get_filler_item_name()) for _ in range(
             (len(self.multiworld.get_unfilled_locations(self.player))) - len(self.itempool)))
         
+        filler = [i for i in self.itempool if i.data.filler]
+        print(f"EldenRing filler items: {len(filler)}")
+        
+        self._add_traps(filler)
+        
         self.multiworld.itempool += self.itempool
         
-        warning(f"EldenRing {self.player_name} (Priority locations: {len(self.all_priority_locations)}, Important items: {len([i for i in self.itempool if i.classification == ItemClassification.progression])})")
-        warning(f"EldenRing {self.player_name} local items: {len([i for i in self.itempool if i.data.name in self.local_items])} of {len(self.itempool)}")
+        print(f"EldenRing {self.player_name} (Priority locations: {len(self.all_priority_locations)}, Important items: {len([i for i in self.itempool if (
+            ItemClassification.progression in i.classification and not ItemClassification.deprioritized in i.classification 
+            or self.options.other_world_useful_at_priority and ItemClassification.useful in i.classification)])})")
+        print(f"EldenRing {self.player_name} local items: {len([i for i in self.itempool if i.data.name in self.local_items])} of {len(self.itempool)}")
         
     def _create_dupe_locations(self) -> None:
         """Create duplicate locations."""
@@ -771,7 +778,7 @@ class EldenRing(World):
         self.all_possible_priority_locations = self.all_priority_locations.copy()
         # make sure not to many priority locations exist
         if self.multiworld.players != 1:
-            for world in [self.multiworld.worlds[w] for w in self.multiworld.worlds]:
+            for player, world in self.multiworld.worlds.items():
                 # if important_at_priority_only is off or game isn't eldenring add restriction rules
                 if world.game == "EldenRing" and not world.options.important_at_priority_only or world.game != "EldenRing":
                     while loc_needed < 0:
@@ -1197,8 +1204,6 @@ class EldenRing(World):
                 all_injectable_items += [item_table["Progressive Smithing-Stone Bell Bearing"] for i in range(4)]
                 all_injectable_items += [item_table["Progressive Somberstone Bell Bearing"] for i in range(5)]
         
-        all_injectable_items += self._add_traps()
-        
         injectable_mandatory = [
             item for item in all_injectable_items
             if (item.is_important(self.options) == ItemClassification.progression 
@@ -1244,15 +1249,35 @@ class EldenRing(World):
 
         return [self.create_item(item) for item in inj_items]
 
-    def _add_traps(self): # MARK: Traps
-        traps = []
+    def _add_traps(self, filler: list): # MARK: Traps
+        trap_pool = []
+        total_trap_count = min(self.options.total_trap_count.value, len(filler))
         # base
-        traps += ([item_table["NG+ Trap"]] * self.options.ngplus_trap_count.value)
-        traps += ([item_table["Status Trap"]] * self.options.status_trap_count.value)
+        trap_pool += (["NG+ Trap"] * self.options.ngplus_trap_chance.value)
+        trap_pool += (["Status Trap"] * self.options.status_trap_chance.value)
+        trap_pool += (["Blindness Trap"] * self.options.blindness_trap_chance.value)
+        trap_pool += (["Blizzard Trap"] * self.options.blizzard_trap_chance.value)
         # dlc
-        if self.options.enable_dlc:
-            traps += ([item_table["Blindness Trap"]] * self.options.blindness_trap_count.value)
-        return traps
+        # if self.options.enable_dlc:
+        
+        # no traps? return
+        if len(trap_pool) == 0: return
+        
+        all_traps = []
+        for trap_name in trap_pool:
+            all_traps += ([trap_name] * int((total_trap_count/4)/len(set(trap_pool))))
+            
+        for i in range(total_trap_count - len(all_traps)):
+            all_traps.append(self.random.choice(trap_pool))
+            
+        for trap in set(all_traps):
+            print(f"{trap} count: {len([t for t in all_traps if t == trap])}")
+            
+        for trap in all_traps:
+            remove = self.random.choice(sorted(filler))
+            filler.remove(remove)
+            self.itempool.remove(remove)
+            self.itempool.append(self.create_item(trap))
 
     def _fill_local_items(self) -> None:
         """Removes certain items from the item pool and manually places them in the local world.
@@ -3426,10 +3451,11 @@ class EldenRing(World):
                 "death_link": self.options.death_link.value,
                 "death_link_amnesty": self.options.death_link_amnesty.value,
                 
-                "ngplus_trap_count": self.options.ngplus_trap_count.value,
-                "status_trap_count": self.options.status_trap_count.value,
-                
-                "blindness_trap_count": self.options.blindness_trap_count.value,
+                "total_trap_count": self.options.total_trap_count.value,
+                "ngplus_trap_chance": self.options.ngplus_trap_chance.value,
+                "status_trap_chance": self.options.status_trap_chance.value,
+                "blindness_trap_chance": self.options.blindness_trap_chance.value,
+                "blizzard_trap_chance": self.options.blizzard_trap_chance.value,
                 
                 "random_start": self.options.random_start.value,
                 "randomize_starting_keepsakes": self.options.randomize_starting_keepsakes.value,
