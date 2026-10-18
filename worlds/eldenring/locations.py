@@ -237,7 +237,7 @@ region_order_dlc = [
     "Abyssal Woods",
     "Midra's Manse",
     
-    "Enir Ilim",
+    "Enir-Ilim",
 ]
 
 @dataclass
@@ -760,23 +760,10 @@ location_tables: Dict[str, List[ERLocationData]] = {
     "Stormveil Throne":[ # stormveil_throne                               done
         ERLocationData("SV/GG: Ancient Dragon Smithing Stone - Gostoc shop after finishing Nepheli and Kenneth Haight's quests", "Ancient Dragon Smithing Stone", key="100000,0:0000000000:100000,10009516:", missable=True, shop=True, targets=('shop:100018')),
         ERLocationData("SV/GG: Ancient Dragon Smithing Stone - talk to Nepheli in SV after her and Kenneth's questlines", "Ancient Dragon Smithing Stone", key="100000,0:0000400422::", missable=True, targets=('lot:104220')),
-        ERLocationData("SV/GG: Stormhawk Axe - kill Nepheli", "Stormhawk Axe", key="100000,0:0000400421::", missable=True, death=True, targets=('lot:114210', 'lot:114211')),
         ERLocationData("SV/GG: Spectral Steed Regalia: Tree Sentinel - to NW in chest to right of throne", "Spectral Steed Regalia: Tree Sentinel", key="100000,0:0000060101::", chest=True, tp_dlc=True, targets=('lot:10000995')),
         ERLocationData("SV/LL: Shabriri Grape - from LL/LFC to E, inside by ghost", "Shabriri Grape", key="100000,0:0010007850::", targets=('lot:10000850')),
     ],
     "Stormveil Castle":[ # stormveil                                      done
-        ERLocationData("SV/SMG: Caestus - Gostoc shop, after main gate open", "Caestus", key="100000,0:0000000000:100000:", shop=True, progshop=True, targets=('shop:100012')),
-        ERLocationData("SV/SMG: Buckler - Gostoc shop, after main gate open", "Buckler", key="100000,0:0000000000:100000:", shop=True, progshop=True, targets=('shop:100004')),
-        ERLocationData("SV/SMG: Great Arrow x5 - Gostoc shop, after main gate open", "Great Arrow x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100013')),
-        ERLocationData("SV/SMG: Ballista Bolt x5 - Gostoc shop, after main gate open", "Ballista Bolt x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100014')),
-        ERLocationData("SV/SMG: Bandit Manchettes - Gostoc shop, after main gate open", "Bandit Manchettes", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100015')),
-        ERLocationData("SV/SMG: Bandit Boots - Gostoc shop, after main gate open", "Bandit Boots", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100016')),
-        ERLocationData("SV/SMG: Bandit Garb - Gostoc shop, after main gate open", "Bandit Garb", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100017')),
-        ERLocationData("SV/SMG: Festering Bloody Finger x2 - Gostoc shop, after main gate open", "Festering Bloody Finger x2", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100000')),
-        ERLocationData("SV/SMG: Furlcalling Finger Remedy x4 - Gostoc shop, after main gate open", "Furlcalling Finger Remedy x4", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100009')),
-        ERLocationData("SV/SMG: Silver-Pickled Fowl Foot x3 - Gostoc shop, after main gate open", "Silver-Pickled Fowl Foot x3", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100010')),
-        ERLocationData("SV/SMG: Ruin Fragment x5 - Gostoc shop, after main gate open", "Ruin Fragment x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100002')),
-        ERLocationData("SV/SMG: Stormhawk Feather x5 - Gostoc shop, after main gate open", "Stormhawk Feather x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100011')),
         ERLocationData("SV/RT: Ash of War: Spinning Weapon - Rogier shop, in church or RH later", "Ash of War: Spinning Weapon", key="100000,0:0000000000:100200:", missable=True, shop=True, targets=('shop:100200')),
         ERLocationData("SV/RT: Ash of War: Glintstone Pebble - Rogier shop, in church or RH later", "Ash of War: Glintstone Pebble", key="100000,0:0000000000:100200:", missable=True, shop=True, targets=('shop:100201')),
         ERLocationData("SV/RT: Ash of War: Carian Greatsword - Rogier shop, in church or RH later", "Ash of War: Carian Greatsword", key="100000,0:0000000000:100200:", missable=True, shop=True, targets=('shop:100202')),
@@ -860,6 +847,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("SV/LC: Golden Rune [2] - just outside Nepheli's room to E", "Golden Rune [2]", key="100000,0:0010007720::", targets=('lot:10000720')),
         ERLocationData("SV/SeC: Golden Seed - seedtree to SE", "Golden Seed", key="100000,0:0010007730::", seedtree=True, targets=('lot:10000730')),
         ERLocationData("SV/SeC: Smithing Stone [2] - down dark alley to SE", "Smithing Stone [2]", key="100000,0:0010007740::", targets=('lot:10000740')),
+        ERLocationData("SV/LC: Stormhawk Axe - kill Nepheli", "Stormhawk Axe", key="100000,0:0000400421::", missable=True, death=True, targets=('lot:114210', 'lot:114211')), # two axes
         ERLocationData("SV/LC: Smithing Stone [1] x4 - in Nepheli's room to E", "Smithing Stone [1] x4", key="100000,0:0010007750::", targets=('lot:10000750')),
         ERLocationData("SV/LC: Golden Rune [5] - outside shortcut door to W, on outer wall through door", "Golden Rune [5]", key="100000,0:0010007760::", targets=('lot:10000760')),
         ERLocationData("SV/LC: Smithing Stone [1] x5 - breakable statue in massive courtyard", "Smithing Stone [1] x5", key="100000,0:0010007780::", breakable=True, targets=('lot:10000780')),
@@ -938,6 +926,18 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/DC: Lance Talisman - NE of DC", "Lance Talisman", key="604340,0:1043407010::", talisman=True, hidden=True, targets=('lot:1043400010')),
     ],
     "Stormveil Start":[ # stormveil_start                                 done
+        ERLocationData("SV/SMG: Caestus - Gostoc shop, after dark room or mainboss", "Caestus", key="100000,0:0000000000:100000:", shop=True, progshop=True, targets=('shop:100012')),
+        ERLocationData("SV/SMG: Buckler - Gostoc shop, after dark room or mainboss", "Buckler", key="100000,0:0000000000:100000:", shop=True, progshop=True, targets=('shop:100004')),
+        ERLocationData("SV/SMG: Great Arrow x5 - Gostoc shop, after dark room or mainboss", "Great Arrow x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100013')),
+        ERLocationData("SV/SMG: Ballista Bolt x5 - Gostoc shop, after dark room or mainboss", "Ballista Bolt x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100014')),
+        ERLocationData("SV/SMG: Bandit Manchettes - Gostoc shop, after dark room or mainboss", "Bandit Manchettes", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100015')),
+        ERLocationData("SV/SMG: Bandit Boots - Gostoc shop, after dark room or mainboss", "Bandit Boots", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100016')),
+        ERLocationData("SV/SMG: Bandit Garb - Gostoc shop, after dark room or mainboss", "Bandit Garb", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100017')),
+        ERLocationData("SV/SMG: Festering Bloody Finger x2 - Gostoc shop, after dark room or mainboss", "Festering Bloody Finger x2", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100000')),
+        ERLocationData("SV/SMG: Furlcalling Finger Remedy x4 - Gostoc shop, after dark room or mainboss", "Furlcalling Finger Remedy x4", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100009')),
+        ERLocationData("SV/SMG: Silver-Pickled Fowl Foot x3 - Gostoc shop, after dark room or mainboss", "Silver-Pickled Fowl Foot x3", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100010')),
+        ERLocationData("SV/SMG: Ruin Fragment x5 - Gostoc shop, after dark room or mainboss", "Ruin Fragment x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100002')),
+        ERLocationData("SV/SMG: Stormhawk Feather x5 - Gostoc shop, after dark room or mainboss", "Stormhawk Feather x5", key="100000,0:0000000000:100000:", shop=True, targets=('shop:100011')),
         ERLocationData("SV/StC: Grace Mimic - talk to Gostoc in stalking spot, to SE and above SC grace", "Grace Mimic", key="100000,0:0000400050::", missable=True, targets=('lot:100500')),
         ERLocationData("SV/SMG: Furlcalling Finger Remedy - down stairs to NE", "Furlcalling Finger Remedy", key="100000,0:0010007030::", targets=('lot:10000030')),
         ERLocationData("SV/SMG: Fire Grease x2 - down stairs to NE, then drop to wood platform, at end of tunnel", "Fire Grease x2", key="100000,0:0010007040::", targets=('lot:10000040')),
@@ -3674,7 +3674,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("BTS/BTS: Immunizing Horn Charm +2 - enemy drop in SE swamp area", "Immunizing Horn Charm +2", key="200000,0:0020007991::", enemytalisman=True, targets=('lot:20001991')),
         ERLocationData("BTS/BTS: Horned Warrior's Sword - enemy drop in NW swamp area", "Horned Warrior's Sword", key="200000,0:0020007993::", targets=('lot:20001993')),
     ],
-    "Enir Ilim":[ # enirilim                                              done
+    "Enir-Ilim":[ # enirilim                                              done
         ERLocationData("EI/CCA: Leda's Armor - on Leda's body after npc boss", "Leda's Armor", key="200100,0:0000400598::", targets=('lot:105940')),
         ERLocationData("EI/CCA: Freyja's Greatsword - on Freyja's body", "Freyja's Greatsword", key="200100,0:0000400602::", missable=True, targets=('lot:106010', 'lot:116000')),
         ERLocationData("EI/CCA: Freyja's Helm - on Freyja's body", "Freyja's Helm", key="200100,0:0000400602::", missable=True, targets=('lot:106011', 'lot:116001')),
