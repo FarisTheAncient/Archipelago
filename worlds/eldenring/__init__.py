@@ -209,6 +209,7 @@ class EldenRing(World):
         self.location_id_to_alias = {}
 
     def generate_early(self) -> None:
+        self.exclude_groups = self.options.exclude_locations.excluded_groups()
         re_gen_passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if re_gen_passthrough and self.game in re_gen_passthrough:
             self.soft_logic_enabled = False
@@ -218,6 +219,13 @@ class EldenRing(World):
                 opt: Optional[Option] = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
+            
+            if slot_data["exclude_groups"]: # re convert the groups so UT doesn't show locations with prog
+                self.exclude_groups = slot_data["exclude_groups"]
+                self.options.exclude_locations.value = set()
+                for group in self.exclude_groups:
+                    self.options.exclude_locations.value.update(location_name_groups[group])
+                    print(location_name_groups[group])
         
             # Inform Universal Tracker where Rykard is being randomized to.
             if slot_options["enemy_rando"] and slot_options["rykard_encounter"] == False:
@@ -241,7 +249,7 @@ class EldenRing(World):
         for region in location_tables: # make sure table has all values
             self.dupe_location_tables.setdefault(region, [])
         
-        self.dlc_excluded = "DLC" in self.options.exclude_locations.excluded_groups()
+        self.dlc_excluded = "DLC" in self.exclude_groups
         if self.dlc_excluded and self.options.excluded_location_behavior.value >= 3:
             # do not rando or omit, just disabled the dlc lol
             self.options.enable_dlc.value = False
@@ -1453,8 +1461,9 @@ class EldenRing(World):
                 self._add_entrance_rule("Nokron, Eternal City", lambda state: self._can_get(state, "NR/NEC: Silver Tear Mask - boss drop"))
                 self._add_entrance_rule("Deeproot Depths", lambda state: self._can_get(state, "NR/(SA): Gargoyle's Greatsword - boss drop"))
                 self._add_entrance_rule("War-Dead Catacombs", lambda state: self._can_get(state, "CL/(WD): Radahn's Great Rune - mainboss drop"))
-                self._add_entrance_rule("Altus Plateau", lambda state: self._can_get(state, "RSP/RSPO: Dragon Heart - boss drop") or 
-                                        state.has("Dectus Medallion (Left)", self.player) and state.has("Dectus Medallion (Right)", self.player))
+                if self.options.world_logic.value != "region_lock":
+                    self._add_entrance_rule("Altus Plateau", lambda state: self._can_get(state, "RSP/RSPO: Dragon Heart - boss drop") or 
+                        state.has("Dectus Medallion (Left)", self.player) and state.has("Dectus Medallion (Right)", self.player))
                 self._add_entrance_rule("Volcano Manor Upper", lambda state: self._can_get(state, "VM/GH: Godskin Stitcher - boss drop"))
                 # self._add_entrance_rule("Leyndell, Royal Capital", lambda state: 
                 #     self._can_get(state, "DD/AR: Fia's Mist - boss drop") or self._can_get(state, "CO: Dragon Greatclaw - capital great rune gate boss drop"))
@@ -3413,6 +3422,8 @@ class EldenRing(World):
                         break
 
         slot_data = {
+            # for UT since I remove some excluded locations and the regen thinks the locations become prio, need to pass the OG location names
+            "exclude_groups": self.options.exclude_locations.excluded_groups(),
             "options": {
                 "key_item_shards": self.options.key_item_shards.value,
                 "exclude_dungeon": self.options.exclude_dungeon.value,

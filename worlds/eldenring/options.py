@@ -212,10 +212,11 @@ class DLCStartingItems(OptionList):
     - **Talisman Pouches**
     - **Memory Stones**
     - **Whetblades**
-    - **Upgrade Bell Bearings**"""
+    - **Upgrade Bell Bearings** *You don't any 1's in DLC only.*
+    """
     display_name = "DLC Start Starting Items"
     supports_weighting = False
-    default = ["Talisman Pouches", "Whetblades"]
+    default = ["Talisman Pouches", "Whetblades", "Upgrade Bell Bearings"]
 
     valid_keys = ["Sacred Tears", "Golden Seeds", "Talisman Pouches", 
                   "Memory Stones", "Whetblades", "Upgrade Bell Bearings"]
