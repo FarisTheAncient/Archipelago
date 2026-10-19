@@ -275,10 +275,10 @@ Regions | [Base Game Regions](#base-game-1) | [DLC Regions](#dlc-1)
 <tr><td><strong>LL/MCMG: </strong></td></tr>
 <tr><td><strong>LL/MEW: </strong></td></tr>
 <tr><td><strong>LL/NLLS: </strong></td></tr>
+<tr><td><strong>LL/RC: </strong></td></tr>
 <tr><td><strong>LL/REC: </strong></td></tr>
 <tr><td><strong>LL/RL: </strong></td></tr>
 <tr><td><strong>LL/RM: </strong></td></tr>
-<tr><td><strong>LL/RS: </strong></td></tr>
 <tr><td><strong>LL/RVV: </strong></td></tr>
 <tr><td><strong>LL/SHE: </strong></td></tr>
 <tr><td><strong>LL/SRLG: </strong></td></tr>
@@ -514,7 +514,6 @@ Regions | [Base Game Regions](#base-game-1) | [DLC Regions](#dlc-1)
 ### Altus Plateau
 
 </td></tr>
-<tr><td><strong>AP/(DMV): </strong></td></tr>
 <tr><td><strong>AP/(DWV): </strong></td></tr>
 <tr><td><strong>AP/(HLT): </strong></td></tr>
 <tr><td><strong>AP/(MR): </strong></td></tr>
@@ -545,7 +544,6 @@ Regions | [Base Game Regions](#base-game-1) | [DLC Regions](#dlc-1)
 <tr><td><strong>AP/SR: </strong></td></tr>
 <tr><td><strong>AP/STH: </strong></td></tr>
 <tr><td><strong>AP/TSC: </strong></td></tr>
-<tr><td><strong>AP/VW: </strong></td></tr>
 <tr><td><strong>AP/VWP: </strong></td></tr>
 <tr><td><strong>AP/WV: </strong></td></tr>
 <tr><td><strong>AP/WWP: </strong></td></tr>
@@ -1105,7 +1103,7 @@ Regions | [Base Game Regions](#base-game-1) | [DLC Regions](#dlc-1)
 <tr><td><strong>MM/SFC: </strong></td></tr>
 <tr><td><h3>
 
-### Enir Ilim
+### Enir-Ilim
 
 </td></tr>
 <tr><td><strong>BTS|EI/SR: </strong></td></tr>

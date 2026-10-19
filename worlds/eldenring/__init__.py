@@ -1513,7 +1513,7 @@ class EldenRing(World):
                 "LL/BCM: Larval Tear - \"Resurrection\" Painting reward to S by graves",
                 ], "\"Resurrection\" Painting")
             self._add_location_rule("AP/RP: Harp Bow - \"Champion's Song\" Painting reward to S top of grave steps", "\"Champion's Song\" Painting")
-            self._add_location_rule("AP/(DMV): Fire's Deadly Sin - \"Flightless Bird\" Painting reward S from boss","\"Flightless Bird\" Painting")
+            self._add_location_rule("AP/(DWV): Fire's Deadly Sin - \"Flightless Bird\" Painting reward S from boss","\"Flightless Bird\" Painting")
             self._add_location_rule("MotG/SR: Greathood - Painting reward NW of SR on bridge", "\"Sorcerer\" Painting")
             
             # vm drawing room, stuff that needs key
@@ -2109,8 +2109,8 @@ class EldenRing(World):
         if self.base_enabled:
             # MARK: Varré
             
-            self._add_location_rule([ "LL/(RC): Festering Bloody Finger x5 - talk to Varré after beating SV mainboss",
-            ], lambda state: self._can_go_to(state, "Stormveil Castle"))
+            self._add_location_rule([ "LL/(RC): Festering Bloody Finger x5 - talk to Varré after obtaining Godrick's Great Rune",
+            ], "Godrick's Great Rune")
             
             self._add_location_rule([ 
                 "AP/(WbR): Great Stars - invade Magus",
