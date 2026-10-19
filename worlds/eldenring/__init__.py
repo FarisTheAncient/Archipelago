@@ -24,15 +24,20 @@ from Options import OptionError, Option
 class EldenRingSettings(settings.Group):
     class ForceLocalItems(list):
         """Choose certain categories to be local only for all EldenRing worlds.
-        If every category is set to local, Accessory and AshofWar will be unset to dodge fill errors.
-        - [Est Items] **Item Group**
-        - [472] **Weapon**: All Weapons and Ammo.
+        
+        - [Est Items] **Item Group**    *done on full game*
+        - [472] **Weapons**: All Weapons and Ammo.
         - [423] **Armor**: All Armors.
-        - [160] **Accessory**: All Talismans.
-        - [105] **AshofWar**: All Ashes of War.
+        - [160] **Accessories**: All Talismans.
+        - [105] **Ash of war**: All Ashes of War.
         - [3250] **Goods**: The two below
         - [1000] **Filler**: All Crafting Mats, and some craftables.
-        - [2200] **Non-Filler**: Smithing stones, Spells and Spirit ashes."""
+        - [2200] **Non-Filler**: Below and Key Items which don't get made local.
+            - [650] **Runes**: All Rune items.
+            - [585] **Smithing Stones**: Smithing Stones and Somber Stones.
+            - [220] **Spells**: Incantations and Sorceries.
+            - [86] **Gloveworts**: Grave and Ghost Gloveworts.
+            - [82] **Ashes**: Spirit Ashes."""
     
     class ForceRegionLock(settings.Bool):
         """Forces region_lock on, since sphere 1 would have ~2.1k checks."""
@@ -41,9 +46,9 @@ class EldenRingSettings(settings.Group):
         """How many Goal Bosses can Elden Ring have.
         There are 207 Bosses total in Base + DLC, and 165 in Base game."""
     
-    force_local_items: typing.Union[ForceLocalItems, list] = ["Filler"]
+    force_local_items: ForceLocalItems = ForceLocalItems(["Filler", "Ash of war", "Gloveworts", "Ashes"])
     force_region_lock: typing.Union[ForceRegionLock, bool] = True
-    goal_bosses_allowed: typing.Union[GoalBossesAllowed, int] = 150
+    goal_bosses_allowed: GoalBossesAllowed = GoalBossesAllowed(150)
 
 # Web stuff
 class EldenRingWeb(WebWorld):
@@ -274,17 +279,15 @@ class EldenRing(World):
                 self.all_excluded_locations.remove(loc)
                 self.options.exclude_locations.value.remove(loc)
         
-        local_item_only_lowercase = set(key.lower() for key in self.options.local_item_only.value)
-        [local_item_only_lowercase.add(key.lower()) for key in self.settings.force_local_items]
+        for group in self.settings.force_local_items: # add forced setting groups
+            if group not in item_name_groups:
+                warning(f"host.yaml warning: {group} is not a vaild group.")
+            else: self.options.local_item_only.value.update(item_name_groups[group])
         
-        if (len(local_item_only_lowercase.intersection(("weapon", "armor", "accessory", "goods"))) == 4
-            or len(local_item_only_lowercase.intersection(("weapon", "armor", "accessory", "filler", "non-filler"))) == 5):
-            # is everything local, make sure accessory and ashofwar is atleast not local to attempt to avoid fill error, still a rare chance
-            warning(f"\nEldenRing Player {self.player_name} has too many categories of local_item_only set to local, this can cause a fill error."
-                    f"\nRemoving Accessory and AshofWar from local only to attempt to dodge fill error, or fix yaml to not make everything local.")
-            local_item_only_lowercase.remove("accessory")
-            if "ashofwar" in local_item_only_lowercase:
-                local_item_only_lowercase.remove("ashofwar")
+        for item in self.options.local_item_only.value:
+            if item_table[item].classification not in (ItemClassification.progression, ItemClassification.progression_deprioritized, ItemClassification.useful):
+                self.options.local_items.value.add(item)
+        self.local_items = self.options.local_items.value
         
         # verify shard counts
         for (shard, shard_dict) in self.options.key_item_shards.value.items():
@@ -315,6 +318,8 @@ class EldenRing(World):
                               f"priority locations, less than 50 required. Add groups to priority_location_groups.")
         
         m_goal_bosses = self._goal_bosses()
+        if len(m_goal_bosses) == 0:
+            raise OptionError(f"EldenRing {self.player_name} has no Goal set.")
         if self.options.exclude_dungeon.value: # exclude dungeon bosses
             m_goal_bosses = [boss for boss in m_goal_bosses if not boss.dungeon]
         
@@ -343,34 +348,6 @@ class EldenRing(World):
         
         if self.options.enable_dlc and self.base_enabled and len([boss for boss in m_goal_bosses if boss in base_bosses + dlc_bosses]) == 0: # is there a goal boss?
             raise OptionError(f"Player {self.player_name} no valid Goal bosses, please set a valid Goal boss.")
-        
-        using_table = {}
-        if self.base_enabled: 
-            using_table.update(item_table_vanilla)
-            if self.options.enable_tp_dlc: using_table.update(item_table_tp_dlc)
-        if self.options.enable_dlc: using_table.update(item_table_dlc)
-        for item in using_table.values(): # loop of whole item table
-            if item.is_important(self.options) not in (ItemClassification.progression, ItemClassification.progression_deprioritized, ItemClassification.useful):
-                match item.category:
-                    case ERItemCategory.GOODS:
-                        if (('goods' in local_item_only_lowercase) 
-                            or ('filler' in local_item_only_lowercase and (item.replacable or item_table[item.base_name].filler))
-                            or ('non-filler' in local_item_only_lowercase and not (item.replacable or item_table[item.base_name].filler))):
-                            self.options.local_items.value.add(item.name)
-                    case ERItemCategory.WEAPON:
-                        if 'weapon' in local_item_only_lowercase:
-                            self.options.local_items.value.add(item.name)
-                    case ERItemCategory.ARMOR:
-                        if 'armor' in local_item_only_lowercase:
-                            self.options.local_items.value.add(item.name)
-                    case ERItemCategory.ACCESSORY:
-                        if 'accessory' in local_item_only_lowercase:
-                            self.options.local_items.value.add(item.name)
-                    case ERItemCategory.ASHOFWAR:
-                        if 'ashofwar' in local_item_only_lowercase:
-                            self.options.local_items.value.add(item.name)
-        
-        self.local_items = self.options.local_items.value
         
         for i in self.options.start_inventory.value:
             for _ in range(self.options.start_inventory.value[i]):
@@ -758,6 +735,10 @@ class EldenRing(World):
             ItemClassification.progression in i.classification and not ItemClassification.deprioritized in i.classification 
             or self.options.other_world_useful_at_priority and ItemClassification.useful in i.classification)])})")
         print(f"EldenRing {self.player_name} local items: {len([i for i in self.itempool if i.data.name in self.local_items])} of {len(self.itempool)}")
+        # if len([i for i in self.itempool if i.data.name in self.local_items]) > len(self.itempool) - (len(self.itempool) / 10):
+        #     # if the itempool is 90% local fail gen, and pray this makes sure fill erorrs begone
+        #     raise OptionError(f"Local Items: {len([i for i in self.itempool if i.data.name in self.local_items])} is greater then Max Local Items: {len(self.itempool) - (len(self.itempool) / 10)}"
+        #                       f"\n This is here to dodge fill errors, make less items local only.")
         
     def _create_dupe_locations(self) -> None:
         """Create duplicate locations."""
@@ -1838,6 +1819,7 @@ class EldenRing(World):
                 self._add_entrance_rule("Rauh Base", "Rauh Base Lock")
                 self._add_entrance_rule("Shadow Keep", "Shadow Keep Lock")
                 self._add_entrance_rule("Shadow Keep, Church District", "Shadow Keep Lock")
+                self._add_location_rule("SK/SKMG: Aspects of the Crucible: Thorns - boss drop", "Shadow Keep Lock")
                 self._add_entrance_rule("Recluses' River", "Recluses' Lock")
                 self._add_entrance_rule("Abyssal Woods", "Abyssal Lock")
                 self._add_entrance_rule("Ancient Ruins of Rauh", "Ancient Ruins Lock")

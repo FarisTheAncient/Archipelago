@@ -612,8 +612,16 @@ class ERLocationData:
         if self.hostile_npc: names.append("Hostile NPC Rewards")
         if self.npc: names.append("Friendly NPC Rewards")
         if self.dungeon: names.append("Dungeon")
-        if self.chest: names.append("Chest")
-        if self.scarab: names.append("Scarab")
+        if self.chest: 
+            if self.dlc:
+                names.append("DLC Chest")
+            else:
+                names.append("Chest")
+        if self.scarab:
+            if self.dlc:
+                names.append("DLC Scarab")
+            else:
+                names.append("Scarab")
         if self.progshop: 
             if self.dlc:
                 names.append("DLC Shop")
@@ -6383,6 +6391,8 @@ location_name_groups: Dict[str, Set[str]] = {
     "DLC Boss Reward": set(),
     "DLC Map": set(),
     "DLC Shop": set(),
+    "DLC Chest": set(),
+    "DLC Scarab": set(),
     "Furnace Golem": set(),
     "Hostile NPC Rewards": set(),
     "Friendly NPC Rewards": set(),

@@ -94,6 +94,9 @@ class ERItemData:
     scadu: bool = False
     """Scadutree frags"""
     
+    spirit_ashes: bool = False
+    """Spirit ashes"""
+    
     crystal_tear: bool = False
     """Whether this is a Wondrous Physick tear."""
 
@@ -111,6 +114,22 @@ class ERItemData:
 
         This is computed from the properties assigned to this item."""
         names = []
+        
+        if self.base_name.__contains__("Smithing Stone"):
+            names.append("Smithing Stones")
+        if self.base_name.__contains__(" Glovewort"):
+            names.append("Gloveworts")
+        if self.incantation or self.sorcery:
+            names.append("Spells")
+        if self.spirit_ashes: names.append("Ashes")
+        if self.runes: names.append("Runes")
+        
+        if self.category == ERItemCategory.GOODS:
+            if self.replacable or self.filler:
+                names.append("Filler")
+            else:
+                names.append("Non-Filler")
+        
         if self.classification == ItemClassification.progression:
             names.append("Progression")
 
@@ -120,7 +139,6 @@ class ERItemData:
             ERItemCategory.ARMOR: "Armor",
             ERItemCategory.ACCESSORY: "Accessories",
             ERItemCategory.ASHOFWAR: "Ash of war",
-            #ERItemCategory.CUSTOMWEAPON: "Upgraded Weapons",
         }[self.category])
 
         return names
@@ -1795,7 +1813,7 @@ _vanilla_items = [
     ERItemData("Note: The Preceptor's Secret", 8224, ERItemCategory.GOODS, skip=True),
     ERItemData("Weathered Map", 8225, ERItemCategory.GOODS),
     ERItemData("Crafting Kit", 8500, ERItemCategory.GOODS, classification=ItemClassification.progression),
-    ERItemData("Whetstone Knife", 8590, ERItemCategory.GOODS, classification=ItemClassification.useful),
+    ERItemData("Whetstone Knife", 8590, ERItemCategory.GOODS, classification=ItemClassification.useful, whetblade=True),
 
     ERItemData("Map: Limgrave, West", 8600, ERItemCategory.GOODS, map=True, classification=ItemClassification.useful),
     ERItemData("Map: Weeping Peninsula", 8601, ERItemCategory.GOODS, map=True, classification=ItemClassification.useful),
@@ -2182,70 +2200,70 @@ _vanilla_items = [
     *ERItemData("Formic Rock", 20852, ERItemCategory.GOODS, replacable=True).counts([2]),
     *ERItemData("Gravel Stone", 20855, ERItemCategory.GOODS, replacable=True).counts([2, 3, 5, 8, 10]),
     #spirits
-    ERItemData("Black Knife Tiche", 200000, ERItemCategory.GOODS),
-    ERItemData("Banished Knight Oleg", 201000, ERItemCategory.GOODS),
-    ERItemData("Banished Knight Engvall", 202000, ERItemCategory.GOODS),
-    ERItemData("Fanged Imp Ashes", 203000, ERItemCategory.GOODS, classification=ItemClassification.progression_deprioritized),
-    ERItemData("Latenna the Albinauric", 204000, ERItemCategory.GOODS),
-    ERItemData("Nomad Ashes", 205000, ERItemCategory.GOODS),
-    ERItemData("Nightmaiden & Swordstress Puppets", 206000, ERItemCategory.GOODS),
-    ERItemData("Mimic Tear Ashes", 207000, ERItemCategory.GOODS),
-    ERItemData("Crystalian Ashes", 208000, ERItemCategory.GOODS),
-    ERItemData("Ancestral Follower Ashes", 209000, ERItemCategory.GOODS),
-    ERItemData("Winged Misbegotten Ashes", 210000, ERItemCategory.GOODS),
-    ERItemData("Albinauric Ashes", 211000, ERItemCategory.GOODS),
-    ERItemData("Skeletal Militiaman Ashes", 212000, ERItemCategory.GOODS),
-    ERItemData("Skeletal Bandit Ashes", 213000, ERItemCategory.GOODS),
-    ERItemData("Oracle Envoy Ashes", 214000, ERItemCategory.GOODS),
-    ERItemData("Putrid Corpse Ashes", 215000, ERItemCategory.GOODS),
-    ERItemData("Depraved Perfumer Carmaan", 216000, ERItemCategory.GOODS),
-    ERItemData("Perfumer Tricia", 217000, ERItemCategory.GOODS),
-    ERItemData("Glintstone Sorcerer Ashes", 218000, ERItemCategory.GOODS),
-    ERItemData("Twinsage Sorcerer Ashes", 219000, ERItemCategory.GOODS),
-    ERItemData("Page Ashes", 220000, ERItemCategory.GOODS),
-    ERItemData("Battlemage Hugues", 221000, ERItemCategory.GOODS),
-    ERItemData("Clayman Ashes", 222000, ERItemCategory.GOODS),
-    ERItemData("Cleanrot Knight Finlay", 223000, ERItemCategory.GOODS),
-    ERItemData("Kindred of Rot Ashes", 224000, ERItemCategory.GOODS),
-    ERItemData("Marionette Soldier Ashes", 225000, ERItemCategory.GOODS),
-    ERItemData("Avionette Soldier Ashes", 226000, ERItemCategory.GOODS),
-    ERItemData("Fire Monk Ashes", 227000, ERItemCategory.GOODS),
-    ERItemData("Blackflame Monk Amon", 228000, ERItemCategory.GOODS),
-    ERItemData("Man-Serpent Ashes", 229000, ERItemCategory.GOODS),
-    ERItemData("Azula Beastman Ashes", 230000, ERItemCategory.GOODS),
-    ERItemData("Kaiden Sellsword Ashes", 231000, ERItemCategory.GOODS),
-    ERItemData("Lone Wolf Ashes", 232000, ERItemCategory.GOODS),
-    ERItemData("Giant Rat Ashes", 233000, ERItemCategory.GOODS),
-    ERItemData("Demi-Human Ashes", 234000, ERItemCategory.GOODS),
-    ERItemData("Rotten Stray Ashes", 235000, ERItemCategory.GOODS),
-    ERItemData("Spirit Jellyfish Ashes", 236000, ERItemCategory.GOODS, classification=ItemClassification.progression_deprioritized),
-    ERItemData("Warhawk Ashes", 237000, ERItemCategory.GOODS),
-    ERItemData("Stormhawk Deenh", 238000, ERItemCategory.GOODS),
-    ERItemData("Bloodhound Knight Floh", 239000, ERItemCategory.GOODS),
-    ERItemData("Wandering Noble Ashes", 240000, ERItemCategory.GOODS),
-    ERItemData("Noble Sorcerer Ashes", 241000, ERItemCategory.GOODS),
-    ERItemData("Vulgar Militia Ashes", 242000, ERItemCategory.GOODS),
-    ERItemData("Mad Pumpkin Head Ashes", 243000, ERItemCategory.GOODS),
-    ERItemData("Land Squirt Ashes", 244000, ERItemCategory.GOODS),
-    ERItemData("Miranda Sprout Ashes", 245000, ERItemCategory.GOODS),
-    ERItemData("Soldjars of Fortune Ashes", 246000, ERItemCategory.GOODS),
-    ERItemData("Omenkiller Rollo", 247000, ERItemCategory.GOODS),
-    ERItemData("Greatshield Soldier Ashes", 248000, ERItemCategory.GOODS),
-    ERItemData("Archer Ashes", 249000, ERItemCategory.GOODS),
-    ERItemData("Godrick Soldier Ashes", 250000, ERItemCategory.GOODS),
-    ERItemData("Raya Lucaria Soldier Ashes", 251000, ERItemCategory.GOODS),
-    ERItemData("Leyndell Soldier Ashes", 252000, ERItemCategory.GOODS),
-    ERItemData("Radahn Soldier Ashes", 253000, ERItemCategory.GOODS),
-    ERItemData("Mausoleum Soldier Ashes", 254000, ERItemCategory.GOODS),
-    ERItemData("Haligtree Soldier Ashes", 255000, ERItemCategory.GOODS),
-    ERItemData("Ancient Dragon Knight Kristoff", 256000, ERItemCategory.GOODS),
-    ERItemData("Redmane Knight Ogha", 257000, ERItemCategory.GOODS),
-    ERItemData("Lhutel the Headless", 258000, ERItemCategory.GOODS),
-    ERItemData("Nepheli Loux Puppet", 259000, ERItemCategory.GOODS),
-    ERItemData("Dung Eater Puppet", 260000, ERItemCategory.GOODS),
-    ERItemData("Finger Maiden Therolina Puppet", 261000, ERItemCategory.GOODS),
-    ERItemData("Dolores the Sleeping Arrow Puppet", 262000, ERItemCategory.GOODS),
-    ERItemData("Jarwight Puppet", 263000, ERItemCategory.GOODS),
+    ERItemData("Black Knife Tiche", 200000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Banished Knight Oleg", 201000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Banished Knight Engvall", 202000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Fanged Imp Ashes", 203000, ERItemCategory.GOODS, spirit_ashes=True, classification=ItemClassification.progression_deprioritized),
+    ERItemData("Latenna the Albinauric", 204000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Nomad Ashes", 205000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Nightmaiden & Swordstress Puppets", 206000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Mimic Tear Ashes", 207000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Crystalian Ashes", 208000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Ancestral Follower Ashes", 209000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Winged Misbegotten Ashes", 210000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Albinauric Ashes", 211000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Skeletal Militiaman Ashes", 212000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Skeletal Bandit Ashes", 213000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Oracle Envoy Ashes", 214000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Putrid Corpse Ashes", 215000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Depraved Perfumer Carmaan", 216000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Perfumer Tricia", 217000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Glintstone Sorcerer Ashes", 218000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Twinsage Sorcerer Ashes", 219000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Page Ashes", 220000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Battlemage Hugues", 221000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Clayman Ashes", 222000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Cleanrot Knight Finlay", 223000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Kindred of Rot Ashes", 224000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Marionette Soldier Ashes", 225000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Avionette Soldier Ashes", 226000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Fire Monk Ashes", 227000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Blackflame Monk Amon", 228000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Man-Serpent Ashes", 229000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Azula Beastman Ashes", 230000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Kaiden Sellsword Ashes", 231000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Lone Wolf Ashes", 232000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Giant Rat Ashes", 233000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Demi-Human Ashes", 234000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Rotten Stray Ashes", 235000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Spirit Jellyfish Ashes", 236000, ERItemCategory.GOODS, spirit_ashes=True, classification=ItemClassification.progression_deprioritized),
+    ERItemData("Warhawk Ashes", 237000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Stormhawk Deenh", 238000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Bloodhound Knight Floh", 239000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Wandering Noble Ashes", 240000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Noble Sorcerer Ashes", 241000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Vulgar Militia Ashes", 242000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Mad Pumpkin Head Ashes", 243000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Land Squirt Ashes", 244000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Miranda Sprout Ashes", 245000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Soldjars of Fortune Ashes", 246000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Omenkiller Rollo", 247000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Greatshield Soldier Ashes", 248000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Archer Ashes", 249000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Godrick Soldier Ashes", 250000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Raya Lucaria Soldier Ashes", 251000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Leyndell Soldier Ashes", 252000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Radahn Soldier Ashes", 253000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Mausoleum Soldier Ashes", 254000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Haligtree Soldier Ashes", 255000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Ancient Dragon Knight Kristoff", 256000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Redmane Knight Ogha", 257000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Lhutel the Headless", 258000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Nepheli Loux Puppet", 259000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Dung Eater Puppet", 260000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Finger Maiden Therolina Puppet", 261000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Dolores the Sleeping Arrow Puppet", 262000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Jarwight Puppet", 263000, ERItemCategory.GOODS, spirit_ashes=True),
     
     ERItemData("Dummy item", 0, ERItemCategory.GOODS, skip=True), # used in dlc roundtable, and dupe priority locations
     
@@ -2920,26 +2938,26 @@ _dlc_items = [
     ERItemData("Sharp Gravel Stone", 2020034, ERItemCategory.GOODS, replacable=True),
     *ERItemData("Furnace Visage", 2020035, ERItemCategory.GOODS).counts([3]),
 
-    ERItemData("Curseblade Meera", 2200000, ERItemCategory.GOODS),
-    ERItemData("Bloodfiend Hexer's Ashes", 2201000, ERItemCategory.GOODS),
-    ERItemData("Gravebird Ashes", 2202000, ERItemCategory.GOODS),
-    ERItemData("Fire Knight Hilde", 2203000, ERItemCategory.GOODS),
-    ERItemData("Spider Scorpion Ashes", 2204000, ERItemCategory.GOODS),
-    ERItemData("Inquisitor Ashes", 2205000, ERItemCategory.GOODS),
-    ERItemData("Demi-Human Swordsman Yosh", 2206000, ERItemCategory.GOODS),
-    ERItemData("Messmer Soldier Ashes", 2207000, ERItemCategory.GOODS),
-    ERItemData("Black Knight Commander Andreas", 2208000, ERItemCategory.GOODS),
-    ERItemData("Black Knight Captain Huw", 2209000, ERItemCategory.GOODS),
-    ERItemData("Bigmouth Imp Ashes", 2210000, ERItemCategory.GOODS),
-    ERItemData("Man-Fly Ashes", 2211000, ERItemCategory.GOODS),
-    ERItemData("Taylew the Golem Smith", 2212000, ERItemCategory.GOODS),
-    ERItemData("Divine Bird Warrior Ornis", 2213000, ERItemCategory.GOODS),
-    ERItemData("Horned Warrior Ashes", 2214000, ERItemCategory.GOODS),
-    ERItemData("Ancient Dragon Florissax", 2215000, ERItemCategory.GOODS),
-    ERItemData("Fingercreeper Ashes", 2217000, ERItemCategory.GOODS),
-    ERItemData("Fire Knight Queelign", 2218000, ERItemCategory.GOODS),
-    ERItemData("Swordhand of Night Jolán", 2219000, ERItemCategory.GOODS),
-    ERItemData("Jolán and Anna", 2220000, ERItemCategory.GOODS),
+    ERItemData("Curseblade Meera", 2200000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Bloodfiend Hexer's Ashes", 2201000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Gravebird Ashes", 2202000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Fire Knight Hilde", 2203000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Spider Scorpion Ashes", 2204000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Inquisitor Ashes", 2205000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Demi-Human Swordsman Yosh", 2206000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Messmer Soldier Ashes", 2207000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Black Knight Commander Andreas", 2208000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Black Knight Captain Huw", 2209000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Bigmouth Imp Ashes", 2210000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Man-Fly Ashes", 2211000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Taylew the Golem Smith", 2212000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Divine Bird Warrior Ornis", 2213000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Horned Warrior Ashes", 2214000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Ancient Dragon Florissax", 2215000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Fingercreeper Ashes", 2217000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Fire Knight Queelign", 2218000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Swordhand of Night Jolán", 2219000, ERItemCategory.GOODS, spirit_ashes=True),
+    ERItemData("Jolán and Anna", 2220000, ERItemCategory.GOODS, spirit_ashes=True),
     
     #MARK: DLC Region Lock Items
     ERItemData("Belurat Lock", 7830351, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
@@ -3030,7 +3048,15 @@ item_name_groups: Dict[str, Set] = {
     "Armor": set(),
     "Accessories": set(),
     "Ash of war": set(),
-    "Upgraded Weapons": set(),
+    
+    "Filler": set(),
+    "Non-Filler": set(),
+    
+    "Smithing Stones": set(),
+    "Gloveworts": set(),
+    "Spells": set(),
+    "Ashes": set(),
+    "Runes": set(),
 }
 
 item_descriptions = {

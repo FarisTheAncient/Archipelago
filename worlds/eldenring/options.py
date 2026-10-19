@@ -3,7 +3,7 @@ import json
 from typing import Any, Dict
 
 from Options import Choice, DeathLink, DefaultOnToggle, PriorityLocations, ExcludeLocations, OptionList, OptionDict, \
-    OptionGroup, OptionSet, PerGameCommonOptions, Range, Toggle, OptionError, Visibility
+    OptionGroup, OptionSet, PerGameCommonOptions, Range, Toggle, OptionError, Visibility, LocalItems
     
 from .bosses import all_bosses
 
@@ -520,6 +520,8 @@ class ERPriorityLocationGroups(PriorityLocations):
     - **Key Items**: Base game Key items.
     - **Shop**: Base game unmissable shops.
     - **Map**: Base game Map pillars.
+    - **Chest**: Base game Chests.
+    - **Scarab**: Base game Scarabs.
     - **Seedtree**: Golden Seed trees.
     - **Church**: Sacred Tears.
     - **Basin**: Basins that contain tears.
@@ -529,13 +531,12 @@ class ERPriorityLocationGroups(PriorityLocations):
     - **DLC Key Items**: DLC Key items.
     - **DLC Shop**: DLC unmissable shops.
     - **DLC Map**: DLC Map pillars.
+    - **DLC Chest**: DLC Chests.
+    - **DLC Scarab**: DLC Scarabs.
     - **Cross**: All cross items.
     - **Fragment**: Scadu Fragments. *Includes enemy dropped ones.*
     - **Revered**: Revered Spirit Ashes.
     - **Spiritspring Stones**: Spiritspring Stone if spiritspring_stones is on.
-    \nBoth *-for now*
-    - **Chest**: Chests.
-    - **Scarab**: Scarabs.
     """ 
     
     display_name = "Priority Location Groups"
@@ -609,25 +610,30 @@ class RemembrancesAtPriority(Toggle):
 
 # MARK: Excludes and Behavior
 
-class LocalItemOnly(OptionList):
+class LocalItemOnly(LocalItems):
     """Which categories should be local only, useful and progression excluded.
-    - [Est Items] **Item Group**
-    - [472] **Weapon**: All Weapons and Ammo.
+    
+    - [Est Items] **Item Group**    *done on full game*
+    - [472] **Weapons**: All Weapons and Ammo.
     - [423] **Armor**: All Armors.
-    - [160] **Accessory**: All Talismans.
-    - [105] **AshofWar**: All Ashes of War.
+    - [160] **Accessories**: All Talismans.
+    - [105] **Ash of war**: All Ashes of War.
     - [3250] **Goods**: The two below
     - [1000] **Filler**: All Crafting Mats, and some craftables.
-    - [2200] **Non-Filler**: Smithing stones, Spells and Spirit ashes.
+    - [2200] **Non-Filler**: Below and Key Items which don't get made local.
+      - [650] **Runes**: All Rune items.
+      - [585] **Smithing Stones**: Smithing Stones and Somber Stones.
+      - [220] **Spells**: Incantations and Sorceries.
+      - [86] **Gloveworts**: Grave and Ghost Gloveworts.
+      - [82] **Ashes**: Spirit Ashes.
     
-    This option really likes to fill error if to many items are local.
-    If every category is set to local, Accessory and AshofWar will be unset to dodge fill errors.
-    *host.yaml can force categories local.*
+    *host.yaml can force categories local, by default Filler, Ash of war, Gloveworts and Ashes are forced local.*
     """
     display_name = "Local Item Only"
-    default = ["Filler"]
-    valid_keys = ["weapon", "armor", "accessory", "ashofwar", "goods", "filler", "non-filler"]
-    valid_keys_casefold = True
+    default = ["Filler", "Ash of war", "Gloveworts", "Ashes"]
+    valid_keys = ["Weapons", "Armor", "Accessories", "Ash of war", "Goods", "Filler", "Non-Filler",
+                  "Smithing Stones", "Gloveworts", "Spells", "Ashes", "Runes"]
+    valid_keys_casefold = False
 
 class ERExcludeLocations(ExcludeLocations):
     """Prevent these locations from having an important item.
