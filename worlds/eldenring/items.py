@@ -102,6 +102,9 @@ class ERItemData:
 
     remembrance: bool = False
     """Whether this is a Remembrance."""
+    
+    great_rune: bool = False
+    """Whether this is a Great rune."""
 
     def __post_init__(self):
         self.ap_code = self.ap_code or ERItemData.__item_id
@@ -132,6 +135,9 @@ class ERItemData:
         
         if self.classification == ItemClassification.progression:
             names.append("Progression")
+
+        if self.great_rune:
+            names.append("Great Runes")
 
         names.append({
             ERItemCategory.GOODS: "Goods",
@@ -1760,12 +1766,12 @@ _vanilla_items = [
     ERItemData("Sellen's Primal Glintstone", 8144, ERItemCategory.GOODS, classification=ItemClassification.progression_deprioritized),
     ERItemData("Miniature Ranni", 8146, ERItemCategory.GOODS, classification=ItemClassification.progression_deprioritized),
 
-    ERItemData("Godrick's Great Rune", 8148, ERItemCategory.GOODS, classification=ItemClassification.progression),
-    ERItemData("Radahn's Great Rune", 8149, ERItemCategory.GOODS, classification=ItemClassification.progression),
-    ERItemData("Morgott's Great Rune", 8150, ERItemCategory.GOODS, classification=ItemClassification.progression),
-    ERItemData("Rykard's Great Rune", 8151, ERItemCategory.GOODS, classification=ItemClassification.progression),
-    ERItemData("Mohg's Great Rune", 8152, ERItemCategory.GOODS, classification=ItemClassification.progression),
-    ERItemData("Malenia's Great Rune", 8153, ERItemCategory.GOODS, classification=ItemClassification.progression),
+    ERItemData("Godrick's Great Rune", 8148, ERItemCategory.GOODS, great_rune=True, classification=ItemClassification.progression),
+    ERItemData("Radahn's Great Rune", 8149, ERItemCategory.GOODS, great_rune=True, classification=ItemClassification.progression),
+    ERItemData("Morgott's Great Rune", 8150, ERItemCategory.GOODS, great_rune=True, classification=ItemClassification.progression),
+    ERItemData("Rykard's Great Rune", 8151, ERItemCategory.GOODS, great_rune=True, classification=ItemClassification.progression),
+    ERItemData("Mohg's Great Rune", 8152, ERItemCategory.GOODS, great_rune=True, classification=ItemClassification.progression),
+    ERItemData("Malenia's Great Rune", 8153, ERItemCategory.GOODS, great_rune=True, classification=ItemClassification.progression),
 
     ERItemData("Lord of Blood's Favor", 8154, ERItemCategory.GOODS, classification=ItemClassification.progression_deprioritized),
     ERItemData("Lord of Blood's Favor (Soaked)", 8155, ERItemCategory.GOODS, skip=True),
@@ -2056,7 +2062,7 @@ _vanilla_items = [
     ERItemData("Dragon Heart x3", 10060, ERItemCategory.GOODS, classification=ItemClassification.progression_deprioritized, count=3),
     ERItemData("Dragon Heart x5", 10060, ERItemCategory.GOODS, classification=ItemClassification.progression_deprioritized, count=5),
     *ERItemData("Lost Ashes of War", 10070, ERItemCategory.GOODS).counts([2]),
-    ERItemData("Great Rune of the Unborn", 10080, ERItemCategory.GOODS, classification=ItemClassification.progression),
+    ERItemData("Great Rune of the Unborn", 10080, ERItemCategory.GOODS, great_rune=True, classification=ItemClassification.progression),
 
     *ERItemData("Smithing Stone [1]", 10100, ERItemCategory.GOODS, upgrade_item=True, upgrade_tier=1).counts([2, 3, 4, 5, 6]),
     *ERItemData("Smithing Stone [2]", 10101, ERItemCategory.GOODS, upgrade_item=True, upgrade_tier=1).counts([2, 3, 4, 6, 7, 8]),
@@ -3048,6 +3054,8 @@ item_name_groups: Dict[str, Set] = {
     "Armor": set(),
     "Accessories": set(),
     "Ash of war": set(),
+    
+    "Great Runes": set(),
     
     "Filler": set(),
     "Non-Filler": set(),

@@ -357,10 +357,8 @@ class EldenRing(World):
     def _allow_boss_for_rykard(self, boss: ERBossInfo) -> bool:
         """Returns whether boss is a valid location for Rykard in this seed."""
         if not boss.allow_rykard and self.options.restrictive_bosses: return False 
-        else: return True
-        
-        # removed base / dlc restriction, so dlc only doesnt have both rykard and serpent in it everytime
-        # or not self.options.enable_dlc and boss.dlc or not self.base_enabled and not boss.dlc
+        elif boss.dlc and self.options.enable_dlc or not boss.dlc: return True
+        return False
 
     #MARK: Connections
     def create_regions(self) -> None:
@@ -1175,7 +1173,7 @@ class EldenRing(World):
             if "talisman pouches" not in dlc_start_lower: all_injectable_items += [item_table["Talisman Pouch"] for i in range(3)]
             if "memory stones" not in dlc_start_lower: all_injectable_items += [item_table["Memory Stone"] for i in range(8)]
             if "whetblades" not in dlc_start_lower: 
-                all_injectable_items += [item_table["Iron Whetblade"],item_table["Red-Hot Whetblade"], 
+                all_injectable_items += [item_table["Iron Whetblade"],item_table["Red-Hot Whetblade"], item_table["Whetstone Knife"], 
                     item_table["Sanctified Whetblade"], item_table["Glintstone Whetblade"], item_table["Black Whetblade"]]
             if "upgrade bell bearings" not in dlc_start_lower:
                 if self.options.smithing_bell_bearing_option.value == 3:
