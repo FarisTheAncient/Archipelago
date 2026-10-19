@@ -514,30 +514,35 @@ class ERPriorityLocationGroups(PriorityLocations):
     If you add more priority locations then progression items, random priority locations will contain normal items.
     Otherwise your world would contain a lot of other worlds progression.
     
+    Base Game
     - **Achievement Boss**: Base game Achievement bosses.
-    - **DLC Remembrance Boss**: DLC Remembrance bosses.
     - **Boss Reward**: Base game bosses. *Use exclude_dungeon for overworld bosses only.*
+    - **Key Items**: Base game Key items.
+    - **Shop**: Base game unmissable shops.
+    - **Map**: Base game Map pillars.
+    - **Seedtree**: Golden Seed trees.
+    - **Church**: Sacred Tears.
+    - **Basin**: Basins that contain tears.
+    \nDLC
+    - **DLC Remembrance Boss**: DLC Remembrance bosses.
     - **DLC Boss Reward**: DLC bosses. *Use exclude_dungeon for overworld bosses only.*
+    - **DLC Key Items**: DLC Key items.
+    - **DLC Shop**: DLC unmissable shops.
+    - **DLC Map**: DLC Map pillars.
+    - **Cross**: All cross items.
+    - **Fragment**: Scadu Fragments. *Includes enemy dropped ones.*
+    - **Revered**: Revered Spirit Ashes.
+    - **Spiritspring Stones**: Spiritspring Stone if spiritspring_stones is on.
+    \nBoth *-for now*
     - **Chest**: Chests.
     - **Scarab**: Scarabs.
-    - **Seedtree**: Golden Seed trees.
-    - **Basin**: Basins that contain tears.
-    - **Church**: Sacred Tears.
-    - **Map**: Map pillars.
-    - **Fragment**: Scadu Fragments. *Includes enemy dropped ones.*
-    - **Cross**: All cross items.
-    - **Revered**: Revered Spirit Ashes.
-    - **Key Items**: Key items.
-    - **Shop**: Unmissable shops.
-    - **Spiritspring Stones**: Spiritspring Stone if spiritspring_stones is on.
     """ 
     
     display_name = "Priority Location Groups"
-    default = ["Key Items", "Boss Reward", "DLC Boss Reward", "Seedtree", "Map", "Church", "Cross", "Fragment"]
-    valid_keys = ["Chest", "Scarab", "Seedtree", "Basin", "Church", "Map", "Key Items", 
+    default = ["Key Items", "DLC Key Items", "Boss Reward", "DLC Boss Reward", "Seedtree", "Map", "DLC Map", "Church", "Cross", "Fragment"]
+    valid_keys = ["Chest", "Scarab", "Seedtree", "Basin", "Church", "Map", "DLC Map", "Key Items", "DLC Key Items", 
         "Fragment", "Cross", "Revered", "Achievement Boss", "DLC Remembrance Boss", "Boss Reward", "DLC Boss Reward",
-        "Shop", "Spiritspring Stones",
-        ]
+        "Shop", "DLC Shop", "Spiritspring Stones"]
     valid_keys_casefold = False
     
 class ERImportantAtPriorityOnly(DefaultOnToggle):

@@ -111,7 +111,7 @@ class ERItemData:
 
         This is computed from the properties assigned to this item."""
         names = []
-        if self.classification == ItemClassification.progression or self.classification == ItemClassification.progression: 
+        if self.classification == ItemClassification.progression:
             names.append("Progression")
 
         names.append({

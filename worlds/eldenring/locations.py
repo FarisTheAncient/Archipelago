@@ -602,7 +602,11 @@ class ERLocationData:
         if self.achievement: names.append("Achievement Boss")      
         if self.remembrance and self.dlc: names.append("DLC Remembrance Boss")
         
-        if self.keyitem and not self.missable: names.append("Key Items")
+        if self.keyitem and not self.missable: 
+            if self.dlc:
+                names.append("DLC Key Items")
+            else:
+                names.append("Key Items")
         if self.prominent: names.append("Prominent")
         if self.progression: names.append("Progression")
         if self.hostile_npc: names.append("Hostile NPC Rewards")
@@ -611,7 +615,10 @@ class ERLocationData:
         if self.chest: names.append("Chest")
         if self.scarab: names.append("Scarab")
         if self.progshop: 
-            names.append("Shop")
+            if self.dlc:
+                names.append("DLC Shop")
+            else:
+                names.append("Shop")
             self.disallow_duplicates = True
         if self.outoftheway: names.append("Out of the Way")
         if self.drop: names.append("Drop")
@@ -619,7 +626,11 @@ class ERLocationData:
         if self.blizzard: names.append("Blizzard")
         if self.dlc: names.append("DLC")
         if self.furnacegolem: names.append("Furnace Golem")
-        if self.map: names.append("Map")
+        if self.map: 
+            if self.dlc:
+                names.append("DLC Map")
+            else:
+                names.append("Map")
         if self.church: names.append("Church")
         if self.cross: names.append("Cross")
         if self.seedtree: names.append("Seedtree")
@@ -6367,8 +6378,11 @@ location_name_groups: Dict[str, Set[str]] = {
     "Achievement Boss": set(),
     "Boss Reward": set(),
     "DLC": set(),
+    "DLC Key Items": set(),
     "DLC Remembrance Boss": set(),
     "DLC Boss Reward": set(),
+    "DLC Map": set(),
+    "DLC Shop": set(),
     "Furnace Golem": set(),
     "Hostile NPC Rewards": set(),
     "Friendly NPC Rewards": set(),
