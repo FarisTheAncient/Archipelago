@@ -635,10 +635,10 @@ class ERExcludeLocations(ExcludeLocations):
     - **Drop**: One time drop items from enemies.
     - **Dungeon**: All locations in mini dungeons. *Caves, Catas, Tunnels, ect..*
     
-    - **Post Leyndell**: Used for great rune hunt, excludes everything after Leyndell.
+    - **Post Leyndell**: Used for great rune hunt, excludes everything after Leyndell. *-untested*
     """ # - **Post Stormveil**: Used for short runs, excludes everything after Stormveil.   needs code to stop rules past stormveil, leyndell and dlc
     default = frozenset({"Hidden", "Drop", "Dungeon"}) # "Post Stormveil"
-    valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell", } # testing "All Locations"
+    valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell"} # testing "All Locations"
     valid_keys_casefold = False
     
     unconverted_groups = set() # this is so dumb but it works, i need the unconverted group names

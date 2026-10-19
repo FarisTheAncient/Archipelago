@@ -220,12 +220,10 @@ class EldenRing(World):
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
             
-            if slot_data["exclude_groups"]: # re convert the groups so UT doesn't show locations with prog
-                self.exclude_groups = slot_data["exclude_groups"]
-                self.options.exclude_locations.value = set()
-                for group in self.exclude_groups:
-                    self.options.exclude_locations.value.update(location_name_groups[group])
-                    print(location_name_groups[group])
+            # re convert the groups so UT doesn't show locations with prog
+            self.options.exclude_locations.value = set()
+            for group in self.exclude_groups:
+                self.options.exclude_locations.value.update(location_name_groups[group])
         
             # Inform Universal Tracker where Rykard is being randomized to.
             if slot_options["enemy_rando"] and slot_options["rykard_encounter"] == False:
@@ -249,10 +247,12 @@ class EldenRing(World):
         for region in location_tables: # make sure table has all values
             self.dupe_location_tables.setdefault(region, [])
         
-        self.dlc_excluded = "DLC" in self.exclude_groups
-        if self.dlc_excluded and self.options.excluded_location_behavior.value >= 3:
-            # do not rando or omit, just disabled the dlc lol
-            self.options.enable_dlc.value = False
+        self.dlc_excluded = "DLC" in self.exclude_groups and self.options.enable_dlc
+        if self.dlc_excluded:
+            if self.options.excluded_location_behavior.value >= 3:
+                # do not rando or omit, just disabled the dlc lol
+                self.options.enable_dlc.value = False
+            self.options.dlc_start.value = 0
         
         self.base_enabled = not (self.options.dlc_start == 1 and self.options.enable_dlc)
         self.created_regions = set()
@@ -729,6 +729,10 @@ class EldenRing(World):
                     # make base items dlc if in dlc
                     new_item.found_in_dlc = True
                     self.itempool.append(new_item)
+        
+        # after dlc regions and items are created, disable DLC
+        if self.dlc_excluded:
+            self.options.enable_dlc.value = False
         
         injectables = self._create_injectable_items(num_required_extra_items)
         num_required_extra_items -= len(injectables)
@@ -1414,7 +1418,7 @@ class EldenRing(World):
 
 
     #MARK: Rules
-    def set_rules(self) -> None: 
+    def set_rules(self) -> None:
         
         self._dragon_communion_rules()
         self._add_remembrance_rules()
@@ -1619,7 +1623,7 @@ class EldenRing(World):
             if self.options.dlc_start == 1:
                 self._add_entrance_rule("Rauh Ruins Limited", 
                     lambda state: state.has("Imbued Sword Key", self.player, 1) or self._can_go_to(state, "Ancient Ruins of Rauh"))
-            elif not self.dlc_excluded:
+            else:
                 if (self.options.dlc_scadutree_fragments.value
                     or self.options.dlc_messmer_kindle.value
                     or self.options.separate_progression.value): # only do loop if one of these are on
@@ -1723,6 +1727,17 @@ class EldenRing(World):
             self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: state.has("Imbued Sword Key", self.player, 3))
             self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: state.has("Imbued Sword Key", self.player, 3))
         
+        if self.dlc_excluded: # exclude scadu and messmer kindle for base game
+            for region in self.multiworld.get_regions(self.player):
+                for location in region.locations:
+                    if region.name in region_order:
+                        self._add_item_rule(location.name,
+                            lambda item: (item.player != self.player)
+                                or (item.data.base_name != "Scadutree Fragment" and item.data.base_name != "Revered Spirit Ash"))
+                        self._add_item_rule(location.name,
+                            lambda item: (item.player != self.player)
+                                or (item.data.name != "Messmer's Kindling" and item.data.name != "Messmer's Kindling Shard"))
+        
         # no runes in shops
         for loc in self.multiworld.get_unfilled_locations(self.player):
             if loc.data.shop:
@@ -1744,10 +1759,6 @@ class EldenRing(World):
         # if more then 1 world exists stop prio placing outside of prio
         if self.options.important_at_priority_only:
             if self.multiworld.players != 1: # more then 1 eldenring
-                # for world in [self.multiworld.worlds[w] for w in self.multiworld.worlds]:
-                #     # if important_at_priority_only is off or game isn't eldenring add restriction rules
-                #     if world.game == "EldenRing" and not world.options.important_at_priority_only or world.game != "EldenRing":
-                        # Make non-priority locations exclude progression items.
                 for loc in self.multiworld.get_unfilled_locations(self.player):
                     if loc.progress_type != LocationProgressType.PRIORITY:
                         if self.options.other_world_useful_at_priority and loc.data.name in self.all_possible_priority_locations:
@@ -3422,8 +3433,6 @@ class EldenRing(World):
                         break
 
         slot_data = {
-            # for UT since I remove some excluded locations and the regen thinks the locations become prio, need to pass the OG location names
-            "exclude_groups": self.options.exclude_locations.excluded_groups(),
             "options": {
                 "key_item_shards": self.options.key_item_shards.value,
                 "exclude_dungeon": self.options.exclude_dungeon.value,
