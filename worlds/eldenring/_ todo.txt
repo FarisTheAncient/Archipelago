@@ -12,9 +12,6 @@ python launcher.py "Build APWorlds" -- "Elden Ring"
 
 - TODO -
 
-make exclude DLC also disable rules and dlc prog items, so a base only run with dlc items is possible
-this includes post leyndell and post stormveil
-
 update some bosses to only be themselfs, ex maliketh is farum end boss
 
 finish region descriptions

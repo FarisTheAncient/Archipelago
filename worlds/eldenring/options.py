@@ -516,7 +516,7 @@ class ERPriorityLocationGroups(PriorityLocations):
     
     Base Game
     - **Achievement Boss**: Base game Achievement bosses.
-    - **Boss Reward**: Base game bosses. *Use exclude_dungeon for overworld bosses only.*
+    - **Boss Reward**: Base game bosses. *Use exclude_locations: 'Dungeon' for overworld bosses only.*
     - **Key Items**: Base game Key items.
     - **Shop**: Base game unmissable shops.
     - **Map**: Base game Map pillars.
@@ -527,7 +527,7 @@ class ERPriorityLocationGroups(PriorityLocations):
     - **Basin**: Basins that contain tears.
     \nDLC
     - **DLC Remembrance Boss**: DLC Remembrance bosses.
-    - **DLC Boss Reward**: DLC bosses. *Use exclude_dungeon for overworld bosses only.*
+    - **DLC Boss Reward**: DLC bosses. *Use exclude_locations: 'Dungeon' for overworld bosses only.*
     - **DLC Key Items**: DLC Key items.
     - **DLC Shop**: DLC unmissable shops.
     - **DLC Map**: DLC Map pillars.
