@@ -16,7 +16,7 @@ from worlds.generic.Rules import CollectionRule, ItemRule, add_rule, add_item_ru
 from .bosses import ERBossInfo, all_bosses, base_bosses, dlc_bosses, default_rykard_location, default_serpent_location, all_boss_locations_dictionary
 from .items import ERItem, ERItemData, ERItemCategory, filler_item_names_dlc, filler_item_names_vanilla, item_descriptions, item_table, item_table_vanilla, item_table_dlc, item_table_tp_dlc, item_name_groups
 from .locations import ERLocation, ERLocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order, region_order_dlc, dupable_locations
-from .options import EROptions, option_groups, shard_list
+from .options import EROptions, EnableDLC, option_groups, shard_list
 from .presets import er_options_presets
 from Options import OptionError, Option
 
@@ -1398,7 +1398,6 @@ class EldenRing(World):
 
     #MARK: Rules
     def set_rules(self) -> None:
-        
         self._dragon_communion_rules()
         self._add_remembrance_rules()
         self._add_equipment_of_champions_rules()
@@ -1705,17 +1704,6 @@ class EldenRing(World):
             self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: state.has("Imbued Sword Key", self.player, 3))
             self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: state.has("Imbued Sword Key", self.player, 3))
             self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: state.has("Imbued Sword Key", self.player, 3))
-        
-        if self.dlc_excluded: # exclude scadu and messmer kindle for base game
-            for region in self.multiworld.get_regions(self.player):
-                for location in region.locations:
-                    if region.name in region_order:
-                        self._add_item_rule(location.name,
-                            lambda item: (item.player != self.player)
-                                or (item.data.base_name != "Scadutree Fragment" and item.data.base_name != "Revered Spirit Ash"))
-                        self._add_item_rule(location.name,
-                            lambda item: (item.player != self.player)
-                                or (item.data.name != "Messmer's Kindling" and item.data.name != "Messmer's Kindling Shard"))
         
         # no runes in shops
         for loc in self.multiworld.get_unfilled_locations(self.player):
@@ -3411,6 +3399,9 @@ class EldenRing(World):
                         else:
                             dungeon_sweep_flag_to_locations.append(sweep_flags(flag, locations))
                         break
+
+        if self.dlc_excluded and self.options.excluded_location_behavior <= 2:
+            self.options.enable_dlc.value = EnableDLC.option_true
 
         slot_data = {
             "options": {

@@ -65,7 +65,7 @@ base_bosses = [
     ),
     ERBossInfo("Mad Pumpkin Head (LG/WR)", ["Limgrave", "Overworld", "Ruin"], 1044360800, 1044360800,
         locations=[
-            "LG/(WR): Glintstone Pebble - Sellen Shop",
+            # "LG/(WR): Glintstone Pebble - Sellen Shop",
             # "LG/(WR): Glintstone Stars - Sellen Shop",
             # "LG/(WR): Crystal Barrage - Sellen Shop",
             # "LG/(WR): Glintstone Arc - Sellen Shop",

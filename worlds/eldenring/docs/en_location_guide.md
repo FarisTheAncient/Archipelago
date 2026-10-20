@@ -23,4 +23,4 @@ Look up acronyms in the [Region Guide](./en_region_guide.md).
 
 `hostile npc drop`: the rare hostile npcs that aren't red
 <br>`invader drop`: invaders / red npcs
-<br>`enemy drop / ballon drop`: non boss enemies with a guaranteed drop
+<br>`enemy drop / balloon drop`: non boss enemies with a guaranteed drop

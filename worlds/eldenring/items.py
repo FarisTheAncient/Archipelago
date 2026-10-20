@@ -189,6 +189,11 @@ class ERItemData:
             and options.key_item_shards.value[shard_list[shard]]['Max'] > 1):
                 return True
         
+        # code to skip certain dlc items
+        if self.is_dlc and "DLC" in options.exclude_locations.excluded_groups():
+            if self.scadu or self.base_name == "Revered Spirit Ash":
+                return True
+        
         if (options.great_runes_required_mountain.value >= 0 and self.name == "Rold Medallion"
         or options.use_master_key.value != 0 and self.base_name == "Stonesword Key"
         or options.rykard_encounter and options.enemy_rando and self.name == "Serpent-Hunter"
