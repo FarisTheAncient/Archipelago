@@ -2,8 +2,10 @@ docs/region_descriptions.py
 docs/goal_boss_groups.py
 item script/
 location script/
+script/
 target script/
 tests/
+AGENTS.txt
 *.vscode
 *.apworld
 region lock ideas.md

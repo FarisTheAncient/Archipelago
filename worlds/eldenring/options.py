@@ -53,7 +53,7 @@ shard_list = { # item name: option name
 }
     
 class ExcludeDungeonBosses(DefaultOnToggle):
-    """Exclude mini dungeon bosses from Goal. ex: Catacomb, Cave, Tunnels ect.., and **not** Underground, Ruins or Evergaol bosses."""
+    """Exclude mini dungeon bosses from Goal. ex: Catacomb, Cave, Tunnels etc.., and **not** Underground, Ruins or Evergaol bosses."""
     display_name = "Exclude Mini Dungeon Bosses"
 
 class WorldLogic(Choice):
@@ -162,9 +162,10 @@ class DLCScadutreeFragments(Choice):
 
 class DLCTimingOption(Choice):
     """Guarantee that you don't need to enter the DLC until later in the run. 
-    This just changes how early you can get Mohgwyn Palace access so you'll still need to find the region_lock items if its on.
+    This just changes how early you can get Mohgwyn Palace access so you'll still need to find the region_lock items if it's on.
 
-    - **Early:** 'Pureblood Knight Medal' will spawn in an early sphere, unless MissableLocationBehaviorOption is set to do_not_randomize, it'll be at its normal spot.
+    - **Early:** 'Pureblood Knight Medal' will spawn in an early sphere, unless MissableLocationBehaviorOption
+      is set to do_not_randomize, it'll be at its normal spot.
     - **Mid:** You won't have Mohgwyn Palace access until after getting to Altus.
     - **Late:** You won't have Mohgwyn Palace access until after getting to Snowfield.
     """
@@ -246,7 +247,8 @@ class EnemyRando(DefaultOnToggle):
 
 class MergeAllBosses(DefaultOnToggle):
     """Merge all boss categories into the same pool.
-    \nWhen off: major bosses, minidungeon bosses, world minibosses, evergaol bosses, night bosses, dragon bosses are all randomized among themselves only"""
+    \nWhen off: major bosses, minidungeon bosses, world minibosses, evergaol bosses, night bosses,
+    dragon bosses are all randomized among themselves only."""
     display_name = "Merge All Bosses"
 
 class RestrictiveBossPlacement(DefaultOnToggle):
@@ -374,7 +376,7 @@ class NGPlusTrapChance(BaseTrapChance):
     display_name = "NG+ Trap Chance"
     
 class StatusTrapChance(BaseTrapChance):
-    """**Status Trap:** Applies a random status to the player, with a low chance of deathblight when receieveing multiple in close suggestion."""
+    """**Status Trap:** Applies a random status to the player, with a low chance of deathblight when receiving multiple in close succession."""
     display_name = "Status Trap Chance"
     
 class BlindnessTrapChance(BaseTrapChance):
@@ -382,7 +384,7 @@ class BlindnessTrapChance(BaseTrapChance):
     display_name = "Blindness Trap Chance"
     
 class BlizzardTrapChance(BaseTrapChance):
-    """**Blizzard Trap:** Spawns a blizzard that heavily limits visibility as long as you're outside."""
+    """**Blizzard Trap:** Spawns a blizzard that heavily limits visibility as long as you're outside, lasting for a while or until death."""
     display_name = "Blizzard Trap Chance"
     
 # game speed trap, speeds game up by 25% - 50%
