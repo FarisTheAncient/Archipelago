@@ -59,13 +59,28 @@ The game launches using an alternate save file which will not affect your main s
 
 ### Is there a tracker for this?
 
-The apworld is basically compatible with [Universal Tracker](https://archipelago.miraheze.org/wiki/Universal_Tracker). Elden Ring-specific trackers and hint systems may be added in the future. See also the [Location Guide](./en_location_guide.md) to read tracked and hinted locations.
+The apworld is compatible with [Universal Tracker](https://archipelago.miraheze.org/wiki/Universal_Tracker) and as of v0.1.3 does not need your original yaml. When priority locations are used, they are shown at the top of the list with an asterisk by their name.
+
+Map support is in progress. When it is available, instructions will be added here.
+
+See also the [Location Guide](./en_location_guide.md) to read tracked and hinted locations.
 
 ### Can I play on Linux?
 
-It appears to work to use Wine/Proton to run the randomizer exe and launch Elden Ring with the mod. However, instead of using the launch button, it may work better to install native Linux [me3](https://me3.help/) and use that to launch `randomizer-launcher.me3`. More details can be added here if a reliable setup flow is found.
+A native Linux randomizer program is planned at some point, which also requires implementing Linux support for some dependent libraries. Meanwhile, it should work to run `EldenRingArchipelagoRandomizer.exe` with ProtonTricks and then run Elden Ring with the same Proton version. Instrucitons by Lexipherous:
 
-A native Linux randomizer program is planned at some point, which also requires implementing Linux support for some dependent libraries.
+1. Download ProtonTricks. The flatpak version is recommended.
+2. In Steam, add a non-Steam game. Browse your files and find the `EldenRingArchipelagoRandomizer.exe` you downloaded, and set its Proton version in Steam compatibility settings.
+3. In Steam, run `EldenRingArchipelagoRandomizer.exe`. You will see a popup that requires a a runtime. Click the download button and download the needed exe file. It should look something like: `windowsdesktop-runtime-8.x.xx-win-x64.exe`.
+4. Open ProtonTricks and find "Non-Steam shortcut: EldenRingArchipelagoRandomizer.exe" in the list.
+5. The window will disappear, and in some cases the next window might take a bit of time to open, around 20 seconds.
+6. Once the next window pops up, select "Select the default wineprefix".
+7. Now select "Run an arbitrary executable (.exe/.msi/.msu)".
+8. In the file browser, locate the pick the windows runtime .exe you downloaded you downloaded in step 3, and follow the steps of the installer.
+9. Once installed, you can close ProtonTricks.
+10. In Steam, you can now run `EldenRingArchipelagoRandomizer.exe`.
+
+After completing randomization, it may work better to install native Linux [me3](https://me3.help/) to run `randomizer-launcher.me3` instead of using the launch button in the randomizer.
 
 ### Can I use this with Seamless Co-op?
 
