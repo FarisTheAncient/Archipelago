@@ -456,7 +456,7 @@ class EldenRing(World):
             create_connection("Caelid", "Abandoned Cave")
             create_connection("Caelid", "Great-Jar")
             create_connection("Caelid", "Minor Erdtree Catacombs")
-            create_connection("Caelid", "Gale Tunnel")
+            create_connection("Caelid", "Gael Tunnel")
             create_connection("Caelid", "Redmane Castle Post Radahn")
             
             create_connection("Caelid", "Dragonbarrow")
@@ -1062,8 +1062,9 @@ class EldenRing(World):
         if self.base_enabled and self.options.dlc_start == 0:
             
             if fall or region == "DLC Path": # path to dlc regions
+                fall = False
                 for r in ["Mohgwyn Palace","Consecrated Snowfield","Consecrated Snowfield Catacombs","Yelough Anix Tunnel",
-                        "Caelid","Caelid Catacombs","Sellia Crystal Tunnel","Abandoned Cave","Minor Erdtree Catacombs","Great-Jar","Gale Tunnel"
+                        "Caelid","Caelid Catacombs","Sellia Crystal Tunnel","Abandoned Cave","Minor Erdtree Catacombs","Great-Jar","Gael Tunnel"
                         ,"Redmane Castle Post Radahn","Wailing Dunes","War-Dead Catacombs"]:
                     prio_locations.extend(self.prio_in_region[r])              
 
@@ -1105,7 +1106,7 @@ class EldenRing(World):
             if region == "Caelid" or region == "Nokron, Eternal City":
                 fall = True
                 for r in ["Caelid","Caelid Catacombs","Sellia Crystal Tunnel","Abandoned Cave","Minor Erdtree Catacombs",
-                        "Gale Tunnel","Redmane Castle Post Radahn"]:
+                        "Gael Tunnel","Redmane Castle Post Radahn"]:
                     prio_locations.extend(self.prio_in_region[r])
                         
             if fall or region == "Altus Plateau":

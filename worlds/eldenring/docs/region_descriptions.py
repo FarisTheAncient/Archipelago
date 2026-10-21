@@ -135,7 +135,7 @@ def find_label(region: str) -> str:
     if region in ("Raya Lucaria Academy", "Raya Lucaria Academy Main", "Raya Lucaria Academy Chest", "Raya Lucaria Academy Library"):
         return "Raya Lucaria Academy"
     
-    if region in ("Caelid Catacombs", "Gaol Cave", "Sellia Crystal Tunnel", "Abandoned Cave", "Minor Erdtree Catacombs", "Gale Tunnel"):
+    if region in ("Caelid Catacombs", "Gaol Cave", "Sellia Crystal Tunnel", "Abandoned Cave", "Minor Erdtree Catacombs", "Gael Tunnel"):
         return "Caelid Dungeons"
     
     if region in ("Redmane Castle Post Radahn", "Wailing Dunes", "War-Dead Catacombs"):

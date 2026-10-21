@@ -4302,7 +4302,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("AP/(AT): Glintstone Scrap x6 - right path from mining room, lower chasm platform", "Glintstone Scrap x6", key="320500,0:0032057040::", targets=('lot:32050040')),
         ERLocationData("AP/(AT): Rune Arc - in big chest side room 1 from grace", "Rune Arc", key="320500,0:0032057910::", chest=True, targets=('lot:32050910')),
     ],
-    "Gale Tunnel":[ # caelid_gaeltunnel                                   done
+    "Gael Tunnel":[ # caelid_gaeltunnel                                   done
         ERLocationData("CL/(GT): Moonveil - boss drop", "Moonveil", key="320700,0:0000520660::", altboss=True, minidungeonboss=True, tunnelboss=True, targets=('lot:20661')),
         ERLocationData("CL/(GT): Dragon Heart - boss drop", "Dragon Heart", key="320700,0:0000520660::", altboss=True, minidungeonboss=True, tunnelboss=True, targets=('lot:20660')),
         ERLocationData("CL/(GT): Somber Smithing Stone [2] - in entrance shaft", "Somber Smithing Stone [2]", key="320700,0:0032077000::", targets=('lot:32070000')),
@@ -6082,7 +6082,7 @@ for region in [ # dungeons
     "Sellia Crystal Tunnel",
     "Abandoned Cave",
     "Minor Erdtree Catacombs",
-    "Gale Tunnel",
+    "Gael Tunnel",
     
     "War-Dead Catacombs",
     
