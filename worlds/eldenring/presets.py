@@ -104,7 +104,7 @@ template = {
 all_random_options = {
     "progression_balancing":                "random-range-25-75",
     "accessibility":                        "random",
-    "goal":                                 "random",
+    "goal":                                 ["Random"],
     "exclude_dungeon":                      "random",
     "world_logic":                          "random",
     "soft_logic":                           "random",
@@ -117,7 +117,7 @@ all_random_options = {
     
     "enable_dlc":                           "random",
     "dlc_start":                            "random",
-    "dlc_starting_items":                   "random",
+    "dlc_starting_items":                   DLCStartingItems.default,
     "dlc_starting_shop":                    "random",
     "dlc_care_package":                     "random",
     "dlc_initial_rune_level":               "random",
@@ -156,7 +156,7 @@ all_random_options = {
     "smooth_rune_items":                    SmoothRuneItems.option_false,
     "spell_shop_spells_only":               "random",
     "early_legacy_dungeons":                "random",
-    "priority_location_groups":             "random",
+    "priority_location_groups":             ERPriorityLocationGroups.default,
     "important_at_priority_only":           "random",
     "important_at_priority_early":          "random",
     "useful_at_priority":                   "random",

@@ -15,9 +15,12 @@ class GoalOption(OptionSet):
     If multiple bosses are selected, all of them must be defeated in order to
     achieve your goal. By default, only "Final Boss" and "DLC Final Boss" is
     selected.
+    
+    If you want random bosses to be goal bosses you can put 'Random'. 
+    This overwrites all other goal bosses and will be a max of host.yaml goal_bosses_allowed or all_bosses.
     """
     display_name = "Goal"
-    valid_keys = {type + " Boss" for boss in all_bosses if boss.flag for type in boss.type}
+    valid_keys = {type + " Boss" for boss in all_bosses if boss.flag for type in boss.type} | {"Random"}
     default = frozenset({"Final Boss", "DLC Final Boss"})
 
 class KeyItemShards(OptionDict): # max value is set in shard verify func in gen_early

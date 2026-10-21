@@ -1303,5 +1303,7 @@ for boss in dlc_bosses:
 all_bosses = base_bosses + dlc_bosses
 
 all_boss_locations_dictionary: Dict[str, ERBossInfo] = {}
+boss_name_to_data: Dict[str, ERBossInfo] = {}
 for boss in all_bosses:
+    boss_name_to_data.update({boss.name: boss})
     all_boss_locations_dictionary.update({loc: boss for loc in boss.locations})

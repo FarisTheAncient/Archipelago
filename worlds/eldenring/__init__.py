@@ -13,7 +13,7 @@ from Fill import remaining_fill, fill_restrictive, sweep_from_pool, FillError
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import CollectionRule, ItemRule, add_rule, add_item_rule
 
-from .bosses import ERBossInfo, all_bosses, base_bosses, dlc_bosses, default_rykard_location, default_serpent_location, all_boss_locations_dictionary
+from .bosses import ERBossInfo, all_bosses, base_bosses, dlc_bosses, default_rykard_location, default_serpent_location, all_boss_locations_dictionary, boss_name_to_data
 from .items import ERItem, ERItemData, ERItemCategory, filler_item_names_dlc, filler_item_names_vanilla, item_descriptions, item_table, item_table_vanilla, item_table_dlc, item_table_tp_dlc, item_name_groups
 from .locations import ERLocation, ERLocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order, region_order_dlc, dupable_locations
 from .options import EROptions, EnableDLC, option_groups, shard_list
@@ -3115,13 +3115,21 @@ class EldenRing(World):
     def _goal_bosses(self) -> list[ERBossInfo]:
         """Returns all the bosses that are goals for this run."""
         result = []
-        for name in self.options.goal:
-            assert name.endswith(" Boss")
-            goal_type = name[:-len(" Boss")]
-            boss = [boss for boss in all_bosses if goal_type in boss.type and boss.flag != None and not boss.missable]
-            assert boss
-            # no dupe bosses
-            [result.append(b) for b in boss if b not in result]
+        if "Random" in self.options.goal:
+            if self.base_enabled:
+                allowed_base = [boss for boss in base_bosses if boss.flag != None and not boss.missable]
+                result += self.multiworld.random.sample(allowed_base, self.multiworld.random.randint(1,min(int(self.settings.goal_bosses_allowed/1.5), len(allowed_base))))
+            if not self.dlc_excluded and self.options.enable_dlc:
+                allowed_dlc = [boss for boss in dlc_bosses if boss.flag != None and not boss.missable]
+                result += self.multiworld.random.sample(allowed_dlc, self.multiworld.random.randint(1,min(int(self.settings.goal_bosses_allowed/3), len(allowed_dlc))))
+        else:
+            for name in self.options.goal:
+                assert name.endswith(" Boss")
+                goal_type = name[:-len(" Boss")]
+                boss = [boss for boss in all_bosses if goal_type in boss.type and boss.flag != None and not boss.missable]
+                assert boss
+                # no dupe bosses
+                [result.append(b) for b in boss if b not in result]
         return result
     
     def _is_complete(self, state: CollectionState) -> bool:
@@ -3130,6 +3138,10 @@ class EldenRing(World):
     
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
         text = ""
+        
+        if self.goal_bosses:
+            text += f"\n{self.player_name}'s goal bosses: {sorted([boss.name for boss in self.goal_bosses
+            ], key=lambda boss: location_dictionary[boss_name_to_data[boss].locations[0]].region_value if boss_name_to_data[boss].locations else 999)}\n"
         
         if self.serpent_location and self.serpent_location != default_serpent_location:
             text += f"\nSerpent takes the place of {self.serpent_location.name} in {self.player_name}'s world\n"
