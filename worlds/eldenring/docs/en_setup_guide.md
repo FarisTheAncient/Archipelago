@@ -4,7 +4,7 @@
 
 ## Required software
 
-- [Elden Ring](https://store.steampowered.com/app/1245620/ELDEN_RING/) 1.17.1 from Steam
+- [Elden Ring](https://store.steampowered.com/app/1245620/ELDEN_RING/) 1.17.2 from Steam
 - [Elden Ring Archipelago Randomizer](https://github.com/thefifthmatt/SoulsRandomizers/releases) client (includes apworld)
 
 ## Setting up
