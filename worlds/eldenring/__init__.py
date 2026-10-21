@@ -252,11 +252,11 @@ class EldenRing(World):
         for region in location_tables: # make sure table has all values
             self.dupe_location_tables.setdefault(region, [])
         
-        self.dlc_excluded = "DLC" in self.exclude_groups and self.options.enable_dlc
+        self.dlc_excluded = "DLC" in self.exclude_groups and self.options.enable_dlc.value
         if self.dlc_excluded:
             if self.options.excluded_location_behavior.value >= 3:
                 # do not rando or omit, just disabled the dlc lol
-                self.options.enable_dlc.value = False
+                self.options.enable_dlc.value = 0
             self.options.dlc_start.value = 0
         
         self.base_enabled = not (self.options.dlc_start == 1 and self.options.enable_dlc)
@@ -707,7 +707,7 @@ class EldenRing(World):
         
         # after dlc regions and items are created, disable DLC
         if self.dlc_excluded:
-            self.options.enable_dlc.value = False
+            self.options.enable_dlc.value = 0
         
         injectables = self._create_injectable_items(num_required_extra_items)
         num_required_extra_items -= len(injectables)
@@ -3413,6 +3413,7 @@ class EldenRing(World):
                         break
 
         if self.dlc_excluded and self.options.excluded_location_behavior <= 2:
+            # Reenable DLC after logic so that randomizer can use DLC items and enemies
             self.options.enable_dlc.value = EnableDLC.option_true
 
         slot_data = {
