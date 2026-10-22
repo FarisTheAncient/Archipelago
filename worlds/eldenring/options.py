@@ -541,7 +541,7 @@ class ERPriorityLocationGroups(PriorityLocations):
     - **DLC Scarab**: DLC Scarabs.
     - **Cross**: All cross items.
     - **Fragment**: Scadu Fragments. *Includes enemy dropped ones.*
-    - **Revered**: Revered Spirit Ashes.
+    - **Revered**: Revered Spirit Ashes. *Includes enemy dropped ones.*
     - **Spiritspring Stones**: Spiritspring Stone if spiritspring_stones is on.
     """ 
     

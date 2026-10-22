@@ -301,6 +301,7 @@ class ERLocationData:
             self.ap_code = self.ap_code or ERLocationData.__location_id
             ERLocationData.__location_id += 1
         if self.enemyfragment: self.fragment = True
+        if self.enemyrevered: self.revered = True
         if self.hangingpot: self.hidden = True
             
         if self.exclusive: # makes sure exclusive is marked missable
@@ -1677,7 +1678,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("AP/AHJ: Golden Rune [4] - to S on hill E of a camp", "Golden Rune [4]", key="603950,0:1039507020::", targets=('lot:1039500020')),
         ERLocationData("AP/GLE: Godfrey Icon - boss drop Evergaol", "Godfrey Icon", key="603950,0:1039507100::", enemytalisman=True, altboss=True, evergaol=True, targets=('lot:1039500100')), #1
         ERLocationData("AP/AHJ: Perfume Bottle - to N in camp", "Perfume Bottle", key="603951,0:0000066760::", targets=('lot:1039510000')),
-        ERLocationData("AP/AHJ: Ash of War: Earthshaker - scarab to SE on road", "Ash of War: Earthshaker", key="603951,0:0000540304::", scarab=True, targets=('lot:40304')),
+        ERLocationData("AP/AHJ: Ash of War: Earthshaker - scarab to SW on road", "Ash of War: Earthshaker", key="603951,0:0000540304::", scarab=True, targets=('lot:40304')),
         ERLocationData("AP/AHJ: Troll's Golden Sword - in caravan chest to W in lower camp", "Troll's Golden Sword", key="603951,0:1038517090::", chest=True, targets=('lot:1038510090')),
         ERLocationData("AP/AHJ: Fan Daggers x5 - to W in S camp", "Fan Daggers x5", key="603951,0:1039517010::", targets=('lot:1039510010')),
         ERLocationData("AP/AHJ: Sacrificial Twig - in chest to W in N camp", "Sacrificial Twig", key="603951,0:1039517020::", targets=('lot:1039510020')),
