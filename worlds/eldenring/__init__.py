@@ -1529,7 +1529,7 @@ class EldenRing(World):
                 self._add_entrance_rule("Erdtree", lambda state: self._has_enough_great_runes(state, self.options.great_runes_required_erdtree.value))
             
             # Smithing bell bearing rules
-            if self.options.smithing_bell_bearing_option.value == 1:
+            if self.options.smithing_bell_bearing_option.value == 1 and self.soft_logic_enabled:
                 self._add_entrance_rule("Altus Plateau", lambda state: self._bell_bearings_required(state, 1, False))
                 self._add_entrance_rule("Capital Outskirts", lambda state: self._bell_bearings_required(state, 2, False))
                 self._add_entrance_rule("Flame Peak", lambda state: self._bell_bearings_required(state, 3, False))
