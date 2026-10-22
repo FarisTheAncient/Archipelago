@@ -76,41 +76,41 @@ Regions | [Base Game Regions](#base-game-1) | [DLC Regions](#dlc-1)
 ### Limgrave
 
 </td></tr>
-<tr><td><strong>LG/(AS): </strong>Artists Shack landmark, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/(AS): </strong>Artist&#x27;s Shack landmark, Mid Limgrave.</td></tr>
 <tr><td><strong>LG/(BS): </strong>Bridge of Sacrifice landmark, connection point between S Limgrave and Weeping Peninsula.</td></tr>
 <tr><td><strong>LG/(CE): </strong>Church of Elleh landmark, W Limgrave.</td></tr>
 <tr><td><strong>LG/(DBR): </strong>Dragon-Burnt Ruins landmark, S Limgrave.</td></tr>
 <tr><td><strong>LG/(FH): </strong>Fort Haight landmark, E Limgrave.</td></tr>
 <tr><td><strong>LG/(FHE): </strong>Forlorn Hound Evergaol, S Limgrave.</td></tr>
-<tr><td><strong>LG/(GR): </strong></td></tr>
-<tr><td><strong>LG/(MR): </strong></td></tr>
-<tr><td><strong>LG/(SWV): </strong></td></tr>
-<tr><td><strong>LG/(TCM): </strong></td></tr>
-<tr><td><strong>LG/(WR): </strong></td></tr>
-<tr><td><strong>LG/ALN: </strong></td></tr>
-<tr><td><strong>LG/ALS: </strong></td></tr>
-<tr><td><strong>LG/AS: </strong></td></tr>
-<tr><td><strong>LG/CC: </strong></td></tr>
-<tr><td><strong>LG/CE: </strong></td></tr>
-<tr><td><strong>LG/DBR: </strong></td></tr>
-<tr><td><strong>LG/FHE: </strong></td></tr>
-<tr><td><strong>LG/FHW: </strong></td></tr>
-<tr><td><strong>LG/GC: </strong></td></tr>
-<tr><td><strong>LG/HC: </strong></td></tr>
-<tr><td><strong>LG/MCO: </strong></td></tr>
-<tr><td><strong>LG/MCV: </strong></td></tr>
-<tr><td><strong>LG/ME: </strong></td></tr>
-<tr><td><strong>LG/MO: </strong></td></tr>
-<tr><td><strong>LG/MR: </strong></td></tr>
-<tr><td><strong>LG/SC: </strong></td></tr>
-<tr><td><strong>LG/SG: </strong></td></tr>
-<tr><td><strong>LG/SR: </strong></td></tr>
-<tr><td><strong>LG/SRW: </strong></td></tr>
-<tr><td><strong>LG/SWV: </strong></td></tr>
-<tr><td><strong>LG/SWVO: </strong></td></tr>
-<tr><td><strong>LG/TCM: </strong></td></tr>
-<tr><td><strong>LG/TFS: </strong></td></tr>
-<tr><td><strong>LG/WR: </strong></td></tr>
+<tr><td><strong>LG/(GR): </strong>Gatefront Ruins landmark, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/(MR): </strong>Mistwood Ruins landmark, E Limgrave.</td></tr>
+<tr><td><strong>LG/(SWV): </strong>Summonwater Village landmark, NE Limgrave.</td></tr>
+<tr><td><strong>LG/(TCM): </strong>Third Church of Marika landmark, E Limgrave.</td></tr>
+<tr><td><strong>LG/(WR): </strong>Waypoint Ruins landmark, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/ALN: </strong>Agheel Lake North grace, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/ALS: </strong>Agheel Lake South grace, S Limgrave.</td></tr>
+<tr><td><strong>LG/AS: </strong>Artist&#x27;s Shack landmark, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/CC: </strong>Coastal Cave landmark, SW Limgrave.</td></tr>
+<tr><td><strong>LG/CE: </strong>Church of Elleh landmark, W Limgrave.</td></tr>
+<tr><td><strong>LG/DBR: </strong>Dragon-Burnt Ruins landmark, S Limgrave.</td></tr>
+<tr><td><strong>LG/FHE: </strong>Forlorn Hound Evergaol, S Limgrave.</td></tr>
+<tr><td><strong>LG/FHW: </strong>Fort Haight West grave, SE Limgrave.</td></tr>
+<tr><td><strong>LG/GC: </strong>Groveside Cave landmark, W Limgrave.</td></tr>
+<tr><td><strong>LG/HC: </strong>Highroad Cave landmark, N Limgrave.</td></tr>
+<tr><td><strong>LG/MCO: </strong>Murkwater Coast grace, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/MCV: </strong>Murkwater Cave landmark, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/ME: </strong>Minor Erdtree, E Limgrave.</td></tr>
+<tr><td><strong>LG/MO: </strong>Mistwood Outskirts grace, E Limgrave.</td></tr>
+<tr><td><strong>LG/MR: </strong>Waypoint Ruins landmark, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/SC: </strong>Stormfoot Catacombs landmark, Mid Limgrave.</td></tr>
+<tr><td><strong>LG/SG: </strong>Stranded Graveyard landmark, SW Limgrave.</td></tr>
+<tr><td><strong>LG/SR: </strong>Seaside Ruins grace, SW Limgrave.</td></tr>
+<tr><td><strong>LG/SRW: </strong>Siofra River Well landmark, E Limgrave.</td></tr>
+<tr><td><strong>LG/SWV: </strong>Summonwater Village landmark, NE Limgrave.</td></tr>
+<tr><td><strong>LG/SWVO: </strong>Summonwater Village Outskirts grace, NE Limgrave.</td></tr>
+<tr><td><strong>LG/TCM: </strong>Third Church of Marika landmark, E Limgrave.</td></tr>
+<tr><td><strong>LG/TFS: </strong>The First Step grace, SW Limgrave.</td></tr>
+<tr><td><strong>LG/WR: </strong>Waypoint Ruins landmark, Mid Limgrave.</td></tr>
 <tr><td><h3>
 
 ### Stormhill

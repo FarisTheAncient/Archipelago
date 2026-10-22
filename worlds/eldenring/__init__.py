@@ -1062,7 +1062,6 @@ class EldenRing(World):
         if self.base_enabled and self.options.dlc_start == 0:
             
             if fall or region == "DLC Path": # path to dlc regions
-                fall = False
                 for r in ["Mohgwyn Palace","Consecrated Snowfield","Consecrated Snowfield Catacombs","Yelough Anix Tunnel",
                         "Caelid","Caelid Catacombs","Sellia Crystal Tunnel","Abandoned Cave","Minor Erdtree Catacombs","Great-Jar","Gael Tunnel"
                         ,"Redmane Castle Post Radahn","Wailing Dunes","War-Dead Catacombs"]:
