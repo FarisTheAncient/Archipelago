@@ -3367,13 +3367,11 @@ class EldenRing(World):
         # locations.
         location_ids_to_keys: Dict[int, str] = {}
         location_ids_to_targets: Dict[int, list[str]] = {}
-        location_ids_to_name: Dict[int, str] = {}
         for location in cast(List[ERLocation], self.multiworld.get_filled_locations(self.player)):
             # Skip events and only look at this world's locations
             if (location.address is not None and location.item.code is not None
                     and location.data.key):
                 location_ids_to_keys[location.address] = location.data.key
-                location_ids_to_name[location.address] = location.data.name
                 if location.data.targets:
                     if isinstance(location.data.targets, str):
                         location.data.targets = [location.data.targets]
@@ -3509,7 +3507,6 @@ class EldenRing(World):
             "forceBosses": force_bosses,
             "apIdsToItemIds": ap_ids_to_er_ids,
             "itemCounts": item_counts,
-            "locationIdsToName": location_ids_to_name,
             "locationIdsToKeys": location_ids_to_keys,
             "locationIdsToTargets": location_ids_to_targets,
             "allStartingItems": self.all_starting_items, # list of _er_item_full_id
