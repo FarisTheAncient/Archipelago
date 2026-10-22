@@ -1399,6 +1399,8 @@ class EldenRing(World):
             self.multiworld.register_indirect_condition(self.get_region("Deeproot Depths Upper"), self.get_entrance("Go To Deeproot Depths"))
             self.multiworld.register_indirect_condition(self.get_region("Deeproot Depths"), self.get_entrance("Go To Leyndell, Royal Capital"))
             self.multiworld.register_indirect_condition(self.get_region("Volcano Manor"), self.get_entrance("Go To Volcano Manor Dungeon"))
+            self.multiworld.register_indirect_condition(self.get_region("Raya Lucaria Academy Main"), self.get_entrance("Go To Volcano Manor Dungeon"))
+            self.multiworld.register_indirect_condition(self.get_region("Volcano Manor Dungeon"), self.get_entrance("Go To Volcano Manor"))
             self.multiworld.register_indirect_condition(self.get_region("Volcano Manor Dungeon"), self.get_entrance("Go To Altus Plateau"))
             
             # altus before caelid
@@ -1682,10 +1684,13 @@ class EldenRing(World):
             self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: state.has("Imbued Sword Key", self.player, 3))
             self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: state.has("Imbued Sword Key", self.player, 3))
         
-        # no runes in shops
+        # no runes in shops, and remembrances
         for loc in self.multiworld.get_unfilled_locations(self.player):
             if loc.data.shop:
-                self._add_item_rule(loc.name, lambda item: (item.player != self.player and item.game != "Eldenring") or item.data.runes == None)
+                if self.options.remembrances_at_priority: # figure out a way to exclude remembrances from shops but let them be prio
+                    self._add_item_rule(loc.name, lambda item: (item.player != self.player and item.game != "Eldenring") or item.data.runes == None)
+                else:
+                    self._add_item_rule(loc.name, lambda item: (item.player != self.player and item.game != "Eldenring") or item.data.runes == None and not item.data.remembrance)
         
         # Rykard and Serpent Rule
         if not self.options.rykard_encounter:

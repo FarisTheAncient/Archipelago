@@ -6240,7 +6240,7 @@ for location_name, location_table in location_tables.items():
     ])
     
     # Add enemy drop to drop tag so it can be exclued
-    if location_name.__contains__("enemy drop") or location_name.__contains__("hostile npc drop"):
+    if location_name.__contains__("enemy drop") or location_name.__contains__("hostile npc drop") or location_name.__contains__("invader drop"):
         location_data.drop = True    
         
     if location_name.__contains__("- Enia"):

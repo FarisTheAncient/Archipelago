@@ -136,7 +136,7 @@ base_bosses = [
     # MARK: Stormveil
     ERBossInfo("Margit, the Fell Omen (SV)", ["Stormveil Castle", "Main"], 10000850, 10000850,
         locations=[
-            "SV/CT: Talisman Pouch - boss drop" # + the entire castle, but im not doing all that
+            "SV/CT: Talisman Pouch - boss drop"
         ]
     ),
     ERBossInfo("Godrick the Grafted (SV)", ["Stormveil Castle", "Remembrance", "Great Rune", "Main"], 10000800, 10000800, allow_rykard=True,
@@ -836,8 +836,7 @@ base_bosses = [
     ),
     ERBossInfo("Commander Niall (MotG/CS)", ["Mountaintops of the Giants", "Overworld", "Main"], 1051570800, 1051570800,
         locations=[
-            "MotG/(CS): Veteran's Prosthesis - mainboss drop",
-            "MotG/(CS): Haligtree Secret Medallion (Left) - after boss"
+            "MotG/(CS): Veteran's Prosthesis - mainboss drop"
         ]
     ),
     ERBossInfo("Erdtree Avatar (MotG)", ["Mountaintops of the Giants", "Overworld"], 1052560800, 1052560800,
@@ -1040,9 +1039,7 @@ dlc_bosses = [
     ERBossInfo("Divine Beast Dancing Lion (BTS)", ["Belurat", "DLC Remembrance"], 20000800, 20000800,
         locations=[
             "BTS/SF: Remembrance of the Dancing Lion - mainboss drop",
-            "BTS/BTS: Divine Beast Head - boss drop",
-            "BTS/TDB: Revered Spirit Ash - on statue after boss",
-            "BTS/TDB: Tower of Shadow Message - at the top of the stairs after boss"
+            "BTS/BTS: Divine Beast Head - boss drop"
         ]
     ),
     
@@ -1090,10 +1087,7 @@ dlc_bosses = [
     # Stone Coffin Fissure
     ERBossInfo("Putrescent Knight (SCF)", ["Stone Coffin Fissure", "DLC Remembrance"], 22000800, 22000800, allow_rykard=True,
         locations=[
-            "SCF/FD: Remembrance of Putrescence - mainboss drop",
-            "SCF/GDP: St. Trina Disciple's Cookbook [3] - right of St. Trina",
-            "SCF/GDP: St. Trina's Smile - Thiollier invader drop, after you die to St. Trina four times and tell him your findings",
-            "SCF/GDP: St. Trina's Blossom - on St. Trina's body after EI mainboss"
+            "SCF/FD: Remembrance of Putrescence - mainboss drop"
         ]
     ),
     
@@ -1227,11 +1221,6 @@ dlc_bosses = [
     ERBossInfo("Metyr, Mother of Fingers (FRM)", ["Finger Ruins", "DLC Remembrance"], 25000800, 25000800, allow_rykard=True,
         locations=[
             "FRM: Remembrance of the Mother of Fingers - mainboss drop",
-            "SA/(CMM): Maternal Staff - kill invader Ymir",
-            "SA/(CMM): High Priest Hat - kill invader Ymir",
-            "SA/(CMM): High Priest Robe - kill invader Ymir",
-            "SA/(CMM): High Priest Gloves - kill invader Ymir",
-            "SA/(CMM): High Priest Undergarments - kill invader Ymir"
         ]
     ),
     ERBossInfo("Count Ymir, Mother of Fingers (CMM)", ["Finger Ruins"], 2051450720, 2051450800,
