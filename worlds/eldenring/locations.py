@@ -310,7 +310,7 @@ class ERLocationData:
         """Whether this location is missable given a set of options."""
         return self.missable if isinstance(self.missable, bool) else self.missable(self, options)
 
-    def should_omit(self, options: EROptions) -> bool:
+    def should_omit(self, options: EROptions, excludes: Set[str]) -> bool:
         """Whether this location should be omitted given a set of options."""
         return (
             self.dlc and not options.enable_dlc.value
@@ -325,7 +325,7 @@ class ERLocationData:
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
         ) or (
             options.excluded_location_behavior.value == 4
-            and self.name in options.exclude_locations.value
+            and self.name in excludes
             and self.name not in all_boss_locations_dictionary
             and item_table[self.default_item_name].is_important(options) not in 
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
@@ -336,7 +336,7 @@ class ERLocationData:
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
         )
 
-    def should_randomize(self, options: EROptions) -> bool:
+    def should_randomize(self, options: EROptions,  excludes: Set[str]) -> bool:
         """Whether this location should be forced to contain its default item."""
         if not ( # if randomize is False, return False else continue
             self.randomize if isinstance(self.randomize, bool)
@@ -348,7 +348,7 @@ class ERLocationData:
             and self.is_missable(options)
         ) or (
             options.excluded_location_behavior.value >= 3
-            and self.name in options.exclude_locations.value
+            and self.name in excludes
         ) or (self.default_item_name == "Crafting Kit" and options.crafting_kit_option.value == 2
         ) or (self.default_item_name == "Flask of Wondrous Physick" and options.physick_flask_option.value == 2
         ) or (self.map and options.map_option.value == 2

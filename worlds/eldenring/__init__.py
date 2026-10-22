@@ -225,11 +225,6 @@ class EldenRing(World):
                 opt: Optional[Option] = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
-            
-            # re convert the groups so UT doesn't show locations with prog
-            self.options.exclude_locations.value = set()
-            for group in self.exclude_groups:
-                self.options.exclude_locations.value.update(location_name_groups[group])
         
             # Inform Universal Tracker where Rykard is being randomized to.
             if slot_options["enemy_rando"] and slot_options["rykard_encounter"] == False:
@@ -275,10 +270,10 @@ class EldenRing(World):
         for loc in self.all_excluded_locations.copy():
             if (not self.base_enabled and not location_dictionary[loc].dlc 
                 or not self.options.enable_dlc and location_dictionary[loc].dlc
-                or ItemClassification.progression in item_table[location_dictionary[loc].default_item_name].is_important(self.options)
-                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options)):
+                or self.options.excluded_location_behavior >= 3 and # don't do_not_randomize or omit prog or useful
+                (ItemClassification.progression in item_table[location_dictionary[loc].default_item_name].is_important(self.options)
+                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options))):
                 self.all_excluded_locations.remove(loc)
-                self.options.exclude_locations.value.remove(loc)
         
         for group in self.settings.force_local_items: # add forced setting groups
             if group not in item_name_groups:
@@ -555,7 +550,7 @@ class EldenRing(World):
             create_connection("Miquella's Haligtree", "Elphael, Brace of the Haligtree")
             
             if (self.options.dlc_timing == 2
-                or not location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options)):
+                or not location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options, self.all_excluded_locations)):
                 create_connection("Consecrated Snowfield", "Mohgwyn Palace")
             elif self.options.dlc_timing == 1:
                 create_connection("Altus Plateau", "Mohgwyn Palace")
@@ -631,10 +626,6 @@ class EldenRing(World):
     def create_region(self, region_name, location_table: List[ERLocationData]) -> Region:
         new_region = Region(region_name, self.player, self.multiworld)
 
-        # Use this to un-exclude event locations so the fill doesn't complain about items behind
-        # them being unreachable.
-        excluded = self.options.exclude_locations.value
-
         for location in location_table:
             status = self._location_status(location)
             if status.is_absent:
@@ -653,14 +644,10 @@ class EldenRing(World):
                     )
                 ): 
                     new_location.progress_type = LocationProgressType.EXCLUDED
-                #     if location.name in self.all_priority_locations: # if its excluded remove it from priority
-                #         self.all_priority_locations.remove(location.name)
-                # elif location.name in self.all_priority_locations:
-                #     if location.hidden: self.all_priority_locations.remove(location.name)
             else:
                 # Don't consider non-randomized locations to be AP-excluded
-                if location.name in excluded:
-                    excluded.remove(location.name)
+                if location.name in self.all_excluded_locations:
+                    # excluded.remove(location.name)
                     # Only remove from all_excluded if excluded does not have priority over missable
                     if not (self.options.missable_location_behavior < self.options.excluded_location_behavior):
                         self.all_excluded_locations.remove(location.name)
@@ -1337,12 +1324,6 @@ class EldenRing(World):
             # until after `set_rules()` runs.
             if not location.item and location.name not in self.all_excluded_locations
             and location.item_rule(item)
-            # if not self.options.important_at_priority_only # all ignored if option off
-            # or (item.is_important(self.options) != ItemClassification.progression and item.is_important(self.options) != ItemClassification.useful) # bypass if not important 
-            # or (item.is_important(self.options) == ItemClassification.progression or item.is_important(self.options) == ItemClassification.useful) # important
-            # and (location.name in self.all_priority_locations # location is priority
-            # or location.name in dupe_location.data.name[dupe_location.data.name.find(":")+2:] for dupe_location in self.all_duplicate_locations) # location is duped priority
-            # and self.options.important_at_priority_only # option is on
         ]
 
         if not candidate_locations:
@@ -1568,7 +1549,7 @@ class EldenRing(World):
                 self._add_entrance_rule("Caelid", lambda state: self._has_key_or_shards(state, "Rusty Key"))
                 self._add_entrance_rule("Altus Plateau", "Academy Glintstone Key")
         
-            if location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options):
+            if location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options, self.all_excluded_locations):
                 if self.options.dlc_start == 0 and self.options.enable_dlc:
                     if self.options.dlc_timing == 2:
                         self._add_entrance_rule("Mohgwyn Palace", lambda state: self._can_go_to(state, "Consecrated Snowfield"))
@@ -3058,11 +3039,8 @@ class EldenRing(World):
                 lambda item: not item.advancement
             )
 
-        # Prevent the player from prioritizing and "excluding" the same location
-        self.options.priority_locations.value -= allow_useful_locations
-
         if self.options.excluded_location_behavior == "allow_useful":
-            self.options.exclude_locations.value.clear()
+            self.all_excluded_locations.clear()
    
     def _add_location_rule(
         self,
@@ -3170,11 +3148,11 @@ class EldenRing(World):
             if location in location_dictionary: data = location_dictionary[location]
             else: data = self.dupe_location_dictionary[location]
 
-        if data.should_omit(self.options): return _LocationStatus.ABSENT
+        if data.should_omit(self.options, self.all_excluded_locations): return _LocationStatus.ABSENT
         if data.is_event: return _LocationStatus.UNRANDOMIZED_UNMISSABLE
 
         missable = data.is_missable(self.options)
-        if data.should_randomize(self.options):
+        if data.should_randomize(self.options, self.all_excluded_locations):
             return (
                 _LocationStatus.RANDOMIZED_MISSABLE if missable
                 else _LocationStatus.RANDOMIZED_UNMISSABLE
