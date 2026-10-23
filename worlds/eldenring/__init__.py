@@ -272,7 +272,8 @@ class EldenRing(World):
                 or not self.options.enable_dlc and location_dictionary[loc].dlc
                 or self.options.excluded_location_behavior >= 3 and # don't do_not_randomize or omit prog or useful
                 (ItemClassification.progression in item_table[location_dictionary[loc].default_item_name].is_important(self.options)
-                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options))):
+                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options))
+                or self.options.missable_location_behavior >= 3 and location_dictionary[loc].missable):
                 self.all_excluded_locations.remove(loc)
         
         for group in self.settings.force_local_items: # add forced setting groups
@@ -730,8 +731,8 @@ class EldenRing(World):
         """Create duplicate locations."""
         important_items = []
         for item in self.itempool:
-            if (ItemClassification.progression in item.classification and not ItemClassification.deprioritized in item.classification 
-                or self.options.other_world_useful_at_priority and ItemClassification.useful in item.classification):
+            if (ItemClassification.progression in item.classification and not ItemClassification.deprioritized in item.classification):
+                # or self.options.other_world_useful_at_priority and ItemClassification.useful in item.classification):
                 important_items.append(item)
         
         dlc_priority = [loc for loc in self.all_priority_locations if location_dictionary[loc].dlc and self.options.enable_dlc]
@@ -1148,6 +1149,15 @@ class EldenRing(World):
                     if item_name != "Gravesite Lock" or self.options.dlc_start == 0 and self.options.enable_dlc:
                         all_injectable_items += [item_table[item_name]]
         
+        if self.options.seperate_imbued_key:
+            if self.base_enabled:
+                all_injectable_items += [
+                    item_table["Imbued Sword Key (Chapel of Anticipation)"],
+                    item_table["Imbued Sword Key (Nokron)"],
+                    item_table["Imbued Sword Key (Farum Azula)"]]
+            if self.options.enable_dlc:
+                all_injectable_items += [item_table["Imbued Sword Key (Ancient Ruins)"]]
+        
         for shard in shard_list:
             if (item_table[shard].is_dlc and self.options.enable_dlc or not item_table[shard].is_dlc and self.base_enabled
                 ) and shard_list[shard] in self.options.key_item_shards.value and self.options.key_item_shards.value[shard_list[shard]]['Max'] > 1:
@@ -1386,10 +1396,10 @@ class EldenRing(World):
         self._add_npc_rules()
         self._add_allow_useful_location_rules()
         self._region_lock()
+        self._key_rules()
         
         # MARK: Base Game Rules
         if self.base_enabled:
-            self._key_rules()
             self._add_shop_rules()
             
             # indirect connections
@@ -1576,11 +1586,8 @@ class EldenRing(World):
         # MARK: DLC Rules
         if self.options.enable_dlc:
                 
-            # dlc only else do
-            if self.options.dlc_start == 1:
-                self._add_entrance_rule("Rauh Ruins Limited", 
-                    lambda state: state.has("Imbued Sword Key", self.player, 1) or self._can_go_to(state, "Ancient Ruins of Rauh"))
-            else:
+            # not dlc only
+            if self.options.dlc_start != 1:
                 if (self.options.dlc_scadutree_fragments.value
                     or self.options.dlc_messmer_kindle.value
                     or self.options.separate_progression.value): # only do loop if one of these are on
@@ -1608,13 +1615,6 @@ class EldenRing(World):
                                         lambda item: (item.player != self.player) #and item.game != "EldenRing"
                                             or not (not (item.data.is_dlc or item.found_in_dlc) and item.advancement)
                                         )
-                                
-                                
-                self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: state.has("Imbued Sword Key", self.player, 4))
-                self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: state.has("Imbued Sword Key", self.player, 4))
-                self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: state.has("Imbued Sword Key", self.player, 4))
-                self._add_entrance_rule("Rauh Ruins Limited", 
-                    lambda state: state.has("Imbued Sword Key", self.player, 4) or self._can_go_to(state, "Ancient Ruins of Rauh"))
               
             self._add_entrance_rule("Enir-Ilim", lambda state: self._has_key_or_shards(state, "Messmer's Kindling"))
             
@@ -1678,11 +1678,6 @@ class EldenRing(World):
             # the funny gaol
             self._add_entrance_rule("Lamenter's Gaol (Upper)", "Gaol Upper Level Key")
             self._add_entrance_rule("Lamenter's Gaol (Lower)", "Gaol Lower Level Key")
-        else:
-            # vanilla imbued
-            self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: state.has("Imbued Sword Key", self.player, 3))
-            self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: state.has("Imbued Sword Key", self.player, 3))
-            self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: state.has("Imbued Sword Key", self.player, 3))
         
         # no runes in shops, and remembrances
         for loc in self.multiworld.get_unfilled_locations(self.player):
@@ -1793,6 +1788,20 @@ class EldenRing(World):
                 self._add_entrance_rule("Ancient Ruins of Rauh", "Ancient Ruins Lock")
             
     def _key_rules(self) -> None: # MARK: SSK Rules
+        # imbued sword key stuff
+        if not self.base_enabled:
+            self._add_entrance_rule("Rauh Ruins Limited", lambda state: self._choose_imbued_key_rules(state, 1, "Imbued Sword Key (Ancient Ruins)") or self._can_go_to(state, "Ancient Ruins of Rauh"))
+            return # don't do normal ssk rules
+        elif self.options.enable_dlc:
+            self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: self._choose_imbued_key_rules(state, 4, "Imbued Sword Key (Chapel of Anticipation)"))
+            self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: self._choose_imbued_key_rules(state, 4, "Imbued Sword Key (Nokron)"))
+            self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: self._choose_imbued_key_rules(state, 4, "Imbued Sword Key (Farum Azula)"))
+            self._add_entrance_rule("Rauh Ruins Limited", lambda state: self._choose_imbued_key_rules(state, 4, "Imbued Sword Key (Ancient Ruins)") or self._can_go_to(state, "Ancient Ruins of Rauh"))
+        else:
+            self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: self._choose_imbued_key_rules(state, 3, "Imbued Sword Key (Chapel of Anticipation)"))
+            self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: self._choose_imbued_key_rules(state, 3, "Imbued Sword Key (Nokron)"))
+            self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: self._choose_imbued_key_rules(state, 3, "Imbued Sword Key (Farum Azula)"))
+        
         # in order from early game to late game each rule needs to include the last count for an area
         
         # limgrave
@@ -1947,6 +1956,11 @@ class EldenRing(World):
         if self.options.use_master_key.value == 1:   return state.has(master_key, self.player)
         elif self.options.use_master_key.value == 2: return state.has("Stonesword Master Key", self.player)
         return self._has_enough_keys(state, keys_required)
+    
+    def _choose_imbued_key_rules(self, state: CollectionState, keys_required: int, imbued_key: str) -> bool:
+        "choose imbued key rules"
+        if self.options.seperate_imbued_key.value: return state.has(imbued_key, self.player)
+        return state.has("Imbued Sword Key", self.player, keys_required)
         
     def _dragon_communion_rules(self) -> None: # MARK: Dragon Rules
         """Rules for dragon communion"""
@@ -3405,6 +3419,7 @@ class EldenRing(World):
                 "great_runes_required_erdtree": self.options.great_runes_required_erdtree.value,
                 "royal_access": self.options.royal_access.value,
                 "use_master_key": self.options.use_master_key.value,
+                "seperate_imbued_key": self.options.seperate_imbued_key.value,
                 
                 "enable_tp_dlc": self.options.enable_tp_dlc.value,
                 "enable_dlc": self.options.enable_dlc.value,

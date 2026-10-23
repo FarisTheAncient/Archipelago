@@ -117,6 +117,11 @@ class StoneswordMasterKey(Choice):
     option_regional_keys = 1
     option_single_key = 2
     default = 1
+    
+class SeperateImbuedKey(Toggle): # unsupported make DefaultOnToggle
+    """Whether Imbued Keys are made into seperate keys for each imp statue."""
+    display_name = "Seperate Imbued Key"
+    visibility = Visibility.none
 
 # MARK: Tarnished Pack
 
@@ -645,18 +650,19 @@ class ERExcludeLocations(ExcludeLocations):
     """Prevent these locations from having an important item.
     - **DLC**: If you want DLC items but dont wanna do DLC.
     - **Hidden**: Hard to find locations.
+    - **Rise**: Chests at the top of rises.
     - **Blizzard**: The hard to see area of snowfield.
     - **Scarab**: Scarabs that drop items.
     - **Furnace Golem**: DLC Furnace Golems.
     - **Out of the Way**: Locations that take a bit to get.
     - **Drop**: One time drop items from enemies.
     - **Dungeon**: All locations in mini dungeons. *Caves, Catas, Tunnels, ect..*
+    - **Region Name**: Any individual region in the Region Guide.
     
     - **Post Leyndell**: Used for great rune hunt, excludes everything after Leyndell. *-untested*
-    - **Region Name**: Any region in the Region Guide.
     """ # - **Post Stormveil**: Used for short runs, excludes everything after Stormveil.   needs code to stop rules past stormveil, leyndell and dlc
-    default = frozenset({"Hidden", "Drop", "Dungeon"}) # "Post Stormveil"
-    valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell"
+    default = frozenset({"Hidden", "Rise", "Drop", "Dungeon"}) # "Post Stormveil"
+    valid_keys = {"DLC", "Hidden", "Rise", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell"
         } | {region for region in region_order + region_order_dlc}
     
     # testing "All Locations"
@@ -721,6 +727,7 @@ class EROptions(PerGameCommonOptions):
     great_runes_required_erdtree: GreatRunesRequiredErdtree
     royal_access: RoyalAccess
     use_master_key: StoneswordMasterKey
+    seperate_imbued_key: SeperateImbuedKey
     
     enable_tp_dlc: EnableTarnishedPack
     enable_dlc: EnableDLC
@@ -802,6 +809,7 @@ option_groups = [
         GreatRunesRequiredErdtree,
         RoyalAccess,
         StoneswordMasterKey,
+        SeperateImbuedKey,
     ]),
     OptionGroup("Other Randomizers", [
         EnemyRando,
