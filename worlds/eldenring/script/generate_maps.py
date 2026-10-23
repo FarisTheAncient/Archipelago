@@ -2,7 +2,9 @@ from argparse import ArgumentParser
 from dataclasses import dataclass
 import json
 import os
-from typing import Dict, Set, List, Iterable, Optional
+from typing import Dict, Set, List, Iterable, Optional, Union
+from PIL import Image, ImageFile
+import math
 
 from worlds.eldenring.locations import ERLocationData, location_tables, region_order_dlc
 
@@ -26,6 +28,15 @@ class MapGroup:
     underground: bool = False
     """Whether the map is base game underground. Can be inferred but simple
     enough to put here."""
+
+    zoom: float = 1.0
+    """Scaling factor to use on the map image"""
+
+    node_size: int = 15
+    """How big to make the nodes on the map"""
+
+    node_border: int = 4
+    """How big to make the border of the nodes on the map"""
 
     def regions(self) -> Iterable[str]:
         return self.override_regions or [self.name]
@@ -51,14 +62,14 @@ map_groups: List[MapGroup] = [
     # The canonical location is in the middle of the ocean (in-game map overrides this).
     # TODO: It has the same orientation as Fortified Manor in Leyndell so this is a great
     # candidate for a custom image based on that.
-    MapGroup("Roundtable Hold"),
+    MapGroup("Roundtable Hold", node_size=3, node_border=1),
 
     MapGroup("Stormveil Castle", [
         "Stormveil Start",
         "Stormveil Castle",
         "Stormveil Throne",
         "The Four Belfries (Chapel of Anticipation)",
-    ], silo=True),
+    ], silo=True, node_size=3, node_border=1),
 
     MapGroup("Weeping Peninsula", [
         "Weeping Peninsula",
@@ -89,11 +100,11 @@ map_groups: List[MapGroup] = [
         "Raya Lucaria Academy Main",
         "Raya Lucaria Academy Chest",
         "Raya Lucaria Academy Library",
-    ], silo=True),
-    MapGroup("Moonlight Altar", silo=True),
+    ], silo=True, node_size=5, node_border=2),
+    MapGroup("Moonlight Altar", silo=True, node_size=5, node_border=2),
 
     # Could also include locations outside the precipice in Liurnia for better bounding boxes.
-    MapGroup("Ruin-Strewn Precipice", silo=True),
+    MapGroup("Ruin-Strewn Precipice", silo=True, node_size=5, node_border=2),
 
     MapGroup("Caelid", [
         "Caelid",
@@ -118,22 +129,22 @@ map_groups: List[MapGroup] = [
         "Nokron, Eternal City Start",
         "Nokron, Eternal City",
         "The Four Belfries (Nokron)",
-    ], underground=True),
+    ], underground=True, node_size=5, node_border=2),
 
-    MapGroup("Mohgwyn Palace", silo=True, underground=True),
+    MapGroup("Mohgwyn Palace", silo=True, underground=True, node_size=3, node_border=1),
 
     MapGroup("Deeproot Depths", [
         "Deeproot Depths Upper",
         "Deeproot Depths",
         "Deeproot Depths Boss",
-    ], underground=True),
+    ], underground=True, node_size=5, node_border=2),
 
     # TODO astel can be separated, ignored, or manually placed
     MapGroup("Ainsel River", [
         "Ainsel River",
         "Ainsel River Main",
         "Lake of Rot",
-    ], underground=True),
+    ], underground=True, node_size=5, node_border=2),
 
     MapGroup("Altus Plateau", [
         "Altus Plateau",
@@ -155,7 +166,7 @@ map_groups: List[MapGroup] = [
         "Gelmir Hero's Grave",
         "Seethewater Cave",
         "Volcano Cave",
-    ]),
+    ], node_size=5, node_border=2),
 
     MapGroup("Volcano Manor", [
         "Volcano Manor Dungeon",
@@ -163,14 +174,14 @@ map_groups: List[MapGroup] = [
         "Volcano Manor Drawing Room",
         "Volcano Manor",
         "Volcano Manor Upper",
-    ], silo=True),
+    ], silo=True, node_size=5, node_border=2),
 
     MapGroup("Leyndell, Royal Capital", [
         "Leyndell, Royal Capital",
         "Leyndell, Royal Capital Unmissable",
         "Leyndell, Royal Capital Throne",
         "Divine Bridge",
-    ], silo=True),
+    ], silo=True, node_size=3, node_border=1),
 
     MapGroup("Leyndell, Ashen Capital", [
         "Leyndell, Ashen Capital",
@@ -178,13 +189,13 @@ map_groups: List[MapGroup] = [
         "Erdtree",
         "Leyndell, Royal Capital Unmissable", # also in Royal Capital
         "Divine Bridge", # also in Royal Capital
-    ], silo=True),
+    ], silo=True, node_size=3, node_border=1),
 
     MapGroup("Subterranean Shunning-Grounds", [
         "Subterranean Shunning-Grounds",
         "Leyndell Catacombs",
         "Frenzied Flame Proscription",
-    ], silo=True),
+    ], silo=True, node_size=3, node_border=1),
 
     MapGroup("Post-Leyndell", [
         "Divine Tower of East Altus",
@@ -203,7 +214,7 @@ map_groups: List[MapGroup] = [
         "Farum Azula",
         "Farum Azula Main",
         "The Four Belfries (Farum Azula)",
-    ]),
+    ], node_size=5, node_border=2),
 
     MapGroup("Consecrated Snowfield", [
         "Consecrated Snowfield",
@@ -216,7 +227,7 @@ map_groups: List[MapGroup] = [
     MapGroup("Miquella's Haligtree", [
         "Miquella's Haligtree",
         "Elphael, Brace of the Haligtree",
-    ]),
+    ], node_size=5, node_border=2),
 
     MapGroup("Gravesite Plain", [
         "Gravesite Plain",
@@ -233,12 +244,12 @@ map_groups: List[MapGroup] = [
         "Belurat",
         "Belurat Swamp",
         "Enir-Ilim",
-    ], silo=True),
+    ], silo=True, node_size=5, node_border=2),
 
     MapGroup("Castle Ensis", [
         "Castle Ensis",
         "Fog Rift Fort",
-    ], silo=True),
+    ], silo=True, node_size=5, node_border=2),
 
     # Jagged Peak is a big area but low check density
     MapGroup("Jagged Peak", [
@@ -277,22 +288,22 @@ map_groups: List[MapGroup] = [
 
     MapGroup("Shadow Keep", [
         "Shadow Keep",
-    ], silo=True),
+    ], silo=True, node_size=5, node_border=2),
 
     # Good luck
     MapGroup("Shadow Keep Storehouse", [
         "Shadow Keep Storehouse",
         "Shadow Keep Storehouse Back",
-    ], silo=True),
+    ], silo=True, node_size=5, node_border=2),
 
     MapGroup("Shadow Keep, Church District", [
         "Shadow Keep, Church District",
         "Shadow Keep, Church District Lower",
-    ], silo=True),
+    ], silo=True, node_size=5, node_border=2),
 
     MapGroup("Shadow Keep, West Rampart", [
         "Shadow Keep, West Rampart",
-    ], silo=True),
+    ], silo=True, node_size=5, node_border=2),
 
     # Huge area but very low check density
     MapGroup("Scaduview", [
@@ -315,6 +326,16 @@ class ImageCoord:
     x: int
     y: int
 
+    def dist(self, other: "ImageCoord") -> float:
+        return math.dist((self.x, self.y),(other.x, other.y))
+
+    def dist_node(self, other: "Node") -> float:
+        coords = [c for c in other.map_locations if c.image == self.image]
+        if len(coords) < 1:
+            return 9999999999.0 # Big number, not relevent how big
+        coords.sort(key=self.dist)
+        return coords[0].dist(self)
+
 
 @dataclass
 class MapImage:
@@ -330,11 +351,29 @@ class MapImage:
                 and self.min_y <= coord.y < self.max_y
                 and self.base_image == coord.image)
 
+class Node:
+    # Name is the key in the holding dict
+    sections: list[str] # List of location names (usually only one)
+    map_locations: list[ImageCoord] # What map to put the node on : Where to put it
+
+    def __init__(self, sections: Union[str,list[str]], map_locations: Union[ImageCoord,List[ImageCoord]]):
+        if isinstance(sections, str):
+            sections = [sections]
+        if isinstance(map_locations, ImageCoord):
+            map_locations = [map_locations]
+        self.sections = sections
+        self.map_locations = map_locations
 
 def main(map_dir: str):
     with open(os.path.join(map_dir, "coords.json")) as f:
         coords_data = json.load(f)
         key_locations: Dict[str, ImageCoord] = {key: ImageCoord(**coord) for (key, coord) in coords_data.items()}
+
+    output_dir = os.path.join(map_dir,"output")
+    if os.path.exists(output_dir):
+        import shutil
+        shutil.rmtree(output_dir)
+    os.mkdir(output_dir)
 
     def get_location_coord(location: ERLocationData) -> ImageCoord:
         if not location.key:
@@ -344,6 +383,11 @@ def main(map_dir: str):
     dungeon_regions: Set[str] = set(name for (name, locs) in location_tables.items() if any(loc.dungeon for loc in locs))
     dlc_regions: Set[str] = set(region_order_dlc)
     silo_regions: Set[str] = set(region for group in map_groups if group.silo for region in group.regions())
+    base_images: Dict[str,ImageFile.ImageFile] = {}
+    for group in ("underground", "dlc", "base"):
+        base_images[group] = Image.open(os.path.join(map_dir,f"{group}.png"))
+
+    output_locations: dict[str, Node] = {}
 
     for group in map_groups:
         regions = group.regions()
@@ -379,10 +423,14 @@ def main(map_dir: str):
             min_y=min(coord.y for coord in group_coords) - border,
             max_y=max(coord.y for coord in group_coords) + border,
         )
+        res = base_images[full_image.base_image].crop((full_image.min_x, full_image.min_y, full_image.max_x, full_image.max_y))
+        res = res.resize([int(group.zoom * (full_image.max_x-full_image.min_x)), int(group.zoom * (full_image.max_y - full_image.min_y))])
+        res.save(os.path.join(output_dir, f"{full_image.name}.png"))
         images = [full_image]
 
         # Quadratic or cubic or something nbd
         count = 0
+        local_nodes: list[Node] = []
         for region, locations in location_tables.items():
             if region not in regions and (group.silo or region in silo_regions):
                 continue
@@ -393,10 +441,37 @@ def main(map_dir: str):
                 coord = get_location_coord(location)
                 for image in images:
                     if image.contains(coord):
-                        # TODO: Do something
+                        map_coord = ImageCoord(image.name, int((coord.x - image.min_x) * group.zoom), int((coord.y - image.min_y) * group.zoom))
+                        local_nodes.sort(key=map_coord.dist_node)
+                        if len(local_nodes) > 0 and map_coord.dist_node(local_nodes[0]) < (group.node_size * 3): # about 2 * sqrt 2 so anything that has any overlap should be merged 
+                            local_nodes[0].sections.append(location.name)
+                        elif location.name not in output_locations:
+                            temp_node = Node(location.name, map_coord)
+                            output_locations[location.name] = temp_node
+                            local_nodes.append(temp_node)
+                        else:
+                            output_locations[location.name].map_locations.append(map_coord)
                         count += 1
 
         print(f"{group.name}: {count} locations")
+
+        # Now to generate the output files
+
+    maps_json = [{"img":f"{group.name}.png", "name":group.name, "location_size": group.node_size, "location_border_thickness": group.node_border} for group in map_groups]
+    # I tried to do this in a cursed comprehension but python wouldn't let me
+    locations_json = []
+    for node_name, node in output_locations.items():
+        temp_node = {"name":node_name, "sections":[], "map_locations":[]} # Pre-make both of these as we're going to need them
+        for section in node.sections:
+            temp_node["sections"].append({"name":section})
+        for m_loc in node.map_locations:
+            temp_node["map_locations"].append({"map":m_loc.image, "x":m_loc.x, "y":m_loc.y})
+        locations_json.append(temp_node)
+    with open(os.path.join(output_dir, "maps.json"), "w") as f:
+        json.dump(maps_json, f, indent=2)
+    with open(os.path.join(output_dir, "locations.json"), "w") as f:
+        json.dump(locations_json, f, indent=2)
+
 
 
 if __name__ == "__main__":

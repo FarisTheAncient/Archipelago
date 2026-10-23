@@ -5,7 +5,7 @@ from itertools import combinations
 from dataclasses import replace, dataclass, asdict
 import settings, typing, Utils, math, json
 from logging import warning
-from typing import cast, Any, Callable, Dict, Set, List, Optional, TextIO, Union, Tuple
+from typing import cast, Any, Callable, Dict, Set, List, Optional, TextIO, Union, Tuple, ClassVar
 
 from BaseClasses import CollectionState, MultiWorld, Region, Location, LocationProgressType, Entrance, ItemClassification
 from Fill import remaining_fill, fill_restrictive, sweep_from_pool, FillError
@@ -45,10 +45,17 @@ class EldenRingSettings(settings.Group):
     class GoalBossesAllowed(int):
         """How many Goal Bosses can Elden Ring have.
         There are 207 Bosses total in Base + DLC, and 165 in Base game."""
+
+    class UTPoptrackerPath(settings.FilePath):
+        """Path to the poptracker-like path for UT to load"""
+        description = "ER Maps zip"
+        required = False
+        ut_dialog_name = "Select ER Maps zip"
     
     force_local_items: ForceLocalItems = ForceLocalItems(["Filler", "Ash of war", "Gloveworts", "Ashes"])
     force_region_lock: typing.Union[ForceRegionLock, bool] = True
     goal_bosses_allowed: GoalBossesAllowed = GoalBossesAllowed(150)
+    ut_pack_path: UTPoptrackerPath = UTPoptrackerPath("")
 
 # Web stuff
 class EldenRingWeb(WebWorld):
@@ -155,6 +162,11 @@ class EldenRing(World):
     soft_logic_enabled: bool = None
     location_id_to_alias: Dict[int, str] = {}
     ut_can_gen_without_yaml = True
+    tracker_world: ClassVar = {
+        "external_pack_key": "ut_pack_path",
+        "map_page_maps":"maps.json",
+        "map_page_locations":"locations.json"
+    }
     
     base_enabled: bool = None
     dlc_excluded: bool = None
@@ -265,17 +277,17 @@ class EldenRing(World):
         
         self.all_priority_locations.update(self.options.priority_location_groups.value)
         for loc in self.all_priority_locations.copy():
-            if (not self.base_enabled and not location_dictionary[loc].dlc 
+            if (loc not in location_dictionary or (not self.base_enabled and not location_dictionary[loc].dlc 
                 or not self.options.enable_dlc and location_dictionary[loc].dlc 
-                or location_dictionary[loc].missable or loc in self.all_excluded_locations):
+                or location_dictionary[loc].missable or loc in self.all_excluded_locations)):
                 self.all_priority_locations.remove(loc)
             
         # remove excluded from prio then make sure excluded doesnt contain prog or useful
         for loc in self.all_excluded_locations.copy():
-            if (not self.base_enabled and not location_dictionary[loc].dlc 
+            if (loc not in location_dictionary or (not self.base_enabled and not location_dictionary[loc].dlc 
                 or not self.options.enable_dlc and location_dictionary[loc].dlc
                 or ItemClassification.progression in item_table[location_dictionary[loc].default_item_name].is_important(self.options)
-                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options)):
+                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options))):
                 self.all_excluded_locations.remove(loc)
                 self.options.exclude_locations.value.remove(loc)
         
@@ -285,7 +297,7 @@ class EldenRing(World):
             else: self.options.local_item_only.value.update(item_name_groups[group])
         
         for item in self.options.local_item_only.value:
-            if item_table[item].classification not in (ItemClassification.progression, ItemClassification.progression_deprioritized, ItemClassification.useful):
+            if item in item_table and item_table[item].classification not in (ItemClassification.progression, ItemClassification.progression_deprioritized, ItemClassification.useful):
                 self.options.local_items.value.add(item)
         self.local_items = self.options.local_items.value
         
@@ -3363,7 +3375,7 @@ class EldenRing(World):
                 location_ids_to_name[location.address] = location.data.name
                 if location.data.targets:
                     if isinstance(location.data.targets, str):
-                        location.data.targets = [location.data.targets]
+                        location.data.targets = (location.data.targets,)
                     location_ids_to_targets[location.address] = list(location.data.targets)
 
         duplicated_locations = {}
