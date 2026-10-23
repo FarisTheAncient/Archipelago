@@ -6,6 +6,7 @@ from Options import Choice, DeathLink, DefaultOnToggle, PriorityLocations, Exclu
     OptionGroup, OptionSet, PerGameCommonOptions, Range, Toggle, OptionError, Visibility, LocalItems
     
 from .bosses import all_bosses
+from .region_names import region_order, region_order_dlc
 
 # MARK: Game Options
 
@@ -15,9 +16,12 @@ class GoalOption(OptionSet):
     If multiple bosses are selected, all of them must be defeated in order to
     achieve your goal. By default, only "Final Boss" and "DLC Final Boss" is
     selected.
+    
+    If you want random bosses to be goal bosses you can put 'Random'. 
+    This overwrites all other goal bosses and will be a max of host.yaml goal_bosses_allowed or all_bosses.
     """
     display_name = "Goal"
-    valid_keys = {type + " Boss" for boss in all_bosses if boss.flag for type in boss.type}
+    valid_keys = {type + " Boss" for boss in all_bosses if boss.flag for type in boss.type} | {"Random"}
     default = frozenset({"Final Boss", "DLC Final Boss"})
 
 class KeyItemShards(OptionDict): # max value is set in shard verify func in gen_early
@@ -113,6 +117,11 @@ class StoneswordMasterKey(Choice):
     option_regional_keys = 1
     option_single_key = 2
     default = 1
+    
+class SeperateImbuedKey(Toggle): # unsupported make DefaultOnToggle
+    """Whether Imbued Keys are made into seperate keys for each imp statue."""
+    display_name = "Seperate Imbued Key"
+    visibility = Visibility.none
 
 # MARK: Tarnished Pack
 
@@ -537,7 +546,7 @@ class ERPriorityLocationGroups(PriorityLocations):
     - **DLC Scarab**: DLC Scarabs.
     - **Cross**: All cross items.
     - **Fragment**: Scadu Fragments. *Includes enemy dropped ones.*
-    - **Revered**: Revered Spirit Ashes.
+    - **Revered**: Revered Spirit Ashes. *Includes enemy dropped ones.*
     - **Spiritspring Stones**: Spiritspring Stone if spiritspring_stones is on.
     """ 
     
@@ -641,17 +650,22 @@ class ERExcludeLocations(ExcludeLocations):
     """Prevent these locations from having an important item.
     - **DLC**: If you want DLC items but dont wanna do DLC.
     - **Hidden**: Hard to find locations.
+    - **Rise**: Chests at the top of rises.
     - **Blizzard**: The hard to see area of snowfield.
     - **Scarab**: Scarabs that drop items.
     - **Furnace Golem**: DLC Furnace Golems.
     - **Out of the Way**: Locations that take a bit to get.
     - **Drop**: One time drop items from enemies.
     - **Dungeon**: All locations in mini dungeons. *Caves, Catas, Tunnels, ect..*
+    - **Region Name**: Any individual region in the Region Guide.
     
     - **Post Leyndell**: Used for great rune hunt, excludes everything after Leyndell. *-untested*
     """ # - **Post Stormveil**: Used for short runs, excludes everything after Stormveil.   needs code to stop rules past stormveil, leyndell and dlc
-    default = frozenset({"Hidden", "Drop", "Dungeon"}) # "Post Stormveil"
-    valid_keys = {"DLC", "Hidden", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell"} # testing "All Locations"
+    default = frozenset({"Hidden", "Rise", "Drop", "Dungeon"}) # "Post Stormveil"
+    valid_keys = {"DLC", "Hidden", "Rise", "Blizzard", "Scarab", "Furnace Golem", "Out of the Way", "Drop", "Dungeon", "Post Leyndell"
+        } | {region for region in region_order + region_order_dlc}
+    
+    # testing "All Locations"
     valid_keys_casefold = False
     
     unconverted_groups = set() # this is so dumb but it works, i need the unconverted group names
@@ -713,6 +727,7 @@ class EROptions(PerGameCommonOptions):
     great_runes_required_erdtree: GreatRunesRequiredErdtree
     royal_access: RoyalAccess
     use_master_key: StoneswordMasterKey
+    seperate_imbued_key: SeperateImbuedKey
     
     enable_tp_dlc: EnableTarnishedPack
     enable_dlc: EnableDLC
@@ -794,6 +809,7 @@ option_groups = [
         GreatRunesRequiredErdtree,
         RoyalAccess,
         StoneswordMasterKey,
+        SeperateImbuedKey,
     ]),
     OptionGroup("Other Randomizers", [
         EnemyRando,

@@ -14,19 +14,49 @@ def find_description(initial: str) -> str:
     match initial:
         # limgrave
         case "LG/(BS)": return "Bridge of Sacrifice landmark, connection point between S Limgrave and Weeping Peninsula."
-        case "LG/(AS)": return "Artists Shack landmark, Mid Limgrave."
+        case "LG/(AS)": return "Artist's Shack landmark, Mid Limgrave."
         case "LG/(CE)": return "Church of Elleh landmark, W Limgrave."
         case "LG/(DBR)": return "Dragon-Burnt Ruins landmark, S Limgrave."
         case "LG/(FH)": return "Fort Haight landmark, E Limgrave."
         case "LG/(FHE)": return "Forlorn Hound Evergaol, S Limgrave."
-        case "": return ""
-        case "": return ""
-        case "": return ""
-        case "": return ""
-        case "": return ""
-        case "": return ""
-        case "": return ""
+        case "LG/(GR)": return "Gatefront Ruins landmark, Mid Limgrave."
+        case "LG/(MR)": return "Mistwood Ruins landmark, E Limgrave."
+        case "LG/(SWV)": return "Summonwater Village landmark, NE Limgrave."
+        case "LG/(TCM)": return "Third Church of Marika landmark, E Limgrave."
+        case "LG/(WR)": return "Waypoint Ruins landmark, Mid Limgrave."
+        case "LG/ALN": return "Agheel Lake North grace, Mid Limgrave."
+        case "LG/ALS": return "Agheel Lake South grace, S Limgrave."
+        case "LG/AS": return "Artist's Shack landmark, Mid Limgrave."
+        case "LG/CC": return "Coastal Cave landmark, SW Limgrave."
+        case "LG/CE": return "Church of Elleh landmark, W Limgrave."
+        case "LG/DBR": return "Dragon-Burnt Ruins landmark, S Limgrave."
+        case "LG/FHE": return "Forlorn Hound Evergaol, S Limgrave."
+        case "LG/FHW": return "Fort Haight West grave, SE Limgrave."
+        case "LG/GC": return "Groveside Cave landmark, W Limgrave."
+        case "LG/HC": return "Highroad Cave landmark, N Limgrave."
+        case "LG/MCO": return "Murkwater Coast grace, Mid Limgrave."
+        case "LG/MCV": return "Murkwater Cave landmark, Mid Limgrave."
+        case "LG/ME": return "Minor Erdtree, E Limgrave."
+        case "LG/MO": return "Mistwood Outskirts grace, E Limgrave."
+        case "LG/MR": return "Waypoint Ruins landmark, Mid Limgrave."
+        case "LG/SC": return "Stormfoot Catacombs landmark, Mid Limgrave."
+        case "LG/SG": return "Stranded Graveyard landmark, SW Limgrave."
+        case "LG/SR": return "Seaside Ruins grace, SW Limgrave."
+        case "LG/SRW": return "Siofra River Well landmark, E Limgrave."        
+        case "LG/SWV": return "Summonwater Village landmark, NE Limgrave."
+        case "LG/SWVO": return "Summonwater Village Outskirts grace, NE Limgrave."
+        case "LG/TCM": return "Third Church of Marika landmark, E Limgrave."
+        case "LG/TFS": return "The First Step grace, SW Limgrave."
+        case "LG/WR": return "Waypoint Ruins landmark, Mid Limgrave."
         
+        # stormhill
+        case "": return "."
+        case "": return "."
+        case "": return "."
+        case "": return "."
+        case "": return "."
+        case "": return "."
+                        
         # limgrave dungeons
         case "LG/(CC)": return "Coastal Cave, SW Limgrave."
         case "LG/(CDC)": return "Church of Dragon Communion, through Coastal Cave SW Limgrave."
@@ -135,7 +165,7 @@ def find_label(region: str) -> str:
     if region in ("Raya Lucaria Academy", "Raya Lucaria Academy Main", "Raya Lucaria Academy Chest", "Raya Lucaria Academy Library"):
         return "Raya Lucaria Academy"
     
-    if region in ("Caelid Catacombs", "Gaol Cave", "Sellia Crystal Tunnel", "Abandoned Cave", "Minor Erdtree Catacombs", "Gale Tunnel"):
+    if region in ("Caelid Catacombs", "Gaol Cave", "Sellia Crystal Tunnel", "Abandoned Cave", "Minor Erdtree Catacombs", "Gael Tunnel"):
         return "Caelid Dungeons"
     
     if region in ("Redmane Castle Post Radahn", "Wailing Dunes", "War-Dead Catacombs"):

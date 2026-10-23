@@ -6,239 +6,7 @@ from BaseClasses import ItemClassification, Location, Region
 from .options import EROptions, ERPriorityLocationGroups
 from .items import ERItemCategory, item_table
 from .bosses import all_boss_locations_dictionary
-
-# Regions in approximate order of progression
-#MARK: Location Order
-region_order = [
-    # Limgrave
-    "Limgrave",
-    "Stormhill",
-    "Coastal Cave",
-    "Church of Dragon Communion",
-    "Groveside Cave",
-    "Stormfoot Catacombs",
-    "Limgrave Tunnels",
-    "Murkwater Cave",
-    "Murkwater Catacombs",
-    "Highroad Cave",
-    "Deathtouched Catacombs",
-    "Fringefolk Hero's Grave",
-    
-    # The hold
-    "Roundtable Hold",
-    
-    "Stormveil Start",
-    "Stormveil Castle",
-    "Stormveil Throne",
-    "Divine Tower of Limgrave",
-
-    # Weeping
-    "Weeping Peninsula",
-    "Impaler's Catacombs",
-    "Tombsward Catacombs",
-    "Tombsward Cave",
-    "Morne Tunnel",
-    "Earthbore Cave",
-    
-    # Siofra
-    "Siofra River",
-
-    # Liurnia
-    "Liurnia of The Lakes",
-    "Bellum Highway",
-    "Road's End Catacombs",
-    "Black Knife Catacombs",
-    "Cliffbottom Catacombs",
-    "Stillwater Cave",
-    "Lakeside Crystal Cave",
-    "Academy Crystal Cave",
-    "Raya Lucaria Crystal Tunnel",
-    "Caria Manor",
-    "Carian Study Hall",
-    "Carian Study Hall (Inverted)",
-    "Ainsel River",
-    "Ruin-Strewn Precipice",
-    
-    "The Four Belfries (Chapel of Anticipation)",
-    "The Four Belfries (Nokron)",
-    "The Four Belfries (Farum Azula)",
-    
-    "Raya Lucaria Academy",
-    "Raya Lucaria Academy Main",
-    "Raya Lucaria Academy Chest",
-    "Raya Lucaria Academy Library",
-    
-    # Caelid
-    "Caelid",
-    "Caelid Catacombs",
-    "Gaol Cave",
-    "Sellia Crystal Tunnel",
-    "Abandoned Cave",
-    "Minor Erdtree Catacombs",
-    "Gale Tunnel",
-    "Great-Jar",
-    "Redmane Castle Post Radahn",
-    "Wailing Dunes",
-    "War-Dead Catacombs",
-    
-    "Dragonbarrow",
-    "Dragonbarrow Cave",
-    "Sellia Hideaway",
-    "Divine Tower of Caelid",
-    
-    # Nokron
-    "Nokron, Eternal City Start",
-    "Nokron, Eternal City",
-    
-    "Deeproot Depths Upper",
-    "Deeproot Depths",
-    "Deeproot Depths Boss",
-    
-    # Ainsel Late
-    "Ainsel River Main",
-    "Lake of Rot",
-    "Moonlight Altar",
-    
-    # Altus
-    "Altus Plateau",
-    "Sainted Hero's Grave",
-    "Unsightly Catacombs",
-    "Perfumer's Grotto",
-    "Sage's Cave",
-    "Old Altus Tunnel",
-    "Altus Tunnel",
-    
-    # Mt Gelmir
-    "Mt. Gelmir",
-    "Wyndham Catacombs",
-    "Gelmir Hero's Grave",
-    "Seethewater Cave",
-    "Volcano Cave",
-    
-    # Volcano Manor
-    "Volcano Manor Dungeon",
-    "Volcano Manor Entrance",
-    "Volcano Manor Drawing Room",
-    "Volcano Manor",
-    "Volcano Manor Upper",
-    
-    # Capital Outskirts
-    "Capital Outskirts",
-    "Auriza Hero's Grave",
-    "Auriza Side Tomb",
-    "Sealed Tunnel",
-
-    # Leyndell
-    "Leyndell, Royal Capital",
-    "Leyndell, Royal Capital Unmissable",
-    "Leyndell, Royal Capital Throne",
-    "Divine Bridge",
-    
-    "Subterranean Shunning-Grounds",
-    "Leyndell Catacombs",
-    "Frenzied Flame Proscription",
-    
-    "Divine Tower of East Altus",
-    #forbidden lands
-    "Forbidden Lands",
-    "Hidden Path to the Haligtree",
-    
-    # Mountaintops
-    "Mountaintops of the Giants",
-    "Giants' Mountaintop Catacombs",
-    "Spiritcaller Cave",
-    "Flame Peak",
-    "Giant-Conquering Hero's Grave",
-    
-    # Farum Azula
-    "Farum Azula",
-    "Farum Azula Main",
-    
-    # Snowfield
-    "Consecrated Snowfield",
-    "Consecrated Snowfield Catacombs",
-    "Cave of the Forlorn",
-    "Yelough Anix Tunnel",
-    
-    "Mohgwyn Palace",
-
-    # Haligtree
-    "Miquella's Haligtree",
-    "Elphael, Brace of the Haligtree",
-    
-    
-    "Leyndell, Ashen Capital",
-    "Leyndell, Ashen Capital Throne",
-    "Erdtree",
-]
-
-#MARK: DLC Location Order
-region_order_dlc = [
-    #DLC
-    # Gravesite Plain
-    "Gravesite Plain",
-    "Fog Rift Catacombs",
-    "Belurat Gaol",
-    "Dragon's Pit",
-    "Ruined Forge Lava Intake",
-    
-    "Belurat",
-    "Belurat Swamp",
-    
-    "Castle Ensis",
-    "Fog Rift Fort",
-    
-    "Jagged Peak Foot",
-    "Jagged Peak",
-    
-    "Charo's Hidden Grave",
-    "Lamenter's Gaol (Entrance)",
-    "Lamenter's Gaol (Upper)", #main
-    "Lamenter's Gaol (Lower)", #boss
-    
-    # Scadu Altus
-    "Scadu Altus",
-    "Bonny Gaol",
-    "Ruined Forge of Starfall Past",
-    "Rauh Ruins Limited",
-    "Cathedral of Manus Metyr",
-    "Finger Ruins of Miyr",
-    
-    "Rauh Base",
-    "Scorpion River Catacombs",
-    "Taylew's Ruined Forge",
-    
-    "Ellac River",
-    "Rivermouth Cave",
-    
-    "Cerulean Coast",
-    "Finger Ruins of Rhia",
-    "Stone Coffin Fissure",
-    
-    # Shadow Keep
-    "Shadow Keep",
-    "Shadow Keep Storehouse",
-    "Shadow Keep Storehouse Back",
-    "Shadow Keep, West Rampart",
-    "Shadow Keep, Church District",
-    "Shadow Keep, Church District Lower",
-    
-    "Scaduview",
-    "Scadutree Base",
-    
-    "Ancient Ruins of Rauh",
-    
-    "Hinterland",
-    "Finger Ruins of Dheo",
-    
-    "Recluses' River",
-    "Darklight Catacombs",
-    
-    "Abyssal Woods",
-    "Midra's Manse",
-    
-    "Enir-Ilim",
-]
+from .region_names import region_order, region_order_dlc
 
 @dataclass
 class ERLocationData:
@@ -533,6 +301,7 @@ class ERLocationData:
             self.ap_code = self.ap_code or ERLocationData.__location_id
             ERLocationData.__location_id += 1
         if self.enemyfragment: self.fragment = True
+        if self.enemyrevered: self.revered = True
         if self.hangingpot: self.hidden = True
             
         if self.exclusive: # makes sure exclusive is marked missable
@@ -542,7 +311,7 @@ class ERLocationData:
         """Whether this location is missable given a set of options."""
         return self.missable if isinstance(self.missable, bool) else self.missable(self, options)
 
-    def should_omit(self, options: EROptions) -> bool:
+    def should_omit(self, options: EROptions, excludes: Set[str]) -> bool:
         """Whether this location should be omitted given a set of options."""
         return (
             self.dlc and not options.enable_dlc.value
@@ -557,7 +326,7 @@ class ERLocationData:
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
         ) or (
             options.excluded_location_behavior.value == 4
-            and self.name in options.exclude_locations.value
+            and self.name in excludes
             and self.name not in all_boss_locations_dictionary
             and item_table[self.default_item_name].is_important(options) not in 
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
@@ -568,7 +337,7 @@ class ERLocationData:
             (ItemClassification.progression, ItemClassification.progression_deprioritized)
         )
 
-    def should_randomize(self, options: EROptions) -> bool:
+    def should_randomize(self, options: EROptions,  excludes: Set[str]) -> bool:
         """Whether this location should be forced to contain its default item."""
         if not ( # if randomize is False, return False else continue
             self.randomize if isinstance(self.randomize, bool)
@@ -580,7 +349,7 @@ class ERLocationData:
             and self.is_missable(options)
         ) or (
             options.excluded_location_behavior.value >= 3
-            and self.name in options.exclude_locations.value
+            and self.name in excludes
         ) or (self.default_item_name == "Crafting Kit" and options.crafting_kit_option.value == 2
         ) or (self.default_item_name == "Flask of Wondrous Physick" and options.physick_flask_option.value == 2
         ) or (self.map and options.map_option.value == 2
@@ -612,6 +381,7 @@ class ERLocationData:
         if self.hostile_npc: names.append("Hostile NPC Rewards")
         if self.npc: names.append("Friendly NPC Rewards")
         if self.dungeon: names.append("Dungeon")
+        if self.rise: names.append("Rise")
         if self.chest: 
             if self.dlc:
                 names.append("DLC Chest")
@@ -1077,9 +847,9 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LG/ALN: Fire Grease - under bridge to SE", "Fire Grease", key="604337,0:1043377010::", targets=('lot:1043370010')),
         ERLocationData("LG/ALN: Arteria Leaf - to SE", "Arteria Leaf", key="604337,0:1043377020::", targets=('lot:1043370020')),
         ERLocationData("LG/ALN: Ash of War: Repeating Thrust - night boss drop to SE", "Ash of War: Repeating Thrust", key="604337,0:1043377400::", altboss=True, night=True, targets=('lot:1043370400')),
-        ERLocationData("LG/MCO: Armorer's Cookbook [1] - SW of MCO", "Armorer's Cookbook [1]", key="604338,0:0000067200::", targets=('lot:1043380000')),
+        ERLocationData("LG/MCO: Armorer's Cookbook [1] - to SW", "Armorer's Cookbook [1]", key="604338,0:0000067200::", targets=('lot:1043380000')),
         ERLocationData("LG/SB: Smithing Stone [1] - to S", "Smithing Stone [1]", key="604338,0:1043387010::", targets=('lot:1043380010')),
-        ERLocationData("LG/MCO: Golden Rune [2] - W of MCO", "Golden Rune [2]", key="604338,0:1043387020::", targets=('lot:1043380020')),
+        ERLocationData("LG/MCO: Golden Rune [2] - to W", "Golden Rune [2]", key="604338,0:1043387020::", targets=('lot:1043380020')),
         ERLocationData("LG/WS: Exalted Flesh - enemy camp NE of WS", "Exalted Flesh", key="604339,0:1043397010::", targets=('lot:1043390010')),
         ERLocationData("LG/SB: Smithing Stone [1] x2 - on bridge to E", "Smithing Stone [1] x2", key="604339,0:1043397020::", targets=('lot:1043390020')),
         ERLocationData("LG/HC: Turtle Neck Meat - N above HC", "Turtle Neck Meat", key="604339,0:1043397030::", targets=('lot:1043390030')),
@@ -1507,7 +1277,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/RC: Bloodflame Blade - scarab NW of RC", "Bloodflame Blade", key="603444,0:0000540218::", scarab=True, targets=('lot:40218')),
         ERLocationData("LL/TQ: Rimed Crystal Bud x3 - to SE in middle of buildings", "Rimed Crystal Bud x3", key="603444,0:1034447000::", targets=('lot:1034440000')),
         ERLocationData("LL/CT: Smithing Stone [2] x3 - to N in gazebo", "Smithing Stone [2] x3", key="603444,0:1034447010::", targets=('lot:1034440010')),
-        ERLocationData("LL/TQ: Icerind Hatchet - in chest to SE, in tower S side of TQ", "Icerind Hatchet", key="603444,0:1034447900::", targets=('lot:1034440900')),
+        ERLocationData("LL/TQ: Icerind Hatchet - in chest to SE, in tower S side of TQ", "Icerind Hatchet", key="603444,0:1034447900::", chest=True, targets=('lot:1034440900')),
         ERLocationData("LL/TQ: Dragon Heart - boss drop to N", "Dragon Heart", key="603445,0:0000530210::", altboss=True, dragonboss=True, targets=('lot:30210')),
         ERLocationData("LL/TQ: Dragonwound Grease - to N by boss", "Dragonwound Grease", key="603445,0:1034457010::", targets=('lot:1034450010')),
         ERLocationData("LL/TQ: Kukri x6 - to N by boss", "Kukri x6", key="603445,0:1034457020::", targets=('lot:1034450020')),
@@ -1635,7 +1405,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/(CM): Somber Smithing Stone [2] - enemy drop NW of fountain, 3/4", "Somber Smithing Stone [2]", key="603550,0:1035507780::", targets=('lot:424021030')),
         ERLocationData("LL/(CM): Somber Smithing Stone [2] - enemy drop SE of lower church stairs", "Somber Smithing Stone [2]", key="603550,0:1035507790::", targets=('lot:424021020')),
         ERLocationData("LL/(CM): Somber Smithing Stone [2] - enemy drop NW of fountain, 1/4", "Somber Smithing Stone [2]", key="603550,0:1035507800::", targets=('lot:424021010')),
-        ERLocationData("LL/(CM): Sword of Night and Flame - in chest, drop down from upper walkway onto building, down ladder", "Sword of Night and Flame", key="603550,0:1035507900::", targets=('lot:1035500900')),
+        ERLocationData("LL/(CM): Sword of Night and Flame - in chest, drop down from upper walkway onto building, down ladder", "Sword of Night and Flame", key="603550,0:1035507900::", chest=True, targets=('lot:1035500900')),
         ERLocationData("LL/(CM): Troll Knight's Sword - enemy drop middle of grand stairs", "Troll Knight's Sword", key="603550,0:1035507990::", targets=('lot:460021400')),
         ERLocationData("LL/(SWS): Latenna the Albinauric - talk to Latenna after talking to Albus", "Latenna the Albinauric", key="603641,0:0000400410::", missable=True, targets=('lot:104100')),
         ERLocationData("LL/(SWS): Blue Silver Mail Hood - kill Latenna", "Blue Silver Mail Hood", key="603641,0:0000400412::", missable=True, death=True, targets=('lot:114100')),
@@ -1661,7 +1431,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/(AGT): Glintstone Firefly x4 - NE corner of upper AGT", "Glintstone Firefly x4", key="603644,0:1036447060::", targets=('lot:1036440060')),
         ERLocationData("LL/(AGT): Golden Seed - seedtree SE of upper AGT main stairs", "Golden Seed", key="603644,0:1036447300::", seedtree=True, targets=('lot:1036440300')),
         ERLocationData("LL/AGT: Crystal Cave Moss x3 - N of upper AGT main stairs, by graves right of big building", "Crystal Cave Moss x3", key="603645,0:1036457020::", targets=('lot:1036450020')),
-        ERLocationData("LL/AGT: Stonesword Key - in chest N of upper AGT main stairs, within second tower left of big building", "Stonesword Key", key="603645,0:1036457110::", targets=('lot:1036450110')),
+        ERLocationData("LL/AGT: Stonesword Key - in chest N of upper AGT main stairs, within second tower left of big building", "Stonesword Key", key="603645,0:1036457110::", chest=True, targets=('lot:1036450110')),
         ERLocationData("LL/GTN: Ancient Death Rancor - night boss drop to S", "Ancient Death Rancor", key="603645,0:1036457400::", altboss=True, night=True, targets=('lot:1036450400')),
         ERLocationData("LL/EGBT: Somber Smithing Stone [3] - to NE in chair, to right at cliff", "Somber Smithing Stone [3]", key="603647,0:1036477000::", targets=('lot:1036470000')),
         ERLocationData("LL/BC: Sanctuary Stone x3 - S of BC by ruin", "Sanctuary Stone x3", key="603648,0:1036487000::", targets=('lot:1036480000')),
@@ -1833,7 +1603,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/(CIn): Finger Maiden Robe - on body", "Finger Maiden Robe", key="603749,0:1037497030::", targets=('lot:1037490031')),
         ERLocationData("LL/(CIn): Finger Maiden Shoes - on body", "Finger Maiden Shoes", key="603749,0:1037497030::", targets=('lot:1037490032')),
         ERLocationData("LL/(CIn): Sacred Tear - by statue", "Sacred Tear", key="603749,0:1037497100::", church=True, targets=('lot:1037490100')),
-        ERLocationData("LL/BC: Great Mace - in chest NE of BC in right camp after choke point", "Great Mace", key="603749,0:1037497200::", targets=('lot:1037490200')),
+        ERLocationData("LL/BC: Great Mace - in chest NE of BC in right camp after choke point", "Great Mace", key="603749,0:1037497200::", chest=True, targets=('lot:1037490200')),
         ERLocationData("LL/CIn: Vyke's War Spear - invader drop", "Vyke's War Spear", key="603749,0:1037497300::", targets=('lot:1037490301')),
         ERLocationData("LL/CIn: Fingerprint Grape - invader drop", "Fingerprint Grape", key="603749,0:1037497300::", targets=('lot:1037490300')),
         ERLocationData("LL/BC: Fire Blossom x3 - enemy drop NE of BC, on square tile in choke point", "Fire Blossom x3", key="603749,0:1037497990::", targets=('lot:446002022')),
@@ -1909,10 +1679,10 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("AP/AHJ: Golden Rune [4] - to S on hill E of a camp", "Golden Rune [4]", key="603950,0:1039507020::", targets=('lot:1039500020')),
         ERLocationData("AP/GLE: Godfrey Icon - boss drop Evergaol", "Godfrey Icon", key="603950,0:1039507100::", enemytalisman=True, altboss=True, evergaol=True, targets=('lot:1039500100')), #1
         ERLocationData("AP/AHJ: Perfume Bottle - to N in camp", "Perfume Bottle", key="603951,0:0000066760::", targets=('lot:1039510000')),
-        ERLocationData("AP/AHJ: Ash of War: Earthshaker - scarab to SE on road", "Ash of War: Earthshaker", key="603951,0:0000540304::", scarab=True, targets=('lot:40304')),
+        ERLocationData("AP/AHJ: Ash of War: Earthshaker - scarab to SW on road", "Ash of War: Earthshaker", key="603951,0:0000540304::", scarab=True, targets=('lot:40304')),
         ERLocationData("AP/AHJ: Troll's Golden Sword - in caravan chest to W in lower camp", "Troll's Golden Sword", key="603951,0:1038517090::", chest=True, targets=('lot:1038510090')),
         ERLocationData("AP/AHJ: Fan Daggers x5 - to W in S camp", "Fan Daggers x5", key="603951,0:1039517010::", targets=('lot:1039510010')),
-        ERLocationData("AP/AHJ: Sacrificial Twig - in chest to W in N camp", "Sacrificial Twig", key="603951,0:1039517020::", targets=('lot:1039510020')),
+        ERLocationData("AP/AHJ: Sacrificial Twig - in chest to W in N camp", "Sacrificial Twig", key="603951,0:1039517020::", chest=True, targets=('lot:1039510020')),
         ERLocationData("AP/AHJ: Warming Stone - to W in middle camp", "Warming Stone", key="603951,0:1039517030::", targets=('lot:1039510030')),
         ERLocationData("AP/AHJ: Turtle Neck Meat - to N, W of camp by tent", "Turtle Neck Meat", key="603951,0:1039517040::", targets=('lot:1039510040')),
         ERLocationData("AP/AHJ: Ash of War: Shared Order - night boss drop to SW", "Ash of War: Shared Order", key="603951,0:1039517200::", altboss=True, night=True, targets=('lot:1039510200')),
@@ -1980,7 +1750,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("AP/AHJ: Gravity Stone Fan x4 - to SE in SW gravity craters", "Gravity Stone Fan x4", key="604050,0:1040507000::", targets=('lot:1040500000')),
         ERLocationData("AP/SHG: Ash of War: Lightning Ram - scarab SE of SHG", "Ash of War: Lightning Ram", key="604051,0:0000540310::", scarab=True, targets=('lot:40310')),
         ERLocationData("AP/AHJ: Old Fang x3 - to E on platform", "Old Fang x3", key="604051,0:1040517010::", targets=('lot:1040510010')),
-        ERLocationData("AP/(ScC): Dragonbolt Blessing - in chest", "Dragonbolt Blessing", key="604051,0:1040517020::", targets=('lot:1040510020')),
+        ERLocationData("AP/(ScC): Dragonbolt Blessing - in chest", "Dragonbolt Blessing", key="604051,0:1040517020::", chest=True, targets=('lot:1040510020')),
         ERLocationData("AP/AHJ: Beast Blood - to SE by tent", "Beast Blood", key="604051,0:1040517030::", targets=('lot:1040510030')),
         ERLocationData("AP/(ScC): Lightning Greatbolt x10 - on corpse", "Lightning Greatbolt x10", key="604051,0:1040517040::", targets=('lot:1040510040')),
         ERLocationData("AP/(ScC): Sacred Tear - by statue", "Sacred Tear", key="604051,0:1040517400::", church=True, outoftheway=True, targets=('lot:1040510400')),
@@ -2008,7 +1778,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         
         ERLocationData("AP/BB: Somber Smithing Stone [5] - scarab to SW", "Somber Smithing Stone [5]", key="604053,0:0000540320::", scarab=True, targets=('lot:40320')),
         ERLocationData("AP/(WbR): Golden Rune [5] - SW corner of ruin", "Golden Rune [5]", key="604053,0:1040537000::", targets=('lot:1040530000')),
-        ERLocationData("AP/(WbR): Bloody Helice - in chest after boss underground", "Bloody Helice", key="604053,0:1040537010::", targets=('lot:1040530010')),
+        ERLocationData("AP/(WbR): Bloody Helice - in chest after boss underground", "Bloody Helice", key="604053,0:1040537010::", chest=True, targets=('lot:1040530010')),
         ERLocationData("AP/BB: Nascent Butterfly - to N up a hill", "Nascent Butterfly", key="604053,0:1040537020::", targets=('lot:1040530020')),
         ERLocationData("AP/FSG: Fulgurbloom x4 - to N under upper bridge on ledge", "Fulgurbloom x4", key="604053,0:1040537030::", targets=('lot:1040530030')),
         ERLocationData("AP/FSG: Golden Arrow x10 - to N on bridge", "Golden Arrow x10", key="604053,0:1040537040::", targets=('lot:1040530040')),
@@ -2050,7 +1820,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("AP/(WfR): Nomadic Warrior's Cookbook [19] - in ruins N of ME", "Nomadic Warrior's Cookbook [19]", key="604153,0:0000067070::", cookbook=True, targets=('lot:1041530050')),
         ERLocationData("AP/(WfR): Ash of War: Golden Slam - scarab in ruins N of ME", "Ash of War: Golden Slam", key="604153,0:0000540308::", scarab=True, targets=('lot:40308')),
         ERLocationData("AP/(WfR): Poisonbone Dart x5 - in ruins NE of S most ruins", "Poisonbone Dart x5", key="604153,0:1041537010::", targets=('lot:1041530010')),
-        ERLocationData("AP/(WfR): Wrath of Gold - in chest underground in S most ruins", "Wrath of Gold", key="604153,0:1041537020::", targets=('lot:1041530020')),
+        ERLocationData("AP/(WfR): Wrath of Gold - in chest underground in S most ruins", "Wrath of Gold", key="604153,0:1041537020::", chest=True, targets=('lot:1041530020')),
         ERLocationData("AP/(WfR): Invigorating White Cured Meat - in E ruins, N item", "Invigorating White Cured Meat", key="604153,0:1041537030::", targets=('lot:1041530030')),
         ERLocationData("AP/(WfR): Beast Blood x2 - in ruins NE of ME", "Beast Blood x2", key="604153,0:1041537040::", targets=('lot:1041530040')),
         ERLocationData("AP/(WfR): Gravel Stone x2 - in NE ruins, NE item", "Gravel Stone x2", key="604153,0:1041537060::", targets=('lot:1041530060')),
@@ -2341,7 +2111,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
     "Lake of Rot":[ # lakeofrot                                           done
         ERLocationData("LR: Remembrance of the Naturalborn - mainboss drop", "Remembrance of the Naturalborn", key="120400,0:0000510080::", boss=True, achievement=True, remembrance=True, targets=('lot:10080')),
         ERLocationData("LR/LRS: Map: Lake of Rot - to S", "Map: Lake of Rot", key="120100,0:0000062061::", map=True, targets=('lot:12010010')),
-        ERLocationData("LR/GC: Nomadic Warrior's Cookbook [22] - in chest SW corner of LR within structure", "Nomadic Warrior's Cookbook [22]", key="120100,0:0000067890::", targets=('lot:12010020')),
+        ERLocationData("LR/GC: Nomadic Warrior's Cookbook [22] - in chest SW corner of LR within structure", "Nomadic Warrior's Cookbook [22]", key="120100,0:0000067890::", chest=True, targets=('lot:12010020')),
         ERLocationData("LR/LRS: Dragonscale Blade - boss drop", "Dragonscale Blade", key="120100,0:0000530600::", altboss=True, miscboss=True, targets=('lot:30600')),
         ERLocationData("LR/LRS: Somber Smithing Stone [6] - scarab to S most part of LR", "Somber Smithing Stone [6]", key="120100,0:0000540600::", scarab=True, targets=('lot:40600')),
         ERLocationData("LR/LRS: Somber Smithing Stone [8] - SE corner of LR on tilted pillar", "Somber Smithing Stone [8]", key="120100,0:0012017030::", targets=('lot:12010030')),
@@ -2550,7 +2320,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("NR/(NSG): Rejuvenating Boluses - follow path from AW grace, on railing", "Rejuvenating Boluses", key="120200,0:0012027850::", targets=('lot:12020850')),
         ERLocationData("NR/(NSG): Rune Arc - follow path from AW grace, on stairs with crying out statues", "Rune Arc", key="120200,0:0012027860::", targets=('lot:12020860')),
         ERLocationData("NR/(NSG): Celestial Dew - follow path from AW grace, up stairs with crying out statues, jump to NW ledge, N around back", "Celestial Dew", key="120200,0:0012027870::", targets=('lot:12020870')),
-        ERLocationData("NR/(NSG): Mimic Tear Ashes - in chest behind imp statue upper interior", "Mimic Tear Ashes", key="120200,0:0012027880::", targets=('lot:12020880')), # 1
+        ERLocationData("NR/(NSG): Mimic Tear Ashes - in chest behind imp statue upper interior", "Mimic Tear Ashes", key="120200,0:0012027880::", chest=True, targets=('lot:12020880')), # 1
         ERLocationData("NR/(NSG): Golden Rune [7] - follow path from AW grace, after half-sphere roof on lower platform", "Golden Rune [7]", key="120200,0:0012027890::", targets=('lot:12020890')),
         ERLocationData("NR/(NSG): Smithing Stone [3] - behind imp statue upper interior", "Smithing Stone [3]", key="120200,0:0012027900::", targets=('lot:12020900')), # 1
         ERLocationData("NR/(NSG): Nox Flowing Hammer - on beam in interior, requires jumping out window by imp statue", "Nox Flowing Hammer", key="120200,0:0012027910::", targets=('lot:12020910')),
@@ -3119,8 +2889,8 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/(ACC): Crystal Release - boss drop", "Crystal Release", key="310600,0:0000520380::", altboss=True, minidungeonboss=True, caveboss=True, targets=('lot:20380')),
         ERLocationData("LL/(ACC): Cuckoo Glintstone x5 - head SE from start of first room", "Cuckoo Glintstone x5", key="310600,0:0031067000::", targets=('lot:31060000')),
         ERLocationData("LL/(ACC): Stonesword Key - in cage NW from first room", "Stonesword Key", key="310600,0:0031067010::", targets=('lot:31060010')),
-        ERLocationData("LL/(ACC): Crystal Staff - in chest behind illusory wall, left of storage room", "Crystal Staff", key="310600,0:0031067030::", targets=('lot:31060110')),
-        ERLocationData("LL/(ACC): Rune Arc - in chest in storage room", "Rune Arc", key="310600,0:0031067100::", targets=('lot:31060100')),
+        ERLocationData("LL/(ACC): Crystal Staff - in chest behind illusory wall, left of storage room", "Crystal Staff", key="310600,0:0031067030::", chest=True, targets=('lot:31060110')),
+        ERLocationData("LL/(ACC): Rune Arc - in chest in storage room", "Rune Arc", key="310600,0:0031067100::", chest=True, targets=('lot:31060100')),
     ],
     "Elphael, Brace of the Haligtree":[ # haligtree_elphael               done by Kholkikos updated by seb
         ERLocationData("EBH/HR: Malenia's Great Rune - mainboss drop", "Malenia's Great Rune", key="150000,0:0000000176::", boss=True, achievement=True, targets=('lot:10201')),
@@ -3284,7 +3054,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("CL/CR: Sacramental Bud - on giant skull SE of CR", "Sacramental Bud", key="604840,0:1048407040::", targets=('lot:1048400040')),
         ERLocationData("CL/CR: Hefty Beast Bone x3 - E of CR", "Hefty Beast Bone x3", key="604840,0:1048407050::", targets=('lot:1048400050')),
         ERLocationData("CL/DSW: Spiked Palisade Shield - to W follow ravine", "Spiked Palisade Shield", key="604840,0:1048407060::", targets=('lot:1048400060')),
-        ERLocationData("CL/(CR): Visage Shield - in chest after boss", "Visage Shield", key="604840,0:1048407900::", targets=('lot:1048400900')),
+        ERLocationData("CL/(CR): Visage Shield - in chest after boss", "Visage Shield", key="604840,0:1048407900::", chest=True, targets=('lot:1048400900')),
         ERLocationData("CL/(CR): Fire Blossom x3 - enemy drop 1 near underground entrance", "Fire Blossom x3", key="604840,0:1048407990::", targets=('lot:446040042')),
         ERLocationData("CL/(CR): Smoldering Butterfly x5 - enemy drop 1 near underground entrance", "Smoldering Butterfly x5", key="604840,0:1048407990::", targets=('lot:446040041')),
         ERLocationData("CL/IG: Ash of War: Cragblade - scarab to W", "Ash of War: Cragblade", key="604936,0:0000540414::", scarab=True, targets=('lot:40414')),
@@ -4082,7 +3852,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
     "Road's End Catacombs":[ # liurnia_roadsendcatacombs                  done
         ERLocationData("LL/(REC): Glintstone Sorcerer Ashes - boss drop", "Glintstone Sorcerer Ashes", key="300300,0:0000520060::", altboss=True, minidungeonboss=True, catacombboss=True, targets=('lot:20060')),
         ERLocationData("LL/(REC): Root Resin x3 - on path towards boss room", "Root Resin x3", key="300300,0:0030037000::", targets=('lot:30030000')),
-        ERLocationData("LL/(REC): Raya Lucaria Soldier Ashes - in chest in hidden dead-end room", "Raya Lucaria Soldier Ashes", key="300300,0:0030037010::", targets=('lot:30030010')),
+        ERLocationData("LL/(REC): Raya Lucaria Soldier Ashes - in chest in hidden dead-end room", "Raya Lucaria Soldier Ashes", key="300300,0:0030037010::", chest=True, targets=('lot:30030010')),
         ERLocationData("LL/(REC): Human Bone Shard x5 - under second platform", "Human Bone Shard x5", key="300300,0:0030037020::", targets=('lot:30030020')),
         ERLocationData("LL/(REC): Rune Arc - in illusory room under lever", "Rune Arc", key="300300,0:0030037030::", targets=('lot:30030030')),
         ERLocationData("LL/(REC): Watchdog's Staff - under second platform", "Watchdog's Staff", key="300300,0:0030037040::", targets=('lot:30030040')),
@@ -4328,7 +4098,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("LL/(LCC): Smithing Stone [4] - bottom of pit", "Smithing Stone [4]", key="310500,0:0031057040::", targets=('lot:31050040')),
         ERLocationData("LL/(LCC): Smithing Stone [2] - bottom of pit", "Smithing Stone [2]", key="310500,0:0031057050::", targets=('lot:31050050')),
         ERLocationData("LL/(LCC): Lump of Flesh - bottom of pit", "Lump of Flesh", key="310500,0:0031057060::", targets=('lot:31050060')),
-        ERLocationData("LL/(LCC): Arteria Leaf - in chest beside grace", "Arteria Leaf", key="310500,0:0031057070::", targets=('lot:31050070')),
+        ERLocationData("LL/(LCC): Arteria Leaf - in chest beside grace", "Arteria Leaf", key="310500,0:0031057070::", chest=True, targets=('lot:31050070')),
         ERLocationData("LL/(LCC): Spear Talisman - in chest W path from first room", "Spear Talisman", key="310500,0:0031057100::", talisman=True, chest=True, targets=('lot:31050100')),
     ],
     "Seethewater Cave":[ # gelmir_seethewatercave                         done
@@ -4507,14 +4277,14 @@ location_tables: Dict[str, List[ERLocationData]] = {
     ],
     "Raya Lucaria Crystal Tunnel":[ # liurnia_tunnel                      done
         ERLocationData("LL/(RLCT): Smithing-Stone Miner's Bell Bearing [1] - boss drop", "Smithing-Stone Miner's Bell Bearing [1]", key="320200,0:0000520620::", altboss=True, upgradeshop=True, minidungeonboss=True, tunnelboss=True, smithingbell=True, targets=('lot:20620')),
-        ERLocationData("LL/(RLCT): Somber Smithing Stone [2] - in chest on platform near grace", "Somber Smithing Stone [2]", key="320200,0:0032027000::", targets=('lot:32020000')),
+        ERLocationData("LL/(RLCT): Somber Smithing Stone [2] - in chest on platform near grace", "Somber Smithing Stone [2]", key="320200,0:0032027000::", chest=True, targets=('lot:32020000')),
         ERLocationData("LL/(RLCT): Somber Smithing Stone [3] - the parkour item near top", "Somber Smithing Stone [3]", key="320200,0:0032027010::", targets=('lot:32020010')),
         ERLocationData("LL/(RLCT): Golden Rune [3] - room before first elevator, under platforms", "Golden Rune [3]", key="320200,0:0032027020::", targets=('lot:32020020')),
         ERLocationData("LL/(RLCT): Smithing Stone [3] - room before first elevator, dead-end to S", "Smithing Stone [3]", key="320200,0:0032027030::", targets=('lot:32020030')),
         ERLocationData("LL/(RLCT): Somber Smithing Stone [3] - off side of first elevator, down path then drop down", "Somber Smithing Stone [3]", key="320200,0:0032027040::", targets=('lot:32020040')),
         ERLocationData("LL/(RLCT): Smithing Stone [1] x3 - bottom of shortcut elevator, side room 1", "Smithing Stone [1] x3", key="320200,0:0032027060::", targets=('lot:32020060')),
         ERLocationData("LL/(RLCT): Shatter Earth - room before last elevator, dead-end to N", "Shatter Earth", key="320200,0:0032027070::", targets=('lot:32020070')),
-        ERLocationData("LL/(RLCT): Crystal Knife - bottom of shortcut elevator, in chest side room 2", "Crystal Knife", key="320200,0:0032027900::", targets=('lot:32020900')),
+        ERLocationData("LL/(RLCT): Crystal Knife - bottom of shortcut elevator, in chest side room 2", "Crystal Knife", key="320200,0:0032027900::", chest=True, targets=('lot:32020900')),
     ],
     "Old Altus Tunnel":[ # altus_oldtunnel                                done
         ERLocationData("AP/(OAT): Great Club - boss drop", "Great Club", key="320400,0:0000520630::", altboss=True, minidungeonboss=True, tunnelboss=True, targets=('lot:20630')),
@@ -4534,7 +4304,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("AP/(AT): Glintstone Scrap x6 - right path from mining room, lower chasm platform", "Glintstone Scrap x6", key="320500,0:0032057040::", targets=('lot:32050040')),
         ERLocationData("AP/(AT): Rune Arc - in big chest side room 1 from grace", "Rune Arc", key="320500,0:0032057910::", chest=True, targets=('lot:32050910')),
     ],
-    "Gale Tunnel":[ # caelid_gaeltunnel                                   done
+    "Gael Tunnel":[ # caelid_gaeltunnel                                   done
         ERLocationData("CL/(GT): Moonveil - boss drop", "Moonveil", key="320700,0:0000520660::", altboss=True, minidungeonboss=True, tunnelboss=True, targets=('lot:20661')),
         ERLocationData("CL/(GT): Dragon Heart - boss drop", "Dragon Heart", key="320700,0:0000520660::", altboss=True, minidungeonboss=True, tunnelboss=True, targets=('lot:20660')),
         ERLocationData("CL/(GT): Somber Smithing Stone [2] - in entrance shaft", "Somber Smithing Stone [2]", key="320700,0:0032077000::", targets=('lot:32070000')),
@@ -5330,7 +5100,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("CS/HPH: Golden Rune [13] - follow right path after exiting dungeon", "Golden Rune [13]", key="604954,0:1049547300::", blizzard=True, targets=('lot:1049540300')),
         ERLocationData("CS/CS: Golden Rune [11] - to E, follow right path up cliff", "Golden Rune [11]", key="604954,0:1049547310::", blizzard=True, targets=('lot:1049540310')),
         ERLocationData("CS/CS: Somber Smithing Stone [8] - scarab to NE", "Somber Smithing Stone [8]", key="604954,0:1049547700::", scarab=True, blizzard=True, targets=('lot:1049540700')),
-        ERLocationData("CS/CS: St. Trina's Torch - in caraven chest to NE", "St. Trina's Torch", key="604954,0:1049547900::", chest=True, blizzard=True, targets=('lot:1049540900')),
+        ERLocationData("CS/CS: St. Trina's Torch - in caravan chest to NE", "St. Trina's Torch", key="604954,0:1049547900::", chest=True, blizzard=True, targets=('lot:1049540900')),
         ERLocationData("CS/CS: Golden Rune [13] - enemy drop to NE, E of big tree", "Golden Rune [13]", key="604955,0:1043527750::", blizzard=True, targets=('lot:430052433')),
         ERLocationData("CS/CS: Golden Rune [13] - enemy drop to NE, NW of big tree", "Golden Rune [13]", key="604955,0:1043527760::", blizzard=True, targets=('lot:430052443')),
         ERLocationData("CS/CS: Somber Smithing Stone [9] - to NE, NW of big tree on fallen tree", "Somber Smithing Stone [9]", key="604955,0:1049557300::", blizzard=True, targets=('lot:1049550300')),
@@ -5552,7 +5322,7 @@ location_tables: Dict[str, List[ERLocationData]] = {
         ERLocationData("MotG/GG: Stonesword Key - SE of GG by group of enemies", "Stonesword Key", key="605255,0:1052557310::", targets=('lot:1052550310')),
         ERLocationData("MotG/(GG): One-Eyed Shield - hostile npc drop highest tower", "One-Eyed Shield", key="605255,0:1052557700::", targets=('lot:1052550700')),
         ERLocationData("MotG/(GG): Gravel Stone x2 - drop down NE from highest tower, jump back over wall and follow right side", "Gravel Stone x2", key="605255,0:1052557800::", targets=('lot:1052550800')),
-        ERLocationData("MotG/(GG): Giant's Prayerbook - in chest top of highest tower", "Giant's Prayerbook", key="605255,0:1052557900::" ,chest=True, targets=('lot:1052550900')),
+        ERLocationData("MotG/(GG): Giant's Prayerbook - in chest top of highest tower", "Giant's Prayerbook", key="605255,0:1052557900::", chest=True, targets=('lot:1052550900')),
         ERLocationData("MotG/(ME): Cerulean Crystal Tear - boss drop", "Cerulean Crystal Tear (Alternate)", key="605256,0:0000065050::", altboss=True, targets=('lot:30525')),
         ERLocationData("MotG/(ME): Crimson Bubbletear - boss drop", "Crimson Bubbletear", key="605256,0:0000065070::", altboss=True, targets=('lot:30526')),
         ERLocationData("MotG/WR: Explosive Greatbolt x5 - to NE by end of walls", "Explosive Greatbolt x5", key="605256,0:1052567300::", targets=('lot:1052560300')),
@@ -6314,7 +6084,7 @@ for region in [ # dungeons
     "Sellia Crystal Tunnel",
     "Abandoned Cave",
     "Minor Erdtree Catacombs",
-    "Gale Tunnel",
+    "Gael Tunnel",
     
     "War-Dead Catacombs",
     
@@ -6402,7 +6172,7 @@ location_name_groups: Dict[str, Set[str]] = {
     "Out of the Way": set(),
     "Drop": set(),
     "Dungeon": set(),
-    "Rise Puzzle": set(),
+    "Rise": set(),
     "Breakable": set(),
     "Hidden": set(),
     "Missable": set(),
@@ -6427,7 +6197,7 @@ location_name_groups: Dict[str, Set[str]] = {
     "Post Stormveil": set(),
     # testing 
     "All Locations": set(),
-}
+} | {region: set() for region in region_order + region_order_dlc}
 
 location_descriptions = {
     "Prominent": "A small number of locations that are in very obvious locations. Mostly boss " + \
@@ -6441,7 +6211,7 @@ location_descriptions = {
     "Friendly NPC Rewards": "Items given by friendly NPCs as part of their quests or from " + \
                             "non-violent interaction.",
     "Scarab": "Scarab locations",
-    "Rise Puzzle": "Locations that require a rise puzzle to be solved",
+    "Rise": "Locations that require a rise puzzle to be solved",
     "Breakable": "Locations that require a statue to be broken",
     "Hidden": "Locations that are particularly difficult to find, such as behind illusory " + \
               "walls, down hidden drops, and so on. Does not include large locations.",
@@ -6471,7 +6241,7 @@ for location_name, location_table in location_tables.items():
     ])
     
     # Add enemy drop to drop tag so it can be exclued
-    if location_name.__contains__("enemy drop") or location_name.__contains__("hostile npc drop"):
+    if location_name.__contains__("enemy drop") or location_name.__contains__("hostile npc drop") or location_name.__contains__("invader drop"):
         location_data.drop = True    
         
     if location_name.__contains__("- Enia"):

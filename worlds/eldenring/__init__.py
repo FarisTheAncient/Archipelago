@@ -13,9 +13,10 @@ from Fill import remaining_fill, fill_restrictive, sweep_from_pool, FillError
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import CollectionRule, ItemRule, add_rule, add_item_rule
 
-from .bosses import ERBossInfo, all_bosses, base_bosses, dlc_bosses, default_rykard_location, default_serpent_location, all_boss_locations_dictionary
+from .bosses import ERBossInfo, all_bosses, base_bosses, dlc_bosses, default_rykard_location, default_serpent_location, all_boss_locations_dictionary, boss_name_to_data
 from .items import ERItem, ERItemData, ERItemCategory, filler_item_names_dlc, filler_item_names_vanilla, item_descriptions, item_table, item_table_vanilla, item_table_dlc, item_table_tp_dlc, item_name_groups
-from .locations import ERLocation, ERLocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order, region_order_dlc, dupable_locations
+from .locations import ERLocation, ERLocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, dupable_locations
+from .region_names import region_order, region_order_dlc
 from .options import EROptions, EnableDLC, option_groups, shard_list
 from .presets import er_options_presets
 from Options import OptionError, Option
@@ -236,11 +237,6 @@ class EldenRing(World):
                 opt: Optional[Option] = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
-            
-            # re convert the groups so UT doesn't show locations with prog
-            self.options.exclude_locations.value = set()
-            for group in self.exclude_groups:
-                self.options.exclude_locations.value.update(location_name_groups[group])
         
             # Inform Universal Tracker where Rykard is being randomized to.
             if slot_options["enemy_rando"] and slot_options["rykard_encounter"] == False:
@@ -264,11 +260,11 @@ class EldenRing(World):
         for region in location_tables: # make sure table has all values
             self.dupe_location_tables.setdefault(region, [])
         
-        self.dlc_excluded = "DLC" in self.exclude_groups and self.options.enable_dlc
+        self.dlc_excluded = "DLC" in self.exclude_groups and self.options.enable_dlc.value
         if self.dlc_excluded:
             if self.options.excluded_location_behavior.value >= 3:
                 # do not rando or omit, just disabled the dlc lol
-                self.options.enable_dlc.value = False
+                self.options.enable_dlc.value = 0
             self.options.dlc_start.value = 0
         
         self.base_enabled = not (self.options.dlc_start == 1 and self.options.enable_dlc)
@@ -286,10 +282,11 @@ class EldenRing(World):
         for loc in self.all_excluded_locations.copy():
             if (loc not in location_dictionary or (not self.base_enabled and not location_dictionary[loc].dlc 
                 or not self.options.enable_dlc and location_dictionary[loc].dlc
-                or ItemClassification.progression in item_table[location_dictionary[loc].default_item_name].is_important(self.options)
-                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options))):
+                or self.options.excluded_location_behavior >= 3 and # don't do_not_randomize or omit prog or useful
+                (ItemClassification.progression in item_table[location_dictionary[loc].default_item_name].is_important(self.options)
+                or ItemClassification.useful in item_table[location_dictionary[loc].default_item_name].is_important(self.options))
+                or self.options.missable_location_behavior >= 3 and location_dictionary[loc].missable)):
                 self.all_excluded_locations.remove(loc)
-                self.options.exclude_locations.value.remove(loc)
         
         for group in self.settings.force_local_items: # add forced setting groups
             if group not in item_name_groups:
@@ -467,7 +464,7 @@ class EldenRing(World):
             create_connection("Caelid", "Abandoned Cave")
             create_connection("Caelid", "Great-Jar")
             create_connection("Caelid", "Minor Erdtree Catacombs")
-            create_connection("Caelid", "Gale Tunnel")
+            create_connection("Caelid", "Gael Tunnel")
             create_connection("Caelid", "Redmane Castle Post Radahn")
             
             create_connection("Caelid", "Dragonbarrow")
@@ -566,7 +563,7 @@ class EldenRing(World):
             create_connection("Miquella's Haligtree", "Elphael, Brace of the Haligtree")
             
             if (self.options.dlc_timing == 2
-                or not location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options)):
+                or not location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options, self.all_excluded_locations)):
                 create_connection("Consecrated Snowfield", "Mohgwyn Palace")
             elif self.options.dlc_timing == 1:
                 create_connection("Altus Plateau", "Mohgwyn Palace")
@@ -642,10 +639,6 @@ class EldenRing(World):
     def create_region(self, region_name, location_table: List[ERLocationData]) -> Region:
         new_region = Region(region_name, self.player, self.multiworld)
 
-        # Use this to un-exclude event locations so the fill doesn't complain about items behind
-        # them being unreachable.
-        excluded = self.options.exclude_locations.value
-
         for location in location_table:
             status = self._location_status(location)
             if status.is_absent:
@@ -664,14 +657,10 @@ class EldenRing(World):
                     )
                 ): 
                     new_location.progress_type = LocationProgressType.EXCLUDED
-                #     if location.name in self.all_priority_locations: # if its excluded remove it from priority
-                #         self.all_priority_locations.remove(location.name)
-                # elif location.name in self.all_priority_locations:
-                #     if location.hidden: self.all_priority_locations.remove(location.name)
             else:
                 # Don't consider non-randomized locations to be AP-excluded
-                if location.name in excluded:
-                    excluded.remove(location.name)
+                if location.name in self.all_excluded_locations:
+                    # excluded.remove(location.name)
                     # Only remove from all_excluded if excluded does not have priority over missable
                     if not (self.options.missable_location_behavior < self.options.excluded_location_behavior):
                         self.all_excluded_locations.remove(location.name)
@@ -719,7 +708,7 @@ class EldenRing(World):
         
         # after dlc regions and items are created, disable DLC
         if self.dlc_excluded:
-            self.options.enable_dlc.value = False
+            self.options.enable_dlc.value = 0
         
         injectables = self._create_injectable_items(num_required_extra_items)
         num_required_extra_items -= len(injectables)
@@ -754,8 +743,8 @@ class EldenRing(World):
         """Create duplicate locations."""
         important_items = []
         for item in self.itempool:
-            if (ItemClassification.progression in item.classification and not ItemClassification.deprioritized in item.classification 
-                or self.options.other_world_useful_at_priority and ItemClassification.useful in item.classification):
+            if (ItemClassification.progression in item.classification and not ItemClassification.deprioritized in item.classification):
+                # or self.options.other_world_useful_at_priority and ItemClassification.useful in item.classification):
                 important_items.append(item)
         
         dlc_priority = [loc for loc in self.all_priority_locations if location_dictionary[loc].dlc and self.options.enable_dlc]
@@ -1074,7 +1063,7 @@ class EldenRing(World):
             
             if fall or region == "DLC Path": # path to dlc regions
                 for r in ["Mohgwyn Palace","Consecrated Snowfield","Consecrated Snowfield Catacombs","Yelough Anix Tunnel",
-                        "Caelid","Caelid Catacombs","Sellia Crystal Tunnel","Abandoned Cave","Minor Erdtree Catacombs","Great-Jar","Gale Tunnel"
+                        "Caelid","Caelid Catacombs","Sellia Crystal Tunnel","Abandoned Cave","Minor Erdtree Catacombs","Great-Jar","Gael Tunnel"
                         ,"Redmane Castle Post Radahn","Wailing Dunes","War-Dead Catacombs"]:
                     prio_locations.extend(self.prio_in_region[r])              
 
@@ -1116,7 +1105,7 @@ class EldenRing(World):
             if region == "Caelid" or region == "Nokron, Eternal City":
                 fall = True
                 for r in ["Caelid","Caelid Catacombs","Sellia Crystal Tunnel","Abandoned Cave","Minor Erdtree Catacombs",
-                        "Gale Tunnel","Redmane Castle Post Radahn"]:
+                        "Gael Tunnel","Redmane Castle Post Radahn"]:
                     prio_locations.extend(self.prio_in_region[r])
                         
             if fall or region == "Altus Plateau":
@@ -1171,6 +1160,15 @@ class EldenRing(World):
                     and not self.dlc_excluded)):
                     if item_name != "Gravesite Lock" or self.options.dlc_start == 0 and self.options.enable_dlc:
                         all_injectable_items += [item_table[item_name]]
+        
+        if self.options.seperate_imbued_key:
+            if self.base_enabled:
+                all_injectable_items += [
+                    item_table["Imbued Sword Key (Chapel of Anticipation)"],
+                    item_table["Imbued Sword Key (Nokron)"],
+                    item_table["Imbued Sword Key (Farum Azula)"]]
+            if self.options.enable_dlc:
+                all_injectable_items += [item_table["Imbued Sword Key (Ancient Ruins)"]]
         
         for shard in shard_list:
             if (item_table[shard].is_dlc and self.options.enable_dlc or not item_table[shard].is_dlc and self.base_enabled
@@ -1348,12 +1346,6 @@ class EldenRing(World):
             # until after `set_rules()` runs.
             if not location.item and location.name not in self.all_excluded_locations
             and location.item_rule(item)
-            # if not self.options.important_at_priority_only # all ignored if option off
-            # or (item.is_important(self.options) != ItemClassification.progression and item.is_important(self.options) != ItemClassification.useful) # bypass if not important 
-            # or (item.is_important(self.options) == ItemClassification.progression or item.is_important(self.options) == ItemClassification.useful) # important
-            # and (location.name in self.all_priority_locations # location is priority
-            # or location.name in dupe_location.data.name[dupe_location.data.name.find(":")+2:] for dupe_location in self.all_duplicate_locations) # location is duped priority
-            # and self.options.important_at_priority_only # option is on
         ]
 
         if not candidate_locations:
@@ -1416,10 +1408,10 @@ class EldenRing(World):
         self._add_npc_rules()
         self._add_allow_useful_location_rules()
         self._region_lock()
+        self._key_rules()
         
         # MARK: Base Game Rules
         if self.base_enabled:
-            self._key_rules()
             self._add_shop_rules()
             
             # indirect connections
@@ -1429,6 +1421,8 @@ class EldenRing(World):
             self.multiworld.register_indirect_condition(self.get_region("Deeproot Depths Upper"), self.get_entrance("Go To Deeproot Depths"))
             self.multiworld.register_indirect_condition(self.get_region("Deeproot Depths"), self.get_entrance("Go To Leyndell, Royal Capital"))
             self.multiworld.register_indirect_condition(self.get_region("Volcano Manor"), self.get_entrance("Go To Volcano Manor Dungeon"))
+            self.multiworld.register_indirect_condition(self.get_region("Raya Lucaria Academy Main"), self.get_entrance("Go To Volcano Manor Dungeon"))
+            self.multiworld.register_indirect_condition(self.get_region("Volcano Manor Dungeon"), self.get_entrance("Go To Volcano Manor"))
             self.multiworld.register_indirect_condition(self.get_region("Volcano Manor Dungeon"), self.get_entrance("Go To Altus Plateau"))
             
             # altus before caelid
@@ -1559,7 +1553,7 @@ class EldenRing(World):
                 self._add_entrance_rule("Erdtree", lambda state: self._has_enough_great_runes(state, self.options.great_runes_required_erdtree.value))
             
             # Smithing bell bearing rules
-            if self.options.smithing_bell_bearing_option.value == 1:
+            if self.options.smithing_bell_bearing_option.value == 1 and self.soft_logic_enabled:
                 self._add_entrance_rule("Altus Plateau", lambda state: self._bell_bearings_required(state, 1, False))
                 self._add_entrance_rule("Capital Outskirts", lambda state: self._bell_bearings_required(state, 2, False))
                 self._add_entrance_rule("Flame Peak", lambda state: self._bell_bearings_required(state, 3, False))
@@ -1579,22 +1573,18 @@ class EldenRing(World):
                 self._add_entrance_rule("Caelid", lambda state: self._has_key_or_shards(state, "Rusty Key"))
                 self._add_entrance_rule("Altus Plateau", "Academy Glintstone Key")
         
-            if location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options):
+            if location_dictionary["LL/(RC): Pureblood Knight's Medal - talk to Varré after invading Magnus in AP and returning the bloodsoaked Lord of Blood's Favor"].should_randomize(self.options, self.all_excluded_locations):
                 if self.options.dlc_start == 0 and self.options.enable_dlc:
                     if self.options.dlc_timing == 2:
                         self._add_entrance_rule("Mohgwyn Palace", lambda state: self._can_go_to(state, "Consecrated Snowfield"))
                         self._add_entrance_rule("Gravesite Plain",
-                            lambda state: self._has_key_or_shards(state, "Rold Medallion", "rold")
-                            and self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
-                            and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
+                            lambda state: self._has_key_or_shards(state, "Rold Medallion", "rold") and self._can_go_to(state, "Wailing Dunes"))
                     else:
                         if self.options.dlc_timing == 1:
                             self._add_entrance_rule("Mohgwyn Palace", lambda state: state.has("Pureblood Knight's Medal", self.player) and self._can_go_to(state, "Altus Plateau"))
                         else:
                             self._add_entrance_rule("Mohgwyn Palace", lambda state: state.has("Pureblood Knight's Medal", self.player))
-                        self._add_entrance_rule("Gravesite Plain", 
-                            lambda state: self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
-                            and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
+                        self._add_entrance_rule("Gravesite Plain", lambda state: self._can_go_to(state, "Wailing Dunes"))
                         if self.options.dlc_timing == 0 and self.options.missable_location_behavior <= 1 and self.soft_logic_enabled: # Early medal
                             self._add_entrance_rule("Altus Plateau", lambda state: state.has("Pureblood Knight's Medal", self.player))
                             self._add_entrance_rule("Caelid", lambda state: state.has("Pureblood Knight's Medal", self.player))
@@ -1602,18 +1592,14 @@ class EldenRing(World):
                     self._add_entrance_rule("Mohgwyn Palace",
                         lambda state: state.has("Pureblood Knight's Medal", self.player) or self._can_go_to(state, "Consecrated Snowfield"))
             elif self.options.dlc_start == 0 and self.options.enable_dlc: # pkm not randomized
-                self._add_entrance_rule("Gravesite Plain", 
-                    lambda state: self._can_get(state, "MP/(MDM): Remembrance of the Blood Lord - mainboss drop")
-                    and self._can_get(state, "CL/(WD): Remembrance of the Starscourge - mainboss drop"))
+                self._add_entrance_rule("Mohgwyn Palace", lambda state: self._can_go_to(state, "Consecrated Snowfield"))
+                self._add_entrance_rule("Gravesite Plain", lambda state: self._can_go_to(state, "Wailing Dunes"))
         
         # MARK: DLC Rules
         if self.options.enable_dlc:
                 
-            # dlc only else do
-            if self.options.dlc_start == 1:
-                self._add_entrance_rule("Rauh Ruins Limited", 
-                    lambda state: state.has("Imbued Sword Key", self.player, 1) or self._can_go_to(state, "Ancient Ruins of Rauh"))
-            else:
+            # not dlc only
+            if self.options.dlc_start != 1:
                 if (self.options.dlc_scadutree_fragments.value
                     or self.options.dlc_messmer_kindle.value
                     or self.options.separate_progression.value): # only do loop if one of these are on
@@ -1641,13 +1627,6 @@ class EldenRing(World):
                                         lambda item: (item.player != self.player) #and item.game != "EldenRing"
                                             or not (not (item.data.is_dlc or item.found_in_dlc) and item.advancement)
                                         )
-                                
-                                
-                self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: state.has("Imbued Sword Key", self.player, 4))
-                self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: state.has("Imbued Sword Key", self.player, 4))
-                self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: state.has("Imbued Sword Key", self.player, 4))
-                self._add_entrance_rule("Rauh Ruins Limited", 
-                    lambda state: state.has("Imbued Sword Key", self.player, 4) or self._can_go_to(state, "Ancient Ruins of Rauh"))
               
             self._add_entrance_rule("Enir-Ilim", lambda state: self._has_key_or_shards(state, "Messmer's Kindling"))
             
@@ -1711,16 +1690,14 @@ class EldenRing(World):
             # the funny gaol
             self._add_entrance_rule("Lamenter's Gaol (Upper)", "Gaol Upper Level Key")
             self._add_entrance_rule("Lamenter's Gaol (Lower)", "Gaol Lower Level Key")
-        else:
-            # vanilla imbued
-            self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: state.has("Imbued Sword Key", self.player, 3))
-            self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: state.has("Imbued Sword Key", self.player, 3))
-            self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: state.has("Imbued Sword Key", self.player, 3))
         
-        # no runes in shops
+        # no runes in shops, and remembrances
         for loc in self.multiworld.get_unfilled_locations(self.player):
             if loc.data.shop:
-                self._add_item_rule(loc.name, lambda item: (item.player != self.player and item.game != "Eldenring") or item.data.runes == None)
+                if self.options.remembrances_at_priority: # figure out a way to exclude remembrances from shops but let them be prio
+                    self._add_item_rule(loc.name, lambda item: (item.player != self.player and item.game != "Eldenring") or item.data.runes == None)
+                else:
+                    self._add_item_rule(loc.name, lambda item: (item.player != self.player and item.game != "Eldenring") or item.data.runes == None and not item.data.remembrance)
         
         # Rykard and Serpent Rule
         if not self.options.rykard_encounter:
@@ -1823,6 +1800,20 @@ class EldenRing(World):
                 self._add_entrance_rule("Ancient Ruins of Rauh", "Ancient Ruins Lock")
             
     def _key_rules(self) -> None: # MARK: SSK Rules
+        # imbued sword key stuff
+        if not self.base_enabled:
+            self._add_entrance_rule("Rauh Ruins Limited", lambda state: self._choose_imbued_key_rules(state, 1, "Imbued Sword Key (Ancient Ruins)") or self._can_go_to(state, "Ancient Ruins of Rauh"))
+            return # don't do normal ssk rules
+        elif self.options.enable_dlc:
+            self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: self._choose_imbued_key_rules(state, 4, "Imbued Sword Key (Chapel of Anticipation)"))
+            self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: self._choose_imbued_key_rules(state, 4, "Imbued Sword Key (Nokron)"))
+            self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: self._choose_imbued_key_rules(state, 4, "Imbued Sword Key (Farum Azula)"))
+            self._add_entrance_rule("Rauh Ruins Limited", lambda state: self._choose_imbued_key_rules(state, 4, "Imbued Sword Key (Ancient Ruins)") or self._can_go_to(state, "Ancient Ruins of Rauh"))
+        else:
+            self._add_entrance_rule("The Four Belfries (Chapel of Anticipation)", lambda state: self._choose_imbued_key_rules(state, 3, "Imbued Sword Key (Chapel of Anticipation)"))
+            self._add_entrance_rule("The Four Belfries (Nokron)", lambda state: self._choose_imbued_key_rules(state, 3, "Imbued Sword Key (Nokron)"))
+            self._add_entrance_rule("The Four Belfries (Farum Azula)", lambda state: self._choose_imbued_key_rules(state, 3, "Imbued Sword Key (Farum Azula)"))
+        
         # in order from early game to late game each rule needs to include the last count for an area
         
         # limgrave
@@ -1977,6 +1968,11 @@ class EldenRing(World):
         if self.options.use_master_key.value == 1:   return state.has(master_key, self.player)
         elif self.options.use_master_key.value == 2: return state.has("Stonesword Master Key", self.player)
         return self._has_enough_keys(state, keys_required)
+    
+    def _choose_imbued_key_rules(self, state: CollectionState, keys_required: int, imbued_key: str) -> bool:
+        "choose imbued key rules"
+        if self.options.seperate_imbued_key.value: return state.has(imbued_key, self.player)
+        return state.has("Imbued Sword Key", self.player, keys_required)
         
     def _dragon_communion_rules(self) -> None: # MARK: Dragon Rules
         """Rules for dragon communion"""
@@ -3069,11 +3065,8 @@ class EldenRing(World):
                 lambda item: not item.advancement
             )
 
-        # Prevent the player from prioritizing and "excluding" the same location
-        self.options.priority_locations.value -= allow_useful_locations
-
         if self.options.excluded_location_behavior == "allow_useful":
-            self.options.exclude_locations.value.clear()
+            self.all_excluded_locations.clear()
    
     def _add_location_rule(
         self,
@@ -3127,13 +3120,21 @@ class EldenRing(World):
     def _goal_bosses(self) -> list[ERBossInfo]:
         """Returns all the bosses that are goals for this run."""
         result = []
-        for name in self.options.goal:
-            assert name.endswith(" Boss")
-            goal_type = name[:-len(" Boss")]
-            boss = [boss for boss in all_bosses if goal_type in boss.type and boss.flag != None and not boss.missable]
-            assert boss
-            # no dupe bosses
-            [result.append(b) for b in boss if b not in result]
+        if "Random" in self.options.goal:
+            if self.base_enabled:
+                allowed_base = [boss for boss in base_bosses if boss.flag != None and not boss.missable]
+                result += self.multiworld.random.sample(allowed_base, self.multiworld.random.randint(1,min(int(self.settings.goal_bosses_allowed/1.5), len(allowed_base))))
+            if not self.dlc_excluded and self.options.enable_dlc:
+                allowed_dlc = [boss for boss in dlc_bosses if boss.flag != None and not boss.missable]
+                result += self.multiworld.random.sample(allowed_dlc, self.multiworld.random.randint(1,min(int(self.settings.goal_bosses_allowed/3), len(allowed_dlc))))
+        else:
+            for name in self.options.goal:
+                assert name.endswith(" Boss")
+                goal_type = name[:-len(" Boss")]
+                boss = [boss for boss in all_bosses if goal_type in boss.type and boss.flag != None and not boss.missable]
+                assert boss
+                # no dupe bosses
+                [result.append(b) for b in boss if b not in result]
         return result
     
     def _is_complete(self, state: CollectionState) -> bool:
@@ -3142,6 +3143,10 @@ class EldenRing(World):
     
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
         text = ""
+        
+        if self.goal_bosses:
+            text += f"\n{self.player_name}'s goal bosses: {sorted([boss.name for boss in self.goal_bosses
+            ], key=lambda boss: location_dictionary[boss_name_to_data[boss].locations[0]].region_value if boss_name_to_data[boss].locations else 999)}\n"
         
         if self.serpent_location and self.serpent_location != default_serpent_location:
             text += f"\nSerpent takes the place of {self.serpent_location.name} in {self.player_name}'s world\n"
@@ -3169,11 +3174,11 @@ class EldenRing(World):
             if location in location_dictionary: data = location_dictionary[location]
             else: data = self.dupe_location_dictionary[location]
 
-        if data.should_omit(self.options): return _LocationStatus.ABSENT
+        if data.should_omit(self.options, self.all_excluded_locations): return _LocationStatus.ABSENT
         if data.is_event: return _LocationStatus.UNRANDOMIZED_UNMISSABLE
 
         missable = data.is_missable(self.options)
-        if data.should_randomize(self.options):
+        if data.should_randomize(self.options, self.all_excluded_locations):
             return (
                 _LocationStatus.RANDOMIZED_MISSABLE if missable
                 else _LocationStatus.RANDOMIZED_UNMISSABLE
@@ -3366,13 +3371,11 @@ class EldenRing(World):
         # locations.
         location_ids_to_keys: Dict[int, str] = {}
         location_ids_to_targets: Dict[int, list[str]] = {}
-        location_ids_to_name: Dict[int, str] = {}
         for location in cast(List[ERLocation], self.multiworld.get_filled_locations(self.player)):
             # Skip events and only look at this world's locations
             if (location.address is not None and location.item.code is not None
                     and location.data.key):
                 location_ids_to_keys[location.address] = location.data.key
-                location_ids_to_name[location.address] = location.data.name
                 if location.data.targets:
                     if isinstance(location.data.targets, str):
                         location.data.targets = (location.data.targets,)
@@ -3413,6 +3416,7 @@ class EldenRing(World):
                         break
 
         if self.dlc_excluded and self.options.excluded_location_behavior <= 2:
+            # Reenable DLC after logic so that randomizer can use DLC items and enemies
             self.options.enable_dlc.value = EnableDLC.option_true
 
         slot_data = {
@@ -3427,6 +3431,7 @@ class EldenRing(World):
                 "great_runes_required_erdtree": self.options.great_runes_required_erdtree.value,
                 "royal_access": self.options.royal_access.value,
                 "use_master_key": self.options.use_master_key.value,
+                "seperate_imbued_key": self.options.seperate_imbued_key.value,
                 
                 "enable_tp_dlc": self.options.enable_tp_dlc.value,
                 "enable_dlc": self.options.enable_dlc.value,
@@ -3507,7 +3512,6 @@ class EldenRing(World):
             "forceBosses": force_bosses,
             "apIdsToItemIds": ap_ids_to_er_ids,
             "itemCounts": item_counts,
-            "locationIdsToName": location_ids_to_name,
             "locationIdsToKeys": location_ids_to_keys,
             "locationIdsToTargets": location_ids_to_targets,
             "allStartingItems": self.all_starting_items, # list of _er_item_full_id

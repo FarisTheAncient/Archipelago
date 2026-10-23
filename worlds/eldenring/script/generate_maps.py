@@ -113,7 +113,7 @@ map_groups: List[MapGroup] = [
         "Sellia Crystal Tunnel",
         "Abandoned Cave",
         "Minor Erdtree Catacombs",
-        "Gale Tunnel",
+        "Gael Tunnel",
         "Great-Jar",
         "Redmane Castle Post Radahn",
         "Wailing Dunes",

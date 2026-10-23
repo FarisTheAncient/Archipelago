@@ -105,6 +105,9 @@ class ERItemData:
     
     great_rune: bool = False
     """Whether this is a Great rune."""
+    
+    seperate_imbued_key: bool = False
+    """Whether this is a Seperate Imbued Sword Key."""
 
     def __post_init__(self):
         self.ap_code = self.ap_code or ERItemData.__item_id
@@ -197,7 +200,8 @@ class ERItemData:
         if (options.great_runes_required_mountain.value >= 0 and self.name == "Rold Medallion"
         or options.use_master_key.value != 0 and self.base_name == "Stonesword Key"
         or options.rykard_encounter and options.enemy_rando and self.name == "Serpent-Hunter"
-        or options.smithing_bell_bearing_option.value == 3 and self.upgrade_bell_bearing): return True
+        or options.smithing_bell_bearing_option.value == 3 and self.upgrade_bell_bearing
+        or options.seperate_imbued_key.value and self.base_name == "Imbued Sword Key"): return True
         return self.skip if isinstance(self.skip, bool) else self.skip(self, options)
 
     def is_important(self, options: EROptions) -> ItemClassification:
@@ -2287,6 +2291,11 @@ _vanilla_items = [
     ERItemData("Rusty Key Shard", 8010, ERItemCategory.GOODS, classification=ItemClassification.progression),
     ERItemData("Rold Medallion Shard", 8107, ERItemCategory.GOODS, classification=ItemClassification.progression),
     
+    # MARK: Imbued Keys
+    ERItemData("Imbued Sword Key (Chapel of Anticipation)", 9999999, ERItemCategory.GOODS, classification=ItemClassification.progression, seperate_imbued_key=True),
+    ERItemData("Imbued Sword Key (Nokron)", 9999999, ERItemCategory.GOODS, classification=ItemClassification.progression, seperate_imbued_key=True),
+    ERItemData("Imbued Sword Key (Farum Azula)", 9999999, ERItemCategory.GOODS, classification=ItemClassification.progression, seperate_imbued_key=True),
+    
     # MARK: Master Keys
     ERItemData("Stonesword Master Key", 7830000, ERItemCategory.GOODS, classification=ItemClassification.progression),
     
@@ -2982,10 +2991,14 @@ _dlc_items = [
     ERItemData("Recluses' Lock", 7830359, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
     ERItemData("Abyssal Lock", 7830360, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
     ERItemData("Ancient Ruins Lock", 7830361, ERItemCategory.GOODS, classification=ItemClassification.progression, lock=True),
-        
-    # copy of normal kindle, idk in game id
+    
+    # MARK: DLC Key Shards
     ERItemData("Messmer's Kindling Shard", 2008021, ERItemCategory.GOODS, classification=ItemClassification.progression),
     
+    # MARK: DLC Imbued Keys
+    ERItemData("Imbued Sword Key (Ancient Ruins)", 9999999, ERItemCategory.GOODS, classification=ItemClassification.progression, seperate_imbued_key=True),
+    
+    # MARK: Spiritspring Stones
     ERItemData("Fort of Reprimand Spiritspring Stone", 7830500, ERItemCategory.GOODS, classification=ItemClassification.progression, spiritspring=True),
     ERItemData("Scaduview Cross Spiritspring Stone", 7830501, ERItemCategory.GOODS, classification=ItemClassification.progression, spiritspring=True),
     ERItemData("Rabbath's Rise Spiritspring Stone", 7830502, ERItemCategory.GOODS, classification=ItemClassification.progression, spiritspring=True),
