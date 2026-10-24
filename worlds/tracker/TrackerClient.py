@@ -329,11 +329,7 @@ def cmd_reload_pack(self: TrackerCommandProcessor):
     """Force a reload of the map pack"""
     if self.ctx.game is not None:
         old_map_id = self.ctx.map_id
-        self.ctx.map_id = None
-        self.ctx.root_pack_path = None
-        self.ctx.coord_dict.clear()
-        self.ctx.deferred_dict.clear()
-        self.ctx.ldeferred_dict.clear()
+        self.ctx.disconnect_map()
         connected_cls = AutoWorld.AutoWorldRegister.world_types.get(self.ctx.game)
         if self.ctx.ui is not None and hasattr(connected_cls, "tracker_world"):
             self.ctx.tracker_world = UTMapTabData(self.ctx.slot, self.ctx.team, **getattr(connected_cls,"tracker_world",{}))
@@ -1931,6 +1927,14 @@ class TrackerGameContext(CommonContext):
                 self.defered_entrance_callback(key,self.stored_data.get(key,None))
             self.updateTracker()
 
+    def disconnect_map(self):
+            self.map_id = None
+            self.root_pack_path = None
+            self.coord_dict.clear()
+            self.deferred_dict.clear()
+            self.ldeferred_dict.clear()
+            self.item_page_funcs.clear()
+
     async def disconnect(self, allow_autoreconnect: bool = False):
         if "Tracker" in self.tags:
             self.game = ""
@@ -1945,11 +1949,7 @@ class TrackerGameContext(CommonContext):
                     del self.command_processor.commands["list_maps"]
                 if "reload_pack" in self.command_processor.commands:
                     del self.command_processor.commands["reload_pack"]
-                self.map_id = None
-                self.root_pack_path = None
-                self.coord_dict.clear()
-                self.deferred_dict.clear()
-                self.ldeferred_dict.clear()
+                self.disconnect_map()
             self.tracker_world = None
             self.defered_entrance_callback = None
             self.defered_entrance_datastorage_keys = []
