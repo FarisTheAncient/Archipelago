@@ -280,6 +280,8 @@
 
 <ApItemGrid>:
     size_hint: None, None
+    padding: 8
+    spacing: 4
 
 <ApItemIcon>:
     size_hint: None, None
@@ -290,7 +292,7 @@
             a: self.marker_alpha
         Line:
             width: 1
-            rectangle: self.x + 1, self.y + 1, self.width - 1, self.height - 1
+            rectangle: self.x, self.y, self.width, self.height
 
 <ApCounter>:
     bold: True
