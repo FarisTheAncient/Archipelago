@@ -32,8 +32,6 @@ class MyWorld(World):
         "map_page_locations": <Location(s) of the locations.json file(s) relative to the root folder of the pack, may be a list if more than one file exists>
         "map_page_layouts": <Location(s) of the layout.json relative to the root folder of the pack, may be a list if more than one file exists. Mutually exclusive with map_page_groups>
         "map_page_groups": <optional list that manually defines the map navigation dropdown structure. Mutually exclusive with map_page_layouts>
-        "map_page_items": <optional location(s) of the items.json file(s) relative to the root folder of the pack, may be a list if more than one file exists>
-        "map_page_item_layouts": <option list of ItemLayoutSection items to define the layout of the item tracker>
         "map_page_setting_key": <optional tag that informs which data storage key will be watched for auto tabbing>
         "map_page_index": <optional function that will control the auto tabbing>
         "poptracker_name_mapping": <optional Dict that maps the poptracker section names to the location id as they exist in the datapackage> 
@@ -41,10 +39,10 @@ class MyWorld(World):
         "location_setting_key": <optional data storage key used to determine where to place the location indicator>
         "location_icon_coords": <optional function used to convert between the map and the value in data storage into coords>
         "item_page_items": <optional location(s) of the items.json file(s) relative to the root folder of the pack, may be a list if more than one file exists>
-        "item_page_item_layouts": <option ItemLayoutSection which defines the layout of items shown on a standalone item page, may be a list if more than one layout configuration is desired>
-        "map_page_item_layouts_left": <option ItemLayoutSection which defines the layout of items shown on the left side of the map page, may be a list if more than one layout configuration is desired>
-        "map_page_item_layouts_right": <option ItemLayoutSection which defines the layout of items shown on the right side of the map page, may be a list if more than one layout configuration is desired>
-        "map_page_item_layouts_bottom": <option ItemLayoutSection which defines the layout of items shown on the bottom of the map page, may be a list if more than one layout configuration is desired>
+        "item_page_item_layouts": <optional Dict which defines the layout of items shown on a standalone item page, may be a list if more than one layout configuration is desired>
+        "map_page_item_layouts_left": <optional Dict which defines the layout of items shown on the left side of the map page, may be a list if more than one layout configuration is desired>
+        "map_page_item_layouts_right": <optional Dict which defines the layout of items shown on the right side of the map page, may be a list if more than one layout configuration is desired>
+        "map_page_item_layouts_bottom": <optional Dict which defines the layout of items shown on the bottom of the map page, may be a list if more than one layout configuration is desired>
         "poptracker_item_mapping": <optional Dict that maps poptracker item names to the item name as they exist in the datapackage>
     }
 ```
@@ -340,19 +338,19 @@ To do so, `item_page_items` in your `tracker_world` must contain a valid path to
 
 The contents of `items.json` is the same as for PopTracker and currently supports item definitions of type `toggle`, `consumable` and `progressive`.
 
-To control where and how to show the icons, you need to define at least one `ItemLayoutSection` object as either `item_page_item_layouts`(_on a standalone item tab_), `map_page_item_layouts_left`(_to the left of the map_), `map_page_item_layouts_right`(_to the right of the map_) or `map_page_item_layouts_bottom`(_at the bottom of the map_) in your `tracker_world`. You may use any combination of these attributes to show items at multiple locations.
-
-An `ItemLayoutSection` represents a named grid of icons and is defined as follows:
+To control where and how to show the icons, you need to define at least one dict with the following fields:
 ```py
-    ItemLayoutSection(
-        name=<The name of the section>
-        items=<A list of item names, determining which items to display in this section, you may also use item groups>
-        orientation=<Either 'lr' or 'tb' to control if the grid is filled left to right or top to bottom>
-        cols=<The amount of columns before it should start a new row if orientation is 'lr'>
-        rows=<The amount of rows before it should start a new column if orientation is 'tb'>
-        item_size=<The (width, height) of the grid cells in pixels>
-    )
+    {
+        "name": <The name of the section>
+        "items": <A list of item names, determining which items to display in this section, you may also use item groups>
+        "orientation": <Either 'lr' or 'tb' to control if the grid is filled left to right or top to bottom>
+        "cols": <The amount of columns before it should start a new row if orientation is 'lr'>
+        "rows": <The amount of rows before it should start a new column if orientation is 'tb'>
+        "item_size": <The (width, height) of the grid cells in pixels>
+    }
 ```
+And assign it to either `item_page_item_layouts`(_on a standalone item tab_), `map_page_item_layouts_left`(_to the left of the map_), `map_page_item_layouts_right`(_to the right of the map_) or `map_page_item_layouts_bottom`(_at the bottom of the map_) in your `tracker_world`. You may use any combination of these attributes to show items at multiple locations and may use a list of these dicts to show multiple item sections.
+
 
 ### Code Examples
 
@@ -362,7 +360,7 @@ Showing all items defined in `items.json` on its own item tab:
 tracker_world: ClassVar[dict[str, Any]] = {
     # ... other tracker configuration ...
     "item_page_items": "items/items.json",
-    "item_page_item_layouts": ItemLayoutSection( name="All items", items="Everything", cols=10 )
+    "item_page_item_layouts": { "name": "All items", "items": "Everything", "cols": 10 }
     # The "Everything" item group exists for any Apworld and contains every item. You may also use a list of individual
     # item names, different item groups or a mix of both. Items that are in multiple item groups will only be shown once.
 }
@@ -374,12 +372,12 @@ tracker_world: ClassVar[dict[str, Any]] = {
     # ... other tracker configuration ...
     "item_page_items": "items/items.json",
     "map_page_item_layouts_left": [
-        ItemLayoutConfiguration( name="Lord Souls",        items=["Lordvessel", "Lord Souls"],       orientation="lr", cols=5 ),
-        ItemLayoutConfiguration( name="Progression Items", items=["Key items", "Progression Items"], orientation="lr", cols=5 )
+        { "name": "Lord Souls",        "items": ["Lordvessel", "Lord Souls"],       "orientation": "lr", "cols": 5 },
+        { "name": "Progression Items", "items": ["Key items", "Progression Items"], "orientation": "lr", "cols": 5 }
     ]
     "map_page_item_layouts_bottom": [
-        ItemLayoutConfiguration( name="Fog Walls",      items="Fog Wall Keys",      orientation="tb", rows=2, item_size=(36, 48) ),
-        ItemLayoutConfiguration( name="Boss Fog Walls", items="Boss Fog Wall Keys", orientation="tb", rows=2, item_size=(36, 48) )
+        { "name": "Fog Walls",      "items": "Fog Wall Keys",      "orientation": "tb", "rows": 2, "item_size": (36, 48) },
+        { "name": "Boss Fog Walls", "items": "Boss Fog Wall Keys", "orientation": "tb", "rows": 2, "item_size": (36, 48) }
     ]
 }
 ```
