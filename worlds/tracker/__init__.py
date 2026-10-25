@@ -220,6 +220,9 @@ class UTMapTabData:
     location_icon_coords: Callable[[int, Any], tuple[int,int,str]|list[tuple[int,int,str]]|None]
     """Function used to convert between the map and the value in data storage into coords (or none to hide it) the return is [x, y, override path string]"""
 
+    nested_pack: bool
+    """Used if the external pack is nested with an extra folder matching the file name (for github source release etc)"""
+
     def __init__(
             self, player_id, team_id, map_page_folder: str = "", map_page_maps: list[str] | str | None = None,
             map_page_locations: list[str] | str | None = None, map_page_layouts: list[str] | str | None = None,
@@ -233,7 +236,8 @@ class UTMapTabData:
             poptracker_item_mapping: dict[str, int] | None = None,
             location_setting_key: str|None = None,
             location_icon_coords: Callable[[int, Any], tuple[int,int]]|None= None,
-            poptracker_entrance_mapping: dict[str, str]|None = None, **kwargs):
+            poptracker_entrance_mapping: dict[str, str]|None = None,
+            nested_pack: bool=False, **kwargs):
 
         self.map_page_folder = map_page_folder
         if isinstance(map_page_maps, str):
@@ -311,6 +315,7 @@ class UTMapTabData:
             self.location_icon_coords = location_icon_coords
         else:
             self.location_icon_coords = lambda _,__: None
+        self.nested_pack = nested_pack
 
 
 icon_paths["ut_ico"] = f"ap:{__name__}/icon.png"

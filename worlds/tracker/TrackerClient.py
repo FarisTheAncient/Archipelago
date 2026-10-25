@@ -643,6 +643,9 @@ class TrackerGameContext(CommonContext):
                     current_world.settings._changed = True
                 if packRef:
                     if is_zipfile(packRef):
+                        prefix = ""
+                        if self.tracker_world.nested_pack:
+                            prefix = f"{os.path.splitext(os.path.basename(packRef))[0]}/" # get basename without extension from <https://stackoverflow.com/a/678242>
                         current_world.settings.update({self.tracker_world.external_pack_key: packRef})
                         current_world.settings._changed = True
                         if self.tracker_world.map_page_folder:
@@ -658,14 +661,14 @@ class TrackerGameContext(CommonContext):
                                     items += load_json(PACK_NAME, f"/{self.tracker_world.map_page_folder}/{item_page}")
                         else:
                             for map_page in self.tracker_world.map_page_maps:
-                                self.maps += load_json_zip(packRef, f"{map_page}")
+                                self.maps += load_json_zip(packRef, f"{prefix}{map_page}")
                             for loc_page in self.tracker_world.map_page_locations:
-                                self.locs += load_json_zip(packRef, f"{loc_page}")
+                                self.locs += load_json_zip(packRef, f"{prefix}{loc_page}")
                             for layout_page in self.tracker_world.map_page_layouts:
-                                self.layouts.append(load_json_zip(packRef, f"{layout_page}"))
+                                self.layouts.append(load_json_zip(packRef, f"{prefix}{layout_page}"))
                             for item_page in self.tracker_world.item_page_items:
                                 if item_page:
-                                    items += load_json_zip(packRef, f"{item_page}")
+                                    items += load_json_zip(packRef, f"{prefix}{item_page}")
                     else:
                         current_world.settings.update({self.tracker_world.external_pack_key: ""}) #failed to find a pack, prompt next launch
                         current_world.settings._changed = True
@@ -677,6 +680,8 @@ class TrackerGameContext(CommonContext):
                     return
             except Exception as e:
                 logger.error("Selected poptracker pack was invalid")
+                tb = traceback.format_exc()
+                logger.error(tb)
                 current_world.settings[self.tracker_world.external_pack_key] = ""
                 current_world.settings._changed = True
                 self.tracker_world = None
@@ -703,6 +708,9 @@ class TrackerGameContext(CommonContext):
             packRef = self.tracker_core.get_current_world().settings[self.tracker_world.external_pack_key]
             if packRef and is_zipfile(packRef):
                 self.root_pack_path = f"ap:zip:{packRef}"
+                if self.tracker_world.nested_pack:
+                    prefix = f"{os.path.splitext(os.path.basename(packRef))[0]}" # get basename without extension from <https://stackoverflow.com/a/678242>
+                    self.root_pack_path += f"/{prefix}"
             else:
                 logger.error("Player poptracker doesn't seem to exist :< (must be a zip file)")
                 return

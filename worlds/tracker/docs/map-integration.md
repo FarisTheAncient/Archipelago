@@ -44,6 +44,7 @@ class MyWorld(World):
         "map_page_item_layouts_right": <optional Dict which defines the layout of items shown on the right side of the map page, may be a list if more than one layout configuration is desired>
         "map_page_item_layouts_bottom": <optional Dict which defines the layout of items shown on the bottom of the map page, may be a list if more than one layout configuration is desired>
         "poptracker_item_mapping": <optional Dict that maps poptracker item names to the item name as they exist in the datapackage>
+        "nested_pack": <optional bool for if the expected external pack zip will have an extra folder with the same name as the zip filename, for GitHub source releases etc>
     }
 ```
 
