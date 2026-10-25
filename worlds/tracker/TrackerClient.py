@@ -338,7 +338,8 @@ def cmd_reload_pack(self: TrackerCommandProcessor):
         else:
             self.ctx.tracker_world = None
         if self.ctx.tracker_world is not None:
-            self.ctx.load_pack()
+            self.ctx.load_pack(force_reload=True)
+            self.ctx.enable_maps()
             self.ctx.load_map(old_map_id)
             self.ctx.updateTracker()
     else:
@@ -622,7 +623,7 @@ class TrackerGameContext(CommonContext):
                 all_layouts.extend(maps)
         self.map_groups = all_layouts
 
-    def load_pack(self):
+    def load_pack(self, force_reload=False):
         assert self.tracker_core.player_id is not None
         assert self.tracker_world is not None
         current_world = self.tracker_core.get_current_world()
@@ -636,7 +637,7 @@ class TrackerGameContext(CommonContext):
             try:
                 from zipfile import is_zipfile
                 packRef = current_world.settings[self.tracker_world.external_pack_key]
-                if packRef == "":
+                if packRef == "" or (packRef is None and force_reload):
                     prompt_desc = getattr(current_world.settings[self.tracker_world.external_pack_key],"ut_dialog_name","Select Poptracker pack")
                     packRef = open_filename(prompt_desc, filetypes=[("Poptracker Pack", [".zip"])])
                     current_world.settings[self.tracker_world.external_pack_key] = packRef
@@ -1836,21 +1837,7 @@ class TrackerGameContext(CommonContext):
                 if self.tracker_world:
                     self.load_pack()
                     if self.tracker_world:  # don't show the map if loading failed
-                        if self.tracker_world.map_page_maps and self.tracker_world.map_page_locations:
-                            self.ui.show_map = True
-                        if self.tracker_world.item_page_items and self.tracker_world.item_page_item_layouts:
-                            self.ui.show_items = True
-                        if self.tracker_world.map_page_index:
-                            key = self.tracker_world.map_page_setting_key or f"{self.slot}_{self.team}_{UT_MAP_TAB_KEY}"
-                            self.set_notify(key)
-                        icon_key = self.tracker_world.location_setting_key
-                        if icon_key:
-                            self.set_notify(icon_key)
-                        if "load_map" not in self.command_processor.commands or not self.command_processor.commands["load_map"]:
-                            self.command_processor.commands["load_map"] = cmd_load_map
-                        if "list_maps" not in self.command_processor.commands or not self.command_processor.commands["list_maps"]:
-                            self.command_processor.commands["list_maps"] = cmd_list_maps
-
+                        self.enable_maps()
                     from Utils import is_frozen
                     
                     if "reload_pack" not in self.command_processor.commands or not self.command_processor.commands["reload_pack"] and (not self.tracker_world or not is_frozen()):
@@ -1941,7 +1928,23 @@ class TrackerGameContext(CommonContext):
             self.coord_dict.clear()
             self.deferred_dict.clear()
             self.ldeferred_dict.clear()
-            self.item_page_funcs.clear()
+
+    def enable_maps(self):
+        if self.tracker_world:
+            if self.tracker_world.map_page_maps and self.tracker_world.map_page_locations:
+                self.ui.show_map = True
+            if self.tracker_world.item_page_items and self.tracker_world.item_page_item_layouts:
+                self.ui.show_items = True
+            if self.tracker_world.map_page_index:
+                key = self.tracker_world.map_page_setting_key or f"{self.slot}_{self.team}_{UT_MAP_TAB_KEY}"
+                self.set_notify(key)
+            icon_key = self.tracker_world.location_setting_key
+            if icon_key:
+                self.set_notify(icon_key)
+            if "load_map" not in self.command_processor.commands or not self.command_processor.commands["load_map"]:
+                self.command_processor.commands["load_map"] = cmd_load_map
+            if "list_maps" not in self.command_processor.commands or not self.command_processor.commands["list_maps"]:
+                self.command_processor.commands["list_maps"] = cmd_list_maps
 
     async def disconnect(self, allow_autoreconnect: bool = False):
         if "Tracker" in self.tags:
