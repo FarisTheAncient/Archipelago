@@ -10,16 +10,12 @@ ADDONS_ERRORS:list[str] = []
 
 from Utils import tuplize_version
 
-UT_ADDONS_VERSION = "v0.1.3"
+UT_ADDONS_VERSION = "v0.1.4"
 
 UT_ADDONS_TUPLE = tuplize_version(UT_ADDONS_VERSION[1:].split("-",1)[0])
 
 if TYPE_CHECKING:
     from worlds.tracker.TrackerClient import TrackerCommandProcessor
-
-from worlds.tracker import UT_VERSION_TUPLE
-if not UT_VERSION_TUPLE >= (0,3,1):
-    raise ImportError(f"UT Addons {UT_ADDONS_VERSION} is missing compatible UT")
 
 def register_function(name:str, func:Callable):
     if name in UT_FUNCTIONS:
