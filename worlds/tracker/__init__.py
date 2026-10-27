@@ -23,7 +23,7 @@ def launch_client(*args):
 from Utils import tuplize_version
 
 # NO UNDERSCORES YOU IDIOT
-UT_VERSION = "v0.3.7"
+UT_VERSION = "v0.3.8"
 
 UT_VERSION_TUPLE = tuplize_version(UT_VERSION[1:].split("-",1)[0])
 

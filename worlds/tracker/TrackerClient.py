@@ -1475,6 +1475,7 @@ class TrackerGameContext(CommonContext):
             location_icons: list[ApLocationIcon]
 
             def __init__(self):
+                super().__init__()
                 self.location_icons = []
 
             def load_coords(self, coords: dict[tuple, tuple[list[int], int | None]], defered_coords: dict[tuple, tuple[list[str], int | None]],
