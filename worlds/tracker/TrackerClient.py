@@ -1480,6 +1480,8 @@ class TrackerGameContext(CommonContext):
             def load_coords(self, coords: dict[tuple, tuple[list[int], int | None]], defered_coords: dict[tuple, tuple[list[str], int | None]],
                             ldefered_coords: dict[tuple, tuple[list[str], int | None]], use_split, default_loc_size: int = 65) \
                     -> tuple[dict[int, list], dict[str, list], dict[str, list]]:
+                for widget in self.ids.location_canvas.children:
+                    widget.clear_widgets() #Hopefully get rid of tooltips... hope
                 self.ids.location_canvas.clear_widgets()
                 returnDict: dict[int, list] = defaultdict(list)
                 deferredDict: dict[str, list] = defaultdict(list)
