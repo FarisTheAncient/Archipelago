@@ -62,6 +62,8 @@ class TrackerException(Exception):
         self.message = message
         super().__init__(*args)
 
+class HostImportException(Exception):
+    pass
 class TrackerSettings(Group):
     class TrackerPlayersPath(UserFolderPath):
         """Players folder for UT look for YAMLs"""

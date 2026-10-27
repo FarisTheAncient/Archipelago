@@ -1474,6 +1474,9 @@ class TrackerGameContext(CommonContext):
         class VisualTracker(BoxLayout, ItemGrid):
             location_icons: list[ApLocationIcon]
 
+            def __init__(self):
+                self.location_icons = []
+
             def load_coords(self, coords: dict[tuple, tuple[list[int], int | None]], defered_coords: dict[tuple, tuple[list[str], int | None]],
                             ldefered_coords: dict[tuple, tuple[list[str], int | None]], use_split, default_loc_size: int = 65) \
                     -> tuple[dict[int, list], dict[str, list], dict[str, list]]:
@@ -1534,6 +1537,12 @@ class TrackerGameContext(CommonContext):
         try:
             tracker = TrackerLayout(orientation="vertical")
             tracker_view = TrackerView()
+
+            if self.tracker_core.something_has_gone_wrong:
+                tracker_view.data.append({"text":"Something has gone VERY wrong, run /faris_asked for more info"})
+                async def dont_connect(address=None): return #nothing but crimes here
+                self.connect = dont_connect
+                self.print_json([{"type":"color","color":"red","text":"Something has gone VERY wrong, run /faris_asked for more info"}])
 
             # Creates a header
             tracker_header = BoxLayout(orientation="horizontal", size_hint_y=None, height=dp(36))
@@ -1822,6 +1831,7 @@ class TrackerGameContext(CommonContext):
                 self.tracker_core.initalize_tracker_core(connected_cls,args["slot_data"])
                 if self.tracker_core.tracker_disabled:
                     logger.error("World Author has requested UT be disabled on this world, please respect their decision")
+                    logger.error("For more information, if available, see /faris_asked")
                     return
                 if not self.tracker_core.multiworld:
                     logger.error("Internal generation failed, something has gone wrong")
