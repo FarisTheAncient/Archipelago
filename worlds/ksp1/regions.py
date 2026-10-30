@@ -71,6 +71,9 @@ def create_all_regions(world: KSP1World) -> None:
 
     _create_body_regions(world, menu)
 
+    if world._ut_active:
+        _create_fake_entrances(world,menu)
+
 
 def location_owning_bodies(world: KSP1World) -> frozenset[BodyName]:
     """Bodies that own at least one emitted location in this world.
@@ -107,6 +110,22 @@ def bodies_needing_regions(world: KSP1World) -> list[BodyName]:
             cur = BODY_BY_NAME[cur].parent
 
     return [b.name for b in ALL_BODIES if b.name in needed]
+
+def _create_fake_entrances(world: KSP1World, menu: Region) -> None:
+    """Create the fake entrances that will be rendered on the UT map tab"""
+    from .bodies import MissionType, _mission_dv
+
+    home = world.mission_builder.home
+    mw = world.multiworld
+    relevent_missions = [MissionType.ORBIT,MissionType.LAND,MissionType.RETURN,MissionType.ESCAPE,MissionType.ORBIT_RETURN,MissionType.SOI_RETURN]
+    bodies = bodies_needing_regions(world)
+    for body in bodies:
+        region = world.get_region(body_region_name(body))
+        for mission in relevent_missions:
+            dv = _mission_dv(body, home, mission)
+            if dv != float("inf"):
+                new_region = Region(f"{region.name} - {str(mission)} dV {str(int(dv))}",world.player,mw)
+                region.connect(new_region,f"{region.name} - {str(mission)}")
 
 
 def _create_body_regions(world: KSP1World, menu: Region) -> None:

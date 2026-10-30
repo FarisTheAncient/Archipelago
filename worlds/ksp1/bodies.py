@@ -2731,6 +2731,20 @@ def _return_dv(body: BodyName, home: BodyName) -> float:
         return float("inf")
     return min(sum(e.base_dv for e in profile) for profile in profiles)
 
+@lru_cache(maxsize=None)
+def _mission_dv(body: BodyName, home: BodyName, mission: MissionType) -> float:
+    """Cheapest Δv from ``home`` to ``body`` using
+    ``MissionType.mission`` profiles.
+
+    I need this for crimes.
+
+    Returns ``inf`` when no profile exists (e.g. Kerbol)."""
+    builder = _mission_builder_for(home)
+    profiles = builder.profiles_for(body, mission)
+    if not profiles:
+        return float("inf")
+    return min(sum(e.base_dv for e in profile) for profile in profiles)
+
 
 @lru_cache(maxsize=None)
 def _return_edge_count(body: BodyName, home: BodyName) -> int:
