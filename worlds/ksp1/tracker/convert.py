@@ -7,77 +7,16 @@ from typing import Any
 # Script not intended to be run from the ap root
 # Just pass it the path to the 
 
-science_data = [ #because i'm lazy :)
-    [ #Science_0
-        "Basic Rocketry",
-        "Engineering 101",
-        "General Rocketry",
-        "Stability",
-        "Survivability"
-    ],[ #Science_1
-        "Advanced Rocketry",
-        "Aviation",
-        "Basic Science",
-        "Flight Control",
-        "General Construction",
-        "Advanced Construction",
-        "Advanced Flight Control",
-        "Aerodynamics",
-        "Electrics",
-        "Fuel Systems",
-        "Heavy Rocketry",
-        "Landing",
-        "Miniaturization",
-        "Propulsion Systems",
-        "Space Exploration"
-    ],[ #Science_2
-        "Actuators",
-        "Advanced Aerodynamics",
-        "Advanced Electrics",
-        "Advanced Exploration",
-        "Adv. Fuel Systems",
-        "Advanced Landing",
-        "Command Modules",
-        "Heavier Rocketry",
-        "Precision Engineering",
-        "Precision Propulsion",
-        "Specialized Construction",
-        "Specialized Control",
-        "Supersonic Flight"
-    ],[ #Science_3
-        "Advanced MetalWorks",
-        "Composites",
-        "Electronics",
-        "Field Science",
-        "Heavy Aerodynamics",
-        "Heavy Landing",
-        "High Altitude Flight",
-        "High-Power Electrics",
-        "Large Volume Containment",
-        "Nuclear Propulsion",
-        "Scanning Tech",
-        "Unmanned Tech"
-    ],[ #Science_4
-        "Advanced Science Tech",
-        "Advanced Unmanned Tech",
-        "Advanced Motors",
-        "Automation",
-        "Experimental Aerodynamics",
-        "High-Performance Fuel Systems",
-        "Hypersonic Flight",
-        "Ion Propulsion",
-        "Meta-Materials",
-        "Nanolathing",
-        "Specialized Electrics",
-        "Very Heavy Rocketry"
-    ],[ #Science_5
-        "Aerospace Tech",
-        "Experimental Electrics",
-        "Experimental Motors",
-        "Experimental Science",
-        "Large Probes"
-    ]
-]
+science_data = {}
+science_tiers = {1:0,2:0,3:1,4:1,5:2,6:3,7:4,8:5}
+
+with open("../data/tech_tree.json") as tree:
+    blob = json.load(tree)
+    for node in blob["nodes"]:
+        tier = science_tiers[int(node["tier"])]
+        if tier not in science_data:
+            science_data[tier] = []
+        science_data[tier].append(node["title"])
 
 altitude_data = {
     "Bop":[
@@ -250,7 +189,7 @@ def main(source_path: Path):
                 science = int(node["label"].split("_",1)[1])
                 if science < len(science_data):
                     for s in science_data[science]:
-                        sections.extend([f"{s} {i}" for i in range(6)]) #0..5
+                        sections.extend([f"{s} {i}" for i in range(1,5)]) #1..4
                     sections.extend(science_data[science])
             elif node["label"].startswith("Altitude"):
                 alt = int(node["label"].split("_",1)[1])
