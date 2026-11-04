@@ -14499,21 +14499,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Bop",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -14586,10 +14571,28 @@
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Bop 1km Altitude"
+      },
+      {
+        "name": "Bop 2km Altitude"
+      },
+      {
+        "name": "Bop 3km Altitude"
+      },
+      {
+        "name": "Bop 4km Altitude"
+      },
+      {
+        "name": "Bop 6km Altitude"
+      },
+      {
+        "name": "Bop 10km Altitude"
       },
       {
         "name": "Bop 15km Altitude"
@@ -14598,124 +14601,16 @@
     "map_locations": [
       {
         "map": "Bop",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Bop 10km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Bop",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Bop 6km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Bop",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Bop 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Bop",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Bop 3km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Bop",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Bop 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Bop",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Bop 1km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Bop",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -14796,16 +14691,16 @@
     "map_locations": [
       {
         "map": "Bop",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -14991,16 +14886,16 @@
     "map_locations": [
       {
         "map": "Bop",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -15186,16 +15081,16 @@
     "map_locations": [
       {
         "map": "Bop",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -15396,76 +15291,16 @@
     "map_locations": [
       {
         "map": "Bop",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -15588,21 +15423,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -15636,40 +15456,106 @@
     "map_locations": [
       {
         "map": "Bop",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Bop",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -15708,12 +15594,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -15726,8 +15606,53 @@
     "map_locations": [
       {
         "map": "Bop",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Bop",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -30231,21 +30156,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Dres",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -30259,7 +30169,7 @@
       {
         "map": "Dres",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -30277,7 +30187,7 @@
       {
         "map": "Dres",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -30295,7 +30205,7 @@
       {
         "map": "Dres",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -30313,15 +30223,33 @@
       {
         "map": "Dres",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Dres 2km Altitude"
+      },
+      {
+        "name": "Dres 4km Altitude"
+      },
+      {
+        "name": "Dres 7km Altitude"
+      },
+      {
+        "name": "Dres 9km Altitude"
+      },
+      {
+        "name": "Dres 13km Altitude"
+      },
+      {
+        "name": "Dres 19km Altitude"
       },
       {
         "name": "Dres 30km Altitude"
@@ -30330,124 +30258,16 @@
     "map_locations": [
       {
         "map": "Dres",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Dres 19km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Dres",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Dres 13km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Dres",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Dres 9km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Dres",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Dres 7km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Dres",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Dres 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Dres",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Dres 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Dres",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -30528,16 +30348,16 @@
     "map_locations": [
       {
         "map": "Dres",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -30723,16 +30543,16 @@
     "map_locations": [
       {
         "map": "Dres",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -30918,16 +30738,16 @@
     "map_locations": [
       {
         "map": "Dres",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -31128,76 +30948,16 @@
     "map_locations": [
       {
         "map": "Dres",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -31320,21 +31080,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -31368,40 +31113,106 @@
     "map_locations": [
       {
         "map": "Dres",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Dres",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -31440,12 +31251,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -31458,8 +31263,53 @@
     "map_locations": [
       {
         "map": "Dres",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Dres",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -45963,21 +45813,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Duna",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -45991,7 +45826,7 @@
       {
         "map": "Duna",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -46009,7 +45844,7 @@
       {
         "map": "Duna",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -46027,7 +45862,7 @@
       {
         "map": "Duna",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -46045,15 +45880,33 @@
       {
         "map": "Duna",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Duna 4km Altitude"
+      },
+      {
+        "name": "Duna 7km Altitude"
+      },
+      {
+        "name": "Duna 11km Altitude"
+      },
+      {
+        "name": "Duna 14km Altitude"
+      },
+      {
+        "name": "Duna 21km Altitude"
+      },
+      {
+        "name": "Duna 32km Altitude"
       },
       {
         "name": "Duna 50km Altitude"
@@ -46062,124 +45915,16 @@
     "map_locations": [
       {
         "map": "Duna",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Duna 32km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Duna",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Duna 21km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Duna",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Duna 14km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Duna",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Duna 11km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Duna",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Duna 7km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Duna",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Duna 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Duna",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -46260,16 +46005,16 @@
     "map_locations": [
       {
         "map": "Duna",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -46455,16 +46200,16 @@
     "map_locations": [
       {
         "map": "Duna",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -46650,16 +46395,16 @@
     "map_locations": [
       {
         "map": "Duna",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -46860,76 +46605,16 @@
     "map_locations": [
       {
         "map": "Duna",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -47052,21 +46737,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -47100,40 +46770,106 @@
     "map_locations": [
       {
         "map": "Duna",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Duna",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -47172,12 +46908,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -47190,8 +46920,53 @@
     "map_locations": [
       {
         "map": "Duna",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Duna",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -61695,21 +61470,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eeloo",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -61723,7 +61483,7 @@
       {
         "map": "Eeloo",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -61741,7 +61501,7 @@
       {
         "map": "Eeloo",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -61759,7 +61519,7 @@
       {
         "map": "Eeloo",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -61777,15 +61537,33 @@
       {
         "map": "Eeloo",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Eeloo 1km Altitude"
+      },
+      {
+        "name": "Eeloo 2km Altitude"
+      },
+      {
+        "name": "Eeloo 3km Altitude"
+      },
+      {
+        "name": "Eeloo 4km Altitude"
+      },
+      {
+        "name": "Eeloo 6km Altitude"
+      },
+      {
+        "name": "Eeloo 10km Altitude"
       },
       {
         "name": "Eeloo 15km Altitude"
@@ -61794,124 +61572,16 @@
     "map_locations": [
       {
         "map": "Eeloo",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Eeloo 10km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eeloo",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Eeloo 6km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eeloo",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Eeloo 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eeloo",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Eeloo 3km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eeloo",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Eeloo 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eeloo",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Eeloo 1km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eeloo",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -61992,16 +61662,16 @@
     "map_locations": [
       {
         "map": "Eeloo",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -62187,16 +61857,16 @@
     "map_locations": [
       {
         "map": "Eeloo",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -62382,16 +62052,16 @@
     "map_locations": [
       {
         "map": "Eeloo",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -62592,76 +62262,16 @@
     "map_locations": [
       {
         "map": "Eeloo",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -62784,21 +62394,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -62832,40 +62427,106 @@
     "map_locations": [
       {
         "map": "Eeloo",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Eeloo",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -62904,12 +62565,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -62922,8 +62577,53 @@
     "map_locations": [
       {
         "map": "Eeloo",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Eeloo",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -77437,7 +77137,7 @@
       {
         "map": "Eve",
         "x": 656.4154,
-        "y": 3645.0331
+        "y": 3645.033
       }
     ]
   },
@@ -77455,7 +77155,7 @@
       {
         "map": "Eve",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5701
       }
     ]
   },
@@ -77473,7 +77173,7 @@
       {
         "map": "Eve",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.389
       }
     ]
   },
@@ -77491,7 +77191,7 @@
       {
         "map": "Eve",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2076
       }
     ]
   },
@@ -77509,15 +77209,33 @@
       {
         "map": "Eve",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0262
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Eve 6km Altitude"
+      },
+      {
+        "name": "Eve 13km Altitude"
+      },
+      {
+        "name": "Eve 21km Altitude"
+      },
+      {
+        "name": "Eve 26km Altitude"
+      },
+      {
+        "name": "Eve 39km Altitude"
+      },
+      {
+        "name": "Eve 58km Altitude"
       },
       {
         "name": "Eve 90km Altitude"
@@ -77526,124 +77244,16 @@
     "map_locations": [
       {
         "map": "Eve",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Eve 58km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eve",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Eve 39km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eve",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Eve 26km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eve",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Eve 21km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eve",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Eve 13km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eve",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Eve 6km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Eve",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -77724,16 +77334,16 @@
     "map_locations": [
       {
         "map": "Eve",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -77919,16 +77529,16 @@
     "map_locations": [
       {
         "map": "Eve",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -78114,16 +77724,16 @@
     "map_locations": [
       {
         "map": "Eve",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -78324,76 +77934,16 @@
     "map_locations": [
       {
         "map": "Eve",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -78516,21 +78066,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -78564,40 +78099,106 @@
     "map_locations": [
       {
         "map": "Eve",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Eve",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -78636,12 +78237,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -78654,8 +78249,53 @@
     "map_locations": [
       {
         "map": "Eve",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Eve",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -93159,21 +92799,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Gilly",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -93187,7 +92812,7 @@
       {
         "map": "Gilly",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -93205,7 +92830,7 @@
       {
         "map": "Gilly",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -93223,7 +92848,7 @@
       {
         "map": "Gilly",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -93241,15 +92866,33 @@
       {
         "map": "Gilly",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Gilly 1km Altitude"
+      },
+      {
+        "name": "Gilly 2km Altitude"
+      },
+      {
+        "name": "Gilly 3km Altitude"
+      },
+      {
+        "name": "Gilly 4km Altitude"
+      },
+      {
+        "name": "Gilly 5km Altitude"
+      },
+      {
+        "name": "Gilly 7km Altitude"
       },
       {
         "name": "Gilly 11km Altitude"
@@ -93258,124 +92901,16 @@
     "map_locations": [
       {
         "map": "Gilly",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Gilly 7km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Gilly",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Gilly 5km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Gilly",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Gilly 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Gilly",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Gilly 3km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Gilly",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Gilly 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Gilly",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Gilly 1km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Gilly",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -93456,16 +92991,16 @@
     "map_locations": [
       {
         "map": "Gilly",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -93651,16 +93186,16 @@
     "map_locations": [
       {
         "map": "Gilly",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -93846,16 +93381,16 @@
     "map_locations": [
       {
         "map": "Gilly",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -94056,76 +93591,16 @@
     "map_locations": [
       {
         "map": "Gilly",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -94248,21 +93723,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -94296,40 +93756,106 @@
     "map_locations": [
       {
         "map": "Gilly",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Gilly",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -94368,12 +93894,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -94386,8 +93906,53 @@
     "map_locations": [
       {
         "map": "Gilly",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Gilly",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -108891,21 +108456,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Ike",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -108919,7 +108469,7 @@
       {
         "map": "Ike",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -108937,7 +108487,7 @@
       {
         "map": "Ike",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -108955,7 +108505,7 @@
       {
         "map": "Ike",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -108973,15 +108523,33 @@
       {
         "map": "Ike",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Ike 1km Altitude"
+      },
+      {
+        "name": "Ike 2km Altitude"
+      },
+      {
+        "name": "Ike 3km Altitude"
+      },
+      {
+        "name": "Ike 4km Altitude"
+      },
+      {
+        "name": "Ike 6km Altitude"
+      },
+      {
+        "name": "Ike 10km Altitude"
       },
       {
         "name": "Ike 15km Altitude"
@@ -108990,124 +108558,16 @@
     "map_locations": [
       {
         "map": "Ike",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Ike 10km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Ike",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Ike 6km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Ike",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Ike 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Ike",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Ike 3km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Ike",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Ike 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Ike",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Ike 1km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Ike",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -109188,16 +108648,16 @@
     "map_locations": [
       {
         "map": "Ike",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -109383,16 +108843,16 @@
     "map_locations": [
       {
         "map": "Ike",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -109578,16 +109038,16 @@
     "map_locations": [
       {
         "map": "Ike",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -109788,76 +109248,16 @@
     "map_locations": [
       {
         "map": "Ike",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -109980,21 +109380,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -110028,40 +109413,106 @@
     "map_locations": [
       {
         "map": "Ike",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Ike",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -110100,12 +109551,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -110118,8 +109563,53 @@
     "map_locations": [
       {
         "map": "Ike",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Ike",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -124710,10 +124200,28 @@
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Kerbin 5km Altitude"
+      },
+      {
+        "name": "Kerbin 10km Altitude"
+      },
+      {
+        "name": "Kerbin 16km Altitude"
+      },
+      {
+        "name": "Kerbin 20km Altitude"
+      },
+      {
+        "name": "Kerbin 30km Altitude"
+      },
+      {
+        "name": "Kerbin 45km Altitude"
       },
       {
         "name": "Kerbin 70km Altitude"
@@ -124722,124 +124230,16 @@
     "map_locations": [
       {
         "map": "Kerbin",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Kerbin 45km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Kerbin",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Kerbin 30km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Kerbin",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Kerbin 20km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Kerbin",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Kerbin 16km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Kerbin",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Kerbin 10km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Kerbin",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Kerbin 5km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Kerbin",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -124920,16 +124320,16 @@
     "map_locations": [
       {
         "map": "Kerbin",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -125115,16 +124515,16 @@
     "map_locations": [
       {
         "map": "Kerbin",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -125310,16 +124710,16 @@
     "map_locations": [
       {
         "map": "Kerbin",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -125520,76 +124920,16 @@
     "map_locations": [
       {
         "map": "Kerbin",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -125712,21 +125052,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -125760,40 +125085,106 @@
     "map_locations": [
       {
         "map": "Kerbin",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Kerbin",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -125832,12 +125223,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -125850,8 +125235,53 @@
     "map_locations": [
       {
         "map": "Kerbin",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Kerbin",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -140442,10 +139872,28 @@
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Laythe 4km Altitude"
+      },
+      {
+        "name": "Laythe 7km Altitude"
+      },
+      {
+        "name": "Laythe 11km Altitude"
+      },
+      {
+        "name": "Laythe 14km Altitude"
+      },
+      {
+        "name": "Laythe 21km Altitude"
+      },
+      {
+        "name": "Laythe 32km Altitude"
       },
       {
         "name": "Laythe 50km Altitude"
@@ -140454,124 +139902,16 @@
     "map_locations": [
       {
         "map": "Laythe",
-        "x": 1457.8363,
-        "y": 3116.277
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Laythe 32km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Laythe",
-        "x": 1457.8363,
-        "y": 3228.7849
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Laythe 21km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Laythe",
-        "x": 1457.8363,
-        "y": 3341.2929
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Laythe 14km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Laythe",
-        "x": 1457.8363,
-        "y": 3453.8007
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Laythe 11km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Laythe",
-        "x": 1457.8362,
-        "y": 3566.3085
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Laythe 7km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Laythe",
-        "x": 1457.8363,
-        "y": 3678.8166
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Laythe 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Laythe",
-        "x": 1457.8363,
-        "y": 3847.5783
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -140652,16 +139992,16 @@
     "map_locations": [
       {
         "map": "Laythe",
-        "x": 1267.0263,
-        "y": 3899.2584
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -140847,16 +140187,16 @@
     "map_locations": [
       {
         "map": "Laythe",
-        "x": 1047.0262,
-        "y": 3899.6344
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -141042,16 +140382,16 @@
     "map_locations": [
       {
         "map": "Laythe",
-        "x": 827.0262,
-        "y": 3899.2584
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -141252,76 +140592,16 @@
     "map_locations": [
       {
         "map": "Laythe",
-        "x": 607.0262,
-        "y": 3898.8822
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -141444,21 +140724,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -141492,40 +140757,106 @@
     "map_locations": [
       {
         "map": "Laythe",
-        "x": 387.0262,
-        "y": 3897.3783
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Laythe",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -141564,12 +140895,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -141582,8 +140907,53 @@
     "map_locations": [
       {
         "map": "Laythe",
-        "x": 167.0262,
-        "y": 3898.5062
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Laythe",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -156087,21 +155457,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Minmus",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -156115,7 +155470,7 @@
       {
         "map": "Minmus",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -156133,7 +155488,7 @@
       {
         "map": "Minmus",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -156151,7 +155506,7 @@
       {
         "map": "Minmus",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -156169,15 +155524,33 @@
       {
         "map": "Minmus",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Minmus 1km Altitude"
+      },
+      {
+        "name": "Minmus 2km Altitude"
+      },
+      {
+        "name": "Minmus 3km Altitude"
+      },
+      {
+        "name": "Minmus 4km Altitude"
+      },
+      {
+        "name": "Minmus 6km Altitude"
+      },
+      {
+        "name": "Minmus 10km Altitude"
       },
       {
         "name": "Minmus 15km Altitude"
@@ -156186,124 +155559,16 @@
     "map_locations": [
       {
         "map": "Minmus",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Minmus 10km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Minmus",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Minmus 6km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Minmus",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Minmus 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Minmus",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Minmus 3km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Minmus",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Minmus 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Minmus",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Minmus 1km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Minmus",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -156384,16 +155649,16 @@
     "map_locations": [
       {
         "map": "Minmus",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -156579,16 +155844,16 @@
     "map_locations": [
       {
         "map": "Minmus",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -156774,16 +156039,16 @@
     "map_locations": [
       {
         "map": "Minmus",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -156984,76 +156249,16 @@
     "map_locations": [
       {
         "map": "Minmus",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -157176,21 +156381,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -157224,40 +156414,106 @@
     "map_locations": [
       {
         "map": "Minmus",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Minmus",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -157296,12 +156552,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -157314,8 +156564,53 @@
     "map_locations": [
       {
         "map": "Minmus",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Minmus",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -171819,21 +171114,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Moho",
-        "x": 656.4154,
-        "y": 3645.033
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -171847,7 +171127,7 @@
       {
         "map": "Moho",
         "x": 656.4154,
-        "y": 3546.5701
+        "y": 3546.5703
       }
     ]
   },
@@ -171865,7 +171145,7 @@
       {
         "map": "Moho",
         "x": 656.4154,
-        "y": 3448.389
+        "y": 3448.3892
       }
     ]
   },
@@ -171883,7 +171163,7 @@
       {
         "map": "Moho",
         "x": 656.4154,
-        "y": 3350.2076
+        "y": 3350.2078
       }
     ]
   },
@@ -171901,123 +171181,33 @@
       {
         "map": "Moho",
         "x": 656.4154,
-        "y": 3252.0262
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_0",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_0"
+        "name": "Altitude"
       },
       {
         "name": "Moho 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Moho",
-        "x": 1457.8363,
-        "y": 3847.5783
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
       },
       {
         "name": "Moho 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Moho",
-        "x": 1457.8363,
-        "y": 3678.8166
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
       },
       {
         "name": "Moho 6km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Moho",
-        "x": 1457.8362,
-        "y": 3566.3085
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
       },
       {
         "name": "Moho 7km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Moho",
-        "x": 1457.8363,
-        "y": 3453.8007
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
       },
       {
         "name": "Moho 11km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Moho",
-        "x": 1457.8363,
-        "y": 3341.2929
-      }
-    ]
-  },
-  {
-    "name": "Altitude_5",
-    "sections": [
-      {
-        "name": "Altitude_5"
       },
       {
         "name": "Moho 16km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Moho",
-        "x": 1457.8363,
-        "y": 3228.7849
-      }
-    ]
-  },
-  {
-    "name": "Altitude_6",
-    "sections": [
-      {
-        "name": "Altitude_6"
       },
       {
         "name": "Moho 25km Altitude"
@@ -172026,16 +171216,16 @@
     "map_locations": [
       {
         "map": "Moho",
-        "x": 1457.8363,
-        "y": 3116.277
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Science_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -172116,16 +171306,16 @@
     "map_locations": [
       {
         "map": "Moho",
-        "x": 1267.0263,
-        "y": 3899.2584
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -172311,16 +171501,16 @@
     "map_locations": [
       {
         "map": "Moho",
-        "x": 1047.0262,
-        "y": 3899.6344
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -172506,16 +171696,16 @@
     "map_locations": [
       {
         "map": "Moho",
-        "x": 827.0262,
-        "y": 3899.2584
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -172716,76 +171906,16 @@
     "map_locations": [
       {
         "map": "Moho",
-        "x": 607.0262,
-        "y": 3898.8822
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -172908,21 +172038,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -172956,40 +172071,106 @@
     "map_locations": [
       {
         "map": "Moho",
-        "x": 387.0262,
-        "y": 3897.3783
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Moho",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -173028,12 +172209,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -173046,8 +172221,53 @@
     "map_locations": [
       {
         "map": "Moho",
-        "x": 167.0262,
-        "y": 3898.5062
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Moho",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -187551,21 +186771,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Mun",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -187579,7 +186784,7 @@
       {
         "map": "Mun",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -187597,7 +186802,7 @@
       {
         "map": "Mun",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -187615,7 +186820,7 @@
       {
         "map": "Mun",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -187633,15 +186838,33 @@
       {
         "map": "Mun",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Mun 1km Altitude"
+      },
+      {
+        "name": "Mun 3km Altitude"
+      },
+      {
+        "name": "Mun 4km Altitude"
+      },
+      {
+        "name": "Mun 5km Altitude"
+      },
+      {
+        "name": "Mun 8km Altitude"
+      },
+      {
+        "name": "Mun 12km Altitude"
       },
       {
         "name": "Mun 19km Altitude"
@@ -187650,124 +186873,16 @@
     "map_locations": [
       {
         "map": "Mun",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Mun 12km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Mun",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Mun 8km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Mun",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Mun 5km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Mun",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Mun 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Mun",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Mun 3km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Mun",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Mun 1km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Mun",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -187848,16 +186963,16 @@
     "map_locations": [
       {
         "map": "Mun",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -188043,16 +187158,16 @@
     "map_locations": [
       {
         "map": "Mun",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -188238,16 +187353,16 @@
     "map_locations": [
       {
         "map": "Mun",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -188448,76 +187563,16 @@
     "map_locations": [
       {
         "map": "Mun",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -188640,21 +187695,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -188688,40 +187728,106 @@
     "map_locations": [
       {
         "map": "Mun",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Mun",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -188760,12 +187866,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -188778,8 +187878,53 @@
     "map_locations": [
       {
         "map": "Mun",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Mun",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -203283,21 +202428,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Pol",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -203311,7 +202441,7 @@
       {
         "map": "Pol",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -203329,7 +202459,7 @@
       {
         "map": "Pol",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -203347,7 +202477,7 @@
       {
         "map": "Pol",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -203365,15 +202495,33 @@
       {
         "map": "Pol",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Pol 1km Altitude"
+      },
+      {
+        "name": "Pol 2km Altitude"
+      },
+      {
+        "name": "Pol 3km Altitude"
+      },
+      {
+        "name": "Pol 4km Altitude"
+      },
+      {
+        "name": "Pol 5km Altitude"
+      },
+      {
+        "name": "Pol 7km Altitude"
       },
       {
         "name": "Pol 11km Altitude"
@@ -203382,124 +202530,16 @@
     "map_locations": [
       {
         "map": "Pol",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Pol 7km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Pol",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Pol 5km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Pol",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Pol 4km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Pol",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Pol 3km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Pol",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Pol 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Pol",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Pol 1km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Pol",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -203580,16 +202620,16 @@
     "map_locations": [
       {
         "map": "Pol",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -203775,16 +202815,16 @@
     "map_locations": [
       {
         "map": "Pol",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -203970,16 +203010,16 @@
     "map_locations": [
       {
         "map": "Pol",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -204180,76 +203220,16 @@
     "map_locations": [
       {
         "map": "Pol",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -204372,21 +203352,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -204420,40 +203385,106 @@
     "map_locations": [
       {
         "map": "Pol",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Pol",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -204492,12 +203523,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -204510,8 +203535,53 @@
     "map_locations": [
       {
         "map": "Pol",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Pol",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -219015,21 +218085,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Tylo",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -219043,7 +218098,7 @@
       {
         "map": "Tylo",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -219061,7 +218116,7 @@
       {
         "map": "Tylo",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -219079,7 +218134,7 @@
       {
         "map": "Tylo",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -219097,15 +218152,33 @@
       {
         "map": "Tylo",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Tylo 2km Altitude"
+      },
+      {
+        "name": "Tylo 5km Altitude"
+      },
+      {
+        "name": "Tylo 8km Altitude"
+      },
+      {
+        "name": "Tylo 10km Altitude"
+      },
+      {
+        "name": "Tylo 15km Altitude"
+      },
+      {
+        "name": "Tylo 23km Altitude"
       },
       {
         "name": "Tylo 35km Altitude"
@@ -219114,124 +218187,16 @@
     "map_locations": [
       {
         "map": "Tylo",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Tylo 23km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Tylo",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Tylo 15km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Tylo",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Tylo 10km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Tylo",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Tylo 8km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Tylo",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Tylo 5km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Tylo",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Tylo 2km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Tylo",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -219312,16 +218277,16 @@
     "map_locations": [
       {
         "map": "Tylo",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -219507,16 +218472,16 @@
     "map_locations": [
       {
         "map": "Tylo",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -219702,16 +218667,16 @@
     "map_locations": [
       {
         "map": "Tylo",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -219912,76 +218877,16 @@
     "map_locations": [
       {
         "map": "Tylo",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -220104,21 +219009,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -220152,40 +219042,106 @@
     "map_locations": [
       {
         "map": "Tylo",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Tylo",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -220224,12 +219180,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -220242,8 +219192,53 @@
     "map_locations": [
       {
         "map": "Tylo",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Tylo",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   },
@@ -234747,21 +233742,6 @@
     ]
   },
   {
-    "name": "Splashdown",
-    "sections": [
-      {
-        "name": "Splashdown"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Vall",
-        "x": 656.4154,
-        "y": 3645.0331
-      }
-    ]
-  },
-  {
     "name": "First_Landing",
     "sections": [
       {
@@ -234775,7 +233755,7 @@
       {
         "map": "Vall",
         "x": 656.4154,
-        "y": 3546.5702
+        "y": 3546.5703
       }
     ]
   },
@@ -234793,7 +233773,7 @@
       {
         "map": "Vall",
         "x": 656.4154,
-        "y": 3448.3891
+        "y": 3448.3892
       }
     ]
   },
@@ -234811,7 +233791,7 @@
       {
         "map": "Vall",
         "x": 656.4154,
-        "y": 3350.2077
+        "y": 3350.2078
       }
     ]
   },
@@ -234829,15 +233809,33 @@
       {
         "map": "Vall",
         "x": 656.4154,
-        "y": 3252.0263
+        "y": 3252.0264
       }
     ]
   },
   {
-    "name": "Altitude_6",
+    "name": "Altitude",
     "sections": [
       {
-        "name": "Altitude_6"
+        "name": "Altitude"
+      },
+      {
+        "name": "Vall 1km Altitude"
+      },
+      {
+        "name": "Vall 3km Altitude"
+      },
+      {
+        "name": "Vall 5km Altitude"
+      },
+      {
+        "name": "Vall 6km Altitude"
+      },
+      {
+        "name": "Vall 9km Altitude"
+      },
+      {
+        "name": "Vall 13km Altitude"
       },
       {
         "name": "Vall 20km Altitude"
@@ -234846,124 +233844,16 @@
     "map_locations": [
       {
         "map": "Vall",
-        "x": 1457.8363,
-        "y": 3116.2771
+        "x": 1669.8632,
+        "y": 3738.3284
       }
     ]
   },
   {
-    "name": "Altitude_5",
+    "name": "Science_7",
     "sections": [
       {
-        "name": "Altitude_5"
-      },
-      {
-        "name": "Vall 13km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Vall",
-        "x": 1457.8363,
-        "y": 3228.785
-      }
-    ]
-  },
-  {
-    "name": "Altitude_4",
-    "sections": [
-      {
-        "name": "Altitude_4"
-      },
-      {
-        "name": "Vall 9km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Vall",
-        "x": 1457.8363,
-        "y": 3341.293
-      }
-    ]
-  },
-  {
-    "name": "Altitude_3",
-    "sections": [
-      {
-        "name": "Altitude_3"
-      },
-      {
-        "name": "Vall 6km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Vall",
-        "x": 1457.8363,
-        "y": 3453.8008
-      }
-    ]
-  },
-  {
-    "name": "Altitude_2",
-    "sections": [
-      {
-        "name": "Altitude_2"
-      },
-      {
-        "name": "Vall 5km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Vall",
-        "x": 1457.8362,
-        "y": 3566.3086
-      }
-    ]
-  },
-  {
-    "name": "Altitude_1",
-    "sections": [
-      {
-        "name": "Altitude_1"
-      },
-      {
-        "name": "Vall 3km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Vall",
-        "x": 1457.8363,
-        "y": 3678.8167
-      }
-    ]
-  },
-  {
-    "name": "Altitude_0",
-    "sections": [
-      {
-        "name": "Altitude_0"
-      },
-      {
-        "name": "Vall 1km Altitude"
-      }
-    ],
-    "map_locations": [
-      {
-        "map": "Vall",
-        "x": 1457.8363,
-        "y": 3847.5784
-      }
-    ]
-  },
-  {
-    "name": "Science_5",
-    "sections": [
-      {
-        "name": "Science_5"
+        "name": "Science_7"
       },
       {
         "name": "Aerospace Tech 1"
@@ -235044,16 +233934,16 @@
     "map_locations": [
       {
         "map": "Vall",
-        "x": 1267.0263,
-        "y": 3899.2585
+        "x": 816.3861,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_4",
+    "name": "Science_6",
     "sections": [
       {
-        "name": "Science_4"
+        "name": "Science_6"
       },
       {
         "name": "Advanced Science Tech 1"
@@ -235239,16 +234129,16 @@
     "map_locations": [
       {
         "map": "Vall",
-        "x": 1047.0262,
-        "y": 3899.6345
+        "x": 714.7771,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_3",
+    "name": "Science_5",
     "sections": [
       {
-        "name": "Science_3"
+        "name": "Science_5"
       },
       {
         "name": "Advanced MetalWorks 1"
@@ -235434,16 +234324,16 @@
     "map_locations": [
       {
         "map": "Vall",
-        "x": 827.0262,
-        "y": 3899.2585
+        "x": 613.1683,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_2",
+    "name": "Science_4",
     "sections": [
       {
-        "name": "Science_2"
+        "name": "Science_4"
       },
       {
         "name": "Actuators 1"
@@ -235644,76 +234534,16 @@
     "map_locations": [
       {
         "map": "Vall",
-        "x": 607.0262,
-        "y": 3898.8823
+        "x": 511.5594,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_1",
+    "name": "Science_3",
     "sections": [
       {
-        "name": "Science_1"
-      },
-      {
-        "name": "Advanced Rocketry 1"
-      },
-      {
-        "name": "Advanced Rocketry 2"
-      },
-      {
-        "name": "Advanced Rocketry 3"
-      },
-      {
-        "name": "Advanced Rocketry 4"
-      },
-      {
-        "name": "Aviation 1"
-      },
-      {
-        "name": "Aviation 2"
-      },
-      {
-        "name": "Aviation 3"
-      },
-      {
-        "name": "Aviation 4"
-      },
-      {
-        "name": "Basic Science 1"
-      },
-      {
-        "name": "Basic Science 2"
-      },
-      {
-        "name": "Basic Science 3"
-      },
-      {
-        "name": "Basic Science 4"
-      },
-      {
-        "name": "Flight Control 1"
-      },
-      {
-        "name": "Flight Control 2"
-      },
-      {
-        "name": "Flight Control 3"
-      },
-      {
-        "name": "Flight Control 4"
-      },
-      {
-        "name": "General Construction 1"
-      },
-      {
-        "name": "General Construction 2"
-      },
-      {
-        "name": "General Construction 3"
-      },
-      {
-        "name": "General Construction 4"
+        "name": "Science_3"
       },
       {
         "name": "Advanced Construction 1"
@@ -235836,21 +234666,6 @@
         "name": "Space Exploration 4"
       },
       {
-        "name": "Advanced Rocketry"
-      },
-      {
-        "name": "Aviation"
-      },
-      {
-        "name": "Basic Science"
-      },
-      {
-        "name": "Flight Control"
-      },
-      {
-        "name": "General Construction"
-      },
-      {
         "name": "Advanced Construction"
       },
       {
@@ -235884,40 +234699,106 @@
     "map_locations": [
       {
         "map": "Vall",
-        "x": 387.0262,
-        "y": 3897.3784
+        "x": 409.9504,
+        "y": 3897.5937
       }
     ]
   },
   {
-    "name": "Science_0",
+    "name": "Science_2",
     "sections": [
       {
-        "name": "Science_0"
+        "name": "Science_2"
       },
       {
-        "name": "Basic Rocketry 1"
+        "name": "Advanced Rocketry 1"
       },
       {
-        "name": "Basic Rocketry 2"
+        "name": "Advanced Rocketry 2"
       },
       {
-        "name": "Basic Rocketry 3"
+        "name": "Advanced Rocketry 3"
       },
       {
-        "name": "Basic Rocketry 4"
+        "name": "Advanced Rocketry 4"
       },
       {
-        "name": "Engineering 101 1"
+        "name": "Aviation 1"
       },
       {
-        "name": "Engineering 101 2"
+        "name": "Aviation 2"
       },
       {
-        "name": "Engineering 101 3"
+        "name": "Aviation 3"
       },
       {
-        "name": "Engineering 101 4"
+        "name": "Aviation 4"
+      },
+      {
+        "name": "Basic Science 1"
+      },
+      {
+        "name": "Basic Science 2"
+      },
+      {
+        "name": "Basic Science 3"
+      },
+      {
+        "name": "Basic Science 4"
+      },
+      {
+        "name": "Flight Control 1"
+      },
+      {
+        "name": "Flight Control 2"
+      },
+      {
+        "name": "Flight Control 3"
+      },
+      {
+        "name": "Flight Control 4"
+      },
+      {
+        "name": "General Construction 1"
+      },
+      {
+        "name": "General Construction 2"
+      },
+      {
+        "name": "General Construction 3"
+      },
+      {
+        "name": "General Construction 4"
+      },
+      {
+        "name": "Advanced Rocketry"
+      },
+      {
+        "name": "Aviation"
+      },
+      {
+        "name": "Basic Science"
+      },
+      {
+        "name": "Flight Control"
+      },
+      {
+        "name": "General Construction"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Vall",
+        "x": 308.3415,
+        "y": 3897.594
+      }
+    ]
+  },
+  {
+    "name": "Science_1",
+    "sections": [
+      {
+        "name": "Science_1"
       },
       {
         "name": "General Rocketry 1"
@@ -235956,12 +234837,6 @@
         "name": "Survivability 4"
       },
       {
-        "name": "Basic Rocketry"
-      },
-      {
-        "name": "Engineering 101"
-      },
-      {
         "name": "General Rocketry"
       },
       {
@@ -235974,8 +234849,53 @@
     "map_locations": [
       {
         "map": "Vall",
-        "x": 167.0262,
-        "y": 3898.5063
+        "x": 206.7326,
+        "y": 3897.5942
+      }
+    ]
+  },
+  {
+    "name": "Science_0",
+    "sections": [
+      {
+        "name": "Science_0"
+      },
+      {
+        "name": "Basic Rocketry 1"
+      },
+      {
+        "name": "Basic Rocketry 2"
+      },
+      {
+        "name": "Basic Rocketry 3"
+      },
+      {
+        "name": "Basic Rocketry 4"
+      },
+      {
+        "name": "Engineering 101 1"
+      },
+      {
+        "name": "Engineering 101 2"
+      },
+      {
+        "name": "Engineering 101 3"
+      },
+      {
+        "name": "Engineering 101 4"
+      },
+      {
+        "name": "Basic Rocketry"
+      },
+      {
+        "name": "Engineering 101"
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "Vall",
+        "x": 105.1237,
+        "y": 3897.5942
       }
     ]
   }

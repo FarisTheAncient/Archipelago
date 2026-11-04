@@ -8,12 +8,11 @@ from typing import Any
 # Just pass it the path to the 
 
 science_data = {}
-science_tiers = {1:0,2:0,3:1,4:1,5:2,6:3,7:4,8:5}
 
 with open("../data/tech_tree.json") as tree:
     blob = json.load(tree)
     for node in blob["nodes"]:
-        tier = science_tiers[int(node["tier"])]
+        tier = int(node["tier"])-1
         if tier not in science_data:
             science_data[tier] = []
         science_data[tier].append(node["title"])
@@ -192,10 +191,8 @@ def main(source_path: Path):
                         sections.extend([f"{s} {i}" for i in range(1,5)]) #1..4
                     sections.extend(science_data[science])
             elif node["label"].startswith("Altitude"):
-                alt = int(node["label"].split("_",1)[1])
-                if alt < 7:
-                    if map_name in altitude_data:
-                        sections.append(altitude_data[map_name][alt])
+                if map_name in altitude_data:
+                    sections.extend(altitude_data[map_name])
             elif "_" in node["label"]: #All non planet nodes besides splash down
                 sections.extend([f"{map_name} {node["label"].replace('_',' ')}"])
             elif node["label"] == "Splashdown":
