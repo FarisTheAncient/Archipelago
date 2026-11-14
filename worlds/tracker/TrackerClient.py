@@ -1601,8 +1601,10 @@ class TrackerGameContext(CommonContext):
             else:
                 if test:
                     map_tab = test.pop()
-                    map_tab.content.parent = None
                     self.remove_client_tab(map_tab)
+                    # remove_client_tab drops the screen but leaves the content inside it. Detach it
+                    # properly, or the old screen keeps laying it out after it is re-added.
+                    map_tab.content.parent.remove_widget(map_tab.content)
 
         manager.apply_property(show_map=BooleanProperty(True))
         manager.fbind("show_map",set_map_tab)
@@ -1617,8 +1619,8 @@ class TrackerGameContext(CommonContext):
             else:
                 if test:
                     item_tab = test.pop()
-                    item_tab.content.parent = None
                     self.remove_client_tab(item_tab)
+                    item_tab.content.parent.remove_widget(item_tab.content)
 
         manager.apply_property(show_items=BooleanProperty(True))
         manager.fbind("show_items",set_item_tab)
